@@ -1,0 +1,72 @@
+//
+//  TweetDetailView.swift
+//
+
+import SwiftUI
+
+struct TweetDetailView: View {
+  @ObservedObject var viewModel: TweetDetailViewModel
+  
+  @ViewBuilder
+  func cellView(viewModel: TweetCellViewModel) -> some View {
+    VStack {
+      TweetCellView(viewModel: viewModel)
+      
+      if self.viewModel.cellViewModel.tweetText.id == viewModel.tweetText.id {
+        TweetToolBar(
+          viewModel: .init(
+            userID: viewModel.userID,
+            tweet: viewModel.tweet,
+            user: viewModel.author
+          )
+        )
+        .labelStyle(.iconOnly)
+        
+        Divider()
+        
+        HStack {
+          Text(
+            viewModel.tweet.createdAt!.formatted(date: .abbreviated, time: .standard)
+          )
+          
+          Text("via \(viewModel.tweet.source!)")
+        }
+        
+        Divider()
+        
+        TweetDetailInformation(
+          userID: viewModel.userID,
+          tweetID: viewModel.tweet.id,
+          metrics: viewModel.tweet.publicMetrics!
+        )
+      }
+    }
+  }
+  
+  
+  var body: some View {
+    if let tweetNode = viewModel.tweetNode {
+      ScrollView {
+        NodeView([tweetNode], children: \.children) { child, depth in
+          let viewModel = self.viewModel.getTweetCellViewModel(child.id)
+          let depth = depth < 3 ? depth : 3
+          cellView(viewModel: viewModel)
+            .padding(.leading, CGFloat(depth) * 10)
+          Divider()
+        }
+        .scrollContentAttribute()
+      }
+      .scrollViewAttitude()
+    } else {
+      ScrollView {
+        cellView(viewModel: viewModel.cellViewModel)
+          .scrollContentAttribute()
+      }
+      .scrollViewAttitude()
+      .task {
+        await viewModel.fetchTweets(first: nil, last: nil)
+      }
+      .alert(errorHandle: $viewModel.errorHandle)
+    }
+  }
+}

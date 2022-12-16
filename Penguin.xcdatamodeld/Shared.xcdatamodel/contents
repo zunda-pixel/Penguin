@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21511" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Media" representedClassName="Media" syncable="YES" codeGenerationType="class">
+        <attribute name="alternateText" optional="YES" attributeType="String"/>
+        <attribute name="durationMicroSeconds" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="height" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="key" attributeType="String" defaultValueString="key"/>
+        <attribute name="metrics" optional="YES" attributeType="Binary"/>
+        <attribute name="organicMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="previewImageURL" optional="YES" attributeType="URI"/>
+        <attribute name="privateMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="promotedMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="type" attributeType="String" defaultValueString="type"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <attribute name="variants" optional="YES" attributeType="Binary"/>
+        <attribute name="width" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
+        <attribute name="containedWithin" optional="YES" attributeType="Binary"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="countryCode" optional="YES" attributeType="String"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
+        <attribute name="geo" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Poll" representedClassName="Poll" syncable="YES" codeGenerationType="class">
+        <attribute name="durationMinutes" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="endDateTime" attributeType="Date" defaultDateTimeInterval="669828000" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="String" defaultValueString="id"/>
+        <attribute name="options" optional="YES" attributeType="Binary"/>
+        <attribute name="votingStatus" attributeType="String" defaultValueString="voting status"/>
+    </entity>
+    <entity name="Timeline" representedClassName="Timeline" syncable="YES" codeGenerationType="class">
+        <attribute name="ownerID" optional="YES" attributeType="String"/>
+        <attribute name="tweetID" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Tweet" representedClassName="Tweet" syncable="YES" codeGenerationType="class">
+        <attribute name="attachments" optional="YES" attributeType="Binary"/>
+        <attribute name="authorID" optional="YES" attributeType="String"/>
+        <attribute name="contextAnnotations" optional="YES" attributeType="Binary"/>
+        <attribute name="conversationID" optional="YES" attributeType="String"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="editControl" optional="YES" attributeType="Binary"/>
+        <attribute name="editHistoryTweetIDs" optional="YES" attributeType="Binary"/>
+        <attribute name="entities" optional="YES" attributeType="Binary"/>
+        <attribute name="geo" optional="YES" attributeType="Binary"/>
+        <attribute name="id" attributeType="String" defaultValueString="nothing text"/>
+        <attribute name="lang" optional="YES" attributeType="String"/>
+        <attribute name="organicMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="privateMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="promotedMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="publicMetrics" optional="YES" attributeType="Binary"/>
+        <attribute name="referencedTweets" optional="YES" attributeType="Binary"/>
+        <attribute name="replySetting" optional="YES" attributeType="String"/>
+        <attribute name="replyUserID" optional="YES" attributeType="String"/>
+        <attribute name="sensitive" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="source" optional="YES" attributeType="String"/>
+        <attribute name="text" attributeType="String" defaultValueString="nothing text"/>
+        <attribute name="withheld" optional="YES" attributeType="Binary"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptions" optional="YES" attributeType="String"/>
+        <attribute name="entities" optional="YES" attributeType="Binary"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="metrics" optional="YES" attributeType="Binary"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pinnedTweetID" optional="YES" attributeType="String"/>
+        <attribute name="profileImageURL" optional="YES" attributeType="URI"/>
+        <attribute name="protected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <attribute name="userName" optional="YES" attributeType="String"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="withheld" optional="YES" attributeType="Binary"/>
+    </entity>
+</model>

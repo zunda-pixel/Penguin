@@ -1,0 +1,35 @@
+//
+//  TopToolBar.swift
+//
+
+import SwiftUI
+import Sweet
+
+struct TopToolBar: ToolbarContent {
+  @Binding var currentUser: Sweet.UserModel?
+  @Binding var loginUsers: [Sweet.UserModel]
+  @Binding var settings: Settings
+  @State var isPresentedSettingsView = false
+  @State var isPresentedCreateTweetView = false
+
+  @MainActor
+  var body: some ToolbarContent {
+    if let currentUser {
+      ToolbarItem(placement: .navigationBarLeading) {
+        LoginMenu(bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings, currentUser: currentUser)
+      }
+    }
+    
+    ToolbarItem(placement: .navigationBarTrailing) {
+      Button {
+        isPresentedCreateTweetView.toggle()
+      } label: {
+        Image(systemName: "plus.message")
+      }
+      .sheet(isPresented: $isPresentedCreateTweetView) {
+        let viewModel = NewTweetViewModel(userID: currentUser!.id)
+        NewTweetView(viewModel: viewModel)
+      }
+    }
+  }
+}

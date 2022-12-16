@@ -1,0 +1,194 @@
+{
+  "pins" : [
+    {
+      "identity" : "attributedtext",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/AttributedText",
+      "state" : {
+        "revision" : "ad882159ef5680653340330ff4e10ff362760934",
+        "version" : "2.0.2"
+      }
+    },
+    {
+      "identity" : "cache",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hyperoslo/Cache",
+      "state" : {
+        "revision" : "c7f4d633049c3bd649a353bad36f6c17e9df085f",
+        "version" : "6.0.0"
+      }
+    },
+    {
+      "identity" : "chatbubble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/ChatBubble",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6131d70114a71e52c4cbc0bf55647c2b1117f84f"
+      }
+    },
+    {
+      "identity" : "htmlstring",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alexisakers/HTMLString",
+      "state" : {
+        "revision" : "04613a3b0f40a91e554b5174c0a10657f1a26357",
+        "version" : "6.0.1"
+      }
+    },
+    {
+      "identity" : "httpclient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/HTTPClient",
+      "state" : {
+        "revision" : "270418dad6d9bbe64158394f4e88feb49866889c",
+        "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "httpmethod",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thii/HTTPMethod",
+      "state" : {
+        "revision" : "5cb356f4cdd00f1c79f52250f697a4007be22d55",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher",
+      "state" : {
+        "revision" : "44e891bdb61426a95e31492a67c7c0dfad1f87c5",
+        "version" : "7.4.1"
+      }
+    },
+    {
+      "identity" : "licenselist",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cybozu/LicenseList",
+      "state" : {
+        "revision" : "98ed6ad04e0038acb710863d54d66147f2409ec3",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "node",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/Node",
+      "state" : {
+        "revision" : "b7e89902b8f293b75ed481c2f56928e04ce92a7e",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "oauth1",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/OAuth1",
+      "state" : {
+        "revision" : "e9dd391d38e21188ec6031951cab42304d8c6189",
+        "version" : "1.0.4"
+      }
+    },
+    {
+      "identity" : "ohhttpstubs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
+      "state" : {
+        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+        "version" : "9.1.0"
+      }
+    },
+    {
+      "identity" : "opengraph",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/OpenGraph",
+      "state" : {
+        "revision" : "137a0932289ca8c1e9ddc0997c35c103258f593e",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "sweet",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/Sweet",
+      "state" : {
+        "branch" : "main",
+        "revision" : "80082f30e633cab6bdd4af94d41c892b9720de6f"
+      }
+    },
+    {
+      "identity" : "swift-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-algorithms.git",
+      "state" : {
+        "revision" : "b14b7f4c528c942f121c8b860b9410b2bf57825e",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "83c0ef07c36676e7fd14c4fe373b13a81ed1b600"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
+        "version" : "1.0.4"
+      }
+    },
+    {
+      "identity" : "swift-format",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-format",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2f91be07295f6c1b397974830f4768436e400494"
+      }
+    },
+    {
+      "identity" : "swift-numerics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-numerics",
+      "state" : {
+        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "724b5d367c128eab23f096a02d565a81c3ee9ae3"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system.git",
+      "state" : {
+        "revision" : "836bc4557b74fe6d2660218d56e3ce96aff76574",
+        "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "swift-tools-support-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-tools-support-core.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "284a41800b7c5565512ec6ae21ee818aac1f84ac"
+      }
+    }
+  ],
+  "version" : 2
+}
