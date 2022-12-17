@@ -11,8 +11,8 @@ struct PollView: View {
   var totalVote: Int {
     poll.options.reduce(0) { $0 + $1.votes }
   }
-
-  func getPercent(value: Double) -> Int {
+  
+  func percent(value: Double) -> Int {
     if value == 0 {
       return 0
     }
@@ -27,13 +27,14 @@ struct PollView: View {
       Grid {
         ForEach(poll.options) { option in
           GridRow {
-            ProgressView(
-              value: Double(option.votes),
-            ) {
+            let value: Double = totalVote == 0 ? 0.1 : Double(option.votes)
+            let total: Double = totalVote == 0 ? 3 : Double(totalVote)
+            
+            ProgressView(value: value, total: total) {
               Text(option.label)
                 .lineLimit(1)
             }
-            let percent = getPercent(value: Double(option.votes))
+            let percent = percent(value: Double(option.votes))
             Text("\(percent)%")
           }
         }
@@ -55,9 +56,9 @@ struct PollView_Previews: PreviewProvider {
       endDateTime: .now,
       durationMinutes: 12,
       options: [
-        .init(position: 1, label: "mikan mikan mikan mikan mikan mikan mikan", votes: 0),
-        .init(position: 2, label: "apple", votes: 34),
-        .init(position: 3, label: "orange", votes: 21),
+        .init(position: 1, label: "mikan mikan mikan mikan mikan mikan mikan", votes: 189),
+        .init(position: 2, label: "apple", votes: 232),
+        .init(position: 3, label: "orange", votes: 102),
       ]
     )
     PollView(poll: poll)
