@@ -34,11 +34,12 @@ struct PollView: View {
       Grid {
         ForEach(poll.options) { option in
           GridRow {
-            ProgressView(value: Double(option.votes), total: Double(progressTotalVote))
-              .scaleEffect(x: 1, y: 6, anchor: .center)
-              .overlay(alignment: .leading) {
-                Text(option.label)
-              }
+            ProgressView(
+              value: Double(option.votes),
+              total: Double(progressTotalVote)
+            ) {
+              Text(option.label)
+            }
             let percent = getPercent(value: Double(option.votes))
             Text("\(percent)%")
           }
@@ -66,6 +67,6 @@ struct PollView_Previews: PreviewProvider {
       ]
     )
     PollView(poll: poll)
-      .frame(width: 300, height: 300)
+      .padding()
   }
 }
