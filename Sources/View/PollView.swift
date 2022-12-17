@@ -39,6 +39,7 @@ struct PollView: View {
               total: Double(progressTotalVote)
             ) {
               Text(option.label)
+                .lineLimit(1)
             }
             let percent = getPercent(value: Double(option.votes))
             Text("\(percent)%")
@@ -62,11 +63,17 @@ struct PollView_Previews: PreviewProvider {
       endDateTime: .now,
       durationMinutes: 12,
       options: [
-        .init(position: 1, label: "mikan", votes: 0), .init(position: 2, label: "apple", votes: 34),
+        .init(position: 1, label: "mikan mikan mikan mikan mikan mikan mikan", votes: 0),
+        .init(position: 2, label: "apple", votes: 34),
         .init(position: 3, label: "orange", votes: 21),
       ]
     )
     PollView(poll: poll)
+      .padding()
+      .overlay {
+        RoundedRectangle(cornerRadius: 13)
+          .stroke(.secondary, lineWidth: 1)
+      }
       .padding()
   }
 }
