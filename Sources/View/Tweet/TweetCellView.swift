@@ -57,6 +57,11 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if let poll = viewModel.poll {
           PollView(poll: poll)
+            .padding()
+            .overlay {
+              RoundedRectangle(cornerRadius: 13)
+                .stroke(.secondary, lineWidth: 1)
+            }
         }
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
