@@ -8,13 +8,8 @@ import SwiftUI
 struct PollView: View {
   let poll: Sweet.PollModel
 
-  let totalVote: Int
-
-  init(poll: Sweet.PollModel) {
-    self.poll = poll
-
-    self.totalVote = poll.options.reduce(0) { $0 + $1.votes }
-
+  var totalVote: Int {
+    poll.options.reduce(0) { $0 + $1.votes }
   }
 
   func getPercent(value: Double) -> Int {
