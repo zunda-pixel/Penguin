@@ -9,14 +9,12 @@ struct PollView: View {
   let poll: Sweet.PollModel
 
   let totalVote: Int
-  let progressTotalVote: Int
 
   init(poll: Sweet.PollModel) {
     self.poll = poll
 
     self.totalVote = poll.options.reduce(0) { $0 + $1.votes }
 
-    self.progressTotalVote = totalVote == 0 ? 1 : totalVote
   }
 
   func getPercent(value: Double) -> Int {
@@ -36,7 +34,6 @@ struct PollView: View {
           GridRow {
             ProgressView(
               value: Double(option.votes),
-              total: Double(progressTotalVote)
             ) {
               Text(option.label)
                 .lineLimit(1)
