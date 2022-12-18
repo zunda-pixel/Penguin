@@ -106,12 +106,12 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
         }
       }
       .sheet(isPresented: $viewModel.isPresentedAddList) {
-        NewListView(userID: viewModel.userID, delegate: viewModel)
+        NewListView(viewModel: NewListViewModel(userID: viewModel.userID, delegate: viewModel))
       }
     }
     .environmentObject(router)
     .alert(errorHandle: $viewModel.errorHandle)
-    .task(id: id) {
+    .task(id: id) { // TODO viewModel.userIDでもいい気がするがなぜか動かない
       await viewModel.onAppear()
     }
   }
