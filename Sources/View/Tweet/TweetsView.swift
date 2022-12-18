@@ -54,7 +54,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   var body: some View {
     listView
     .alert(errorHandle: $viewModel.errorHandle)
-    .task {
+    .task(id: viewModel.userID) {
       guard viewModel.showTweets.isEmpty else { return }
       let firstTweetID = viewModel.showTweets.first?.id
       await viewModel.fetchTweets(first: firstTweetID, last: nil)
