@@ -6,11 +6,6 @@ import Sweet
 import SwiftUI
 import os
 
-enum ViewType {
-  case list
-  case raw
-}
-
 struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View {
   @Environment(\.settings) var settings
   @EnvironmentObject var router: NavigationPathRouter
