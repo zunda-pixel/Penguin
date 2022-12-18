@@ -10,6 +10,8 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
 
   @ObservedObject var viewModel: ViewModel
 
+  let id = UUID()
+  
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
@@ -109,7 +111,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
     }
     .environmentObject(router)
     .alert(errorHandle: $viewModel.errorHandle)
-    .task(id: viewModel.userID) {
+    .task(id: id) {
       await viewModel.onAppear()
     }
   }
