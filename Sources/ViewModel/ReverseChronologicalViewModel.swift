@@ -9,10 +9,7 @@ import Sweet
 
 @MainActor
 final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsViewProtocol {
-  @Published var loadingTweets = false
   let userID: String
-
-  @Published var errorHandle: ErrorHandle?
 
   let viewContext: NSManagedObjectContext
   let fetchTimelineController: NSFetchedResultsController<Timeline>
@@ -23,9 +20,14 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   let fetchPollController: NSFetchedResultsController<Poll>
   let fetchPlaceController: NSFetchedResultsController<Place>
 
+  @Published var loadingTweets: Bool
+  @Published var errorHandle: ErrorHandle?
+
   init(userID: String, viewContext: NSManagedObjectContext) {
     self.userID = userID
     self.viewContext = viewContext
+    
+    self.loadingTweets = false
 
     self.fetchTimelineController = {
       let fetchRequest = NSFetchRequest<Timeline>()

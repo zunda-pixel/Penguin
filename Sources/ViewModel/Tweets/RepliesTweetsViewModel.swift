@@ -5,26 +5,35 @@ import Sweet
   let userID: String
   let conversationID: String
 
-  init(userID: String, conversationID: String) {
-    self.userID = userID
-    self.conversationID = conversationID
-  }
-
   var paginationToken: String?
-  @Published var errorHandle: ErrorHandle?
-  @Published var loadingTweet: Bool = false
-  @Published var timelines: Set<String>?
 
-  var allTweets: [Sweet.TweetModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
-  var allPolls: [Sweet.PollModel] = []
-  var allPlaces: [Sweet.PlaceModel] = []
+  var allTweets: [Sweet.TweetModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
+  var allPolls: [Sweet.PollModel]
+  var allPlaces: [Sweet.PlaceModel]
+  
+  @Published var errorHandle: ErrorHandle?
+  @Published var loadingTweet: Bool
+  @Published var timelines: Set<String>?
 
   var showTweets: [Sweet.TweetModel] {
     return timelines?.map { timeline in
       allTweets.first(where: { $0.id == timeline })!
     }.lazy.sorted(by: { $0.createdAt! < $1.createdAt! }) ?? []
+  }
+  
+  init(userID: String, conversationID: String) {
+    self.userID = userID
+    self.conversationID = conversationID
+    
+    self.loadingTweet = false
+    
+    self.allTweets = []
+    self.allUsers = []
+    self.allMedias = []
+    self.allPolls = []
+    self.allPlaces = []
   }
 
   nonisolated static func == (lhs: RepliesTweetsViewModel, rhs: RepliesTweetsViewModel) -> Bool {

@@ -6,6 +6,32 @@ import Foundation
 import Sweet
 
 @MainActor final class BookmarksViewModel: TimelineTweetsProtocol {
+  let userID: String
+  
+  var paginationToken: String?
+
+  var allTweets: [Sweet.TweetModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
+  var allPolls: [Sweet.PollModel]
+  var allPlaces: [Sweet.PlaceModel]
+  
+  @Published var loadingTweet: Bool
+  @Published var errorHandle: ErrorHandle?
+  @Published var timelines: Set<String>?
+  
+  init(userID: String) {
+    self.userID = userID
+    
+    self.allTweets = []
+    self.allUsers = []
+    self.allMedias = []
+    self.allPolls = []
+    self.allPlaces = []
+    
+    self.loadingTweet = false
+  }
+  
   nonisolated static func == (lhs: BookmarksViewModel, rhs: BookmarksViewModel) -> Bool {
     lhs.userID == rhs.userID
   }
@@ -13,21 +39,7 @@ import Sweet
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
   }
-
-  @Published var loadingTweet: Bool = false
-  @Published var errorHandle: ErrorHandle?
-  @Published var timelines: Set<String>?
-
-  let userID: String
   
-  var paginationToken: String?
-
-  var allTweets: [Sweet.TweetModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
-  var allPolls: [Sweet.PollModel] = []
-  var allPlaces: [Sweet.PlaceModel] = []
-
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   {
     guard !loadingTweet else { return }
@@ -49,9 +61,5 @@ import Sweet
     } catch {
       errorHandle = ErrorHandle(error: error)
     }
-  }
-
-  init(userID: String) {
-    self.userID = userID
   }
 }

@@ -6,24 +6,13 @@ import Foundation
 import Sweet
 
 @MainActor class DirectMessageDetailViewModel: ObservableObject, Hashable {
-  nonisolated static func == (lhs: DirectMessageDetailViewModel, rhs: DirectMessageDetailViewModel)
-    -> Bool
-  {
-    lhs.userID == rhs.userID && lhs.participantID == rhs.participantID
-  }
-
-  nonisolated func hash(into hasher: inout Hasher) {
-    hasher.combine(userID)
-    hasher.combine(participantID)
-  }
-
   let participantID: String
   let userID: String
 
-  var paginationToken: String? = nil
-  var allDirectMessages: [Sweet.DirectMessageModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
+  var paginationToken: String?
+  var allDirectMessages: [Sweet.DirectMessageModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
 
   var showDirectMessages: [Sweet.DirectMessageModel] {
     guard let timelines else { return [] }
@@ -35,13 +24,28 @@ import Sweet
 
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
-  @Published var text = ""
+  @Published var text: String
 
   init(participantID: String, userID: String) {
     self.participantID = participantID
     self.userID = userID
+    self.text = ""
+    self.allDirectMessages = []
+    self.allUsers = []
+    self.allMedias = []
+  }
+  
+  nonisolated static func == (lhs: DirectMessageDetailViewModel, rhs: DirectMessageDetailViewModel)
+    -> Bool
+  {
+    lhs.userID == rhs.userID && lhs.participantID == rhs.participantID
   }
 
+  nonisolated func hash(into hasher: inout Hasher) {
+    hasher.combine(userID)
+    hasher.combine(participantID)
+  }
+  
   func send() async {
     do {
       let message: Sweet.NewDirectMessage.Message = .init(text: text)

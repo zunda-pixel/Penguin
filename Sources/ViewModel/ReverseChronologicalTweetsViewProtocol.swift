@@ -1,10 +1,10 @@
-import CoreData
-import Foundation
-import Sweet
-
 //
 //  ReverseChronologicalTweetsViewProtocol.swift
 //
+
+import CoreData
+import Foundation
+import Sweet
 
 @MainActor
 protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDelegate,

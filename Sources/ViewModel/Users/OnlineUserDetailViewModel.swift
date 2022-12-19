@@ -10,10 +10,11 @@ import Sweet
   let targetUserID: String?
   let targetScreenID: String?
 
+  var loadingUser: Bool
+
   @Published var targetUser: Sweet.UserModel?
   @Published var errorHandle: ErrorHandle?
 
-  var loadingUser: Bool = false
 
   init(userID: String, targetScreenID: String) {
     self.userID = userID
@@ -21,12 +22,16 @@ import Sweet
     // @twitter -> twitter
     self.targetScreenID = targetScreenID.replacingOccurrences(of: "@", with: "")
     self.targetUserID = nil
+    
+    self.loadingUser = false
   }
   
   init(userID: String, targetUserID: String) {
     self.userID = userID    
     self.targetScreenID = nil
     self.targetUserID = targetUserID
+    
+    self.loadingUser = false
   }
 
   func fetchUser() async {

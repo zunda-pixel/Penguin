@@ -1,11 +1,11 @@
+//
+//  MediasView.swift
+//
+
 import AVKit
 import Kingfisher
 import Sweet
 import SwiftUI
-
-//
-//  MediasView.swift
-//
 
 struct MediasView: View {
   let medias: [Sweet.MediaModel]

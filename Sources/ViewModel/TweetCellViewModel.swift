@@ -25,6 +25,37 @@ import Sweet
 }
 
 @MainActor class TweetCellViewModel: TweetCellViewProtocol, Sendable {
+  let userID: String
+  let author: Sweet.UserModel
+  let tweet: Sweet.TweetModel
+  let retweet: TweetAndUser?
+  let quoted: TweetAndUser?
+  let medias: [Sweet.MediaModel]
+  let poll: Sweet.PollModel?
+  let place: Sweet.PlaceModel?
+
+  @Published var errorHandle: ErrorHandle?
+
+  init(
+    userID: String,
+    tweet: Sweet.TweetModel,
+    author: Sweet.UserModel,
+    retweet: TweetAndUser? = nil,
+    quoted: TweetAndUser? = nil,
+    medias: [Sweet.MediaModel] = [],
+    poll: Sweet.PollModel? = nil,
+    place: Sweet.PlaceModel? = nil
+  ) {
+    self.userID = userID
+    self.tweet = tweet
+    self.author = author
+    self.retweet = retweet
+    self.quoted = quoted
+    self.medias = medias
+    self.poll = poll
+    self.place = place
+  }
+  
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
     hasher.combine(author)
@@ -39,47 +70,7 @@ import Sweet
   }
 
   nonisolated static func == (lhs: TweetCellViewModel, rhs: TweetCellViewModel) -> Bool {
-    lhs.tweet.id == rhs.tweet.id
-  }
-
-  let userID: String
-
-  @Published var errorHandle: ErrorHandle?
-  
-  let author: Sweet.UserModel
-  let tweet: Sweet.TweetModel
-
-  let retweet: TweetAndUser?
-
-  let quoted: TweetAndUser?
-
-  let medias: [Sweet.MediaModel]
-  let poll: Sweet.PollModel?
-  let place: Sweet.PlaceModel?
-
-  init(
-    userID: String,
-    tweet: Sweet.TweetModel,
-    author: Sweet.UserModel,
-    retweet: TweetAndUser? = nil,
-    quoted: TweetAndUser? = nil,
-    medias: [Sweet.MediaModel] = [],
-    poll: Sweet.PollModel? = nil,
-    place: Sweet.PlaceModel? = nil
-  ) {
-    self.userID = userID
-
-    self.tweet = tweet
-
-    self.author = author
-
-    self.retweet = retweet
-
-    self.quoted = quoted
-
-    self.medias = medias
-    self.poll = poll
-    self.place = place
+    lhs.userID == rhs.userID && lhs.tweet.id == rhs.tweet.id
   }
 
   var tweetText: Sweet.TweetModel {

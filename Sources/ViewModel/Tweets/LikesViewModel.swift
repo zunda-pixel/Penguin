@@ -6,6 +6,34 @@ import Foundation
 import Sweet
 
 @MainActor final class LikesViewModel: TimelineTweetsProtocol {
+  let userID: String
+  let ownerID: String
+
+  var paginationToken: String?
+
+  var allTweets: [Sweet.TweetModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
+  var allPolls: [Sweet.PollModel]
+  var allPlaces: [Sweet.PlaceModel]
+  
+  @Published var loadingTweet: Bool
+  @Published var errorHandle: ErrorHandle?
+  @Published var timelines: Set<String>?
+  
+  init(userID: String, ownerID: String) {
+    self.userID = userID
+    self.ownerID = ownerID
+    
+    self.loadingTweet = false
+    
+    self.allTweets = []
+    self.allUsers = []
+    self.allMedias = []
+    self.allPolls = []
+    self.allPlaces = []
+  }
+  
   nonisolated static func == (lhs: LikesViewModel, rhs: LikesViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.ownerID == rhs.ownerID
   }
@@ -15,21 +43,6 @@ import Sweet
     hasher.combine(ownerID)
   }
   
-  @Published var loadingTweet: Bool = false
-  @Published var errorHandle: ErrorHandle?
-  @Published var timelines: Set<String>?
-
-  let userID: String
-  let ownerID: String
-
-  var paginationToken: String?
-
-  var allTweets: [Sweet.TweetModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
-  var allPolls: [Sweet.PollModel] = []
-  var allPlaces: [Sweet.PlaceModel] = []
-
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   {
     guard !loadingTweet else { return }
@@ -51,10 +64,5 @@ import Sweet
     } catch {
       errorHandle = ErrorHandle(error: error)
     }
-  }
-
-  init(userID: String, ownerID: String) {
-    self.userID = userID
-    self.ownerID = ownerID
   }
 }

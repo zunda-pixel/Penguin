@@ -6,6 +6,25 @@ import Foundation
 import Sweet
 
 @MainActor final class SearchUsersViewModel: UsersViewProtocol, Hashable {
+  let userID: String
+  let query: String
+
+  var paginationToken: String?
+  var loadingUser: Bool
+
+  @Published var errorHandle: ErrorHandle?
+  @Published var users: [Sweet.UserModel]
+
+  init(userID: String, query: String) {
+    self.userID = userID
+    self.query = query
+    
+    self.loadingUser = false
+    
+    self.users = []
+  }
+
+
   nonisolated static func == (lhs: SearchUsersViewModel, rhs: SearchUsersViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.query == rhs.query
   }
@@ -13,22 +32,7 @@ import Sweet
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
   }
-
-  var paginationToken: String?
-  let query: String
-  @Published var errorHandle: ErrorHandle?
-
-  var loadingUser: Bool = false
-
-  let userID: String
-
-  init(userID: String, query: String) {
-    self.userID = userID
-    self.query = query
-  }
-
-  @Published var users: [Sweet.UserModel] = []
-
+  
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

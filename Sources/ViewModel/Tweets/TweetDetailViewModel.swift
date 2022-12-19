@@ -9,9 +9,30 @@ final class TweetDetailViewModel: TweetsViewProtocol {
   let userID: String
   let cellViewModel: TweetCellViewModel
 
+  var paginationToken: String?
+
+  var allTweets: [Sweet.TweetModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
+  var allPolls: [Sweet.PollModel]
+  var allPlaces: [Sweet.PlaceModel]
+
+  @Published var errorHandle: ErrorHandle?
+  @Published var loadingTweet: Bool
+  @Published var tweetNode: TweetNode?
+  
   init(cellViewModel: TweetCellViewModel) {
     self.cellViewModel = cellViewModel
     self.userID = cellViewModel.userID
+    
+    self.loadingTweet = false
+    
+    self.allTweets = []
+    self.allUsers = []
+    self.allMedias = []
+    self.allPolls = []
+    self.allPlaces = []
+    
 
     addResource(cellViewModel: cellViewModel)
   }
@@ -51,18 +72,6 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       allPlaces.appendOrUpdate($0)
     }
   }
-
-  @Published var errorHandle: ErrorHandle?
-  @Published var loadingTweet = false
-  @Published var tweetNode: TweetNode?
-
-  var allTweets: [Sweet.TweetModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
-  var allPolls: [Sweet.PollModel] = []
-  var allPlaces: [Sweet.PlaceModel] = []
-
-  var paginationToken: String?
 
   nonisolated static func == (lhs: TweetDetailViewModel, rhs: TweetDetailViewModel) -> Bool {
     lhs.cellViewModel == rhs.cellViewModel
