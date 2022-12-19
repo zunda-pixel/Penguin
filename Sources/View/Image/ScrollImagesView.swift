@@ -11,11 +11,6 @@ struct ScrollImagesView: View {
   @Binding var selectedMedia: Sweet.MediaModel
   @Environment(\.dismiss) var dismiss
 
-  init(medias: [Sweet.MediaModel], selectedMedia: Binding<Sweet.MediaModel>) {
-    self.medias = medias
-    self._selectedMedia = selectedMedia
-  }
-
   var body: some View {
     ZStack {
       Color.black
