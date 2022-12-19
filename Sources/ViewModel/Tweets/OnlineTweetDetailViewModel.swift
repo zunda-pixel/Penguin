@@ -9,22 +9,30 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
   let userID: String
   let tweetID: String
   
+  var paginationToken: String?
+  
+  var allTweets: [Sweet.TweetModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
+  var allPolls: [Sweet.PollModel]
+  var allPlaces: [Sweet.PlaceModel]
+
+  @Published var tweetNode: TweetNode?
+  @Published var errorHandle: ErrorHandle?
+  @Published var loadingTweet: Bool
+  
   init(userID: String, tweetID: String) {
     self.userID = userID
     self.tweetID = tweetID
+    
+    self.loadingTweet = false
+
+    self.allTweets = []
+    self.allUsers = []
+    self.allMedias = []
+    self.allPolls = []
+    self.allPlaces = []
   }
-  
-  var paginationToken: String?
-  @Published var tweetNode: TweetNode?
-  
-  var allTweets: [Sweet.TweetModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
-  var allPolls: [Sweet.PollModel] = []
-  var allPlaces: [Sweet.PlaceModel] = []
-  
-  @Published var errorHandle: ErrorHandle?
-  @Published var loadingTweet = false
   
   nonisolated static func == (lhs: OnlineTweetDetailViewModel, rhs: OnlineTweetDetailViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.tweetID == rhs.tweetID

@@ -492,6 +492,8 @@
 				2E57A8D928B3BF6000FC6D7A /* EnvironmentKeys.swift */,
 				2E82E8AE28AF43CF0091D5F0 /* Settings.swift */,
 				2E4E983827E9963C00D9A15F /* Persistence.swift */,
+				2E454F0C28FDB2CA0013B06F /* QueryBuilder.swift */,
+				2E454F0E28FDBF3D0013B06F /* TweetType.swift */,
 				2E63898A27EABF4400964EC8 /* SecurityRandom.swift */,
 				2E82E8C228B36B250091D5F0 /* OGPCache.swift */,
 				2E04900729069FE800B4A9E9 /* TweetNode.swift */,
@@ -805,8 +807,6 @@
 				2EB935D728461BA700833663 /* SearchTweetsViewModel.swift */,
 				2EB935D428461B8C00833663 /* SearchUsersViewModel.swift */,
 				2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */,
-				2E454F0C28FDB2CA0013B06F /* QueryBuilder.swift */,
-				2E454F0E28FDBF3D0013B06F /* TweetType.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";

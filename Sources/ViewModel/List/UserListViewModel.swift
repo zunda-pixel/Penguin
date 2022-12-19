@@ -6,8 +6,36 @@ import Foundation
 import Sweet
 
 @MainActor class UserListViewModel: ObservableObject, Hashable {
-  // TODO何度も同じリクエストが送られてしまっている
+  // TODO何度も同じリクエストが送られてしまっている可能性がある
   
+  let userID: String
+  let ownerID: String
+  
+  var allLists: [Sweet.ListModel]
+  var allUsers: [Sweet.UserModel]
+  
+  @Published var ownedListIDs: Set<String>
+  @Published var addedListIDs: Set<String>
+  
+  var ownedLists: [Sweet.ListModel] { ownedListIDs.map { id in allLists.first { $0.id == id }! } }
+  var addedLists: [Sweet.ListModel] { addedListIDs.map { id in allLists.first { $0.id == id }! } }
+
+  var ownedPaginationToken: String?
+  var addedPaginationToken: String?
+
+  @Published var errorHandle: ErrorHandle?
+  
+  init(userID: String, ownerID: String) {
+    self.userID = userID
+    self.ownerID = ownerID
+    
+    self.allLists = []
+    self.allUsers = []
+    
+    self.ownedListIDs = []
+    self.addedListIDs = []
+  }
+
   nonisolated static func == (lhs: UserListViewModel, rhs: UserListViewModel) -> Bool {
     return lhs.userID == rhs.userID && lhs.ownerID == rhs.ownerID
   }
@@ -17,28 +45,6 @@ import Sweet
     hasher.combine(ownerID)
   }
   
-  let userID: String
-  let ownerID: String
-  
-  init(userID: String, ownerID: String) {
-    self.userID = userID
-    self.ownerID = ownerID
-  }
-  
-  var allLists: [Sweet.ListModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  
-  @Published var ownedListIDs: Set<String> = []
-  @Published var addedListIDs: Set<String> = []
-  
-  var ownedLists: [Sweet.ListModel] { ownedListIDs.map { id in allLists.first { $0.id == id }! } }
-  var addedLists: [Sweet.ListModel] { addedListIDs.map { id in allLists.first { $0.id == id }! } }
-
-  var ownedPaginationToken: String? = nil
-  var addedPaginationToken: String? = nil
-
-  @Published var errorHandle: ErrorHandle?
-
   func fetchList() async {
     await withTaskGroup(of: Void.self) { group in
       group.addTask {

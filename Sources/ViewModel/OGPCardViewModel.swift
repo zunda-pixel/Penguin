@@ -8,13 +8,13 @@ import OpenGraph
 @MainActor class OGPCardViewModel: ObservableObject {
   let url: URL
 
-  init(url: URL) {
-    self.url = url
-  }
-
   @Published var ogp: OGPValue?
 
   @Published var errorHandle: ErrorHandle?
+  
+  init(url: URL) {
+    self.url = url
+  }
 
   func fetchOGP() async {
     do {

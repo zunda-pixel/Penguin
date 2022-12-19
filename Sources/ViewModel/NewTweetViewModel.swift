@@ -32,35 +32,42 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
 }
 
 @MainActor final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
-  @Published var text = ""
-  @Published var selectedReplySetting: Sweet.ReplySetting = .everyone
+  let quoted: TweetAndUser?
+  
+  var locationManager: CLLocationManager
+
+  @Published var text: String
+  @Published var selectedReplySetting: Sweet.ReplySetting
   @Published var locationString: String?
   @Published var poll: Sweet.PostPollModel?
-  @Published var photos: [Photo] = []
-  @Published var photosPickerItems: [PhotosPickerItem] = []
-  @Published var loadingLocation: Bool = false
-
+  @Published var photos: [Photo]
+  @Published var photosPickerItems: [PhotosPickerItem]
+  @Published var loadingLocation: Bool
   @Published var userID: String
-  let quoted: TweetAndUser?
-
   @Published var errorHandle: ErrorHandle?
   
-  var locationManager: CLLocationManager = .init()
+  init(userID: String, quoted: TweetAndUser? = nil) {
+    self.userID = userID
+    self.quoted = quoted
 
+    self.text = ""
+    self.selectedReplySetting = .everyone
+    self.photos = []
+    self.photosPickerItems = []
+    self.loadingLocation = false
+    self.locationManager = CLLocationManager()
+    
+    super.init()
+    
+    locationManager.delegate = self
+  }
+  
   var title: String {
     if text.isEmpty {
       return quoted == nil ? " Say something..." : " Add Comment..."
     } else {
       return ""
     }
-  }
-
-  init(userID: String, quoted: TweetAndUser? = nil) {
-    self.userID = userID
-    self.quoted = quoted
-
-    super.init()
-    locationManager.delegate = self
   }
 
   var disableTweetButton: Bool {

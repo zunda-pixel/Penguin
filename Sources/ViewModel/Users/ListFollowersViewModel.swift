@@ -6,6 +6,23 @@ import Foundation
 import Sweet
 
 @MainActor final class ListFollowersViewModel: UsersViewProtocol, Hashable {
+  let userID: String
+  let listID: String
+
+  var paginationToken: String?
+  var loadingUser: Bool
+
+  @Published var errorHandle: ErrorHandle?
+  @Published var users: [Sweet.UserModel]
+
+
+  init(userID: String, listID: String) {
+    self.userID = userID
+    self.listID = listID
+    self.loadingUser = false
+    self.users = []
+  }
+
   nonisolated static func == (lhs: ListFollowersViewModel, rhs: ListFollowersViewModel) -> Bool {
     lhs.listID == lhs.listID
   }
@@ -14,23 +31,7 @@ import Sweet
     hasher.combine(listID)
     hasher.combine(userID)
   }
-
-  let listID: String
-
-  var paginationToken: String?
-  @Published var errorHandle: ErrorHandle?
-
-  var loadingUser: Bool = false
-
-  @Published var users: [Sweet.UserModel] = []
-
-  let userID: String
-
-  init(userID: String, listID: String) {
-    self.userID = userID
-    self.listID = listID
-  }
-
+  
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

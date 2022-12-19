@@ -12,19 +12,27 @@ import Sweet
 
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
-  @Published var loadingTweet: Bool = false
+  @Published var loadingTweet: Bool
 
   var paginationToken: String?
-  var allTweets: [Sweet.TweetModel] = []
-  var allUsers: [Sweet.UserModel] = []
-  var allMedias: [Sweet.MediaModel] = []
-  var allPolls: [Sweet.PollModel] = []
-  var allPlaces: [Sweet.PlaceModel] = []
+  var allTweets: [Sweet.TweetModel]
+  var allUsers: [Sweet.UserModel]
+  var allMedias: [Sweet.MediaModel]
+  var allPolls: [Sweet.PollModel]
+  var allPlaces: [Sweet.PlaceModel]
 
   init(userID: String, query: String, searchSettings: QueryBuilder) {
     self.userID = userID
     self.query = query
     self.searchSettings = searchSettings
+    
+    self.allTweets = []
+    self.allUsers = []
+    self.allMedias = []
+    self.allPolls = []
+    self.allPlaces = []
+    
+    self.loadingTweet = false
   }
 
   nonisolated static func == (lhs: SearchTweetsViewModel, rhs: SearchTweetsViewModel) -> Bool {

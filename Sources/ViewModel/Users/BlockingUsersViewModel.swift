@@ -6,6 +6,23 @@ import Foundation
 import Sweet
 
 @MainActor final class BlockingUsersViewModel: UsersViewProtocol, Hashable {
+  let userID: String
+  let ownerID: String
+
+  var paginationToken: String?
+  var loadingUser: Bool
+
+  @Published var errorHandle: ErrorHandle?
+  @Published var users: [Sweet.UserModel]
+
+  init(userID: String, ownerID: String) {
+    self.userID = userID
+    self.ownerID = ownerID
+    
+    self.loadingUser = false
+    self.users = []
+  }
+
   nonisolated static func == (lhs: BlockingUsersViewModel, rhs: BlockingUsersViewModel) -> Bool {
     lhs.userID == lhs.userID && lhs.ownerID == rhs.ownerID
   }
@@ -14,23 +31,7 @@ import Sweet
     hasher.combine(userID)
     hasher.combine(ownerID)
   }
-
-  var paginationToken: String?
-  @Published var errorHandle: ErrorHandle?
-
-  @Published var users: [Sweet.UserModel] = []
-
-  let userID: String
-
-  let ownerID: String
-
-  var loadingUser: Bool = false
-
-  init(userID: String, ownerID: String) {
-    self.userID = userID
-    self.ownerID = ownerID
-  }
-
+  
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

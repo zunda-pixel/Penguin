@@ -6,6 +6,23 @@ import Foundation
 import Sweet
 
 @MainActor final class LikeUsersViewModel: UsersViewProtocol, Hashable {
+  let userID: String
+  let tweetID: String
+
+  var paginationToken: String?
+  var loadingUser: Bool
+
+  @Published var errorHandle: ErrorHandle?
+  @Published var users: [Sweet.UserModel]
+  
+  init(userID: String, tweetID: String) {
+    self.userID = userID
+    self.tweetID = tweetID
+    
+    self.loadingUser = false
+    self.users = []
+  }
+
   nonisolated static func == (lhs: LikeUsersViewModel, rhs: LikeUsersViewModel) -> Bool {
     lhs.userID == lhs.userID && lhs.userID == rhs.tweetID
   }
@@ -13,22 +30,7 @@ import Sweet
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
   }
-
-  var paginationToken: String?
-  @Published var errorHandle: ErrorHandle?
-
-  @Published var users: [Sweet.UserModel] = []
-
-  let userID: String
-  let tweetID: String
-
-  var loadingUser: Bool = false
-
-  init(userID: String, tweetID: String) {
-    self.userID = userID
-    self.tweetID = tweetID
-  }
-
+  
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 
