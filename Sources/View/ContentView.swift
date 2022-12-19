@@ -41,7 +41,7 @@ struct ContentView: View {
       )
     case .space:
       SearchSpacesView(
-        userID: currentUser.id,
+        viewModel: SearchSpacesViewModel(userID: currentUser.id),
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings

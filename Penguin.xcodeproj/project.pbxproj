@@ -202,6 +202,7 @@
 		2EFC50B7294F76D800992224 /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50B6294F76D800992224 /* UserListViewModel.swift */; };
 		2EFC50BB294F772B00992224 /* PinnableListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50BA294F772B00992224 /* PinnableListCellViewModel.swift */; };
 		2EFC50BF294F791000992224 /* NewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50BE294F791000992224 /* NewListViewModel.swift */; };
+		2EFC50C32950854800992224 /* SearchSpacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
 		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
@@ -411,6 +412,7 @@
 		2EFC50B6294F76D800992224 /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		2EFC50BA294F772B00992224 /* PinnableListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnableListCellViewModel.swift; sourceTree = "<group>"; };
 		2EFC50BE294F791000992224 /* NewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListViewModel.swift; sourceTree = "<group>"; };
+		2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpacesViewModel.swift; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
 		2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsView.swift; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 		2EA6538A27E9A137003E99AE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2EFC50C62950854D00992224 /* Space */,
 				2EE9F3FD294F69BA0003A8D2 /* List */,
 				2EDA5D2D290D0C4A00301511 /* DirectMessage */,
 				2ECD7AF1287BCDC9003EA7FB /* Search */,
@@ -739,7 +742,6 @@
 				2E704A18291ED02D0032B3C0 /* OGPCardViewModel.swift */,
 				2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */,
 				2EB3B383283E738000891A5E /* ReverseChronologicalViewModel.swift */,
-				2EF92A19287D414E00F47E1B /* SpaceDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -856,6 +858,15 @@
 				2ECD7AF6287C1E9E003EA7FB /* SearchSpacesView.swift */,
 				2EF92A15287D3B6300F47E1B /* SpaceCell.swift */,
 				2EF92A17287D3ECD00F47E1B /* SpaceDetail.swift */,
+			);
+			path = Space;
+			sourceTree = "<group>";
+		};
+		2EFC50C62950854D00992224 /* Space */ = {
+			isa = PBXGroup;
+			children = (
+				2EF92A19287D414E00F47E1B /* SpaceDetailViewModel.swift */,
+				2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */,
 			);
 			path = Space;
 			sourceTree = "<group>";
@@ -1159,6 +1170,7 @@
 				2EA9265728C8B1F600514931 /* TweetDateView.swift in Sources */,
 				2E704A17291ECD730032B3C0 /* OpenGraph+Extension.swift in Sources */,
 				2EB3B387283E765900891A5E /* BookmarksViewModel.swift in Sources */,
+				2EFC50C32950854800992224 /* SearchSpacesViewModel.swift in Sources */,
 				2E6DA3F628DAC4720079479A /* MoviePlayer.swift in Sources */,
 				2EEE9E032816E93E00721ADD /* UsersViewModel.swift in Sources */,
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,

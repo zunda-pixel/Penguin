@@ -30,8 +30,10 @@ struct SpaceDetail: View {
   
   var spaceInfoView: some View {
     VStack {
-      Text(viewModel.space.title!)
-        .font(.title)
+      if let title = viewModel.space.title { // アカウントが非公開だとタイトルは取得できない
+        Text(title)
+          .font(.title)
+      }
       
       ProfileImageView(url: viewModel.creator.profileImageURL!)
         .frame(width: 100, height: 100)
