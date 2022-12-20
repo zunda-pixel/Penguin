@@ -49,6 +49,7 @@ struct ListContentAttribute: ViewModifier {
   
   func body(content: Content) -> some View {
     content
+      .listRowSeparator(.hidden)
       .listRowBackground(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor)
   }
 }
