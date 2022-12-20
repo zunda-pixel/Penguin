@@ -67,13 +67,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       
       VStack {
         TweetCellView(viewModel: cellViewModel)
-        TweetToolBar(
-          viewModel: .init(
-            userID: viewModel.userID,
-            tweet: cellViewModel.tweet,
-            user: cellViewModel.author
-          )
-        )
+        Divider()
       }
       .contentShape(Rectangle())
       .contextMenu {

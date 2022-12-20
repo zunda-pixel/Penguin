@@ -15,7 +15,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       ForEach(viewModel.showTweets) { tweet in
         let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
         
-        TweetCellView(viewModel: cellViewModel)
+        VStack {
+          TweetCellView(viewModel: cellViewModel)
+          Divider()
+        }
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
             LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!)
               .tint(.secondary)
@@ -31,7 +34,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
               router.path.append(tweetDetailViewModel)
             } label: {
-              
               Image(systemName: "ellipsis")
             }
             .tint(.gray)
