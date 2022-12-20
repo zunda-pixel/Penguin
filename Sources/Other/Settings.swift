@@ -9,7 +9,7 @@ struct Settings: Codable, Equatable {
   
   var userNameDisplayMode: DisplayUserNameMode = .all
   var dateFormat: DateFormatMode = .relative
-  var tabs: [TabItem] = [.timeline, .list, .search, .like]
+  var tabs: [TabItem] = [.timeline, .mention, .list, .search, .like]
   
   private enum CodingKeys: CodingKey {
     case colorType
