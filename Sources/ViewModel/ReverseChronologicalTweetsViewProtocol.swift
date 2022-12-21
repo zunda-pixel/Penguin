@@ -39,7 +39,7 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
 
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, nextToken: String?) async
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   func updateTimeLine()
 
   var fetchTimelineController: NSFetchedResultsController<Timeline> { get }

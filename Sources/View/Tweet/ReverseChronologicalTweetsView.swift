@@ -39,7 +39,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           .task {
             guard let lastTweet = viewModel.showTweets.last else { return }
             guard tweet.id == lastTweet.id else { return }
-            await viewModel.fetchTweets(first: nil, last: lastTweet.id, nextToken: nil)
+            await viewModel.fetchTweets(first: nil, last: lastTweet.id)
           }
       }
       .listContentAttribute()
@@ -49,11 +49,11 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
       let firstTweetID = viewModel.showTweets.first?.id
-      await viewModel.fetchTweets(first: firstTweetID, last: nil, nextToken: nil)
+      await viewModel.fetchTweets(first: firstTweetID, last: nil)
     }
     .task {
       let firstTweetID = viewModel.showTweets.first?.id
-      await viewModel.fetchTweets(first: firstTweetID, last: nil, nextToken: nil)
+      await viewModel.fetchTweets(first: firstTweetID, last: nil)
     }
   }
 }
