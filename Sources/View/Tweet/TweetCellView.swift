@@ -67,7 +67,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
         if !viewModel.medias.isEmpty {
           MediasView(medias: viewModel.medias)
-            .padding(.vertical)
+            .cornerRadius(15)
         }
 
         if let placeName = viewModel.place?.name {
