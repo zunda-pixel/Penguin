@@ -6,15 +6,19 @@ import CoreData
 import Sweet
 import SwiftUI
 import os
+import BetterSafariView
 
 struct LoginView<Label: View>: View {
-  @Environment(\.openURL) var openURL
+  let label: Label
+
+  @State var errorHandle: ErrorHandle?
+  @State var authorizeURL: URL?
+  
   @Environment(\.managedObjectContext) var context
+  @Environment(\.dismiss) var dismiss
+
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
-  @State var errorHandle: ErrorHandle?
-
-  let label: Label
 
   init(
     currentUser: Binding<Sweet.UserModel?>,
@@ -60,15 +64,18 @@ struct LoginView<Label: View>: View {
 
   var body: some View {
     Button {
-      let url = getAuthorizeURL()
-      openURL(url)
+      authorizeURL = getAuthorizeURL()
     } label: {
       label
+    }
+    .safariView(item: $authorizeURL) { url in
+      SafariView(url: url)
     }
     .alert(errorHandle: $errorHandle)
     .onOpenURL { url in
       Task {
         await doSomething(url: url)
+        dismiss()
       }
     }
   }
