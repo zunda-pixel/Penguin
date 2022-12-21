@@ -29,7 +29,10 @@ struct TweetDetailView: View {
             viewModel.tweet.createdAt!.formatted(date: .abbreviated, time: .standard)
           )
           
-          Text("via \(viewModel.tweet.source!)")
+          // sourceがnilの場合を考慮(APIの仕様変更の可能性があるため)
+          if let source = viewModel.tweet.source {
+            Text("via \(source)")
+          }
         }
         
         Divider()
