@@ -204,6 +204,7 @@
 		2EFC50BF294F791000992224 /* NewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50BE294F791000992224 /* NewListViewModel.swift */; };
 		2EFC50C32950854800992224 /* SearchSpacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */; };
 		2EFC50DE2952AA1A00992224 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = 2EFC50DD2952AA1A00992224 /* BetterSafariView */; };
+		2EFC50E82952F37900992224 /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50E72952F37900992224 /* MediaView.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
 		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
@@ -414,6 +415,7 @@
 		2EFC50BA294F772B00992224 /* PinnableListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnableListCellViewModel.swift; sourceTree = "<group>"; };
 		2EFC50BE294F791000992224 /* NewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListViewModel.swift; sourceTree = "<group>"; };
 		2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpacesViewModel.swift; sourceTree = "<group>"; };
+		2EFC50E72952F37900992224 /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
 		2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsView.swift; sourceTree = "<group>"; };
@@ -523,6 +525,7 @@
 				2EE07A59285F303400C3D6AE /* MediasView.swift */,
 				2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */,
 				2E0E4ECF28604F6700D4B64F /* ScalableImage.swift */,
+				2EFC50E72952F37900992224 /* MediaView.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -1157,6 +1160,7 @@
 				2EF5B320283B9FB200DD8352 /* BlockButton.swift in Sources */,
 				2E379F3129423D93000AC649 /* LikeButton.swift in Sources */,
 				2EB935D22845FD4900833663 /* ListFollowersViewModel.swift in Sources */,
+				2EFC50E82952F37900992224 /* MediaView.swift in Sources */,
 				2E63898527EAB95500964EC8 /* LoginView.swift in Sources */,
 				2E5E4F6F27EB88B0009D6D53 /* TweetModel+Extension.swift in Sources */,
 				2E0E4ED22861A06000D4B64F /* CGSize+Extension.swift in Sources */,
