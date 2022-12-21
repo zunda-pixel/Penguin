@@ -173,7 +173,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     }
   }
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, nextToken: String?) async
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   {
     guard !loadingTweets else { return }
 
@@ -219,7 +219,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
          let nextToken = response.meta?.nextToken,
          !response.tweets.isEmpty
       {
-        await fetchTweets(first: firstTweetID, last: nil, nextToken: nextToken)
+        await fetchTweets(first: firstTweetID, last: nil)
       }
     } catch {
       errorHandle = ErrorHandle(error: error)
