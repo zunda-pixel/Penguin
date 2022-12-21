@@ -16,6 +16,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
         
         TweetCellView(viewModel: cellViewModel)
+          .frame(maxWidth: .infinity)
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
             LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!)
               .tint(.secondary)
