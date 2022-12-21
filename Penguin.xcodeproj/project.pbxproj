@@ -203,6 +203,7 @@
 		2EFC50BB294F772B00992224 /* PinnableListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50BA294F772B00992224 /* PinnableListCellViewModel.swift */; };
 		2EFC50BF294F791000992224 /* NewListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50BE294F791000992224 /* NewListViewModel.swift */; };
 		2EFC50C32950854800992224 /* SearchSpacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */; };
+		2EFC50DE2952AA1A00992224 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = 2EFC50DD2952AA1A00992224 /* BetterSafariView */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
 		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
@@ -430,6 +431,7 @@
 				2E78098528C657B900B4DC26 /* AttributedText in Frameworks */,
 				2E704A1E29229D640032B3C0 /* ChatBubble in Frameworks */,
 				2E42CEBA28AA8D9400E98445 /* OrderedCollections in Frameworks */,
+				2EFC50DE2952AA1A00992224 /* BetterSafariView in Frameworks */,
 				2E82E8C128B361B90091D5F0 /* Cache in Frameworks */,
 				2E0F491329237A93000158A7 /* Algorithms in Frameworks */,
 				2E5E4F6627EB593A009D6D53 /* Sweet in Frameworks */,
@@ -903,6 +905,7 @@
 				2E704A1D29229D640032B3C0 /* ChatBubble */,
 				2E0F491229237A93000158A7 /* Algorithms */,
 				2EE9F3C7294C807D0003A8D2 /* LicenseList */,
+				2EFC50DD2952AA1A00992224 /* BetterSafariView */,
 			);
 			productName = "Penguin (iOS)";
 			productReference = 2E027F9827E8269A00521378 /* Penguin.app */;
@@ -993,6 +996,7 @@
 				2E0F491129237A93000158A7 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				2E0F49162928868B000158A7 /* XCRemoteSwiftPackageReference "swift-format" */,
 				2EE9F3C6294C807D0003A8D2 /* XCRemoteSwiftPackageReference "LicenseList" */,
+				2EFC50DC2952AA1A00992224 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
 			);
 			productRefGroup = 2E027F9927E8269A00521378 /* Products */;
 			projectDirPath = "";
@@ -1716,6 +1720,14 @@
 				minimumVersion = 0.2.0;
 			};
 		};
+		2EFC50DC2952AA1A00992224 /* XCRemoteSwiftPackageReference "BetterSafariView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stleamist/BetterSafariView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
 		2EFF720A290041B60059B9CB /* XCRemoteSwiftPackageReference "OpenGraph" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/zunda-pixel/OpenGraph";
@@ -1801,6 +1813,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2EE9F3C6294C807D0003A8D2 /* XCRemoteSwiftPackageReference "LicenseList" */;
 			productName = "plugin:PrepareLicenseList";
+		};
+		2EFC50DD2952AA1A00992224 /* BetterSafariView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2EFC50DC2952AA1A00992224 /* XCRemoteSwiftPackageReference "BetterSafariView" */;
+			productName = BetterSafariView;
 		};
 		2EFF720B290041B60059B9CB /* OpenGraph */ = {
 			isa = XCSwiftPackageProductDependency;
