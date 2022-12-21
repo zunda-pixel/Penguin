@@ -2,8 +2,6 @@
 //  MediasView.swift
 //
 
-import AVKit
-import Kingfisher
 import Sweet
 import SwiftUI
 
@@ -12,7 +10,6 @@ struct MediasView: View {
 
   @State var selectedMedia: Sweet.MediaModel
   @State var isPresentedImageView = false
-  @State var isPresentedVideoPlayer = false
 
   init(medias: [Sweet.MediaModel]) {
     self.medias = medias
@@ -21,59 +18,32 @@ struct MediasView: View {
   }
 
   var body: some View {
-    if let videoMedia = medias.first(where: { $0.previewImageURL != nil }) {
-      MediaView(mediaURL: videoMedia.previewImageURL!)
+    let columnCount = medias.count < 3 ? medias.count : 2
+    
+    LazyVGrid(columns: .init(repeating: GridItem(.flexible()), count: columnCount)) {
+      ForEach(medias) { media in
+        GeometryReader { reader in
+          MediaView(media: media, selectedMedia: $selectedMedia, isPresentedImageView: $isPresentedImageView)
+            .scaledToFill()
+            .frame(height: reader.size.width)
+        }
+        .clipped()
+        .aspectRatio(1, contentMode: .fit)
         .overlay(alignment: .bottomTrailing) {
           // Gifの場合viewCountが取得できない
-          if let viewCount = videoMedia.metrics?.viewCount {
-            Text("\(viewCount) count")
-              .padding(.horizontal)
-              .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 17))
-              .padding()
+          if let viewCount = media.metrics?.viewCount {
+            Text("\(viewCount) views")
+              .font(.caption2)
+              .padding(.horizontal, 3)
+              .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
+              .padding(7)
           }
         }
-        .onTapGesture {
-          isPresentedVideoPlayer.toggle()
-        }
-        .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
-          let url = videoMedia.variants.first { $0.contentType == .mp4 }!.url
-
-          let player = AVPlayer(url: url)
-          MoviePlayer(player: player)
-            .ignoresSafeArea()
-            .onAppear {
-              player.play()
-            }
-        }
-    } else {
-      LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: medias.count)) {
-        ForEach(medias.filter { $0.url != nil }) { media in
-          MediaView(mediaURL: media.url!)
-            .onTapGesture {
-              selectedMedia = media
-              isPresentedImageView.toggle()
-            }
-        }
-      }
-      .fullScreenCover(isPresented: $isPresentedImageView) {
-        ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
       }
     }
-  }
-}
-
-struct MediaView: View {
-  let mediaURL: URL
-
-  var body: some View {
-    KFImage(mediaURL)
-      .placeholder { p in
-        ProgressView(p)
-      }
-      .resizable()
-      .scaledToFit()
-      .clipped()
-      .contentShape(Rectangle())
+    .fullScreenCover(isPresented: $isPresentedImageView) {
+      ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
+    }
   }
 }
 
@@ -83,6 +53,8 @@ struct MediasView_Previews: PreviewProvider {
     let media2: Sweet.MediaModel = .init(key: "key2", type: .photo, size: .init(width: 100, height: 100), url: .init(string: "https://pbs.twimg.com/media/Fh2wpusacAAUmac?format=png&name=900x900")!)
     let media3: Sweet.MediaModel = .init(key: "key3", type: .photo, size: .init(width: 100, height: 100), url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
     let media4: Sweet.MediaModel = .init(key: "key4", type: .photo, size: .init(width: 100, height: 100), url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
-    MediasView(medias: [media1, media2, media3, media4])
+    MediasView(medias: [media1, media2, media3, media4])//, media4])
+      .frame(width: 300, height: 300)
+      .cornerRadius(15)
   }
 }
