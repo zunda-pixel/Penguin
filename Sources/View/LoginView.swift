@@ -68,7 +68,7 @@ struct LoginView<Label: View>: View {
     } label: {
       label
     }
-    .safariView(item: $authorizeURL) { url in
+    .sheet(item: $authorizeURL) { url in
       SafariView(url: url)
     }
     .alert(errorHandle: $errorHandle)
