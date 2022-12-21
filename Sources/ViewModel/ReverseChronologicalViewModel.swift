@@ -20,6 +20,8 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   let fetchPollController: NSFetchedResultsController<Poll>
   let fetchPlaceController: NSFetchedResultsController<Place>
 
+  var paginationToken: String?
+  
   @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
 
@@ -185,8 +187,10 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         userID: userID,
         untilID: lastTweetID,
         sinceID: firstTweetID,
-        paginationToken: nextToken
+        paginationToken: lastTweetID != nil ? paginationToken : nil
       )
+      
+      paginationToken = response.meta?.nextToken
 
       Task.detached {
         _ = try await OGPManager.fetchOGPData(tweets: response.tweets)
@@ -215,9 +219,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       updateTimeLine()
 
-      if let firstTweetID,
-         let nextToken = response.meta?.nextToken,
-         !response.tweets.isEmpty
+      if let firstTweetID, paginationToken != nil, !response.tweets.isEmpty
       {
         await fetchTweets(first: firstTweetID, last: nil)
       }
