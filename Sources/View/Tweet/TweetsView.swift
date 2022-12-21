@@ -75,6 +75,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           )
         )
       }
+      .frame(maxWidth: .infinity)
       .contentShape(Rectangle())
       .contextMenu {
         let url: URL = .init(
