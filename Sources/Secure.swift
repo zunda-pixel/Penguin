@@ -6,9 +6,6 @@ import Foundation
 import Sweet
 
 struct Secure {
-  static let clientID = Env.clientKey
-  static let clientSecretKey = Env.clientSecretKey
-
   static let callBackURL: URL = .init(string: "penguin://")!
 
   private static let currentUserKey = "currentUser"
