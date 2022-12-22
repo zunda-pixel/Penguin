@@ -114,15 +114,16 @@ struct ContentView: View {
         }
       } else {
         VStack {
-          Image(systemName: "bird")
+          Image(uiImage: UIImage(named: UIApplication.shared.iconName)!)
             .resizable()
             .scaledToFit()
+            .cornerRadius(15)
             .padding(40)
-            .foregroundColor(settings.colorType.colorSet.tintColor.opacity(0.5))
           
           Text("Thanks for using Penguin!")
             .font(.title)
             .bold()
+          
           LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
               .bold()
