@@ -17,29 +17,6 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var errorHandle: ErrorHandle? { get set }
 
   var viewContext: NSManagedObjectContext { get }
-
-  var showTweets: [Tweet] { get }
-  var allUsers: [User] { get }
-  var allMedias: [Media] { get }
-  var allPolls: [Poll] { get }
-  var allPlaces: [Place] { get }
-
-  func addTimeline(_ tweetID: String) throws
-  func addTweet(_ tweet: Sweet.TweetModel) throws
-  func addUser(_ user: Sweet.UserModel) throws
-  func addPlace(_ place: Sweet.PlaceModel) throws
-  func addPoll(_ poll: Sweet.PollModel) throws
-  func addMedia(_ media: Sweet.MediaModel) throws
-
-  func getTweet(_ tweetID: String) -> Sweet.TweetModel?
-  func getPoll(_ pollID: String?) -> Sweet.PollModel?
-  func getUser(_ userID: String) -> Sweet.UserModel?
-  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel]
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel?
-
-  func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
-
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   func updateTimeLine()
 
   var fetchTimelineController: NSFetchedResultsController<Timeline> { get }
