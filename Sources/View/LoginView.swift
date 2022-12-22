@@ -44,7 +44,7 @@ struct LoginView<Label: View>: View {
 
     let url = Sweet.OAuth2().getAuthorizeURL(
       scopes: Sweet.AccessScope.allCases,
-      callBackURL: Secure.callBackURL,
+      callBackURL: Env.schemeURL,
       challenge: challenge,
       state: state
     )

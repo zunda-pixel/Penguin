@@ -6,8 +6,6 @@ import Foundation
 import Sweet
 
 struct Secure {
-  static let callBackURL: URL = .init(string: "penguin://")!
-
   private static let currentUserKey = "currentUser"
   private static let expireDateKey = "expireDate"
   private static let refreshTokenKey = "refreshToken"
@@ -18,7 +16,7 @@ struct Secure {
   private static let settingKey = "settingKey"
 
   private static let dateFormatter = Sweet.TwitterDateFormatter()
-  private static let userDefaults = UserDefaults(suiteName: "group.zunda.penguin")!
+  private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
 
   static func removeChallenge() throws {
     userDefaults.removeObject(forKey: challengeKey)
