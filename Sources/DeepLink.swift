@@ -44,7 +44,7 @@ struct DeepLink {
 
     let response = try await Sweet.OAuth2().getUserBearerToken(
       code: code,
-      callBackURL: Secure.callBackURL,
+      callBackURL: Env.schemeURL,
       challenge: challenge
     )
 

@@ -13,33 +13,15 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var loadingTweets: Bool { get set }
 
   var userID: String { get }
+  
+  var latestTweetDate: Date? { get set }
 
   var errorHandle: ErrorHandle? { get set }
 
   var viewContext: NSManagedObjectContext { get }
+  
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, paginationToken: String?) async
 
-  var showTweets: [Tweet] { get }
-  var allUsers: [User] { get }
-  var allMedias: [Media] { get }
-  var allPolls: [Poll] { get }
-  var allPlaces: [Place] { get }
-
-  func addTimeline(_ tweetID: String) throws
-  func addTweet(_ tweet: Sweet.TweetModel) throws
-  func addUser(_ user: Sweet.UserModel) throws
-  func addPlace(_ place: Sweet.PlaceModel) throws
-  func addPoll(_ poll: Sweet.PollModel) throws
-  func addMedia(_ media: Sweet.MediaModel) throws
-
-  func getTweet(_ tweetID: String) -> Sweet.TweetModel?
-  func getPoll(_ pollID: String?) -> Sweet.PollModel?
-  func getUser(_ userID: String) -> Sweet.UserModel?
-  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel]
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel?
-
-  func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
-
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   func updateTimeLine()
 
   var fetchTimelineController: NSFetchedResultsController<Timeline> { get }
@@ -52,6 +34,12 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
 }
 
 extension ReverseChronologicalTweetsViewProtocol {
+  var notShowTweetCount: Int {
+    guard let latestTweetDate else { return 0 }
+    
+    return showTweets.filter { $0.createdAt! > latestTweetDate }.count
+  }
+  
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
   var showTweets: [Tweet] { fetchShowTweetController.fetchedObjects ?? [] }
   var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
@@ -60,6 +48,35 @@ extension ReverseChronologicalTweetsViewProtocol {
   var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
   var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
 
+  func onAppear() async {
+    let firstTweetID = showTweets.first?.id
+    await fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
+  }
+  
+  func updateLatestTweetDate(date: Date) {
+    guard let latestTweetDate else {
+      latestTweetDate = date
+      return
+    }
+    
+    if latestTweetDate < date {
+      self.latestTweetDate = date
+    }
+  }
+  
+  func tweetCellOnAppear(tweet: Sweet.TweetModel) async {
+    updateLatestTweetDate(date: tweet.createdAt!)
+    
+    guard let lastTweet = showTweets.last else { return }
+    guard tweet.id == lastTweet.id else { return }
+    await fetchTweets(first: nil, last: tweet.id, paginationToken: nil)
+  }
+  
+  func refresh() async {
+    let firstTweetID = showTweets.first?.id
+    await fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
+  }
+  
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 
