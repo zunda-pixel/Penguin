@@ -205,6 +205,7 @@
 		2EFC50C32950854800992224 /* SearchSpacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */; };
 		2EFC50DE2952AA1A00992224 /* BetterSafariView in Frameworks */ = {isa = PBXBuildFile; productRef = 2EFC50DD2952AA1A00992224 /* BetterSafariView */; };
 		2EFC50E82952F37900992224 /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50E72952F37900992224 /* MediaView.swift */; };
+		2EFC50F82954B74100992224 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC50F72954B74100992224 /* UIApplication+Extension.swift */; };
 		2EFDB9CF2877B97400E62368 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9CE2877B97400E62368 /* NewListView.swift */; };
 		2EFDB9D128788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */; };
 		2EFDB9D328788AAF00E62368 /* ReverseChronologicalTweetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */; };
@@ -416,6 +417,7 @@
 		2EFC50BE294F791000992224 /* NewListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListViewModel.swift; sourceTree = "<group>"; };
 		2EFC50C22950854800992224 /* SearchSpacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSpacesViewModel.swift; sourceTree = "<group>"; };
 		2EFC50E72952F37900992224 /* MediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaView.swift; sourceTree = "<group>"; };
+		2EFC50F72954B74100992224 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		2EFDB9CE2877B97400E62368 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		2EFDB9D028788A4200E62368 /* ReverseChronologicalTweetsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsViewProtocol.swift; sourceTree = "<group>"; };
 		2EFDB9D228788AAF00E62368 /* ReverseChronologicalTweetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReverseChronologicalTweetsView.swift; sourceTree = "<group>"; };
@@ -606,6 +608,7 @@
 				2E704A14291EC9370032B3C0 /* KeyPath+Extension.swift */,
 				2E974DB92938ACB600C401DC /* TwitterError.swift */,
 				2E7B7FBF293C678200FD3101 /* Codable+Extension.swift */,
+				2EFC50F72954B74100992224 /* UIApplication+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1184,6 +1187,7 @@
 				2E10383F27ED7E1F00E8E67B /* Place+Extension.swift in Sources */,
 				2E0A3AED28105BA7002D5F39 /* TweetsViewProtocol.swift in Sources */,
 				2EF5B323283BA18B00DD8352 /* MuteButton.swift in Sources */,
+				2EFC50F82954B74100992224 /* UIApplication+Extension.swift in Sources */,
 				2EF5B31D283B953C00DD8352 /* UserToolMenu.swift in Sources */,
 				2E57A8DA28B3BF6000FC6D7A /* EnvironmentKeys.swift in Sources */,
 				2EF9634B28BD25710047B46B /* LinkableText.swift in Sources */,
