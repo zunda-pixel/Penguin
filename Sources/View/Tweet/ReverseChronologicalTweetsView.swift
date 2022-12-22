@@ -9,6 +9,7 @@ import os
 struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter
   @ObservedObject var viewModel: ViewModel
+  @Environment(\.settings) var settings
   
   var body: some View {
     List {
@@ -44,6 +45,15 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           }
       }
       .listContentAttribute()
+    }
+    .overlay(alignment: .topTrailing) {
+      if viewModel.notShowTweetCount != 0 {
+        Text("\(viewModel.notShowTweetCount)")
+          .padding(.horizontal)
+          .frame(minWidth: 30)
+          .background(settings.colorType.colorSet.tintColor, in: RoundedRectangle(cornerRadius: 14))
+          .padding()
+      }
     }
     .scrollViewAttitude()
     .listStyle(.plain)
