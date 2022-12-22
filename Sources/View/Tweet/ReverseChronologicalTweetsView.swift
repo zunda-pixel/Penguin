@@ -33,15 +33,12 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
               router.path.append(tweetDetailViewModel)
             } label: {
-              
               Image(systemName: "ellipsis")
             }
             .tint(.gray)
           }
           .task {
-            guard let lastTweet = viewModel.showTweets.last else { return }
-            guard tweet.id == lastTweet.id else { return }
-            await viewModel.fetchTweets(first: nil, last: lastTweet.id)
+            await viewModel.tweetCellOnAppear(tweet: cellViewModel.tweet)
           }
       }
       .listContentAttribute()
@@ -59,12 +56,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .listStyle(.plain)
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
-      let firstTweetID = viewModel.showTweets.first?.id
-      await viewModel.fetchTweets(first: firstTweetID, last: nil)
+      await viewModel.refresh()
     }
     .task {
-      let firstTweetID = viewModel.showTweets.first?.id
-      await viewModel.fetchTweets(first: firstTweetID, last: nil)
+      await viewModel.onAppear()
     }
   }
 }
