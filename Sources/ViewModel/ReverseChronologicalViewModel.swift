@@ -175,11 +175,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   }
   
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
-    guard !loadingTweets else { return }
-
-    loadingTweets.toggle()
-    defer { loadingTweets.toggle() }
-
     do {
       let response = try await Sweet(userID: userID).reverseChronological(
         userID: userID,
@@ -206,9 +201,9 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         }
       }
       
-      let containsTweet = response.tweets.last.map { timelines.contains($0.id) } ?? false
-      
       try addResponse(response: response)
+
+      let containsTweet = response.tweets.last.map { timelines.contains($0.id) } ?? false
 
       try response.tweets.forEach { tweet in
         try addTimeline(tweet.id)

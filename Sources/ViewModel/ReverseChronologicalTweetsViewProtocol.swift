@@ -67,6 +67,18 @@ extension ReverseChronologicalTweetsViewProtocol {
     await fetchTweets(last: tweet.id, paginationToken: nil)
   }
   
+  func fetchNewTweet() async {
+    guard !loadingTweets else { return }
+    
+    loadingTweets.toggle()
+    
+    defer {
+      loadingTweets.toggle()
+    }
+    
+    await fetchTweets(last: nil, paginationToken: nil)
+  }
+  
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 

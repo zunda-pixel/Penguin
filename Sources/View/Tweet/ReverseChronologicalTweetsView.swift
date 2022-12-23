@@ -56,10 +56,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .listStyle(.plain)
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
-      await viewModel.fetchTweets(last: nil, paginationToken: nil)
+      await viewModel.fetchNewTweet()
     }
     .task {
-      await viewModel.fetchTweets(last: nil, paginationToken: nil)
+      await viewModel.fetchNewTweet()
     }
   }
 }
