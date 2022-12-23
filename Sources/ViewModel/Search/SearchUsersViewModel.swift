@@ -41,7 +41,13 @@ import Sweet
 
     var newUsers: [Sweet.UserModel] = []
 
-    if let response = try? await Sweet(userID: userID).user(screenID: query) {
+    let removedWhiteSpaceQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    if removedWhiteSpaceQuery.isEmpty {
+      return
+    }
+    
+    if let response = try? await Sweet(userID: userID).user(screenID: removedWhiteSpaceQuery) {
       newUsers.append(response.user)
     }
 
