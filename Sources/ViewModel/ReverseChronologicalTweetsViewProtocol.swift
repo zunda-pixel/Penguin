@@ -47,11 +47,6 @@ extension ReverseChronologicalTweetsViewProtocol {
   var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
   var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
   var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
-
-  func onAppear() async {
-    let firstTweetID = showTweets.first?.id
-    await fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
-  }
   
   func updateLatestTweetDate(date: Date) {
     guard let latestTweetDate else {
@@ -69,12 +64,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     
     guard let lastTweet = showTweets.last else { return }
     guard tweet.id == lastTweet.id else { return }
-    await fetchTweets(first: nil, last: tweet.id, paginationToken: nil)
-  }
-  
-  func refresh() async {
-    let firstTweetID = showTweets.first?.id
-    await fetchTweets(first: firstTweetID, last: nil, paginationToken: nil)
+    await fetchTweets(last: tweet.id, paginationToken: nil)
   }
   
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
