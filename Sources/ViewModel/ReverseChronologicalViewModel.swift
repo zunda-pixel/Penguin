@@ -174,7 +174,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     }
   }
   
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, paginationToken: String?) async {
+  func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     guard !loadingTweets else { return }
 
     loadingTweets.toggle()
