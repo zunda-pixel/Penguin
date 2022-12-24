@@ -17,12 +17,10 @@ struct IconSettingsView: View {
     .init(name: "Primary", iconName: "AppIcon"),
     .init(name: "Secondary", iconName: "AppIcon1"),
   ]
-  
-  let primaryIconName = "AppIcon"
-  
+    
   @MainActor
   var currentIcon: Icon {
-    let currentIconName = UIApplication.shared.alternateIconName ?? primaryIconName
+    let currentIconName = UIApplication.shared.iconName
     return icons.first { $0.iconName == currentIconName }!
   }
   
@@ -32,7 +30,7 @@ struct IconSettingsView: View {
   func changeIcon(_ iconName: String) async {
     guard iconName != currentIcon.iconName else { return }
     
-    let iconName: String? = iconName == primaryIconName ? nil : iconName
+    let iconName: String? = iconName == UIApplication.primaryIconName ? nil : iconName
     
     do {
       try await UIApplication.shared.setAlternateIconName(iconName)
