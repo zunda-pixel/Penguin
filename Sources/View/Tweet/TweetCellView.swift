@@ -5,7 +5,6 @@
 import Kingfisher
 import Sweet
 import SwiftUI
-import os
 
 struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @Environment(\.openURL) private var openURL

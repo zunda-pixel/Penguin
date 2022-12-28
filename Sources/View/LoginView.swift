@@ -5,7 +5,6 @@
 import CoreData
 import Sweet
 import SwiftUI
-import os
 import BetterSafariView
 
 struct LoginView<Label: View>: View {

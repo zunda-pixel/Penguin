@@ -4,7 +4,6 @@
 
 import OrderedCollections
 import Sweet
-import os
 import Foundation
 
 @MainActor protocol ListsViewModelProtocol: ObservableObject, NewListDelegate, PinnableListCellDelegate {

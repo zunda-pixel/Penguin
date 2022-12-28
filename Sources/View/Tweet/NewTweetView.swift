@@ -6,7 +6,6 @@ import CoreLocation
 import PhotosUI
 import Sweet
 import SwiftUI
-import os
 
 #if !os(macOS)
 import CoreLocationUI

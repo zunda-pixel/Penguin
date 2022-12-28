@@ -4,7 +4,6 @@
 
 import Kingfisher
 import SwiftUI
-import os
 
 struct OGPCardView: View {
   @StateObject var viewModel: OGPCardViewModel

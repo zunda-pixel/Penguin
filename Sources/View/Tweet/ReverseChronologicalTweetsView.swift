@@ -4,7 +4,6 @@
 
 import Sweet
 import SwiftUI
-import os
 
 struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter

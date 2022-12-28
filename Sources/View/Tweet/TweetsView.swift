@@ -4,7 +4,6 @@
 
 import Sweet
 import SwiftUI
-import os
 
 struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View {
   @Environment(\.settings) var settings

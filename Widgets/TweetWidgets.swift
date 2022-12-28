@@ -5,7 +5,6 @@
 import Sweet
 import SwiftUI
 import WidgetKit
-import os
 
 struct TweetWidgets: Widget {
   var body: some WidgetConfiguration {

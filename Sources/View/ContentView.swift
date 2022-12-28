@@ -5,7 +5,6 @@
 import SwiftUI
 import Sweet
 import WidgetKit
-import os
 
 struct ContentView: View {
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
