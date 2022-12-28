@@ -81,7 +81,8 @@ struct ContentView: View {
       // await activity.end() activityの削除
       
     } catch {
-      Logger.main.error("\(error.localizedDescription)")
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
     }
   }
   

@@ -134,7 +134,9 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
 
       self.locationString = (place.locality ?? "") + (place.name ?? "")
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -163,7 +165,9 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
 
       photos = newPhotos
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 

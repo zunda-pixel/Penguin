@@ -123,7 +123,9 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       
       self.tweetNode = tweetNode
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

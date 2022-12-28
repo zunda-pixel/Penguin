@@ -108,7 +108,8 @@ struct TweetStatusProvider: IntentTimelineProvider {
 
         completion(entry)
       } catch {
-        print(error)
+        let errorHandle = ErrorHandle(error: error)
+        errorHandle.log()
       }
     }
   }
@@ -145,7 +146,8 @@ struct TweetStatusProvider: IntentTimelineProvider {
 
         completion(timeline)
       } catch {
-        Logger.main.error("\(error.localizedDescription)")
+        let errorHandle = ErrorHandle(error: error)
+        errorHandle.log()
       }
     }
   }

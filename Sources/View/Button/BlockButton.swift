@@ -15,7 +15,9 @@ struct BlockButton: View {
     do {
       try await Sweet(userID: fromUserID).blockUser(from: fromUserID, to: toUserID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -40,7 +42,9 @@ struct UnBlockButton: View {
     do {
       try await Sweet(userID: fromUserID).unBlockUser(from: fromUserID, to: toUserID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 

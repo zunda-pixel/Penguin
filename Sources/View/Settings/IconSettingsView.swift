@@ -25,6 +25,8 @@ struct IconSettingsView: View {
   }
   
   @State var selectedIcon: Icon?
+  @State var errorHandle: ErrorHandle?
+  
   
   @MainActor
   func changeIcon(_ iconName: String) async {
@@ -35,7 +37,9 @@ struct IconSettingsView: View {
     do {
       try await UIApplication.shared.setAlternateIconName(iconName)
     } catch {
-      print(error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
   
@@ -97,6 +101,7 @@ struct IconSettingsView: View {
         )
       }
     }
+    .alert(errorHandle: $errorHandle)
     .onAppear {
       selectedIcon = currentIcon
     }

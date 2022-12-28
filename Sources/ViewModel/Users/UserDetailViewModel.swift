@@ -52,7 +52,9 @@ import Sweet
       
       self.pinnedTweetID = pinnedTweetID
     } catch {
-      self.errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
   
@@ -88,7 +90,9 @@ import Sweet
 
       addTimelines(response.tweets.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

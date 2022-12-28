@@ -15,7 +15,9 @@ struct LikeButton: View {
     do {
       try await Sweet(userID: userID).like(userID: userID, tweetID: tweetID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
   

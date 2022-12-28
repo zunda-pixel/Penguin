@@ -215,7 +215,9 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         await fetchTweets(last: nil, paginationToken: paginationToken)
       }
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

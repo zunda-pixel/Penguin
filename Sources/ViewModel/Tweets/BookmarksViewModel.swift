@@ -59,7 +59,9 @@ import Sweet
 
       addTimelines(response.tweets.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

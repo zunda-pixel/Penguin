@@ -49,7 +49,9 @@ import Sweet
         targetUser = try await Sweet(userID: userID).user(userID: targetUserID).user
       }
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
