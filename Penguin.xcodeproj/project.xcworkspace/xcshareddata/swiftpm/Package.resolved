@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
-        "branch" : "main",
-        "revision" : "80082f30e633cab6bdd4af94d41c892b9720de6f"
+        "branch" : "206-エラーの細分化",
+        "revision" : "bb0c0bb8b1cd127f2866a58edeb90715303320c1"
       }
     },
     {
@@ -159,7 +159,7 @@
       "location" : "https://github.com/apple/swift-format",
       "state" : {
         "branch" : "main",
-        "revision" : "2f91be07295f6c1b397974830f4768436e400494"
+        "revision" : "a1ebffecbfb429efed708534ec644ea015b9f4d4"
       }
     },
     {
@@ -177,7 +177,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "724b5d367c128eab23f096a02d565a81c3ee9ae3"
+        "revision" : "a2d31e8880224f5a619f24bf58c122836faf99ff"
       }
     },
     {
