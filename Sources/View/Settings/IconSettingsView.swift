@@ -8,14 +8,15 @@ struct Icon: Identifiable, Hashable {
   let id = UUID()
   let name: String
   let iconName: String
+  let imageName: String
 }
 
 struct IconSettingsView: View {
   @Environment(\.settings) var settings
   
   let icons: [Icon] = [
-    .init(name: "Primary", iconName: "AppIcon"),
-    .init(name: "Secondary", iconName: "AppIcon1"),
+    .init(name: "Primary", iconName: "AppIcon", imageName: "AppIconImage"),
+    .init(name: "Secondary", iconName: "AppIcon1", imageName: "AppIcon1Image"),
   ]
     
   @MainActor
@@ -55,7 +56,7 @@ struct IconSettingsView: View {
         Image(systemName: "circle")
       }
     } icon: {
-      Image(uiImage: UIImage(named: icon.iconName)!)
+      Image(icon.imageName)
         .resizable()
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .scaledToFit()
