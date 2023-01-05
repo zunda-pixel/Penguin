@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
-        "branch" : "206-エラーの細分化",
-        "revision" : "bb0c0bb8b1cd127f2866a58edeb90715303320c1"
+        "branch" : "main",
+        "revision" : "ce605037701258e4d13eacb51b8b41a7a56c8539"
       }
     },
     {
@@ -177,7 +177,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "a2d31e8880224f5a619f24bf58c122836faf99ff"
+        "revision" : "cc9b4b6ca23e3b4ee1a086388d39654ecb646ba6"
       }
     },
     {

@@ -1682,7 +1682,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/zunda-pixel/Sweet";
 			requirement = {
-				branch = "206-エラーの細分化";
+				branch = main;
 				kind = branch;
 			};
 		};
