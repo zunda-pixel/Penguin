@@ -4,7 +4,6 @@
 
 import Sweet
 import SwiftUI
-import os
 
 @MainActor class TweetToolBarViewModel: ObservableObject {
   let userID: String
@@ -24,7 +23,9 @@ import os
     do {
       try await Sweet(userID: userID).retweet(userID: userID, tweetID: tweet.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -32,7 +33,9 @@ import os
     do {
       try await Sweet(userID: userID).deleteRetweet(userID: userID, tweetID: tweet.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -40,7 +43,9 @@ import os
     do {
       try await Sweet(userID: userID).like(userID: userID, tweetID: tweet.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -48,7 +53,9 @@ import os
     do {
       try await Sweet(userID: userID).unLike(userID: userID, tweetID: tweet.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -56,7 +63,9 @@ import os
     do {
       try await Sweet(userID: userID).addBookmark(userID: userID, tweetID: tweet.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -64,7 +73,9 @@ import os
     do {
       try await Sweet(userID: userID).deleteBookmark(userID: userID, tweetID: tweet.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

@@ -4,7 +4,6 @@
 
 import Foundation
 import Sweet
-import os
 
 protocol NewListDelegate {
   func didCreateList(list: Sweet.ListModel)

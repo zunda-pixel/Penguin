@@ -4,7 +4,6 @@
 
 import OrderedCollections
 import Sweet
-import os
 import Foundation
 
 @MainActor protocol ListsViewModelProtocol: ObservableObject, NewListDelegate, PinnableListCellDelegate {
@@ -106,7 +105,9 @@ extension ListsViewModelProtocol {
 
       self.followingListIDs = OrderedSet(response.lists.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -122,7 +123,9 @@ extension ListsViewModelProtocol {
 
       self.ownedListIDs = OrderedSet(ownedResponse.lists.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -132,7 +135,9 @@ extension ListsViewModelProtocol {
 
       pinnedListIDs = OrderedSet(response.lists.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -143,7 +148,9 @@ extension ListsViewModelProtocol {
       try await Sweet(userID: userID).deleteList(listID: list.id)
       ownedListIDs.remove(list.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -155,7 +162,9 @@ extension ListsViewModelProtocol {
 
       followingListIDs.remove(list.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -167,7 +176,9 @@ extension ListsViewModelProtocol {
 
       pinnedListIDs.remove(list.id)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }
@@ -199,7 +210,9 @@ extension ListsViewModel: PinnableListCellDelegate {
         pinnedListIDs.remove(listID)
       }
 
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

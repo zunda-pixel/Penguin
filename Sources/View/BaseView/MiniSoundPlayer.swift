@@ -25,7 +25,8 @@ class SoundPlayerViewModel: ObservableObject {
       let (data, _) = try await URLSession.shared.data(for: .init(url: url))
       self.player = try .init(data: data)
     } catch {
-      print(error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
     }
   }
 

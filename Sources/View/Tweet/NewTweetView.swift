@@ -6,7 +6,6 @@ import CoreLocation
 import PhotosUI
 import Sweet
 import SwiftUI
-import os
 
 #if !os(macOS)
 import CoreLocationUI
@@ -38,7 +37,9 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 try await viewModel.postTweet()
                 dismiss()
               } catch {
-                viewModel.errorHandle = ErrorHandle(error: error)
+                let errorHandle = ErrorHandle(error: error)
+                errorHandle.log()
+                viewModel.errorHandle = errorHandle
               }
             }
           }

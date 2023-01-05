@@ -15,7 +15,9 @@ struct MuteButton: View {
     do {
       try await Sweet(userID: fromUserID).muteUser(from: fromUserID, to: toUserID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -40,7 +42,9 @@ struct UnMuteButton: View {
     do {
       try await Sweet(userID: fromUserID).unMuteUser(from: fromUserID, to: toUserID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 

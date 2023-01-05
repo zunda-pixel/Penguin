@@ -38,7 +38,9 @@ struct NewListView: View {
                 try await viewModel.createList()
                 dismiss()
               } catch {
-                viewModel.errorHandle = ErrorHandle(error: error)
+                let errorHandle = ErrorHandle(error: error)
+                errorHandle.log()
+                viewModel.errorHandle = errorHandle
               }
             }
           }

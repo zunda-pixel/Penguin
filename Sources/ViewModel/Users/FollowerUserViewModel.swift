@@ -58,7 +58,9 @@ import Sweet
 
       paginationToken = response.meta?.nextToken
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

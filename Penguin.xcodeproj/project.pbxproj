@@ -48,6 +48,8 @@
 		2E13ED4A280D175C00BF79CD /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E13ED49280D175C00BF79CD /* SearchView.swift */; };
 		2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */; };
 		2E1D5C9A28EFFBF70049EBC1 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D5C9928EFFBF70049EBC1 /* Image+Extension.swift */; };
+		2E289AB2295BF19A00B54913 /* ErrorHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B7FBD293BCBAC00FD3101 /* ErrorHandle.swift */; };
+		2E289ABD295BF34C00B54913 /* TwitterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E974DB92938ACB600C401DC /* TwitterError.swift */; };
 		2E3468DE283A757B00AA2E33 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3468DD283A757B00AA2E33 /* View+Extension.swift */; };
 		2E3468E1283A770A00AA2E33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3468E0283A770A00AA2E33 /* SettingsView.swift */; };
 		2E3468E4283A784300AA2E33 /* AccountSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3468E3283A784300AA2E33 /* AccountSettingView.swift */; };
@@ -1208,11 +1210,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E289AB2295BF19A00B54913 /* ErrorHandle.swift in Sources */,
 				2E429D5B28D4E04F002926C5 /* ActivityWidgets.swift in Sources */,
 				2E454F1228FE61820013B06F /* Color+Extension.swift in Sources */,
 				2E10DE3A28F7D5AF00CA2D17 /* Logger+Extension.swift in Sources */,
 				2E0D20F728D6C80F00462267 /* NormalTweetStatusView.swift in Sources */,
 				2E7AC7B6290A46F000CB7B8E /* Settings.swift in Sources */,
+				2E289ABD295BF34C00B54913 /* TwitterError.swift in Sources */,
 				2E0D20ED28D62D1400462267 /* Sweet+Extension.swift in Sources */,
 				2E0D20EB28D62CD400462267 /* Secure.swift in Sources */,
 				2E974DB229375B3800C401DC /* TweetModel+Extension.swift in Sources */,
@@ -1423,7 +1427,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin;
 				PRODUCT_NAME = Penguin;
 				SDKROOT = iphoneos;
@@ -1464,7 +1468,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin;
 				PRODUCT_NAME = Penguin;
 				SDKROOT = iphoneos;
@@ -1492,13 +1496,13 @@
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1523,13 +1527,13 @@
 				INFOPLIST_FILE = Widgets/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Widgets;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1553,13 +1557,13 @@
 				INFOPLIST_FILE = WidgetsIntent/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TweetIntent;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgetsIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1582,13 +1586,13 @@
 				INFOPLIST_FILE = WidgetsIntent/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TweetIntent;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgetsIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;

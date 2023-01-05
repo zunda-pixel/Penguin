@@ -5,7 +5,6 @@
 import SwiftUI
 import Sweet
 import WidgetKit
-import os
 
 struct ContentView: View {
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
@@ -82,7 +81,8 @@ struct ContentView: View {
       // await activity.end() activityの削除
       
     } catch {
-      Logger.main.error("\(error.localizedDescription)")
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
     }
   }
   

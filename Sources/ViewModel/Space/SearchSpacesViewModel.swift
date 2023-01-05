@@ -67,7 +67,9 @@ import Sweet
       users = response.users
       spaces = response.spaces
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
   

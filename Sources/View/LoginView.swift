@@ -5,7 +5,6 @@
 import CoreData
 import Sweet
 import SwiftUI
-import os
 import BetterSafariView
 
 struct LoginView<Label: View>: View {
@@ -58,7 +57,9 @@ struct LoginView<Label: View>: View {
     do {
       try await deepLink.doSomething(url)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
