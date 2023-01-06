@@ -8,10 +8,12 @@ import OrderedCollections
 struct TabSettingsView: View {
   @State var tabs: [TabItem]
   @Binding var settings: Settings
+  @State var tabStyle: TabStyle
   
   init(settings: Binding<Settings>) {
     self._settings = settings
     self.tabs = settings.tabs.wrappedValue
+    self.tabStyle = settings.tabStyle.wrappedValue
   }
   
   var unSelectedTabs: [TabItem] {
@@ -28,6 +30,16 @@ struct TabSettingsView: View {
   
   var body: some View {
     List {
+      Section("Tab Style") {
+        Picker("Tab Style", selection: $tabStyle) {
+          ForEach(TabStyle.allCases) { tabStyle in
+            Text(tabStyle.rawValue)
+              .tag(tabStyle)
+          }
+        }
+        .pickerStyle(.segmented)
+      }
+      
       Section("Select Tab") {
         ForEach(tabs) { tab in
           Label(tab.title, systemImage: tab.systemImage)
@@ -43,6 +55,7 @@ struct TabSettingsView: View {
     }
     .onDisappear {
       settings.tabs = tabs
+      settings.tabStyle = tabStyle
     }
     .environment(\.editMode, .constant(.active))
     .toolbar {
