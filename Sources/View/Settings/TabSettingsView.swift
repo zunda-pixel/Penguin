@@ -24,8 +24,15 @@ struct TabSettingsView: View {
     tabs.count < 2
   }
   
+  func maxTabCount(_ tabStyle: TabStyle) -> Int {
+    switch tabStyle {
+    case .tab: return 5
+    case .split: return TabItem.allCases.count
+    }
+  }
+  
   var addDisabled: Bool {
-    tabs.count > 4
+    return maxTabCount(tabStyle) < tabs.count
   }
   
   var body: some View {
@@ -50,12 +57,18 @@ struct TabSettingsView: View {
         .onDelete { offsets in
           tabs.remove(atOffsets: offsets)
         }
+        
         .deleteDisabled(deleteDisabled)
       }
     }
+    .onChange(of: tabStyle) { newTabStyle in
+      tabs = Array(tabs.prefix(maxTabCount(newTabStyle)))
+    }
     .onDisappear {
+      settings.tabStyle = tabStyle
       settings.tabs = tabs
       settings.tabStyle = tabStyle
+      Secure.settings = settings
     }
     .environment(\.editMode, .constant(.active))
     .toolbar {
