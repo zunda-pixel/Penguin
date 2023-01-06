@@ -114,7 +114,9 @@ struct ContentView: View {
         }
       } else {
         VStack {
-          Image(uiImage: UIImage(named: UIApplication.shared.iconName)!)
+          let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
+          
+          Image(icon!.imageName)
             .resizable()
             .scaledToFit()
             .cornerRadius(15)

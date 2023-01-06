@@ -9,20 +9,20 @@ struct Icon: Identifiable, Hashable {
   let name: String
   let iconName: String
   let imageName: String
+  
+  static let icons: [Icon] = [
+    .init(name: "Primary", iconName: "AppIcon", imageName: "AppIconImage"),
+    .init(name: "Secondary", iconName: "AppIcon1", imageName: "AppIcon1Image"),
+  ]
 }
 
 struct IconSettingsView: View {
   @Environment(\.settings) var settings
-  
-  let icons: [Icon] = [
-    .init(name: "Primary", iconName: "AppIcon", imageName: "AppIconImage"),
-    .init(name: "Secondary", iconName: "AppIcon1", imageName: "AppIcon1Image"),
-  ]
     
   @MainActor
   var currentIcon: Icon {
     let currentIconName = UIApplication.shared.iconName
-    return icons.first { $0.iconName == currentIconName }!
+    return Icon.icons.first { $0.iconName == currentIconName }!
   }
   
   @State var selectedIcon: Icon?
@@ -90,7 +90,7 @@ struct IconSettingsView: View {
   var body: some View {
     List {
       Section {
-        ForEach(icons) { icon in
+        ForEach(Icon.icons) { icon in
           iconCell(icon: icon)
         }
       }
