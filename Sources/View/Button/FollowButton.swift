@@ -15,7 +15,9 @@ struct FollowButton: View {
     do {
       _ = try await Sweet(userID: fromUserID).follow(from: fromUserID, to: toUserID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -40,7 +42,9 @@ struct UnFollowButton: View {
     do {
       _ = try await Sweet(userID: fromUserID).unFollow(from: fromUserID, to: toUserID)
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 

@@ -5,21 +5,29 @@
 import SwiftUI
 
 struct Settings: Codable, Equatable {
-  var colorType: ColorType = .cyan
+  var colorType: ColorType
   
-  var userNameDisplayMode: DisplayUserNameMode = .all
-  var dateFormat: DateFormatMode = .relative
-  var tabs: [TabItem] = [.timeline, .list, .search, .like]
+  var userNameDisplayMode: DisplayUserNameMode
+  var dateFormat: DateFormatMode
+  var tabs: [TabItem]
+  var tabStyle: TabStyle
   
   private enum CodingKeys: CodingKey {
     case colorType
     case userNameDisplayMode
     case dateFormat
     case tabs
+    case tabStyle
   }
 
   init() {
-
+    colorType = .cyan
+    userNameDisplayMode = .all
+    dateFormat = .relative
+    tabs = [.timeline, .mention, .list, .search, .like]
+    
+    let isIPhone = UIDevice.current.userInterfaceIdiom == .phone
+    tabStyle = isIPhone ? .tab : .split
   }
 
   init(from decoder: Decoder) throws {
@@ -35,6 +43,9 @@ struct Settings: Codable, Equatable {
     
     let tabs = try container.decode([String].self, forKey: .tabs)
     self.tabs = tabs.map { TabItem(rawValue: $0)! }
+    
+    let tabStyle = try container.decode(String.self, forKey: .tabStyle)
+    self.tabStyle = TabStyle(rawValue: tabStyle)!
   }
 
   func encode(to encoder: Encoder) throws {
@@ -43,6 +54,7 @@ struct Settings: Codable, Equatable {
     try container.encode(userNameDisplayMode.rawValue, forKey: .userNameDisplayMode)
     try container.encode(dateFormat.rawValue, forKey: .dateFormat)
     try container.encode(tabs.map(\.rawValue), forKey: .tabs)
+    try container.encode(tabStyle.rawValue, forKey: .tabStyle)
   }
 }
 

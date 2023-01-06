@@ -23,7 +23,9 @@ import OpenGraph
       print("OpenGraphResponseError.unexpectedStatusCode(statusCode: \(statusCode)")
     }
     catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

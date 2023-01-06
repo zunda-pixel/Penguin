@@ -71,7 +71,9 @@ import Sweet
 
       self.addedListIDs.formUnion(Set(addedResponse.lists.map(\.id)))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
@@ -89,7 +91,9 @@ import Sweet
 
       self.ownedListIDs.formUnion(ownedResponse.lists.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 

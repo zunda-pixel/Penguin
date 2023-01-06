@@ -53,19 +53,23 @@ import Sweet
   }
   
   func fetchSpaces() async {
-    guard !searchText.isEmpty else {
+    let removedSpaceSearchText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    guard !removedSpaceSearchText.isEmpty else {
       spaces = []
       users = []
       return
     }
     
     do {
-      let response = try await Sweet(userID: userID).searchSpaces(by: searchText)
+      let response = try await Sweet(userID: userID).searchSpaces(by: removedSpaceSearchText)
       
       users = response.users
       spaces = response.spaces
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
   

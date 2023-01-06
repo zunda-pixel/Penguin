@@ -18,8 +18,6 @@ extension Sweet.TwitterError: RecoverableError {
 extension Sweet.TwitterError: LocalizedError {
   public var errorDescription: String? {
     switch self {
-    case .tooManyAccess: return "Too Many Access"
-    case .accountLocked: return "Account is  Locked"
     case .followError: return "Follow Error"
     case .listMemberError: return "List Member Error"
     case .updateListError: return "Update List Error"
@@ -33,20 +31,11 @@ extension Sweet.TwitterError: LocalizedError {
     case .muteUserError: return "Mute User Error"
     case .bookmarkError: return "Bookmark Error"
     case .uploadCompliance: return "Upload Compliance Error"
-    case .unAuthorized: return "Authorization Error"
-    case .unsupportedAuthentication: return "UnSupported Authorization"
-    case .forbidden: return "Unknown Error"
-    case .invalidRequest: return "Unknown Error"
-    case .unknown: return "Unknown Error"
     }
   }
   
   public var recoverySuggestion: String? {
-    let contactWithDeveloper = "Please Contact with Developer"
-    
     switch self {
-    case .tooManyAccess: return "Please access later"
-    case .accountLocked: return "Please log in to https://twitter.com to unlock your account."
     case .followError: return "Please Retry Follow"
     case .listMemberError: return "Please Retry Manage Member"
     case .updateListError: return "Please Retry Update List"
@@ -59,12 +48,80 @@ extension Sweet.TwitterError: LocalizedError {
     case .blockUserError: return "Please Retry Manage Block"
     case .muteUserError: return "Please Retry Manage Mute"
     case .bookmarkError: return "Please Retry Manage Bookmark"
-    case .unAuthorized: return "Please ReLogin"
-    case .uploadCompliance: return contactWithDeveloper
-    case .unsupportedAuthentication: return contactWithDeveloper
-    case .forbidden: return contactWithDeveloper
-    case .invalidRequest: return contactWithDeveloper
-    case .unknown: return contactWithDeveloper
+    case .uploadCompliance: return "Please Contact with Developer"
+    }
+  }
+}
+
+extension Sweet.UnknownError: RecoverableError {
+  public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
+    recoveryOptionIndex == 0
+  }
+  
+  public var recoveryOptions: [String] {
+    return ["OK"]
+  }
+}
+
+extension Sweet.UnknownError: LocalizedError {
+  public var errorDescription: String? {
+    return "UnknownError"
+  }
+  
+  public var recoverySuggestion: String? {
+    return "Please Contact with Developer"
+  }
+  
+  public var logMessage: String {
+    return """
+    UnknownError
+    \(request)
+    \(String(data: data, encoding: .utf8)!)
+    \(response)
+    """
+  }
+}
+
+extension Sweet.RequestError: RecoverableError {
+  public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
+    recoveryOptionIndex == 0
+  }
+  
+  public var recoveryOptions: [String] {
+    return ["OK"]
+  }
+}
+
+extension Sweet.RequestError: LocalizedError {
+  public var errorDescription: String? {
+    switch self {
+    case .accountLocked: return "Developer Account Locked"
+    case .forbidden(detail: _): return "Forbidden Request"
+    case .tooManyAccess: return "Too Many Access"
+    case .unAuthorized: return "UnAuthorized Request"
+    case .unsupportedAuthentication(detail: _): return "Unsupported Authorization"
+    case .invalidRequest(response: _):  return "Invalid Request"
+    }
+  }
+  
+  public var recoverySuggestion: String? {
+    return "Please Contact with Developer"
+  }
+  
+  public var logMessage: String {
+    switch self {
+    case .accountLocked: return "Developer Account Locked"
+    case .forbidden(detail: _): return "Forbidden Request"
+    case .tooManyAccess: return "Too Many Access"
+    case .unAuthorized: return "UnAuthorized Request"
+    case .unsupportedAuthentication(detail: let detail): return "Unsupported Authorization(detail: \(detail))"
+    case .invalidRequest(response: let request):  return """
+Invalid Request
+\(request.title)
+\(request.detail)
+\(request.type)
+\(request.errors)
+"""
     }
   }
 }

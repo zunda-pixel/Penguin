@@ -49,15 +49,17 @@ import Sweet
 
     loadingTweet.toggle()
     defer { loadingTweet.toggle() }
+    
+    let removeWhiteSpaceQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
-    if query.isEmpty {
+    if removeWhiteSpaceQuery.isEmpty {
       timelines = []
       return
     }
 
     do {
       let response = try await Sweet(userID: userID).searchRecentTweet(
-        query: "\(query) \(searchSettings.query)",
+        query: "\(removeWhiteSpaceQuery) \(searchSettings.query)",
         nextToken: lastTweetID != nil ? paginationToken : nil
       )
 
@@ -67,7 +69,9 @@ import Sweet
 
       addTimelines(response.tweets.map(\.id))
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

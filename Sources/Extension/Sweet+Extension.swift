@@ -41,6 +41,6 @@ extension Sweet {
 
 extension Sweet.OAuth2 {
   init() {
-    self.init(clientID: Secure.clientID, clientSecret: Secure.clientSecretKey)
+    self.init(clientID: Env.clientKey, clientSecret: Env.clientSecretKey)
   }
 }

@@ -4,7 +4,6 @@
 
 import Sweet
 import SwiftUI
-import os
 
 enum SortType: String, CaseIterable, Identifiable {
   case viewers = "Viewers"

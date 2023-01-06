@@ -87,7 +87,9 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
       
       self.tweetNode = tweetNode
     } catch {
-      self.errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

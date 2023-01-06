@@ -19,9 +19,10 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   let fetchMediaController: NSFetchedResultsController<Media>
   let fetchPollController: NSFetchedResultsController<Poll>
   let fetchPlaceController: NSFetchedResultsController<Place>
-
+  
   @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
+  @Published var latestTweetDate: Date?
 
   init(userID: String, viewContext: NSManagedObjectContext) {
     self.userID = userID
@@ -172,22 +173,15 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
       try addPlace(place)
     }
   }
-
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?, nextToken: String?) async
-  {
-    guard !loadingTweets else { return }
-
-    loadingTweets.toggle()
-    defer { loadingTweets.toggle() }
-
+  
+  func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     do {
       let response = try await Sweet(userID: userID).reverseChronological(
         userID: userID,
         untilID: lastTweetID,
-        sinceID: firstTweetID,
-        paginationToken: nextToken
+        paginationToken: paginationToken
       )
-
+      
       Task.detached {
         _ = try await OGPManager.fetchOGPData(tweets: response.tweets)
       }
@@ -206,8 +200,10 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
           _ = try await OGPManager.fetchOGPData(tweets: referencedResponse.tweets)
         }
       }
-
+      
       try addResponse(response: response)
+
+      let containsTweet = response.tweets.last.map { timelines.contains($0.id) } ?? false
 
       try response.tweets.forEach { tweet in
         try addTimeline(tweet.id)
@@ -215,14 +211,13 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       updateTimeLine()
 
-      if let firstTweetID,
-         let nextToken = response.meta?.nextToken,
-         !response.tweets.isEmpty
-      {
-        await fetchTweets(first: firstTweetID, last: nil, nextToken: nextToken)
+      if let paginationToken = response.meta?.nextToken, !containsTweet {
+        await fetchTweets(last: nil, paginationToken: paginationToken)
       }
     } catch {
-      errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

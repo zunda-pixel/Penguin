@@ -99,6 +99,6 @@ struct ScalableImage: View {
 
 struct ScalableImage_Previews: PreviewProvider {
   static var previews: some View {
-    ScalableImage(mediaURL: .init(string: "")!)
+    ScalableImage(mediaURL: URL(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
   }
 }

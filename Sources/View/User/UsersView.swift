@@ -4,7 +4,6 @@
 
 import Sweet
 import SwiftUI
-import os
 
 struct UsersView<ViewModel: UsersViewProtocol>: View {
   @ObservedObject var viewModel: ViewModel
