@@ -300,6 +300,7 @@
 		2E379F3C29476B9E000AC649 /* OnlineUserDetailNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineUserDetailNavigationView.swift; sourceTree = "<group>"; };
 		2E379F3E294816A3000AC649 /* OnlineTweetDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineTweetDetailViewModel.swift; sourceTree = "<group>"; };
 		2E379F4029481DBB000AC649 /* OnlineTweetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineTweetDetailView.swift; sourceTree = "<group>"; };
+		2E38F8C62969841F00A3D8E5 /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
 		2E3A2A2B284B2BA200B50808 /* UserMentionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMentionsViewModel.swift; sourceTree = "<group>"; };
 		2E429CF228D35F51002926C5 /* TweetAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetAttributes.swift; sourceTree = "<group>"; };
 		2E429D0028D4528B002926C5 /* TweetNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetNotification.swift; sourceTree = "<group>"; };
@@ -767,6 +768,7 @@
 			isa = PBXGroup;
 			children = (
 				2EAB11F828C0C1FD00B4E25C /* ci_post_clone.sh */,
+				2E38F8C62969841F00A3D8E5 /* ci_pre_xcodebuild.sh */,
 			);
 			path = ci_scripts;
 			sourceTree = "<group>";
