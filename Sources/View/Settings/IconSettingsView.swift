@@ -18,29 +18,33 @@ struct Icon: Identifiable, Hashable {
 
 struct IconSettingsView: View {
   @Environment(\.settings) var settings
-    
-  @MainActor
-  var currentIcon: Icon {
-    let currentIconName = UIApplication.shared.iconName
-    return Icon.icons.first { $0.iconName == currentIconName }!
-  }
-  
-  @State var selectedIcon: Icon?
+
+  @State var selectedIcon: Icon
   @State var errorHandle: ErrorHandle?
   
+  init() {
+    let currentIcon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }!
+    self._selectedIcon = .init(initialValue: currentIcon)
+  }
   
   @MainActor
-  func changeIcon(_ iconName: String) async {
-    guard iconName != currentIcon.iconName else { return }
+  func changeIcon(_ icon: Icon) async {
+    guard icon.iconName != selectedIcon.iconName else { return }
     
-    let iconName: String? = iconName == UIApplication.primaryIconName ? nil : iconName
+    let iconName: String? = icon.iconName == UIApplication.primaryIconName ? nil : icon.iconName
     
+    let previousIcon = selectedIcon
+    
+    selectedIcon = icon
+
     do {
       try await UIApplication.shared.setAlternateIconName(iconName)
     } catch {
       let errorHandle = ErrorHandle(error: error)
       errorHandle.log()
       self.errorHandle = errorHandle
+      
+      selectedIcon = previousIcon
     }
   }
   
@@ -49,7 +53,7 @@ struct IconSettingsView: View {
     Label {
       Text(icon.name)
       Spacer()
-      if(icon == currentIcon) {
+      if(icon == selectedIcon) {
         Image(systemName: "checkmark.circle.fill")
           .foregroundColor(settings.colorType.colorSet.tintColor)
       } else {
@@ -64,7 +68,7 @@ struct IconSettingsView: View {
     .contentShape(Rectangle())
     .onTapGesture {
       Task {
-        await changeIcon(icon.iconName)
+        await changeIcon(icon)
       }
     }
   }
@@ -103,9 +107,6 @@ struct IconSettingsView: View {
       }
     }
     .alert(errorHandle: $errorHandle)
-    .onAppear {
-      selectedIcon = currentIcon
-    }
     .environment(\.editMode, .constant(.active))
   }
 }
