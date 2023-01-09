@@ -22,7 +22,7 @@ struct OGPCardView: View {
             .scaledToFit()
 
 
-          VStack {
+          VStack(alignment: .leading) {
             Text(viewModel.url.host!)
               .foregroundStyle(settings.colorType.colorSet.tintColor)
             
