@@ -13,31 +13,40 @@ struct OGPCardView: View {
 
   var body: some View {
     VStack {
+      let padding: CGFloat = 20
+
       if let imageURL = viewModel.ogp?.imageURL {
         VStack(alignment: .leading) {
           KFImage(imageURL)
             .resizable()
             .scaledToFit()
 
-          Text(viewModel.url.host!)
-            .foregroundStyle(settings.colorType.colorSet.tintColor)
 
-          if let title = viewModel.ogp?.title?.removingHTMLEntities() {
-            Text(title)
-              .lineLimit(2)
+          VStack(alignment: .leading) {
+            Text(viewModel.url.host!)
+              .foregroundStyle(settings.colorType.colorSet.tintColor)
+            
+            // ToDo なぜか2回removingHTMLEntities()しないと識字可能な文字にならない
+            if let title = viewModel.ogp?.title?.removingHTMLEntities().removingHTMLEntities() {
+              Text(title)
+                .lineLimit(2)
+            }
+            
+            if let description = viewModel.ogp?.description?.removingHTMLEntities() {
+              Text(description.removingHTMLEntities())
+                .foregroundStyle(.secondary)
+                .font(.caption)
+                .lineLimit(2)
+            }
           }
-
-          if let description = viewModel.ogp?.description?.removingHTMLEntities() {
-            Text(description)
-              .foregroundStyle(.secondary)
-              .font(.caption)
-              .lineLimit(2)
-          }
-
+          .padding(.horizontal, padding)
         }
-        .padding(3)
-        .border(.secondary, width: 3)
-        .contentShape(Rectangle())
+        .clipShape(RoundedRectangle(cornerSize: .init(width: padding, height: padding)))
+        .contentShape(RoundedRectangle(cornerSize: .init(width: padding, height: padding)))
+        .overlay {
+          RoundedRectangle(cornerSize: .init(width: padding, height: padding))
+            .stroke(.secondary)
+        }
         .onTapGesture {
           openURL(viewModel.url)
         }

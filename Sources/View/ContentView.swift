@@ -15,7 +15,7 @@ struct ContentView: View {
   
   @MainActor
   @ViewBuilder
-  func tabView(currentUser: Sweet.UserModel, tabItem: TabItem) -> some View {
+  func tabViewContent(currentUser: Sweet.UserModel, tabItem: TabItem) -> some View {
     switch tabItem {
     case .timeline:
       ReverseChronologicalNavigationView(
@@ -89,32 +89,71 @@ struct ContentView: View {
   @Environment(\.colorScheme) var colorScheme
   @State var schemeItem: SchemeItem?
   
+  @ViewBuilder
+  @MainActor
+  func tabView(currentUser: Sweet.UserModel) -> some View {
+    TabView(selection: $selectedTab) {
+      ForEach(settings.tabs) { tab in
+        tabViewContent(currentUser: currentUser, tabItem: tab)
+          .tabItem {
+            Label(tab.title, systemImage: tab.systemImage)
+          }
+          .tag(tab)
+          .toolbarBackground(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar)
+          .toolbarBackground(.visible, for: .tabBar)
+      }
+    }
+  }
+  
+  @ViewBuilder
+  @MainActor
+  func splitView(currentUser: Sweet.UserModel) -> some View {
+    NavigationSplitView {
+      let binding: Binding<TabItem?> = .init {
+        selectedTab
+      } set: { newTab in
+        if let newTab {
+          selectedTab = newTab
+        }
+      }
+      
+      List(selection: binding) {
+        ForEach(settings.tabs) { tab in
+          Label(tab.title, systemImage: tab.systemImage)
+            .tag(tab)
+        }
+      }
+    } detail: {
+      tabViewContent(currentUser: currentUser, tabItem: selectedTab)
+        .toolbarBackground(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
+    }
+    .navigationSplitViewStyle(.balanced)
+  }
+  
   var body: some View {
     VStack {
       if let currentUser {
-        TabView(selection: $selectedTab) {
-          ForEach(settings.tabs) { tab in
-            tabView(currentUser: currentUser, tabItem: tab)
-              .tabItem {
-                Label(tab.title, systemImage: tab.systemImage)
-              }
-              .tag(tab)
-              .toolbarBackground(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar)
-              .toolbarBackground(.visible, for: .tabBar)
+        Group {
+          switch settings.tabStyle {
+          case .tab: tabView(currentUser: currentUser)
+          case .split: splitView(currentUser: currentUser)
           }
         }
-        .task {
-          await fetchLatestTweet(userID: currentUser.id)
-        }
-        .onOpenURL { url in
-          self.schemeItem = .from(url: url)
-        }
-        .sheet(item: $schemeItem) { schemeItem in
-          OnlineNavigationView(userID: currentUser.id, schemeItem: schemeItem)
-        }
+          .task {
+            await fetchLatestTweet(userID: currentUser.id)
+          }
+          .onOpenURL { url in
+            self.schemeItem = .from(url: url)
+          }
+          .sheet(item: $schemeItem) { schemeItem in
+            OnlineNavigationView(userID: currentUser.id, schemeItem: schemeItem)
+          }
       } else {
         VStack {
-          Image(uiImage: UIImage(named: UIApplication.shared.iconName)!)
+          let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
+          
+          Image(icon!.imageName)
             .resizable()
             .scaledToFit()
             .cornerRadius(15)

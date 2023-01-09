@@ -47,6 +47,9 @@
 		2E13ED47280D0A1300BF79CD /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E13ED46280D0A1200BF79CD /* Array+Extension.swift */; };
 		2E13ED4A280D175C00BF79CD /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E13ED49280D175C00BF79CD /* SearchView.swift */; };
 		2E1914F5283F1EBC00F03C7C /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */; };
+		2E19ECFA296828B400C58F03 /* TabStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19ECF9296828B400C58F03 /* TabStyle.swift */; };
+		2E19ECFB296828B400C58F03 /* TabStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19ECF9296828B400C58F03 /* TabStyle.swift */; };
+		2E19ECFC296828B400C58F03 /* TabStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E19ECF9296828B400C58F03 /* TabStyle.swift */; };
 		2E1D5C9A28EFFBF70049EBC1 /* Image+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1D5C9928EFFBF70049EBC1 /* Image+Extension.swift */; };
 		2E289AB2295BF19A00B54913 /* ErrorHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7B7FBD293BCBAC00FD3101 /* ErrorHandle.swift */; };
 		2E289ABD295BF34C00B54913 /* TwitterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E974DB92938ACB600C401DC /* TwitterError.swift */; };
@@ -284,6 +287,7 @@
 		2E13ED46280D0A1200BF79CD /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		2E13ED49280D175C00BF79CD /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		2E1914F4283F1EBC00F03C7C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		2E19ECF9296828B400C58F03 /* TabStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabStyle.swift; sourceTree = "<group>"; };
 		2E1D5C9928EFFBF70049EBC1 /* Image+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extension.swift"; sourceTree = "<group>"; };
 		2E3468DD283A757B00AA2E33 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		2E3468E0283A770A00AA2E33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -509,6 +513,7 @@
 				2EB5CB0529406D46005AAB0A /* TabItem.swift */,
 				2E379F36294382A0000AC649 /* NavigationPathRouter.swift */,
 				2E379F382944BBB3000AC649 /* ColorType.swift */,
+				2E19ECF9296828B400C58F03 /* TabStyle.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -1135,6 +1140,7 @@
 				2E10382A27EC05FE00E8E67B /* User+Extension.swift in Sources */,
 				2E777AE628BE991000296D6B /* OnlineUserDetailViewModel.swift in Sources */,
 				2EF5B326283BA7FB00DD8352 /* FollowButton.swift in Sources */,
+				2E19ECFA296828B400C58F03 /* TabStyle.swift in Sources */,
 				2E454F0D28FDB2CA0013B06F /* QueryBuilder.swift in Sources */,
 				2E6A8C5A285DD01D003BFD7C /* PollView.swift in Sources */,
 				2E7DD5EA283B569E00F16C53 /* UserProfileView.swift in Sources */,
@@ -1227,6 +1233,7 @@
 				2E0D20EC28D62CE000462267 /* Env.swift in Sources */,
 				2E429CF428D35F75002926C5 /* TweetAttributes.swift in Sources */,
 				2EB5CB0729406D73005AAB0A /* TabItem.swift in Sources */,
+				2E19ECFB296828B400C58F03 /* TabStyle.swift in Sources */,
 				2E379F3A2944BD66000AC649 /* ColorType.swift in Sources */,
 				2E429D0228D452A3002926C5 /* TweetNotification.swift in Sources */,
 			);
@@ -1243,6 +1250,7 @@
 				2E7AC7B7290A46F100CB7B8E /* Settings.swift in Sources */,
 				2EC5691028D78BFF00F4B8AB /* IntentHandler.swift in Sources */,
 				2EB5CB0829406D73005AAB0A /* TabItem.swift in Sources */,
+				2E19ECFC296828B400C58F03 /* TabStyle.swift in Sources */,
 				2E379F3B2944BD66000AC649 /* ColorType.swift in Sources */,
 				2E8D308A28E2DC7300C221C8 /* Sweet+Extension.swift in Sources */,
 			);
@@ -1427,7 +1435,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin;
 				PRODUCT_NAME = Penguin;
 				SDKROOT = iphoneos;
@@ -1468,7 +1476,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin;
 				PRODUCT_NAME = Penguin;
 				SDKROOT = iphoneos;
@@ -1502,7 +1510,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1533,7 +1541,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1563,7 +1571,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgetsIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1592,7 +1600,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.widgetsIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
