@@ -46,7 +46,9 @@ extension View {
     } message: { errorHandle in
       Text(errorHandle.message)
     } actions: { errorHandle in
-      Button(errorHandle.title) {}
+      Button("OK") {
+        UIPasteboard.general.string = errorHandle.logMessage
+      }
     }
   }
 }
