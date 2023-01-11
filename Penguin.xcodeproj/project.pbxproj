@@ -179,7 +179,6 @@
 		2EDCBEBD2941F86A00BB2742 /* MentionNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCBEBC2941F86A00BB2742 /* MentionNavigationView.swift */; };
 		2EE07A5A285F303400C3D6AE /* MediasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A59285F303400C3D6AE /* MediasView.swift */; };
 		2EE07A5C286029A200C3D6AE /* ScrollImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE07A5B286029A200C3D6AE /* ScrollImagesView.swift */; };
-		2EE9F3C8294C807D0003A8D2 /* LicenseList in Frameworks */ = {isa = PBXBuildFile; productRef = 2EE9F3C7294C807D0003A8D2 /* LicenseList */; };
 		2EE9F3DE294C90230003A8D2 /* IconSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE9F3DD294C90230003A8D2 /* IconSettingsView.swift */; };
 		2EEE9DFD2816DB0300721ADD /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFC2816DB0300721ADD /* UsersView.swift */; };
 		2EEE9E002816E8F000721ADD /* UserCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE9DFF2816E8F000721ADD /* UserCellView.swift */; };
@@ -445,7 +444,6 @@
 				2E82E8C128B361B90091D5F0 /* Cache in Frameworks */,
 				2E0F491329237A93000158A7 /* Algorithms in Frameworks */,
 				2E5E4F6627EB593A009D6D53 /* Sweet in Frameworks */,
-				2EE9F3C8294C807D0003A8D2 /* LicenseList in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -901,7 +899,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				2EE9F3CC294C818A0003A8D2 /* PBXTargetDependency */,
 				2E73F00628D33AC200C88F71 /* PBXTargetDependency */,
 				2EC5691328D78BFF00F4B8AB /* PBXTargetDependency */,
 			);
@@ -917,7 +914,6 @@
 				2E04900329068D2D00B4A9E9 /* Node */,
 				2E704A1D29229D640032B3C0 /* ChatBubble */,
 				2E0F491229237A93000158A7 /* Algorithms */,
-				2EE9F3C7294C807D0003A8D2 /* LicenseList */,
 				2EFC50DD2952AA1A00992224 /* BetterSafariView */,
 			);
 			productName = "Penguin (iOS)";
@@ -1008,7 +1004,6 @@
 				2E704A1C29229D630032B3C0 /* XCRemoteSwiftPackageReference "ChatBubble" */,
 				2E0F491129237A93000158A7 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				2E0F49162928868B000158A7 /* XCRemoteSwiftPackageReference "swift-format" */,
-				2EE9F3C6294C807D0003A8D2 /* XCRemoteSwiftPackageReference "LicenseList" */,
 				2EFC50DC2952AA1A00992224 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
 			);
 			productRefGroup = 2E027F9927E8269A00521378 /* Products */;
@@ -1268,10 +1263,6 @@
 			isa = PBXTargetDependency;
 			target = 2EC5690B28D78BFF00F4B8AB /* TweetIntent */;
 			targetProxy = 2EC5691228D78BFF00F4B8AB /* PBXContainerItemProxy */;
-		};
-		2EE9F3CC294C818A0003A8D2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 2EE9F3CB294C818A0003A8D2 /* PrepareLicenseList */;
 		};
 		2EE9F3EE294CB1800003A8D2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1820,16 +1811,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2EAEE17728BCA41E00623C9C /* XCRemoteSwiftPackageReference "HTMLString" */;
 			productName = HTMLString;
-		};
-		2EE9F3C7294C807D0003A8D2 /* LicenseList */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2EE9F3C6294C807D0003A8D2 /* XCRemoteSwiftPackageReference "LicenseList" */;
-			productName = LicenseList;
-		};
-		2EE9F3CB294C818A0003A8D2 /* PrepareLicenseList */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2EE9F3C6294C807D0003A8D2 /* XCRemoteSwiftPackageReference "LicenseList" */;
-			productName = "plugin:PrepareLicenseList";
 		};
 		2EE9F3ED294CB1800003A8D2 /* PrepareLicenseList */ = {
 			isa = XCSwiftPackageProductDependency;
