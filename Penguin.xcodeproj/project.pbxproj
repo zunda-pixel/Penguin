@@ -24,6 +24,7 @@
 		2E0D20F728D6C80F00462267 /* NormalTweetStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D20F528D6C80C00462267 /* NormalTweetStatusView.swift */; };
 		2E0D20F928D6C82500462267 /* AccessoryTweetStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D20F828D6C82500462267 /* AccessoryTweetStatusView.swift */; };
 		2E0D734C28957B7D004C77EB /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0D734B28957B7D004C77EB /* UserDetailViewModel.swift */; };
+		2E0E36A4296EB37500CF59BC /* LicenseView in Frameworks */ = {isa = PBXBuildFile; productRef = 2E0E36A3296EB37500CF59BC /* LicenseView */; };
 		2E0E4ED028604F6700D4B64F /* ScalableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E4ECF28604F6700D4B64F /* ScalableImage.swift */; };
 		2E0E4ED22861A06000D4B64F /* CGSize+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E0E4ED12861A06000D4B64F /* CGSize+Extension.swift */; };
 		2E0F491329237A93000158A7 /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 2E0F491229237A93000158A7 /* Algorithms */; };
@@ -438,6 +439,7 @@
 				2E04900429068D2D00B4A9E9 /* Node in Frameworks */,
 				2EAEE17928BCA41E00623C9C /* HTMLString in Frameworks */,
 				2E78098528C657B900B4DC26 /* AttributedText in Frameworks */,
+				2E0E36A4296EB37500CF59BC /* LicenseView in Frameworks */,
 				2E704A1E29229D640032B3C0 /* ChatBubble in Frameworks */,
 				2E42CEBA28AA8D9400E98445 /* OrderedCollections in Frameworks */,
 				2EFC50DE2952AA1A00992224 /* BetterSafariView in Frameworks */,
@@ -915,6 +917,7 @@
 				2E704A1D29229D640032B3C0 /* ChatBubble */,
 				2E0F491229237A93000158A7 /* Algorithms */,
 				2EFC50DD2952AA1A00992224 /* BetterSafariView */,
+				2E0E36A3296EB37500CF59BC /* LicenseView */,
 			);
 			productName = "Penguin (iOS)";
 			productReference = 2E027F9827E8269A00521378 /* Penguin.app */;
@@ -1005,6 +1008,7 @@
 				2E0F491129237A93000158A7 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				2E0F49162928868B000158A7 /* XCRemoteSwiftPackageReference "swift-format" */,
 				2EFC50DC2952AA1A00992224 /* XCRemoteSwiftPackageReference "BetterSafariView" */,
+				2E0E36A2296EB37500CF59BC /* XCRemoteSwiftPackageReference "LicenseView" */,
 			);
 			productRefGroup = 2E027F9927E8269A00521378 /* Products */;
 			projectDirPath = "";
@@ -1653,6 +1657,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		2E0E36A2296EB37500CF59BC /* XCRemoteSwiftPackageReference "LicenseView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zunda-pixel/LicenseView";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		2E0F491129237A93000158A7 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-algorithms.git";
@@ -1756,6 +1768,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2E04900229068D2D00B4A9E9 /* XCRemoteSwiftPackageReference "Node" */;
 			productName = Node;
+		};
+		2E0E36A3296EB37500CF59BC /* LicenseView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2E0E36A2296EB37500CF59BC /* XCRemoteSwiftPackageReference "LicenseView" */;
+			productName = LicenseView;
 		};
 		2E0F491229237A93000158A7 /* Algorithms */ = {
 			isa = XCSwiftPackageProductDependency;
