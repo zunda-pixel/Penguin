@@ -5,7 +5,7 @@
 import StoreKit
 import Sweet
 import SwiftUI
-import LicenseList
+import LicenseView
 
 struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
@@ -124,7 +124,7 @@ struct SettingsView: View {
 #endif
             
             NavigationLink {
-              LicenseListView()
+              LicenseView()
                 .navigationTitle("License")
             } label: {
               Label("License", systemImage: "lock.shield")

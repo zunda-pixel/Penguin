@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/AttributedText",
       "state" : {
-        "revision" : "ad882159ef5680653340330ff4e10ff362760934",
-        "version" : "2.0.2"
+        "revision" : "e2f7f016d859509bc33707414d9f8a1ac550faa0",
+        "version" : "2.0.3"
       }
     },
     {
@@ -68,17 +68,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
-        "revision" : "44e891bdb61426a95e31492a67c7c0dfad1f87c5",
-        "version" : "7.4.1"
+        "revision" : "90135885ef506506620c4911cefb55a95ca2a9a2",
+        "version" : "7.5.0"
       }
     },
     {
-      "identity" : "licenselist",
+      "identity" : "licenseview",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/cybozu/LicenseList",
+      "location" : "https://github.com/zunda-pixel/LicenseView",
       "state" : {
-        "revision" : "98ed6ad04e0038acb710863d54d66147f2409ec3",
-        "version" : "0.2.0"
+        "branch" : "main",
+        "revision" : "29a4ea722ce077f8ee5e5a86f7910600fb05c3fd"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "83c0ef07c36676e7fd14c4fe373b13a81ed1b600"
+        "revision" : "9f39744e025c7d377987f30b03770805dcb0bcd1",
+        "version" : "1.1.4"
       }
     },
     {
@@ -159,7 +159,7 @@
       "location" : "https://github.com/apple/swift-format",
       "state" : {
         "branch" : "main",
-        "revision" : "a1ebffecbfb429efed708534ec644ea015b9f4d4"
+        "revision" : "0bc2f0381c72d66a949254af22208a81377cf717"
       }
     },
     {
@@ -177,7 +177,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "cc9b4b6ca23e3b4ee1a086388d39654ecb646ba6"
+        "revision" : "f5f6ae23ad85d813b76bba8a64fc7645279391f6"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-tools-support-core.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "284a41800b7c5565512ec6ae21ee818aac1f84ac"
+        "revision" : "284a41800b7c5565512ec6ae21ee818aac1f84ac",
+        "version" : "0.4.0"
       }
     }
   ],
