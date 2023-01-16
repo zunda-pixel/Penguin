@@ -50,14 +50,34 @@ import Sweet
     guard let pinnedTweetID = user.pinnedTweetID else { return }
     
     do {
-      let response = try await Sweet(userID: userID).tweets(by: [pinnedTweetID])
-      addResponse(response: response)
+      let response = try await Sweet(userID: userID).tweet(by: pinnedTweetID)
+      
+      allTweets.appendOrUpdate(response.tweet)
+      
+      response.relatedTweets.forEach {
+        allTweets.appendOrUpdate($0)
+      }
+      
+      response.medias.forEach {
+        allMedias.appendOrUpdate($0)
+      }
+      
+      response.places.forEach {
+        allPlaces.appendOrUpdate($0)
+      }
+      
+      response.users.forEach {
+        allUsers.appendOrUpdate($0)
+      }
       
       self.pinnedTweetID = pinnedTweetID
     } catch {
-      let errorHandle = ErrorHandle(error: error)
-      errorHandle.log()
-      self.errorHandle = errorHandle
+      // TODO
+      // Sweet.tweetでツイートが見つからなかった時のエラー対処法が今のところない
+      // Sweetのアップデートが必要
+//      let errorHandle = ErrorHandle(error: error)
+//      errorHandle.log()
+//      self.errorHandle = errorHandle
     }
   }
   
