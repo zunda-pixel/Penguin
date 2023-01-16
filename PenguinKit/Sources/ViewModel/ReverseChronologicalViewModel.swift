@@ -20,6 +20,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   let fetchPollController: NSFetchedResultsController<Poll>
   let fetchPlaceController: NSFetchedResultsController<Place>
 
+  @Published var searchSettings: TimelineSearchSettings
   @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
   @Published var latestTweetDate: Date?
@@ -30,6 +31,8 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
     self.loadingTweets = false
 
+    self.searchSettings = TimelineSearchSettings(query: "")
+    
     self.fetchTimelineController = {
       let fetchRequest = NSFetchRequest<Timeline>()
       fetchRequest.entity = Timeline.entity()

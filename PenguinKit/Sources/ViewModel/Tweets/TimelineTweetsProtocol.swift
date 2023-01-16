@@ -21,7 +21,7 @@ extension TimelineTweetsProtocol {
     if searchSettings.query.isEmpty {
       return tweets ?? []
     } else {
-      return tweets?.filter { $0.tweetText.contains(self.searchSettings.query) } ?? []
+      return tweets?.filter { $0.tweetText.lowercased().contains(self.searchSettings.query.lowercased()) } ?? []
     }
   }
 

@@ -5,23 +5,20 @@
 import CoreData
 import Foundation
 import Sweet
+import RegexBuilder
 
 @MainActor
 protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDelegate,
   ObservableObject
 {
   var loadingTweets: Bool { get set }
-
   var userID: String { get }
-
   var latestTweetDate: Date? { get set }
-
   var errorHandle: ErrorHandle? { get set }
-
   var viewContext: NSManagedObjectContext { get }
+  var searchSettings: TimelineSearchSettings { get set }
 
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
-
   func updateTimeLine()
 
   var fetchTimelineController: NSFetchedResultsController<Timeline> { get }
@@ -41,7 +38,17 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
-  var showTweets: [Tweet] { fetchShowTweetController.fetchedObjects ?? [] }
+  
+  var showTweets: [Tweet] {
+    let tweets = fetchShowTweetController.fetchedObjects ?? []
+    
+    if searchSettings.query.isEmpty {
+      return tweets
+    } else {
+      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
+    }
+ }
+  
   var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
   var allUsers: [User] { fetchUserController.fetchedObjects ?? [] }
   var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
