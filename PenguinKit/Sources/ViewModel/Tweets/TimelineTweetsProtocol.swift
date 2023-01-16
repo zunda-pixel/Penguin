@@ -14,9 +14,15 @@ import Sweet
 
 extension TimelineTweetsProtocol {  
   var showTweets: [Sweet.TweetModel] {
-    return timelines?.lazy.map { timeline in
+    let tweets = timelines?.lazy.map { timeline in
       self.allTweets.first(where: { $0.id == timeline })!
-    }.sorted(by: { $0.createdAt! > $1.createdAt! }) ?? []
+    }.sorted(by: { $0.createdAt! > $1.createdAt! })
+    
+    if searchSettings.query.isEmpty {
+      return tweets ?? []
+    } else {
+      return tweets?.filter { $0.tweetText.contains(self.searchSettings.query) } ?? []
+    }
   }
 
   func addTimelines(_ tweetIDs: [String]) {
