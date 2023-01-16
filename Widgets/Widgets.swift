@@ -2,13 +2,13 @@
 //  Widgets.swift
 //
 
-import SwiftUI
 import WidgetKit
+import SwiftUI
 
 @main
 struct Widgets: WidgetBundle {
   var body: some Widget {
-    ActivityWidgets()
     TweetWidgets()
+    WidgetsLiveActivity()
   }
 }

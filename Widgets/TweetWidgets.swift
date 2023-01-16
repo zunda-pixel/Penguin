@@ -2,9 +2,10 @@
 //  TweetWidgets.swift
 //
 
-import Sweet
-import SwiftUI
 import WidgetKit
+import SwiftUI
+import PenguinKit
+import Sweet
 
 struct TweetWidgets: Widget {
   var body: some WidgetConfiguration {
@@ -28,50 +29,6 @@ struct TweetWidgets: Widget {
   }
 }
 
-struct TweetStatusView: View {
-  @Environment(\.widgetFamily) var widgetFamily
-
-  let entry: TweetStatusEntry
-
-  var body: some View {
-    switch entry.state {
-    case .notLoggedIn: Text("Login Twitter")
-    case .loading: ProgressView()
-    case .loggedIn(let model):
-      Group {
-        switch widgetFamily {
-        case .systemSmall: SmallTweetStatusView(model: model)
-        case .systemMedium: MediumTweetStatusView(model: model)
-        case .systemLarge: LargeTweetStatusView(model: model)
-        case .systemExtraLarge: ExtraLargeTweetStatusView(model: model)
-        case .accessoryRectangular: RectangularTweetStatusView(model: model)
-        case .accessoryInline: AccessoryInlineTweetStatusView(model: model)
-        case .accessoryCircular: fatalError()
-        @unknown default:
-          fatalError()
-        }
-      }
-      .widgetURL(URL(string: "penguin://")!.appending(queryItems: [.init(name: "tweetID", value: model.tweet.id)]))
-    }
-  }
-}
-
-enum TweetWidgetState {
-  case loggedIn(model: TweetWidgetModel)
-  case notLoggedIn
-  case loading
-}
-
-struct TweetWidgetModel {
-  let tweet: Sweet.TweetModel
-  let user: Sweet.UserModel
-}
-
-struct TweetStatusEntry: TimelineEntry {
-  var date: Date
-  let state: TweetWidgetState
-}
-
 struct TweetStatusProvider: IntentTimelineProvider {
   typealias Entry = TweetStatusEntry
   typealias Intent = TweetConfigurationIntent
@@ -79,7 +36,7 @@ struct TweetStatusProvider: IntentTimelineProvider {
   func placeholder(in context: Context) -> TweetStatusEntry {
     let state: TweetWidgetState = Secure.currentUser == nil ? .notLoggedIn : .loading
 
-    return .init(date: .now, state: state)
+    return TweetStatusEntry(date: .now, state: state)
   }
 
   func getSnapshot(
@@ -103,7 +60,7 @@ struct TweetStatusProvider: IntentTimelineProvider {
 
         let entry = TweetStatusEntry(
           date: .now,
-          state: .loggedIn(model: .init(tweet: tweet, user: user))
+          state: .loggedIn(model: TweetWidgetModel(tweet: tweet, user: user))
         )
 
         completion(entry)
@@ -117,10 +74,11 @@ struct TweetStatusProvider: IntentTimelineProvider {
   func getTimeline(
     for configuration: TweetConfigurationIntent,
     in context: Context,
-    completion: @escaping (Timeline<TweetStatusEntry>) -> Void
+    completion: @escaping (WidgetKit.Timeline<TweetStatusEntry>) -> Void
   ) {
     guard let userID = configuration.user?.identifier ?? Secure.currentUser?.id else {
-      completion(.init(entries: [.init(date: .now, state: .notLoggedIn)], policy: .atEnd))
+      let entry: WidgetKit.Timeline<TweetStatusEntry> = .init(entries: [.init(date: .now, state: .notLoggedIn)], policy: .atEnd)
+      completion(entry)
       return
     }
 

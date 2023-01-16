@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2E027F9727E8269A00521378"
+               BlueprintIdentifier = "E0C37BC02823189A007B925B"
                BuildableName = "Penguin.app"
                BlueprintName = "Penguin"
                ReferencedContainer = "container:Penguin.xcodeproj">
@@ -44,7 +44,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2E027F9727E8269A00521378"
+            BlueprintIdentifier = "E0C37BC02823189A007B925B"
             BuildableName = "Penguin.app"
             BlueprintName = "Penguin"
             ReferencedContainer = "container:Penguin.xcodeproj">
@@ -61,7 +61,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2E027F9727E8269A00521378"
+            BlueprintIdentifier = "E0C37BC02823189A007B925B"
             BuildableName = "Penguin.app"
             BlueprintName = "Penguin"
             ReferencedContainer = "container:Penguin.xcodeproj">
