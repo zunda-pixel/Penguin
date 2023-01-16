@@ -34,7 +34,7 @@ struct SearchView: View {
             let tweetViewModel = SearchTweetsViewModel(
               userID: viewModel.userID,
               query: viewModel.query,
-              searchSettings: viewModel.searchSettings
+              queryBuilder: viewModel.searchSettings
             )
             
             NavigationLink(value: tweetViewModel) {

@@ -9,9 +9,10 @@ import Sweet
   var showTweets: [Sweet.TweetModel] { get }
   var timelines: Set<String>? { get set }
   var paginationToken: String? { get }
+  var searchSettings: TimelineSearchSettings { get set }
 }
 
-extension TimelineTweetsProtocol {
+extension TimelineTweetsProtocol {  
   var showTweets: [Sweet.TweetModel] {
     return timelines?.lazy.map { timeline in
       self.allTweets.first(where: { $0.id == timeline })!
@@ -25,4 +26,8 @@ extension TimelineTweetsProtocol {
       timelines = timelines!.union(tweetIDs)
     }
   }
+}
+
+struct TimelineSearchSettings {
+  var query: String
 }

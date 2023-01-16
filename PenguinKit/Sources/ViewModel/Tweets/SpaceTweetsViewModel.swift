@@ -16,6 +16,7 @@ import Sweet
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
+  @Published var searchSettings: TimelineSearchSettings
   
   init(userID: String, spaceID: String) {
     self.userID = userID
@@ -28,6 +29,8 @@ import Sweet
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
+    
+    self.searchSettings = TimelineSearchSettings(query: "")
   }
   
   nonisolated static func == (lhs: SpaceTweetsViewModel, rhs: SpaceTweetsViewModel) -> Bool {

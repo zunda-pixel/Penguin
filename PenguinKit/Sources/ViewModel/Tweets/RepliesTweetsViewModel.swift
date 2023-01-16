@@ -16,6 +16,7 @@ import Sweet
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
   @Published var timelines: Set<String>?
+  @Published var searchSettings: TimelineSearchSettings
 
   var showTweets: [Sweet.TweetModel] {
     return timelines?.map { timeline in
@@ -34,6 +35,8 @@ import Sweet
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
+    
+    self.searchSettings = TimelineSearchSettings(query: "")
   }
 
   nonisolated static func == (lhs: RepliesTweetsViewModel, rhs: RepliesTweetsViewModel) -> Bool {

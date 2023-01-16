@@ -41,6 +41,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       tweetsView
         .listContentAttribute()
     }
+    .searchable(text: $viewModel.searchSettings.query)
     .scrollViewAttitude()
     .listStyle(.inset)
   }

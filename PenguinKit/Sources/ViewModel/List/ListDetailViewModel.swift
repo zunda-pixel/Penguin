@@ -9,7 +9,8 @@ import Sweet
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
-
+  @Published var searchSettings: TimelineSearchSettings
+  
   let list: Sweet.ListModel
   let userID: String
   
@@ -32,6 +33,8 @@ import Sweet
     self.allPlaces = []
     
     self.loadingTweet = false
+    
+    self.searchSettings = TimelineSearchSettings(query: "")
   }
 
   nonisolated static func == (lhs: ListDetailViewModel, rhs: ListDetailViewModel) -> Bool {

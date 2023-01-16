@@ -19,6 +19,7 @@ import Sweet
   @Published var loadingTweet: Bool
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
+  @Published var searchSettings: TimelineSearchSettings
   
   init(userID: String) {
     self.userID = userID
@@ -30,6 +31,8 @@ import Sweet
     self.allPlaces = []
     
     self.loadingTweet = false
+    
+    self.searchSettings = TimelineSearchSettings(query: "")
   }
   
   nonisolated static func == (lhs: BookmarksViewModel, rhs: BookmarksViewModel) -> Bool {

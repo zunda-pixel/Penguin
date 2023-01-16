@@ -8,23 +8,25 @@ import Sweet
 @MainActor final class SearchTweetsViewModel: TimelineTweetsProtocol {
   let query: String
   let userID: String
-  let searchSettings: QueryBuilder
+  let queryBuilder: QueryBuilder
 
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
-
+  @Published var searchSettings: TimelineSearchSettings
+  
   var paginationToken: String?
   var allTweets: [Sweet.TweetModel]
   var allUsers: [Sweet.UserModel]
   var allMedias: [Sweet.MediaModel]
   var allPolls: [Sweet.PollModel]
   var allPlaces: [Sweet.PlaceModel]
+  
 
-  init(userID: String, query: String, searchSettings: QueryBuilder) {
+  init(userID: String, query: String, queryBuilder: QueryBuilder) {
     self.userID = userID
     self.query = query
-    self.searchSettings = searchSettings
+    self.queryBuilder = queryBuilder
     
     self.allTweets = []
     self.allUsers = []
@@ -33,6 +35,8 @@ import Sweet
     self.allPlaces = []
     
     self.loadingTweet = false
+    
+    self.searchSettings = TimelineSearchSettings(query: "")
   }
 
   nonisolated static func == (lhs: SearchTweetsViewModel, rhs: SearchTweetsViewModel) -> Bool {
@@ -59,7 +63,7 @@ import Sweet
 
     do {
       let response = try await Sweet(userID: userID).searchRecentTweet(
-        query: "\(removeWhiteSpaceQuery) \(searchSettings.query)",
+        query: "\(removeWhiteSpaceQuery) \(queryBuilder.query)",
         nextToken: lastTweetID != nil ? paginationToken : nil
       )
 
