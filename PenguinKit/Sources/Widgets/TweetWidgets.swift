@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TweetWidgets.swift
 //
 
 import Sweet
