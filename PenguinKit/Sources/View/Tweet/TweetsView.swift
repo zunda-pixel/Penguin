@@ -18,26 +18,26 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     self.listTopContent = listTopContent()
     self.hasTopContent = true
   }
-  
+
   init(viewModel: ViewModel) where ListTopContent == EmptyView {
     self.viewModel = viewModel
     self.listTopContent = EmptyView()
     self.hasTopContent = false
   }
-  
+
   @ViewBuilder
   var listView: some View {
     List {
       listTopContent
         .listContentAttribute()
-      
+
       if viewModel.showTweets.isEmpty && viewModel.loadingTweet {
         ProgressView()
           .controlSize(.large)
           .tint(.secondary)
           .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
-      
+
       if viewModel.showTweets.isEmpty && !viewModel.loadingTweet {
         VStack {
           Image(systemName: "info.square")
@@ -45,7 +45,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         }
         .frame(maxWidth: .infinity)
       }
-      
+
       tweetsView
         .listContentAttribute()
     }
@@ -55,26 +55,26 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     .scrollViewAttitude()
     .listStyle(.inset)
   }
-  
+
   var body: some View {
     listView
-    .alert(errorHandle: $viewModel.errorHandle)
-    .task(id: viewModel.userID) {
-      guard viewModel.showTweets.isEmpty else { return }
-      let firstTweetID = viewModel.showTweets.first?.id
-      await viewModel.fetchTweets(first: firstTweetID, last: nil)
-    }
-    .refreshable {
-      let firstTweetID = viewModel.showTweets.first?.id
-      await viewModel.fetchTweets(first: firstTweetID, last: nil)
-    }
+      .alert(errorHandle: $viewModel.errorHandle)
+      .task(id: viewModel.userID) {
+        guard viewModel.showTweets.isEmpty else { return }
+        let firstTweetID = viewModel.showTweets.first?.id
+        await viewModel.fetchTweets(first: firstTweetID, last: nil)
+      }
+      .refreshable {
+        let firstTweetID = viewModel.showTweets.first?.id
+        await viewModel.fetchTweets(first: firstTweetID, last: nil)
+      }
   }
-  
+
   @ViewBuilder
   var tweetsView: some View {
     ForEach(viewModel.showTweets) { tweet in
       let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
-      
+
       VStack {
         TweetCellView(viewModel: cellViewModel)
         TweetToolBar(
@@ -110,8 +110,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           .tint(.pink.opacity(0.5))
       }
       .swipeActions(edge: .leading) {
-        BookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id)
-          .tint(.brown.opacity(0.5))
+        BookmarkButton(
+          errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
+        )
+        .tint(.brown.opacity(0.5))
       }
       .task {
         guard let lastTweet = viewModel.showTweets.last else { return }

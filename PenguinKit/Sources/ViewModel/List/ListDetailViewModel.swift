@@ -10,10 +10,10 @@ import Sweet
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
-  
+
   let list: Sweet.ListModel
   let userID: String
-  
+
   var paginationToken: String?
 
   var allTweets: [Sweet.TweetModel]
@@ -21,33 +21,32 @@ import Sweet
   var allMedias: [Sweet.MediaModel]
   var allPolls: [Sweet.PollModel]
   var allPlaces: [Sweet.PlaceModel]
-  
+
   init(userID: String, list: Sweet.ListModel) {
     self.userID = userID
     self.list = list
-    
+
     self.allTweets = []
     self.allUsers = []
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
-    
+
     self.loadingTweet = false
-    
+
     self.searchSettings = TimelineSearchSettings(query: "")
   }
 
   nonisolated static func == (lhs: ListDetailViewModel, rhs: ListDetailViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.list == rhs.list
   }
-  
+
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
     hasher.combine(list)
   }
-  
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  {
+
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     guard !loadingTweet else { return }
 
     loadingTweet.toggle()
@@ -66,7 +65,8 @@ import Sweet
       addTimelines(response.tweets.map(\.id))
 
       if let firstTweetID,
-         !response.tweets.isEmpty {
+        !response.tweets.isEmpty
+      {
         await fetchTweets(first: firstTweetID, last: nil)
         return
       }

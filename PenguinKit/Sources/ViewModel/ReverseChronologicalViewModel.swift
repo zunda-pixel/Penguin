@@ -19,7 +19,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   let fetchMediaController: NSFetchedResultsController<Media>
   let fetchPollController: NSFetchedResultsController<Poll>
   let fetchPlaceController: NSFetchedResultsController<Place>
-  
+
   @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
   @Published var latestTweetDate: Date?
@@ -27,7 +27,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   init(userID: String, viewContext: NSManagedObjectContext) {
     self.userID = userID
     self.viewContext = viewContext
-    
+
     self.loadingTweets = false
 
     self.fetchTimelineController = {
@@ -139,7 +139,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     try! fetchPlaceController.performFetch()
     try! fetchPollController.performFetch()
     try! fetchMediaController.performFetch()
-    
+
     updateTimeLine()
   }
 
@@ -173,7 +173,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
       try addPlace(place)
     }
   }
-  
+
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     do {
       let response = try await Sweet(userID: userID).reverseChronological(
@@ -181,7 +181,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         untilID: lastTweetID,
         paginationToken: paginationToken
       )
-      
+
       Task.detached {
         _ = try await OGPManager.fetchOGPData(tweets: response.tweets)
       }
@@ -200,7 +200,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
           _ = try await OGPManager.fetchOGPData(tweets: referencedResponse.tweets)
         }
       }
-      
+
       try addResponse(response: response)
 
       let containsTweet = response.tweets.last.map { timelines.contains($0.id) } ?? false

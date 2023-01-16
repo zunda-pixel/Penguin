@@ -15,22 +15,21 @@ import Sweet
   @Published var targetUser: Sweet.UserModel?
   @Published var errorHandle: ErrorHandle?
 
-
   init(userID: String, targetScreenID: String) {
     self.userID = userID
-    
+
     // @twitter -> twitter
     self.targetScreenID = targetScreenID.replacingOccurrences(of: "@", with: "")
     self.targetUserID = nil
-    
+
     self.loadingUser = false
   }
-  
+
   init(userID: String, targetUserID: String) {
-    self.userID = userID    
+    self.userID = userID
     self.targetScreenID = nil
     self.targetUserID = targetUserID
-    
+
     self.loadingUser = false
   }
 
@@ -58,8 +57,8 @@ import Sweet
   nonisolated static func == (lhs: OnlineUserDetailViewModel, rhs: OnlineUserDetailViewModel)
     -> Bool
   {
-    lhs.userID == rhs.userID &&
-    (lhs.targetUserID == rhs.targetUserID || lhs.targetScreenID == rhs.targetScreenID)
+    lhs.userID == rhs.userID
+      && (lhs.targetUserID == rhs.targetUserID || lhs.targetScreenID == rhs.targetScreenID)
   }
 
   nonisolated func hash(into hasher: inout Hasher) {

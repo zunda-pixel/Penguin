@@ -12,7 +12,7 @@ import Sweet
   var allMedias: [Sweet.MediaModel]
   var allPolls: [Sweet.PollModel]
   var allPlaces: [Sweet.PlaceModel]
-  
+
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
   @Published var timelines: Set<String>?
@@ -23,19 +23,19 @@ import Sweet
       allTweets.first(where: { $0.id == timeline })!
     }.lazy.sorted(by: { $0.createdAt! < $1.createdAt! }) ?? []
   }
-  
+
   init(userID: String, conversationID: String) {
     self.userID = userID
     self.conversationID = conversationID
-    
+
     self.loadingTweet = false
-    
+
     self.allTweets = []
     self.allUsers = []
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
-    
+
     self.searchSettings = TimelineSearchSettings(query: "")
   }
 
@@ -48,8 +48,7 @@ import Sweet
     hasher.combine(conversationID)
   }
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  {
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     guard !loadingTweet else { return }
 
     loadingTweet.toggle()

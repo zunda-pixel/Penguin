@@ -6,7 +6,7 @@ import Foundation
 
 enum TabItem: String, Identifiable, CaseIterable {
   var id: String { rawValue }
-  
+
   case timeline
   case list
   case search
@@ -14,7 +14,7 @@ enum TabItem: String, Identifiable, CaseIterable {
   case bookmark
   case like
   case mention
-  
+
   var title: String {
     switch self {
     case .timeline: return "Timeline"
@@ -26,7 +26,7 @@ enum TabItem: String, Identifiable, CaseIterable {
     case .mention: return "Mention"
     }
   }
-  
+
   var systemImage: String {
     switch self {
     case .timeline: return "house"

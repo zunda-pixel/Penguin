@@ -18,11 +18,11 @@ import Sweet
   init(userID: String, listID: String) {
     self.userID = userID
     self.listID = listID
-    
+
     self.loadingUser = false
     self.users = []
   }
-  
+
   nonisolated static func == (lhs: ListMembersViewModel, rhs: ListMembersViewModel) -> Bool {
     lhs.listID == lhs.listID
   }

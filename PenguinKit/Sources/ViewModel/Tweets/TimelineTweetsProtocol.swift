@@ -12,12 +12,12 @@ import Sweet
   var searchSettings: TimelineSearchSettings { get set }
 }
 
-extension TimelineTweetsProtocol {  
+extension TimelineTweetsProtocol {
   var showTweets: [Sweet.TweetModel] {
     let tweets = timelines?.lazy.map { timeline in
       self.allTweets.first(where: { $0.id == timeline })!
     }.sorted(by: { $0.createdAt! > $1.createdAt! })
-    
+
     if searchSettings.query.isEmpty {
       return tweets ?? []
     } else {

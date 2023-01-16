@@ -2,8 +2,8 @@
 //  TopToolBar.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct TopToolBar: ToolbarContent {
   @Binding var currentUser: Sweet.UserModel?
@@ -16,10 +16,12 @@ struct TopToolBar: ToolbarContent {
   var body: some ToolbarContent {
     if let currentUser {
       ToolbarItem(placement: .navigationBarLeading) {
-        LoginMenu(bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings, currentUser: currentUser)
+        LoginMenu(
+          bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
+          currentUser: currentUser)
       }
     }
-    
+
     ToolbarItem(placement: .navigationBarTrailing) {
       Button {
         isPresentedCreateTweetView.toggle()

@@ -2,8 +2,8 @@
 //  ListsView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct ListsView<ViewModel: ListsViewModelProtocol>: View {
   @StateObject var router = NavigationPathRouter()
@@ -11,7 +11,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
   @ObservedObject var viewModel: ViewModel
 
   let id = UUID()
-  
+
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
@@ -25,7 +25,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
               Text("No lists found")
                 .foregroundColor(.secondary)
             }
-            
+
             ForEach(viewModel.pinnedLists) { list in
               PinnableListCellView(viewModel: viewModel.listCellView(list: list))
                 .task {
@@ -40,13 +40,13 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
               }
             }
           }
-          
+
           Section("OWNED LISTS") {
             if viewModel.ownedLists.count == 0 {
               Text("No lists found")
                 .foregroundColor(.secondary)
             }
-            
+
             ForEach(viewModel.ownedLists) { list in
               PinnableListCellView(viewModel: viewModel.listCellView(list: list))
                 .task {
@@ -61,17 +61,19 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
               }
             }
           }
-          
+
           Section("FOLLOWING LISTS") {
             if viewModel.followingLists.count == 0 {
               Text("No lists found")
                 .foregroundColor(.secondary)
             }
-            
+
             ForEach(viewModel.followingLists) { list in
               PinnableListCellView(viewModel: viewModel.listCellView(list: list))
                 .task {
-                  if list.id == viewModel.followingLists.last?.id && viewModel.followingLists.count > 50 {
+                  if list.id == viewModel.followingLists.last?.id
+                    && viewModel.followingLists.count > 50
+                  {
                     await viewModel.fetchFollowingLists()
                   }
                 }
@@ -93,10 +95,12 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
       .toolbar {
         if let currentUser {
           ToolbarItem(placement: .navigationBarLeading) {
-            LoginMenu(bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings, currentUser: currentUser)
+            LoginMenu(
+              bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
+              currentUser: currentUser)
           }
         }
-        
+
         ToolbarItem(placement: .navigationBarTrailing) {
           Button {
             viewModel.isPresentedAddList.toggle()
@@ -111,7 +115,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
     }
     .environmentObject(router)
     .alert(errorHandle: $viewModel.errorHandle)
-    .task(id: id) { // TODO viewModel.userIDでもいい気がするがなぜか動かない
+    .task(id: id) {  // TODO viewModel.userIDでもいい気がするがなぜか動かない
       await viewModel.onAppear()
     }
   }

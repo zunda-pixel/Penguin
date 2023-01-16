@@ -2,39 +2,39 @@
 //  TabSettingsView.swift
 //
 
-import SwiftUI
 import OrderedCollections
+import SwiftUI
 
 struct TabSettingsView: View {
   @State var tabs: [TabItem]
   @Binding var settings: Settings
   @State var tabStyle: TabStyle
-  
+
   init(settings: Binding<Settings>) {
     self._settings = settings
     self.tabs = settings.tabs.wrappedValue
     self.tabStyle = settings.tabStyle.wrappedValue
   }
-  
+
   var unSelectedTabs: [TabItem] {
     Array(OrderedSet(TabItem.allCases).symmetricDifference(tabs))
   }
-  
+
   var deleteDisabled: Bool {
     tabs.count < 2
   }
-  
+
   func maxTabCount(_ tabStyle: TabStyle) -> Int {
     switch tabStyle {
     case .tab: return 5
     case .split: return TabItem.allCases.count
     }
   }
-  
+
   var addDisabled: Bool {
     return maxTabCount(tabStyle) < tabs.count
   }
-  
+
   var body: some View {
     List {
       Section("Tab Style") {
@@ -46,7 +46,7 @@ struct TabSettingsView: View {
         }
         .pickerStyle(.segmented)
       }
-      
+
       Section("Select Tab") {
         ForEach(tabs) { tab in
           Label(tab.title, systemImage: tab.systemImage)
@@ -57,7 +57,7 @@ struct TabSettingsView: View {
         .onDelete { offsets in
           tabs.remove(atOffsets: offsets)
         }
-        
+
         .deleteDisabled(deleteDisabled)
       }
     }
@@ -88,21 +88,18 @@ struct TabSettingsView: View {
   }
 }
 
-
 struct TabSettingsView_Preview: PreviewProvider {
   struct Preview: View {
     @State var settings = Settings()
-    
+
     var body: some View {
       NavigationStack {
         TabSettingsView(settings: $settings)
       }
     }
   }
-  
+
   static var previews: some View {
     Preview()
   }
 }
-
-

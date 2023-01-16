@@ -15,7 +15,6 @@ import Sweet
   @Published var errorHandle: ErrorHandle?
   @Published var users: [Sweet.UserModel]
 
-
   init(userID: String, listID: String) {
     self.userID = userID
     self.listID = listID
@@ -31,7 +30,7 @@ import Sweet
     hasher.combine(listID)
     hasher.combine(userID)
   }
-  
+
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

@@ -2,17 +2,17 @@
 //  LoginView.swift
 //
 
+import BetterSafariView
 import CoreData
 import Sweet
 import SwiftUI
-import BetterSafariView
 
 struct LoginView<Label: View>: View {
   let label: Label
 
   @State var errorHandle: ErrorHandle?
   @State var authorizeURL: URL?
-  
+
   @Environment(\.managedObjectContext) var context
   @Environment(\.dismiss) var dismiss
 

@@ -14,10 +14,10 @@ enum ColorType: String, CaseIterable, Identifiable {
   case pink = "Pink"
   case yellow = "Yellow"
   case purple = "Purple"
-  
+
   var id: String { rawValue }
-  
-  var colorSet : ColorSet {
+
+  var colorSet: ColorSet {
     switch self {
     case .blue: return .blue
     case .cyan: return .cyan
@@ -48,7 +48,7 @@ extension ColorSet {
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
+
   static let blue = ColorSet(
     tintColor: .accentColor,
     darkPrimaryColor: Color(.systemGray6),
@@ -56,7 +56,7 @@ extension ColorSet {
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
+
   static let cyan = ColorSet(
     tintColor: .cyan,
     darkPrimaryColor: Color(.systemGray6),
@@ -64,7 +64,7 @@ extension ColorSet {
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
+
   static let orange = ColorSet(
     tintColor: .orange,
     darkPrimaryColor: Color(.systemGray6),
@@ -72,23 +72,23 @@ extension ColorSet {
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
-  static let pink   = ColorSet(
+
+  static let pink = ColorSet(
     tintColor: .pink,
     darkPrimaryColor: Color(.systemGray6),
     darkSecondaryColor: Color(.systemGroupedBackground),
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
-  static let green  = ColorSet(
+
+  static let green = ColorSet(
     tintColor: .green,
     darkPrimaryColor: Color(.systemGray6),
     darkSecondaryColor: Color(.systemGroupedBackground),
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
+
   static let yellow = ColorSet(
     tintColor: .yellow,
     darkPrimaryColor: Color(.systemGray6),
@@ -96,7 +96,7 @@ extension ColorSet {
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
+
   static let purple = ColorSet(
     tintColor: .purple,
     darkPrimaryColor: Color(.systemGray6),
@@ -104,7 +104,7 @@ extension ColorSet {
     lightPrimaryColor: .white,
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
-  
+
   static let indigo = ColorSet(
     tintColor: .indigo,
     darkPrimaryColor: Color(.systemGray6),

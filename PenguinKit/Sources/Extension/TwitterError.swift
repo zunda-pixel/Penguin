@@ -2,14 +2,14 @@
 //  TwitterError.swift
 //
 
-import Sweet
 import Foundation
+import Sweet
 
 extension Sweet.TwitterError: RecoverableError {
   public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
     recoveryOptionIndex == 0
   }
-  
+
   public var recoveryOptions: [String] {
     return ["OK"]
   }
@@ -33,7 +33,7 @@ extension Sweet.TwitterError: LocalizedError {
     case .uploadCompliance: return "Upload Compliance Error"
     }
   }
-  
+
   public var recoverySuggestion: String? {
     switch self {
     case .followError: return "Please Retry Follow"
@@ -57,7 +57,7 @@ extension Sweet.UnknownError: RecoverableError {
   public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
     recoveryOptionIndex == 0
   }
-  
+
   public var recoveryOptions: [String] {
     return ["OK"]
   }
@@ -67,18 +67,18 @@ extension Sweet.UnknownError: LocalizedError {
   public var errorDescription: String? {
     return "UnknownError"
   }
-  
+
   public var recoverySuggestion: String? {
     return "Please Contact with Developer"
   }
-  
+
   public var logMessage: String {
     return """
-    UnknownError
-    \(request)
-    \(String(data: data, encoding: .utf8)!)
-    \(response)
-    """
+      UnknownError
+      \(request)
+      \(String(data: data, encoding: .utf8)!)
+      \(response)
+      """
   }
 }
 
@@ -86,7 +86,7 @@ extension Sweet.RequestError: RecoverableError {
   public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
     recoveryOptionIndex == 0
   }
-  
+
   public var recoveryOptions: [String] {
     return ["OK"]
   }
@@ -100,28 +100,30 @@ extension Sweet.RequestError: LocalizedError {
     case .tooManyAccess: return "Too Many Access"
     case .unAuthorized: return "UnAuthorized Request"
     case .unsupportedAuthentication(detail: _): return "Unsupported Authorization"
-    case .invalidRequest(response: _):  return "Invalid Request"
+    case .invalidRequest(response: _): return "Invalid Request"
     }
   }
-  
+
   public var recoverySuggestion: String? {
     return "Please Contact with Developer"
   }
-  
+
   public var logMessage: String {
     switch self {
     case .accountLocked: return "Developer Account Locked"
     case .forbidden(detail: _): return "Forbidden Request"
     case .tooManyAccess: return "Too Many Access"
     case .unAuthorized: return "UnAuthorized Request"
-    case .unsupportedAuthentication(detail: let detail): return "Unsupported Authorization(detail: \(detail))"
-    case .invalidRequest(response: let request):  return """
-Invalid Request
-\(request.title)
-\(request.detail)
-\(request.type)
-\(request.errors)
-"""
+    case .unsupportedAuthentication(let detail):
+      return "Unsupported Authorization(detail: \(detail))"
+    case .invalidRequest(response: let request):
+      return """
+        Invalid Request
+        \(request.title)
+        \(request.detail)
+        \(request.type)
+        \(request.errors)
+        """
     }
   }
 }

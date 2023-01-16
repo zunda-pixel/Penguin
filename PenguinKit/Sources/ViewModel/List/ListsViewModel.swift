@@ -2,31 +2,32 @@
 //  ListsViewModel.swift
 //
 
+import Foundation
 import OrderedCollections
 import Sweet
-import Foundation
 
-@MainActor protocol ListsViewModelProtocol: ObservableObject, NewListDelegate, PinnableListCellDelegate {
+@MainActor
+protocol ListsViewModelProtocol: ObservableObject, NewListDelegate, PinnableListCellDelegate {
   var userID: String { get }
-  
-  var allLists: [Sweet.ListModel] { get set}
-  
+
+  var allLists: [Sweet.ListModel] { get set }
+
   var pinnedListIDs: OrderedSet<String> { get set }
   var pinnedLists: [Sweet.ListModel] { get }
-  
+
   var ownedListIDs: OrderedSet<String> { get set }
   var ownedLists: [Sweet.ListModel] { get }
-  
-  var followingListIDs: OrderedSet<String> { get set}
+
+  var followingListIDs: OrderedSet<String> { get set }
   var followingLists: [Sweet.ListModel] { get }
-  
-  var errorHandle: ErrorHandle? { get set}
-  
-  var isPresentedAddList: Bool { get set}
+
+  var errorHandle: ErrorHandle? { get set }
+
+  var isPresentedAddList: Bool { get set }
   var owners: [Sweet.UserModel] { get set }
-  var ownedPaginationToken: String? { get set}
-  var followingPaginationToken: String? { get set}
-  
+  var ownedPaginationToken: String? { get set }
+  var followingPaginationToken: String? { get set }
+
   func onAppear() async
   func fetchFollowingLists() async
   func fetchOwnedLists() async
@@ -54,11 +55,11 @@ extension ListsViewModelProtocol {
 @MainActor class ListsViewModel: ListsViewModelProtocol, @unchecked Sendable {
   let userID: String
   var allLists: [Sweet.ListModel]
-  
+
   @Published var pinnedListIDs: OrderedSet<String>
   @Published var ownedListIDs: OrderedSet<String>
   @Published var followingListIDs: OrderedSet<String>
-  
+
   init(userID: String) {
     self.userID = userID
     self.owners = []
@@ -68,7 +69,7 @@ extension ListsViewModelProtocol {
     self.followingListIDs = []
     self.isPresentedAddList = false
   }
-  
+
   @Published var errorHandle: ErrorHandle?
   @Published var isPresentedAddList: Bool
 
@@ -76,13 +77,14 @@ extension ListsViewModelProtocol {
 
   var ownedPaginationToken: String?
   var followingPaginationToken: String?
-  
+
   func listCellView(list: Sweet.ListModel) -> PinnableListCellViewModel {
     let owner = owners.first { $0.id == list.ownerID }!
     let isPinned = pinnedListIDs.contains(list.id)
-    return PinnableListCellViewModel(list: list, owner: owner, userID: userID, delegate: self, isPinned: isPinned)
+    return PinnableListCellViewModel(
+      list: list, owner: owner, userID: userID, delegate: self, isPinned: isPinned)
   }
-  
+
   func onAppear() async {
     guard allLists.isEmpty else { return }
 
@@ -92,7 +94,7 @@ extension ListsViewModelProtocol {
       group.addTask { await self.fetchPinnedLists() }
     }
   }
-  
+
   func fetchFollowingLists() async {
     do {
       let response = try await Sweet(userID: userID)
@@ -182,7 +184,6 @@ extension ListsViewModelProtocol {
     }
   }
 }
-
 
 extension ListsViewModel: NewListDelegate {
   func didCreateList(list: Sweet.ListModel) {

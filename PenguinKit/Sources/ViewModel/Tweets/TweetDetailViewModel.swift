@@ -20,19 +20,18 @@ final class TweetDetailViewModel: TweetsViewProtocol {
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
   @Published var tweetNode: TweetNode?
-  
+
   init(cellViewModel: TweetCellViewModel) {
     self.cellViewModel = cellViewModel
     self.userID = cellViewModel.userID
-    
+
     self.loadingTweet = false
-    
+
     self.allTweets = []
     self.allUsers = []
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
-    
 
     addResource(cellViewModel: cellViewModel)
   }
@@ -41,9 +40,9 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     let tweets = [
       cellViewModel.tweet,
       cellViewModel.retweet?.tweet,
-      cellViewModel.quoted?.tweet
+      cellViewModel.quoted?.tweet,
     ].compactMap { $0 }
-    
+
     tweets.forEach {
       allTweets.appendOrUpdate($0)
     }
@@ -51,9 +50,9 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     let users = [
       cellViewModel.author,
       cellViewModel.retweet?.user,
-      cellViewModel.quoted?.user
+      cellViewModel.quoted?.user,
     ].compactMap { $0 }
-      
+
     users.forEach {
       allUsers.appendOrUpdate($0)
     }
@@ -81,15 +80,14 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     cellViewModel.hash(into: &hasher)
   }
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  {
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     guard !loadingTweet else { return }
 
     loadingTweet.toggle()
     defer { loadingTweet.toggle() }
 
     let conversationID = cellViewModel.tweetText.conversationID!
-    
+
     do {
       let query = "conversation_id:\(conversationID)"
 
@@ -97,30 +95,31 @@ final class TweetDetailViewModel: TweetsViewProtocol {
         query: query,
         nextToken: lastTweetID != nil ? paginationToken : nil
       )
-      
+
       paginationToken = response.meta?.nextToken
 
       addResponse(response: response)
 
       let sortedTweets = allTweets.lazy.sorted(by: \.createdAt!)
-      
-      let topTweet = sortedTweets
+
+      let topTweet =
+        sortedTweets
         .filter { $0.conversationID! == conversationID }
         .first { $0.referencedType != .reply }
 
       var tweetNode = TweetNode(id: (topTweet ?? sortedTweets.first!).id)
-      
+
       var sources: Set<TweetNodeSource> = []
-      
+
       for tweet in allTweets {
         for referencedTweet in tweet.referencedTweets where referencedTweet.type != .retweeted {
           let source = TweetNodeSource(id: tweet.id, parentID: referencedTweet.id)
           sources.insert(source)
         }
       }
-      
+
       tweetNode.setAllData(sources: Array(sources))
-      
+
       self.tweetNode = tweetNode
     } catch {
       let errorHandle = ErrorHandle(error: error)

@@ -2,12 +2,12 @@
 // DisplaySettingsView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct DisplaySettingsView: View {
   @Binding var settings: Settings
-  
+
   var body: some View {
     List {
       Group {
@@ -16,10 +16,10 @@ struct DisplaySettingsView: View {
           tweet: .twitterTweet,
           author: .twitterUser
         )
-        
+
         TweetCellView(viewModel: viewModel)
-          .highPriorityGesture(TapGesture()) // override Empty TapGesture to disable tap
-        
+          .highPriorityGesture(TapGesture())  // override Empty TapGesture to disable tap
+
         Section("Color") {
           Picker(selection: $settings.colorType) {
             ForEach(ColorType.allCases) { colorType in
@@ -30,7 +30,7 @@ struct DisplaySettingsView: View {
             Text("Color")
           }
         }
-        
+
         Section("Name") {
           Picker("Name", selection: $settings.userNameDisplayMode) {
             ForEach(DisplayUserNameMode.allCases) { mode in
@@ -39,7 +39,7 @@ struct DisplaySettingsView: View {
             }
           }
         }
-        
+
         Section("Date Format") {
           Picker("Date Format", selection: $settings.dateFormat) {
             ForEach(DateFormatMode.allCases) { mode in
@@ -55,18 +55,21 @@ struct DisplaySettingsView: View {
 
 struct ColorCell: View {
   @Environment(\.colorScheme) var colorScheme
-  
+
   let colorType: ColorType
-  
+
   var body: some View {
     Label(colorType.rawValue, systemImage: "cloud.moon.fill")
       .symbolRenderingMode(.palette)
-      .foregroundStyle(colorType.colorSet.tintColor, colorScheme == .dark ? colorType.colorSet.darkPrimaryColor : colorType.colorSet.lightPrimaryColor)
+      .foregroundStyle(
+        colorType.colorSet.tintColor,
+        colorScheme == .dark
+          ? colorType.colorSet.darkPrimaryColor : colorType.colorSet.lightPrimaryColor)
   }
 }
 
-private extension Sweet.TweetModel {
-  static let twitterTweet: Self = .init(
+extension Sweet.TweetModel {
+  fileprivate static let twitterTweet: Self = .init(
     id: "",
     text: "Hello #twitter @twitter $twitter https://twitter.com",
     createdAt: .now.addingTimeInterval(-23_456),
@@ -87,8 +90,8 @@ private extension Sweet.TweetModel {
   )
 }
 
-private extension Sweet.UserModel {
-  static let twitterUser: Self = .init(
+extension Sweet.UserModel {
+  fileprivate static let twitterUser: Self = .init(
     id: "",
     name: "Twitter",
     userName: "Twitter",

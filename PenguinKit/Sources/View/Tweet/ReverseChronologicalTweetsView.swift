@@ -9,23 +9,27 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @EnvironmentObject var router: NavigationPathRouter
   @ObservedObject var viewModel: ViewModel
   @Environment(\.settings) var settings
-  
+
   var body: some View {
     List {
       ForEach(viewModel.showTweets) { tweet in
         let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
-        
+
         TweetCellView(viewModel: cellViewModel)
           .frame(maxWidth: .infinity)
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
-            LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!)
-              .tint(.secondary)
-              .labelStyle(.iconOnly)
+            LikeButton(
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!
+            )
+            .tint(.secondary)
+            .labelStyle(.iconOnly)
           }
           .swipeActions(edge: .leading) {
-            BookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!)
-              .tint(.secondary)
-              .labelStyle(.iconOnly)
+            BookmarkButton(
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!
+            )
+            .tint(.secondary)
+            .labelStyle(.iconOnly)
           }
           .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button {

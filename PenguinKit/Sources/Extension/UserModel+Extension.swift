@@ -8,7 +8,7 @@ import Sweet
 extension Sweet.UserModel {
   init(user: User) {
     let decoder = JSONDecoder.twitter
-    
+
     let metrics = try! decoder.decodeIfExists(Sweet.UserPublicMetrics.self, from: user.metrics)
     let withheld = try! decoder.decodeIfExists(Sweet.WithheldModel.self, from: user.withheld)
     let entity = try! decoder.decodeIfExists(Sweet.UserEntityModel.self, from: user.entities)

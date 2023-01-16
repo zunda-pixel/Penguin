@@ -36,7 +36,7 @@ extension Tweet {
 extension Sweet.TweetModel {
   init(tweet: Tweet) {
     let decoder = JSONDecoder.twitter
-    
+
     let geo = try! decoder.decodeIfExists(
       Sweet.SimpleGeoModel.self,
       from: tweet.geo
@@ -75,12 +75,12 @@ extension Sweet.TweetModel {
       [Sweet.ContextAnnotationModel].self,
       from: tweet.contextAnnotations
     )
-    
+
     let entity = try! decoder.decodeIfExists(
       Sweet.TweetEntityModel.self,
       from: tweet.entities
     )
-    
+
     let referencedTweets = try! decoder.decodeIfExists(
       [Sweet.ReferencedTweetModel].self,
       from: tweet.referencedTweets
@@ -93,7 +93,7 @@ extension Sweet.TweetModel {
       from: tweet.editControl
     )
 
-    let editHistoryTweetIDs =  try! decoder.decodeIfExists(
+    let editHistoryTweetIDs = try! decoder.decodeIfExists(
       [String].self,
       from: tweet.editHistoryTweetIDs
     )

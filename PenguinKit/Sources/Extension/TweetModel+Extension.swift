@@ -3,8 +3,8 @@
 //
 
 import Foundation
-import Sweet
 import HTMLString
+import Sweet
 
 extension Sweet.TweetModel {
   public var tweetText: String {
@@ -25,7 +25,7 @@ extension Sweet.TweetModel {
 
     for url in urls {
       let urlString = "\(url.url)"
-      
+
       if tweetText.contains(urlString) {
         if (url.expandedURL ?? urlString).contains(twitterURLRegex) {
           tweetText = tweetText.replacingOccurrences(of: urlString, with: "")

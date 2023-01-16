@@ -19,7 +19,7 @@ class PinnableListCellViewModel: ObservableObject {
   let userID: String
   let delegate: PinnableListCellDelegate
   let isPinned: Bool
-  
+
   init(
     list: Sweet.ListModel,
     owner: Sweet.UserModel,

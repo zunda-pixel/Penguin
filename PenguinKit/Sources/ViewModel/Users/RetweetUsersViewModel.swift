@@ -14,15 +14,15 @@ import Sweet
 
   @Published var errorHandle: ErrorHandle?
   @Published var users: [Sweet.UserModel]
-  
+
   init(userID: String, tweetID: String) {
     self.userID = userID
     self.tweetID = tweetID
-    
+
     self.loadingUser = false
     self.users = []
   }
-  
+
   nonisolated static func == (lhs: RetweetUsersViewModel, rhs: RetweetUsersViewModel) -> Bool {
     lhs.userID == lhs.userID && lhs.tweetID == rhs.tweetID
   }
@@ -30,7 +30,7 @@ import Sweet
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
   }
-  
+
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

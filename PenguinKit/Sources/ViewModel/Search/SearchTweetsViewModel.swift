@@ -14,28 +14,27 @@ import Sweet
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
-  
+
   var paginationToken: String?
   var allTweets: [Sweet.TweetModel]
   var allUsers: [Sweet.UserModel]
   var allMedias: [Sweet.MediaModel]
   var allPolls: [Sweet.PollModel]
   var allPlaces: [Sweet.PlaceModel]
-  
 
   init(userID: String, query: String, queryBuilder: QueryBuilder) {
     self.userID = userID
     self.query = query
     self.queryBuilder = queryBuilder
-    
+
     self.allTweets = []
     self.allUsers = []
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
-    
+
     self.loadingTweet = false
-    
+
     self.searchSettings = TimelineSearchSettings(query: "")
   }
 
@@ -47,13 +46,12 @@ import Sweet
     hasher.combine(userID)
   }
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  {
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     guard !loadingTweet else { return }
 
     loadingTweet.toggle()
     defer { loadingTweet.toggle() }
-    
+
     let removeWhiteSpaceQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
     if removeWhiteSpaceQuery.isEmpty {

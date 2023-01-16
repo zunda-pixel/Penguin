@@ -11,7 +11,7 @@ import OpenGraph
   @Published var ogp: OGPValue?
 
   @Published var errorHandle: ErrorHandle?
-  
+
   init(url: URL) {
     self.url = url
   }
@@ -21,8 +21,7 @@ import OpenGraph
       self.ogp = try await OGPManager.fetchOGPData(url: url)
     } catch OpenGraphResponseError.unexpectedStatusCode(let statusCode) {
       print("OpenGraphResponseError.unexpectedStatusCode(statusCode: \(statusCode)")
-    }
-    catch {
+    } catch {
       let errorHandle = ErrorHandle(error: error)
       errorHandle.log()
       self.errorHandle = errorHandle

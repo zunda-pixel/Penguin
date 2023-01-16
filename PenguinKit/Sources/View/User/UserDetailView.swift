@@ -7,16 +7,16 @@ import SwiftUI
 
 struct UserDetailView: View {
   @ObservedObject var viewModel: UserDetailViewModel
-  
+
   @EnvironmentObject var router: NavigationPathRouter
-  
+
   var userProfile: some View {
     VStack {
       ProfileImageView(url: viewModel.user.profileImageURL!)
         .frame(width: 100, height: 100)
-      
+
       UserProfileView(user: viewModel.user)
-      
+
       Button {
         let dmViewModel = DirectMessageDetailViewModel(
           participantID: viewModel.user.id,
@@ -26,7 +26,7 @@ struct UserDetailView: View {
       } label: {
         Label("DirectMessage", systemImage: "envelope.fill").frame(maxWidth: .infinity)
       }
-      
+
       HStack {
         Button {
           let viewModel: FollowerUserViewModel = .init(
@@ -40,7 +40,7 @@ struct UserDetailView: View {
             Text("\(viewModel.user.metrics!.followersCount)")
           }.frame(maxWidth: .infinity)
         }
-        
+
         Button {
           let viewModel: FollowingUserViewModel = .init(
             userID: viewModel.userID,
@@ -54,7 +54,7 @@ struct UserDetailView: View {
           }.frame(maxWidth: .infinity)
         }
       }
-      
+
       HStack {
         Button {
           let viewModel = LikesViewModel(
@@ -75,15 +75,16 @@ struct UserDetailView: View {
           Label("List", systemImage: "list.dash.header.rectangle").frame(maxWidth: .infinity)
         }
       }
-      
+
       HStack {
         Button {
-          let viewModel = UserMentionsViewModel(userID: viewModel.userID, ownerID: viewModel.user.id)
+          let viewModel = UserMentionsViewModel(
+            userID: viewModel.userID, ownerID: viewModel.user.id)
           router.path.append(viewModel)
         } label: {
           Label("Mention", systemImage: "ellipsis.message").frame(maxWidth: .infinity)
         }
-        
+
         // TODO NavigationLinkを使わないでうまくViewModelを分割する
         NavigationLink {
           TweetsView(viewModel: viewModel)
@@ -93,7 +94,7 @@ struct UserDetailView: View {
       }
     }
   }
-  
+
   @ViewBuilder
   var pinnedTweet: some View {
     if let pinnedTweetID = viewModel.pinnedTweetID {
@@ -104,12 +105,12 @@ struct UserDetailView: View {
       }
     }
   }
-  
+
   var body: some View {
     TweetsView(viewModel: viewModel) {
       userProfile
-          .buttonStyle(.bordered)
-          .buttonBorderShape(.roundedRectangle)
+        .buttonStyle(.bordered)
+        .buttonBorderShape(.roundedRectangle)
 
       pinnedTweet
     }

@@ -2,8 +2,8 @@
 //  MentionNavigationView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct MentionNavigationView: View {
   @StateObject var router = NavigationPathRouter()
@@ -12,7 +12,7 @@ struct MentionNavigationView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
-  
+
   var body: some View {
     NavigationStack(path: $router.path) {
       let viewModel: UserMentionsViewModel = .init(userID: userID, ownerID: userID)

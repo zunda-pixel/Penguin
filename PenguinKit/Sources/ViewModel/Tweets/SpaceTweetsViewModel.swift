@@ -6,33 +6,33 @@ import Sweet
   let spaceID: String
 
   var paginationToken: String?
-  
+
   var allTweets: [Sweet.TweetModel]
   var allUsers: [Sweet.UserModel]
   var allMedias: [Sweet.MediaModel]
   var allPolls: [Sweet.PollModel]
   var allPlaces: [Sweet.PlaceModel]
-  
+
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
-  
+
   init(userID: String, spaceID: String) {
     self.userID = userID
     self.spaceID = spaceID
-    
+
     self.loadingTweet = false
-    
+
     self.allTweets = []
     self.allUsers = []
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
-    
+
     self.searchSettings = TimelineSearchSettings(query: "")
   }
-  
+
   nonisolated static func == (lhs: SpaceTweetsViewModel, rhs: SpaceTweetsViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.spaceID == rhs.spaceID
   }
@@ -42,8 +42,7 @@ import Sweet
     hasher.combine(spaceID)
   }
 
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  {
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     guard !loadingTweet else { return }
 
     loadingTweet.toggle()

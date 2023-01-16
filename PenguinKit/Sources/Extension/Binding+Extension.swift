@@ -12,8 +12,8 @@ extension Binding {
       set: { binding.wrappedValue = $0 }
     )
   }
-  
-  init<T>(value: T, set: @escaping (T) -> Void)  where Value == Optional<T> {
+
+  init<T>(value: T, set: @escaping (T) -> Void) where Value == T? {
     self.init(get: { value }) { newValue in
       if let newValue {
         set(newValue)

@@ -7,16 +7,16 @@ import Sweet
 
 @MainActor class UserListViewModel: ObservableObject, Hashable {
   // TODO何度も同じリクエストが送られてしまっている可能性がある
-  
+
   let userID: String
   let ownerID: String
-  
+
   var allLists: [Sweet.ListModel]
   var allUsers: [Sweet.UserModel]
-  
+
   @Published var ownedListIDs: Set<String>
   @Published var addedListIDs: Set<String>
-  
+
   var ownedLists: [Sweet.ListModel] { ownedListIDs.map { id in allLists.first { $0.id == id }! } }
   var addedLists: [Sweet.ListModel] { addedListIDs.map { id in allLists.first { $0.id == id }! } }
 
@@ -24,14 +24,14 @@ import Sweet
   var addedPaginationToken: String?
 
   @Published var errorHandle: ErrorHandle?
-  
+
   init(userID: String, ownerID: String) {
     self.userID = userID
     self.ownerID = ownerID
-    
+
     self.allLists = []
     self.allUsers = []
-    
+
     self.ownedListIDs = []
     self.addedListIDs = []
   }
@@ -39,24 +39,24 @@ import Sweet
   nonisolated static func == (lhs: UserListViewModel, rhs: UserListViewModel) -> Bool {
     return lhs.userID == rhs.userID && lhs.ownerID == rhs.ownerID
   }
-  
+
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
     hasher.combine(ownerID)
   }
-  
+
   func fetchList() async {
     await withTaskGroup(of: Void.self) { group in
       group.addTask {
         await self.fetchAddedLists()
       }
-      
+
       group.addTask {
         await self.fetchOwnedLists()
       }
     }
   }
-  
+
   func fetchAddedLists() async {
     do {
       let addedResponse = try await Sweet(userID: userID).addedLists(

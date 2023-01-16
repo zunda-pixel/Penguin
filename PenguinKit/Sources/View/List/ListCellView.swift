@@ -25,11 +25,11 @@ struct ListCellView: View {
         HStack {
           Text(list.name)
             .font(.title2)
-          
+
           if list.isPrivate! {
             Image(systemName: "key")
           }
-          
+
           Text(list.description!)
             .foregroundColor(.secondary)
         }

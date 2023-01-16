@@ -8,7 +8,7 @@ import Sweet
 import SwiftUI
 
 #if !os(macOS)
-import CoreLocationUI
+  import CoreLocationUI
 #endif
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
@@ -16,11 +16,11 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.loginUsers) var loginUsers
   @Environment(\.settings) var settings
   @Environment(\.colorScheme) var colorScheme
-  
+
   @ObservedObject var viewModel: ViewModel
-  
+
   @FocusState private var showKeyboard: Bool
-  
+
   var body: some View {
     ScrollView {
       VStack {
@@ -46,25 +46,25 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           .disabled(viewModel.disableTweetButton)
           .buttonStyle(.bordered)
         }
-        
+
         HStack(alignment: .top) {
           let user = loginUsers.first { $0.id == viewModel.userID }!
-          
+
           Menu {
             SelectUserView(currentUser: .init(get: { user }, set: { viewModel.userID = $0.id }))
           } label: {
             ProfileImageView(url: user.profileImageURL!)
               .frame(width: 40, height: 40)
           }
-          
+
           VStack {
             HStack(alignment: .top) {
               TextField(viewModel.title, text: $viewModel.text, axis: .vertical)
                 .focused($showKeyboard, equals: true)
-              
+
               Text("\(viewModel.leftTweetCount)")
             }
-            
+
             if let poll = viewModel.poll, poll.options.count > 1 {
               NewPollView(
                 options: .init(
@@ -85,11 +85,11 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             }
           }
         }
-        
+
         if !viewModel.photos.isEmpty {
           Text("Photo Upload UnAvailable")
         }
-        
+
         LazyVGrid(columns: .init(repeating: .init(), count: 2)) {
           ForEach(viewModel.photos) { photo in
             PhotoView(photo: photo)
@@ -97,7 +97,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
               .scaledToFit()
           }
         }
-        
+
         VStack(alignment: .leading) {
           if let quoted = viewModel.quoted {
             QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweet, user: quoted.user)
@@ -105,14 +105,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
               .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
           }
         }
-        
+
         if let location = viewModel.locationString {
           Text("Location Upload UnAvailable")
-          
+
           HStack {
             Text(location)
               .foregroundColor(.secondary)
-            
+
             Button {
               self.viewModel.locationString = nil
             } label: {
@@ -120,14 +120,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             }
           }
         }
-        
+
         Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
           ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
             Text(replySetting.description)
               .tag(replySetting)
           }
         }
-        
+
         HStack {
           PhotosPicker(
             selection: $viewModel.photosPickerItems,
@@ -138,19 +138,23 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           ) {
             Image(systemName: "photo")
           }
-          
-#if !os(macOS)
-          LocationButton(.sendCurrentLocation) {
-            Task {
-              await viewModel.setLocation()
+
+          #if !os(macOS)
+            LocationButton(.sendCurrentLocation) {
+              Task {
+                await viewModel.setLocation()
+              }
             }
-          }
-          .labelStyle(.iconOnly)
-          .foregroundColor(settings.colorType.colorSet.tintColor)
-          .tint(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor)
-          .disabled(viewModel.loadingLocation)
-#endif
-          
+            .labelStyle(.iconOnly)
+            .foregroundColor(settings.colorType.colorSet.tintColor)
+            .tint(
+              colorScheme == .dark
+                ? settings.colorType.colorSet.darkPrimaryColor
+                : settings.colorType.colorSet.lightPrimaryColor
+            )
+            .disabled(viewModel.loadingLocation)
+          #endif
+
           Button {
             viewModel.pollButtonAction()
           } label: {

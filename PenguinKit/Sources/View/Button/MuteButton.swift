@@ -37,7 +37,7 @@ struct UnMuteButton: View {
   let toUserID: String
 
   @Binding var errorHandle: ErrorHandle?
-  
+
   func unMute() async {
     do {
       try await Sweet(userID: fromUserID).unMuteUser(from: fromUserID, to: toUserID)

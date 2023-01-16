@@ -6,9 +6,9 @@ import SwiftUI
 
 struct NodeView<ContentData, RowContent>: View
 where
-ContentData: RandomAccessCollection,
-ContentData.Element: Identifiable,
-ContentData.Element: Equatable,
+  ContentData: RandomAccessCollection,
+  ContentData.Element: Identifiable,
+  ContentData.Element: Equatable,
   RowContent: View
 {
   var contentData: ContentData
@@ -16,7 +16,7 @@ ContentData.Element: Equatable,
   var rawContent: (ContentData.Element, Int) -> RowContent
 
   let depth = 0
-  
+
   init(
     _ contentData: ContentData,
     children: KeyPath<ContentData.Element, ContentData>,
@@ -30,7 +30,7 @@ ContentData.Element: Equatable,
   var body: some View {
     ForEach(contentData) { item in
       rawContent(item, depth)
-      
+
       NodeView(
         item[keyPath: children],
         children: children

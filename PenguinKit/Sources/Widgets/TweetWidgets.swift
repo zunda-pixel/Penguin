@@ -2,9 +2,9 @@
 //  File.swift
 //
 
+import Sweet
 import SwiftUI
 import WidgetKit
-import Sweet
 
 public enum TweetWidgetState {
   case loggedIn(model: TweetWidgetModel)
@@ -15,7 +15,7 @@ public enum TweetWidgetState {
 public struct TweetWidgetModel {
   let tweet: Sweet.TweetModel
   let user: Sweet.UserModel
-  
+
   public init(tweet: Sweet.TweetModel, user: Sweet.UserModel) {
     self.tweet = tweet
     self.user = user
@@ -25,7 +25,7 @@ public struct TweetWidgetModel {
 public struct TweetStatusEntry: TimelineEntry {
   public var date: Date
   let state: TweetWidgetState
-  
+
   public init(date: Date, state: TweetWidgetState) {
     self.date = date
     self.state = state
@@ -40,7 +40,7 @@ public struct TweetStatusView: View {
   public init(entry: TweetStatusEntry) {
     self.entry = entry
   }
-  
+
   public var body: some View {
     switch entry.state {
     case .notLoggedIn: Text("Login Twitter")
@@ -59,7 +59,10 @@ public struct TweetStatusView: View {
           fatalError()
         }
       }
-      .widgetURL(URL(string: "penguin://")!.appending(queryItems: [.init(name: "tweetID", value: model.tweet.id)]))
+      .widgetURL(
+        URL(string: "penguin://")!.appending(queryItems: [
+          .init(name: "tweetID", value: model.tweet.id)
+        ]))
     }
   }
 }
@@ -72,7 +75,7 @@ struct SmallTweetStatusView: View {
       HStack {
         let imageData = try! Data(contentsOf: model.user.profileImageURL!)
         let uiImage = UIImage(data: imageData)
-        
+
         Image(uiImage: uiImage!)
           .resizable()
           .clipShape(Circle())
@@ -103,7 +106,7 @@ struct MediumTweetStatusView: View {
     HStack(alignment: .top) {
       let imageData = try! Data(contentsOf: model.user.profileImageURL!)
       let uiImage = UIImage(data: imageData)
-      
+
       Image(uiImage: uiImage!)
         .resizable()
         .clipShape(Circle())
@@ -148,7 +151,11 @@ struct ExtraLargeTweetStatusView_Previews: PreviewProvider {
     ExtraLargeTweetStatusView(
       model: .init(
         tweet: .init(id: "", text: "zunda", createdAt: Date()),
-        user: .init(id: "", name: "zunda", userName: "zunda", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!)
+        user: .init(
+          id: "", name: "zunda", userName: "zunda",
+          profileImageURL: URL(
+            string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!
+        )
       )
     )
     .previewContext(WidgetPreviewContext(family: .systemExtraLarge))

@@ -13,13 +13,13 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var loadingTweets: Bool { get set }
 
   var userID: String { get }
-  
+
   var latestTweetDate: Date? { get set }
 
   var errorHandle: ErrorHandle? { get set }
 
   var viewContext: NSManagedObjectContext { get }
-  
+
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
 
   func updateTimeLine()
@@ -36,10 +36,10 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
 extension ReverseChronologicalTweetsViewProtocol {
   var notShowTweetCount: Int {
     guard let latestTweetDate else { return 0 }
-    
+
     return showTweets.filter { $0.createdAt! > latestTweetDate }.count
   }
-  
+
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
   var showTweets: [Tweet] { fetchShowTweetController.fetchedObjects ?? [] }
   var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
@@ -47,38 +47,38 @@ extension ReverseChronologicalTweetsViewProtocol {
   var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
   var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
   var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
-  
+
   func updateLatestTweetDate(date: Date) {
     guard let latestTweetDate else {
       latestTweetDate = date
       return
     }
-    
+
     if latestTweetDate < date {
       self.latestTweetDate = date
     }
   }
-  
+
   func tweetCellOnAppear(tweet: Sweet.TweetModel) async {
     updateLatestTweetDate(date: tweet.createdAt!)
-    
+
     guard let lastTweet = showTweets.last else { return }
     guard tweet.id == lastTweet.id else { return }
     await fetchTweets(last: tweet.id, paginationToken: nil)
   }
-  
+
   func fetchNewTweet() async {
     guard !loadingTweets else { return }
-    
+
     loadingTweets.toggle()
-    
+
     defer {
       loadingTweets.toggle()
     }
-    
+
     await fetchTweets(last: nil, paginationToken: nil)
   }
-  
+
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 

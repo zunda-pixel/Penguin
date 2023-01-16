@@ -29,9 +29,10 @@ extension Sweet {
     let token: Sweet.AuthorizationType = .oAuth2user(token: userBearerToken)
 
     self.init(token: token, config: .default)
-    
+
     self.tweetFields = Sweet.TweetField.allCases.filter {
-      $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics && $0 != .contextAnnotations && $0 != .withheld
+      $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
+        && $0 != .contextAnnotations && $0 != .withheld
     }
     self.mediaFields = Sweet.MediaField.allCases.filter {
       $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
