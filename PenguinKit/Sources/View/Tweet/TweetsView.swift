@@ -11,10 +11,18 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
 
   @ObservedObject var viewModel: ViewModel
   let listTopContent: ListTopContent
-  
-  init(viewModel: ViewModel, @ViewBuilder listTopContent: () -> ListTopContent = { EmptyView() }) {
+  let hasTopContent: Bool
+
+  init(viewModel: ViewModel, @ViewBuilder listTopContent: () -> ListTopContent) {
     self.viewModel = viewModel
     self.listTopContent = listTopContent()
+    self.hasTopContent = true
+  }
+  
+  init(viewModel: ViewModel) where ListTopContent == EmptyView {
+    self.viewModel = viewModel
+    self.listTopContent = EmptyView()
+    self.hasTopContent = false
   }
   
   @ViewBuilder
@@ -41,7 +49,9 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       tweetsView
         .listContentAttribute()
     }
-    .searchable(text: $viewModel.searchSettings.query)
+    .if(!hasTopContent) {
+      $0.searchable(text: $viewModel.searchSettings.query)
+    }
     .scrollViewAttitude()
     .listStyle(.inset)
   }
