@@ -8,8 +8,6 @@ import PhotosUI
 import Sweet
 import SwiftUI
 
-typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
-
 @MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
   var userID: String { get set }
   var text: String { get set }
@@ -23,7 +21,7 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
   var locationManager: CLLocationManager { get }
   var leftTweetCount: Int { get }
   var loadingLocation: Bool { get set }
-  var quoted: TweetAndUser? { get }
+  var quoted: TweetContentModel? { get }
   var title: String { get }
   func postTweet() async throws
   func setLocation() async
@@ -32,7 +30,7 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
 }
 
 @MainActor final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
-  let quoted: TweetAndUser?
+  let quoted: TweetContentModel?
 
   var locationManager: CLLocationManager
 
@@ -46,7 +44,7 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
 
-  init(userID: String, quoted: TweetAndUser? = nil) {
+  init(userID: String, quoted: TweetContentModel? = nil) {
     self.userID = userID
     self.quoted = quoted
 

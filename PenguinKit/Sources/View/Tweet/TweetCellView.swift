@@ -16,7 +16,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
-    let user = isRetweeted ? viewModel.retweet!.user : viewModel.author
+    let user = isRetweeted ? viewModel.retweet!.author : viewModel.author
 
     HStack(alignment: .top) {
       ProfileImageView(url: user.profileImageURL!)
@@ -80,14 +80,23 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         if let quoted = viewModel.quoted {
-          QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweet, user: quoted.user)
+          QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweetContent.tweet, user: quoted.tweetContent.author)
             .contentShape(Rectangle())
             .onTapGesture {
+              let quotedTweetModel: QuotedTweetModel?
+              
+              if let quotedTweet = quoted.quoted {
+                quotedTweetModel = QuotedTweetModel(tweetContent: .init(tweet: quotedTweet.tweet, author: quotedTweet.author), quoted: nil)
+              } else {
+                quotedTweetModel = nil
+              }
+              
               let tweetDetailView: TweetDetailViewModel = .init(
                 cellViewModel: TweetCellViewModel(
                   userID: viewModel.userID,
-                  tweet: quoted.tweet,
-                  author: quoted.user
+                  tweet: quoted.tweetContent.tweet,
+                  author: quoted.tweetContent.author,
+                  quoted: quotedTweetModel
                 )
               )
               router.path.append(tweetDetailView)
@@ -102,7 +111,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           let urlModel = viewModel.tweet.entity?.urls.first,
           let url = urlModel.expandedURL.map { URL(string: $0) } ?? urlModel.url
         {
-          OGPCardView(viewModel: .init(url: url))
+          OGPCardView(viewModel: OGPCardViewModel(url: url))
         }
 
         if isRetweeted {

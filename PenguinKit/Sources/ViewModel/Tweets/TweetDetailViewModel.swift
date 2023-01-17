@@ -40,7 +40,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     let tweets = [
       cellViewModel.tweet,
       cellViewModel.retweet?.tweet,
-      cellViewModel.quoted?.tweet,
+      cellViewModel.quoted?.tweetContent.tweet,
     ].compactMap { $0 }
 
     tweets.forEach {
@@ -49,8 +49,8 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
     let users = [
       cellViewModel.author,
-      cellViewModel.retweet?.user,
-      cellViewModel.quoted?.user,
+      cellViewModel.retweet?.author,
+      cellViewModel.quoted?.tweetContent.author,
     ].compactMap { $0 }
 
     users.forEach {
