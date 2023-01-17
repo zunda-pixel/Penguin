@@ -4,6 +4,7 @@
 
 import Foundation
 import Sweet
+import Algorithms
 
 class OnlineTweetDetailViewModel: TweetsViewProtocol {
   let userID: String
@@ -69,6 +70,16 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
+      let tweetIDs1 = tweetResponse.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id)
+      let tweetIDs2 = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id)
+      
+      let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
+      
+      if !tweetIDs.isEmpty {
+        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+        addResponse(response: response)
+      }
+      
       let sortedTweets = allTweets.lazy.sorted(by: \.createdAt!)
 
       let topTweet =

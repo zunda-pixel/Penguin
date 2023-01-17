@@ -65,6 +65,13 @@ import Sweet
       paginationToken = response.meta?.nextToken
 
       addResponse(response: response)
+      
+      let tweetIDs = Array(response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id).uniqued())
+            
+      if !tweetIDs.isEmpty {
+        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+        addResponse(response: response)
+      }
 
       addTimelines(response.relatedTweets.map(\.id))
       addTimelines(response.tweets.map(\.id))

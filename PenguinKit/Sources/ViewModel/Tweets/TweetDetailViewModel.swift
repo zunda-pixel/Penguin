@@ -4,6 +4,7 @@
 
 import Foundation
 import Sweet
+import Algorithms
 
 final class TweetDetailViewModel: TweetsViewProtocol {
   let userID: String
@@ -41,7 +42,8 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       cellViewModel.tweet,
       cellViewModel.retweet?.tweet,
       cellViewModel.quoted?.tweetContent.tweet,
-    ].compactMap { $0 }
+      cellViewModel.quoted?.quoted?.tweet,
+    ].compacted()
 
     tweets.forEach {
       allTweets.appendOrUpdate($0)
@@ -51,7 +53,8 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       cellViewModel.author,
       cellViewModel.retweet?.author,
       cellViewModel.quoted?.tweetContent.author,
-    ].compactMap { $0 }
+      cellViewModel.quoted?.quoted?.author,
+    ].compacted()
 
     users.forEach {
       allUsers.appendOrUpdate($0)
@@ -61,12 +64,12 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       allMedias.appendOrUpdate($0)
     }
 
-    let polls = [cellViewModel.poll].compactMap { $0 }
+    let polls = [cellViewModel.poll].compacted()
     polls.forEach {
       allPolls.appendOrUpdate($0)
     }
 
-    let places = [cellViewModel.place].compactMap { $0 }
+    let places = [cellViewModel.place].compacted()
     places.forEach {
       allPlaces.appendOrUpdate($0)
     }
@@ -89,8 +92,11 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     let conversationID = cellViewModel.tweetText.conversationID!
 
     do {
+      let tweetResponse = try await Sweet(userID: cellViewModel.userID).tweets(by: [cellViewModel.tweetText.id])
+      addResponse(response: tweetResponse)
+      
       let query = "conversation_id:\(conversationID)"
-
+      
       let response = try await Sweet(userID: cellViewModel.userID).searchRecentTweet(
         query: query,
         nextToken: lastTweetID != nil ? paginationToken : nil
@@ -100,6 +106,16 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
+      let tweetIDs1 = tweetResponse.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id)
+      let tweetIDs2 = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id)
+      
+      let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
+      
+      if !tweetIDs.isEmpty {
+        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+        addResponse(response: response)
+      }
+      
       let sortedTweets = allTweets.lazy.sorted(by: \.createdAt!)
 
       let topTweet =

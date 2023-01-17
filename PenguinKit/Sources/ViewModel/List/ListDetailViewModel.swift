@@ -4,6 +4,7 @@
 
 import Foundation
 import Sweet
+import Algorithms
 
 @MainActor final class ListDetailViewModel: TimelineTweetsProtocol {
   @Published var errorHandle: ErrorHandle?
@@ -60,6 +61,13 @@ import Sweet
 
       paginationToken = response.meta?.nextToken
 
+      let tweetIDs = Array(response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id).uniqued())
+      
+      if !tweetIDs.isEmpty {
+        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+        addResponse(response: response)
+      }
+      
       addResponse(response: response)
 
       addTimelines(response.tweets.map(\.id))
