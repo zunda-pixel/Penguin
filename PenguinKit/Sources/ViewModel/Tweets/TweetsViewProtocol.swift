@@ -93,49 +93,57 @@ extension TweetsViewProtocol {
     return firstUser
   }
 
+  func retweetContent(tweet: Sweet.TweetModel) -> TweetContentModel? {
+    guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else {
+      return nil
+    }
+
+    let tweet = getTweet(retweet.id)!
+    let user = getUser(tweet.authorID!)!
+
+    return TweetContentModel(tweet: tweet, author: user)
+  }
+  
+  func quotedContent(tweet: Sweet.TweetModel, retweet: Sweet.TweetModel?) -> QuotedTweetModel? {
+    let quotedTweetID: String?
+    
+    if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
+      quotedTweetID = quoted.id
+    }
+    else if let quoted = retweet?.referencedTweets.first(where: { $0.type == .quoted }) {
+      quotedTweetID = quoted.id
+    }
+    else {
+      quotedTweetID = nil
+    }
+
+    guard let quotedTweetID else { return nil }
+
+    let tweet = getTweet(quotedTweetID)!
+
+    let user = getUser(tweet.authorID!)!
+    
+    let quotedQuotedTweet: TweetContentModel?
+    
+    if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
+      let tweet = getTweet(quoted.id)!
+      let user = getUser(tweet.authorID!)!
+      quotedQuotedTweet = TweetContentModel(tweet: tweet, author: user)
+    } else {
+      quotedQuotedTweet = nil
+    }
+    
+    return QuotedTweetModel(tweetContent: .init(tweet: tweet, author: user), quoted: quotedQuotedTweet)
+  }
+  
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweet = getTweet(tweetID)!
 
     let author = getUser(tweet.authorID!)!
 
-    let retweet: TweetAndUser? = {
-      guard let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted }) else {
-        return nil
-      }
+    let retweet: TweetContentModel? = retweetContent(tweet: tweet)
 
-      let tweet = getTweet(retweet.id)!
-      let user = getUser(tweet.authorID!)!
-
-      return (tweet, user)
-    }()
-
-    let quoted: TweetAndUser? = {
-      let quotedTweetID: String? = {
-        if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
-          return quoted.id
-        }
-
-        if let quoted = retweet?.tweet.referencedTweets.first(where: { $0.type == .quoted }) {
-          return quoted.id
-        }
-
-        return nil
-      }()
-
-      guard let quotedTweetID else { return nil }
-
-      // TODO 取得できていないツイートがある場合に、適当にデータを表示している
-
-      guard let tweet = getTweet(quotedTweetID) else {
-        return (.unknown, .unknown)
-      }
-
-      guard let user = getUser(tweet.authorID!) else {
-        return (tweet, .unknown)
-      }
-
-      return (tweet, user)
-    }()
+    let quoted: QuotedTweetModel? = quotedContent(tweet: tweet, retweet: retweet?.tweet)
 
     let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
 
@@ -155,20 +163,5 @@ extension TweetsViewProtocol {
     )
 
     return viewModel
-  }
-}
-
-extension Sweet.UserModel {
-  fileprivate static var unknown: Sweet.UserModel {
-    return .init(
-      id: "🎃🎃🎃🎃🎃🎃", name: "🎃🎃🎃🎃🎃🎃", userName: "🎃🎃🎃🎃🎃🎃",
-      profileImageURL: URL(
-        string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!)
-  }
-}
-
-extension Sweet.TweetModel {
-  fileprivate static var unknown: Sweet.TweetModel {
-    return .init(id: "🎃🎃🎃🎃🎃🎃", text: "🎃🎃🎃🎃🎃🎃")
   }
 }
