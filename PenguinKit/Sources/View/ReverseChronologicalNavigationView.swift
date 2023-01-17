@@ -16,17 +16,19 @@ struct ReverseChronologicalNavigationView: View {
   @Binding var settings: Settings
 
   let userID: String
-  
+
   var body: some View {
     NavigationStack(path: $router.path) {
-      ReverseChronologicalTweetsView(viewModel: ReverseChronologicalViewModel(userID: userID, viewContext: viewContext))
-        .navigationTitle("Timeline")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationDestination()
-        .toolbar {
-          TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)
-        }
-        .navigationBarAttribute()
+      ReverseChronologicalTweetsView(
+        viewModel: ReverseChronologicalViewModel(userID: userID, viewContext: viewContext)
+      )
+      .navigationTitle("Timeline")
+      .navigationBarTitleDisplayMode(.inline)
+      .navigationDestination()
+      .toolbar {
+        TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)
+      }
+      .navigationBarAttribute()
     }
     .environmentObject(router)
   }

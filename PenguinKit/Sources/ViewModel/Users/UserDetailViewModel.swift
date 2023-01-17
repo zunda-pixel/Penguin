@@ -8,7 +8,7 @@ import Sweet
 @MainActor final class UserDetailViewModel: TimelineTweetsProtocol {
   let userID: String
   let user: Sweet.UserModel
-  
+
   var paginationToken: String?
 
   var allTweets: [Sweet.TweetModel]
@@ -21,19 +21,22 @@ import Sweet
   @Published var errorHandle: ErrorHandle?
   @Published var pinnedTweetID: String?
   @Published var timelines: Set<String>?
-  
+  @Published var searchSettings: TimelineSearchSettings
+
   init(userID: String, user: Sweet.UserModel) {
     self.userID = userID
     self.user = user
     self.loadingTweet = false
-    
+
     self.allTweets = []
     self.allUsers = []
     self.allMedias = []
     self.allPolls = []
     self.allPlaces = []
+
+    self.searchSettings = TimelineSearchSettings(query: "")
   }
-  
+
   nonisolated static func == (lhs: UserDetailViewModel, rhs: UserDetailViewModel) -> Bool {
     lhs.userID == rhs.userID && lhs.user == rhs.user
   }
@@ -42,24 +45,43 @@ import Sweet
     hasher.combine(userID)
     hasher.combine(user)
   }
-  
+
   func fetchPinnedTweet() async {
     guard let pinnedTweetID = user.pinnedTweetID else { return }
-    
+
     do {
-      let response = try await Sweet(userID: userID).tweets(by: [pinnedTweetID])
-      addResponse(response: response)
-      
+      let response = try await Sweet(userID: userID).tweet(by: pinnedTweetID)
+
+      allTweets.appendOrUpdate(response.tweet)
+
+      response.relatedTweets.forEach {
+        allTweets.appendOrUpdate($0)
+      }
+
+      response.medias.forEach {
+        allMedias.appendOrUpdate($0)
+      }
+
+      response.places.forEach {
+        allPlaces.appendOrUpdate($0)
+      }
+
+      response.users.forEach {
+        allUsers.appendOrUpdate($0)
+      }
+
       self.pinnedTweetID = pinnedTweetID
     } catch {
-      let errorHandle = ErrorHandle(error: error)
-      errorHandle.log()
-      self.errorHandle = errorHandle
+      // TODO
+      // Sweet.tweetでツイートが見つからなかった時のエラー対処法が今のところない
+      // Sweetのアップデートが必要
+      //      let errorHandle = ErrorHandle(error: error)
+      //      errorHandle.log()
+      //      self.errorHandle = errorHandle
     }
   }
-  
-  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
-  {
+
+  func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async {
     guard !loadingTweet else { return }
 
     loadingTweet.toggle()

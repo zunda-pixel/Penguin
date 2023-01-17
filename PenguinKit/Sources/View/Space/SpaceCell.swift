@@ -17,7 +17,8 @@ struct SpaceCell: View {
 
       VStack {
         HStack {
-          (Text(viewModel.creator.name) + Text(" @\(viewModel.creator.userName)").foregroundColor(.secondary))
+          (Text(viewModel.creator.name)
+            + Text(" @\(viewModel.creator.userName)").foregroundColor(.secondary))
             .lineLimit(1)
 
           Spacer()
@@ -39,7 +40,7 @@ struct SpaceCell: View {
 
         HStack {
           Spacer()
-          
+
           ForEach(viewModel.speakers.prefix(4)) { speaker in
             ProfileImageView(url: speaker.profileImageURL!)
               .frame(width: 15, height: 15)

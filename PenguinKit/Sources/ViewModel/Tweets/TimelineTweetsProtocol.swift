@@ -9,13 +9,20 @@ import Sweet
   var showTweets: [Sweet.TweetModel] { get }
   var timelines: Set<String>? { get set }
   var paginationToken: String? { get }
+  var searchSettings: TimelineSearchSettings { get set }
 }
 
 extension TimelineTweetsProtocol {
   var showTweets: [Sweet.TweetModel] {
-    return timelines?.lazy.map { timeline in
+    let tweets = timelines?.lazy.map { timeline in
       self.allTweets.first(where: { $0.id == timeline })!
-    }.sorted(by: { $0.createdAt! > $1.createdAt! }) ?? []
+    }.sorted(by: { $0.createdAt! > $1.createdAt! })
+
+    if searchSettings.query.isEmpty {
+      return tweets ?? []
+    } else {
+      return tweets?.filter { $0.tweetText.lowercased().contains(self.searchSettings.query.lowercased()) } ?? []
+    }
   }
 
   func addTimelines(_ tweetIDs: [String]) {
@@ -25,4 +32,8 @@ extension TimelineTweetsProtocol {
       timelines = timelines!.union(tweetIDs)
     }
   }
+}
+
+struct TimelineSearchSettings {
+  var query: String
 }

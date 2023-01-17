@@ -129,7 +129,7 @@ extension TweetsViewProtocol {
       guard let tweet = getTweet(quotedTweetID) else {
         return (.unknown, .unknown)
       }
-      
+
       guard let user = getUser(tweet.authorID!) else {
         return (tweet, .unknown)
       }
@@ -158,15 +158,17 @@ extension TweetsViewProtocol {
   }
 }
 
-private extension Sweet.UserModel {
-  static var unknown: Sweet.UserModel {
-    return .init(id: "🎃🎃🎃🎃🎃🎃", name: "🎃🎃🎃🎃🎃🎃", userName: "🎃🎃🎃🎃🎃🎃", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!)
+extension Sweet.UserModel {
+  fileprivate static var unknown: Sweet.UserModel {
+    return .init(
+      id: "🎃🎃🎃🎃🎃🎃", name: "🎃🎃🎃🎃🎃🎃", userName: "🎃🎃🎃🎃🎃🎃",
+      profileImageURL: URL(
+        string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!)
   }
 }
 
-private extension Sweet.TweetModel {
-  static var unknown: Sweet.TweetModel {
+extension Sweet.TweetModel {
+  fileprivate static var unknown: Sweet.TweetModel {
     return .init(id: "🎃🎃🎃🎃🎃🎃", text: "🎃🎃🎃🎃🎃🎃")
   }
 }
-

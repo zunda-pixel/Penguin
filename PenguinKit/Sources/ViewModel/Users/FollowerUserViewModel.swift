@@ -18,7 +18,7 @@ import Sweet
   init(userID: String, ownerID: String) {
     self.userID = userID
     self.ownerID = ownerID
-    
+
     self.loadingUser = false
     self.users = []
   }
@@ -31,7 +31,7 @@ import Sweet
     hasher.combine(userID)
     hasher.combine(ownerID)
   }
-  
+
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

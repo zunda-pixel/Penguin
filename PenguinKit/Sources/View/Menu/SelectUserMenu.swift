@@ -2,14 +2,14 @@
 //  SelectUserMenu.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct SelectUserView: View {
   @Environment(\.loginUsers) var loginUsers
-  
+
   @Binding var currentUser: Sweet.UserModel
-  
+
   var body: some View {
     ForEach(loginUsers) { user in
       Button {

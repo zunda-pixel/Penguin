@@ -10,7 +10,6 @@
 		2E271EA929742F66002B93CC /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C37C3328234145007B925B /* WidgetKit.framework */; };
 		2E271EAA29742F66002B93CC /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0C37C3528234145007B925B /* SwiftUI.framework */; };
 		2E271EAD29742F66002B93CC /* Widgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EAC29742F66002B93CC /* Widgets.swift */; };
-		2E271EAF29742F66002B93CC /* WidgetsLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EAE29742F66002B93CC /* WidgetsLiveActivity.swift */; };
 		2E271EB129742F66002B93CC /* TweetWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EB029742F66002B93CC /* TweetWidgets.swift */; };
 		2E271EB429742F67002B93CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E271EB329742F67002B93CC /* Assets.xcassets */; };
 		2E271EB629742F67002B93CC /* TweetWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EB229742F66002B93CC /* TweetWidgets.intentdefinition */; };
@@ -63,7 +62,6 @@
 		2E23C33F29753CE600A63991 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		2E271EA829742F66002B93CC /* Widgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E271EAC29742F66002B93CC /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
-		2E271EAE29742F66002B93CC /* WidgetsLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetsLiveActivity.swift; sourceTree = "<group>"; };
 		2E271EB029742F66002B93CC /* TweetWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetWidgets.swift; sourceTree = "<group>"; };
 		2E271EB229742F66002B93CC /* TweetWidgets.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = TweetWidgets.intentdefinition; sourceTree = "<group>"; };
 		2E271EB329742F67002B93CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 				2E271F0D29744E63002B93CC /* Widgets.entitlements */,
 				2E271EB529742F67002B93CC /* Info.plist */,
 				2E271EAC29742F66002B93CC /* Widgets.swift */,
-				2E271EAE29742F66002B93CC /* WidgetsLiveActivity.swift */,
 				2E271EB029742F66002B93CC /* TweetWidgets.swift */,
 				2E271EB229742F66002B93CC /* TweetWidgets.intentdefinition */,
 			);
@@ -334,7 +331,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E271EB629742F67002B93CC /* TweetWidgets.intentdefinition in Sources */,
-				2E271EAF29742F66002B93CC /* WidgetsLiveActivity.swift in Sources */,
 				2E271EB129742F66002B93CC /* TweetWidgets.swift in Sources */,
 				2E271EAD29742F66002B93CC /* Widgets.swift in Sources */,
 			);
@@ -634,6 +630,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphone*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
@@ -673,6 +670,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphone*]" = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";

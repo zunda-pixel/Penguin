@@ -11,7 +11,7 @@ struct PollView: View {
   var totalVote: Int {
     poll.options.reduce(0) { $0 + $1.votes }
   }
-  
+
   func percent(value: Double) -> Int {
     if value == 0 {
       return 0
@@ -29,7 +29,7 @@ struct PollView: View {
           GridRow {
             let value: Double = totalVote == 0 ? 0.1 : Double(option.votes)
             let total: Double = totalVote == 0 ? 3 : Double(totalVote)
-            
+
             ProgressView(value: value, total: total) {
               Text(option.label)
                 .lineLimit(1)

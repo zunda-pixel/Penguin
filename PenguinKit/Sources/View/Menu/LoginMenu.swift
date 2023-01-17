@@ -2,20 +2,20 @@
 //  LoginMenu.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct LoginMenu: View {
   @Binding var bindingCurrentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var settings: Settings
-  
+
   @State var isPresentedSettingsView = false
   let currentUser: Sweet.UserModel
-  
+
   var body: some View {
     Menu {
-      SelectUserView(currentUser: .init(get: { currentUser }, set: {  bindingCurrentUser = $0 }))
+      SelectUserView(currentUser: .init(get: { currentUser }, set: { bindingCurrentUser = $0 }))
         .onChange(of: bindingCurrentUser) { newValue in
           Secure.currentUser = newValue
         }

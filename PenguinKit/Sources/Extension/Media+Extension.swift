@@ -8,15 +8,15 @@ import Sweet
 extension Media {
   func setMediaModel(_ media: Sweet.MediaModel) {
     self.key = media.key
-    
+
     if let width = media.size?.width {
       self.width = width
     }
-    
+
     if let height = media.size?.height {
       self.height = height
     }
-    
+
     self.url = media.url
     self.previewImageURL = media.previewImageURL
     self.type = media.type.rawValue

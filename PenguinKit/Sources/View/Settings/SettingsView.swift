@@ -2,10 +2,10 @@
 //  SettingsView.swift
 //
 
+import LicenseView
 import StoreKit
 import Sweet
 import SwiftUI
-import LicenseView
 
 struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
@@ -33,57 +33,57 @@ struct SettingsView: View {
       List {
         Group {
           Section("Account") {
-          ForEach(loginUsers) { user in
-            let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
-            
-            NavigationLink(value: viewModel) {
-              Label {
-                Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
-              } icon: {
-                ProfileImageView(url: user.profileImageURL!)
-                  .frame(width: 30, height: 30)
+            ForEach(loginUsers) { user in
+              let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
+
+              NavigationLink(value: viewModel) {
+                Label {
+                  Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
+                } icon: {
+                  ProfileImageView(url: user.profileImageURL!)
+                    .frame(width: 30, height: 30)
+                }
+              }
+              .swipeActions(edge: .trailing) {
+                Button("Logout", role: .destructive) {
+                  logout(user: user)
+                }
               }
             }
-            .swipeActions(edge: .trailing) {
-              Button("Logout", role: .destructive) {
-                logout(user: user)
-              }
+
+            LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
+              Label("Add Account", systemImage: "plus.app")
             }
           }
-          
-          LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
-            Label("Add Account", systemImage: "plus.app")
-          }
-        }
-          
+
           Section("General") {
             NavigationLink {
               DisplaySettingsView(settings: $settings)
             } label: {
               Label("Display", systemImage: "iphone")
             }
-            
+
             NavigationLink {
               TabSettingsView(settings: $settings)
             } label: {
               Label("Tab", systemImage: "dock.rectangle")
             }
-            
+
             #if DEBUG
-            NavigationLink {
-              Text("Hello")
-            } label: {
-              Label("Sound", systemImage: "speaker")
-                .symbolVariant(.circle)
-            }
-            
-            NavigationLink {
-              Text("Hello")
-            } label: {
-              Label("Browser", systemImage: "safari")
-            }
+              NavigationLink {
+                Text("Hello")
+              } label: {
+                Label("Sound", systemImage: "speaker")
+                  .symbolVariant(.circle)
+              }
+
+              NavigationLink {
+                Text("Hello")
+              } label: {
+                Label("Browser", systemImage: "safari")
+              }
             #endif
-            
+
             NavigationLink {
               IconSettingsView()
                 .navigationTitle("App Icon")
@@ -93,36 +93,36 @@ struct SettingsView: View {
           }
 
           Section("ABOUT") {
-#if DEBUG
+            #if DEBUG
 
-            NavigationLink {
-              VStack {
-                if let userID = currentUser?.id {
-                  Text(Secure.getUserBearerToken(userID: userID))
-                    .textSelection(.enabled)
+              NavigationLink {
+                VStack {
+                  if let userID = currentUser?.id {
+                    Text(Secure.getUserBearerToken(userID: userID))
+                      .textSelection(.enabled)
+                  }
+                  Text("Manage Subscription")
                 }
-                Text("Manage Subscription")
+              } label: {
+                Label("Manage Subscription", systemImage: "person")
               }
-            } label: {
-              Label("Manage Subscription", systemImage: "person")
-            }
-            NavigationLink {
-              Text("Hello")
-            } label: {
-              Label("Sync Status", systemImage: "person")
-            }
-            NavigationLink {
-              Text("Hello")
-            } label: {
-              Label("Support", systemImage: "person")
-            }
-            NavigationLink {
-              Text("Hello")
-            } label: {
-              Label("@zunda", systemImage: "person")
-            }
-#endif
-            
+              NavigationLink {
+                Text("Hello")
+              } label: {
+                Label("Sync Status", systemImage: "person")
+              }
+              NavigationLink {
+                Text("Hello")
+              } label: {
+                Label("Support", systemImage: "person")
+              }
+              NavigationLink {
+                Text("Hello")
+              } label: {
+                Label("@zunda", systemImage: "person")
+              }
+            #endif
+
             NavigationLink {
               LicenseView()
                 .navigationTitle("License")
@@ -150,18 +150,17 @@ struct SettingsView: View {
   }
 }
 
-
 struct SettingsView_Preview: PreviewProvider {
   struct Preview: View {
     @State var settings = Settings()
     @State var currentUser: Sweet.UserModel?
     @State var loginUsers: [Sweet.UserModel] = []
-    
+
     var body: some View {
       SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
     }
   }
-  
+
   static var previews: some View {
     Preview()
   }

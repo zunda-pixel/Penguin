@@ -34,7 +34,7 @@ import Sweet
     self.allUsers = []
     self.allMedias = []
   }
-  
+
   nonisolated static func == (lhs: DirectMessageDetailViewModel, rhs: DirectMessageDetailViewModel)
     -> Bool
   {
@@ -45,7 +45,7 @@ import Sweet
     hasher.combine(userID)
     hasher.combine(participantID)
   }
-  
+
   func send() async {
     do {
       let message: Sweet.NewDirectMessage.Message = .init(text: text)

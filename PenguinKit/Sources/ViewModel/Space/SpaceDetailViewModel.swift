@@ -7,7 +7,8 @@ import Sweet
 
 @MainActor final class SpaceDetailViewModel: ObservableObject, Hashable {
   nonisolated static func == (lhs: SpaceDetailViewModel, rhs: SpaceDetailViewModel) -> Bool {
-    lhs.userID == rhs.userID && lhs.space == rhs.space && lhs.creator == rhs.creator && lhs.speakers == rhs.speakers
+    lhs.userID == rhs.userID && lhs.space == rhs.space && lhs.creator == rhs.creator
+      && lhs.speakers == rhs.speakers
   }
 
   nonisolated func hash(into hasher: inout Hasher) {

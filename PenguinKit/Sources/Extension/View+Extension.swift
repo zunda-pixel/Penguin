@@ -39,7 +39,7 @@ extension View {
       message: message
     )
   }
-  
+
   func alert(errorHandle: Binding<ErrorHandle?>) -> some View {
     self.alert(presenting: errorHandle) { errorHandle in
       Text(errorHandle.title)

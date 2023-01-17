@@ -2,8 +2,8 @@
 // EnvironmentKeys.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct SettingsKey: EnvironmentKey {
   static let defaultValue: Settings = .init()
@@ -18,7 +18,7 @@ extension EnvironmentValues {
     get { self[SettingsKey.self] }
     set { self[SettingsKey.self] = newValue }
   }
-  
+
   var loginUsers: [Sweet.UserModel] {
     get { self[LoginUsersKey.self] }
     set { self[LoginUsersKey.self] = newValue }

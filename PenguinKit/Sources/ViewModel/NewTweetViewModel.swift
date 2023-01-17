@@ -33,7 +33,7 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
 
 @MainActor final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
   let quoted: TweetAndUser?
-  
+
   var locationManager: CLLocationManager
 
   @Published var text: String
@@ -45,7 +45,7 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
   @Published var loadingLocation: Bool
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
-  
+
   init(userID: String, quoted: TweetAndUser? = nil) {
     self.userID = userID
     self.quoted = quoted
@@ -56,12 +56,12 @@ typealias TweetAndUser = (tweet: Sweet.TweetModel, user: Sweet.UserModel)
     self.photosPickerItems = []
     self.loadingLocation = false
     self.locationManager = CLLocationManager()
-    
+
     super.init()
-    
+
     locationManager.delegate = self
   }
-  
+
   var title: String {
     if text.isEmpty {
       return quoted == nil ? " Say something..." : " Add Comment..."

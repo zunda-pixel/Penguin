@@ -41,7 +41,7 @@ struct UserCellView: View {
             .buttonStyle(.bordered)
           }
         }
-        
+
         Text(user.description!)
       }
     }

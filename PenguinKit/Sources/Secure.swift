@@ -72,8 +72,8 @@ public struct Secure {
         userDefaults.removeObject(forKey: currentUserKey)
         return
       }
-      
-      let data =  try! JSONEncoder.twitter.encode(newValue)
+
+      let data = try! JSONEncoder.twitter.encode(newValue)
       userDefaults.set(data, forKey: currentUserKey)
     }
   }
@@ -96,8 +96,8 @@ public struct Secure {
     userDefaults.removeObject(forKey: userID + userBearerTokenKey)
     userDefaults.removeObject(forKey: userID + refreshTokenKey)
     loginUsers.removeAll { $0.id == userID }
-    
-    if userID == currentUser?.id  {
+
+    if userID == currentUser?.id {
       currentUser = loginUsers.first
     }
   }

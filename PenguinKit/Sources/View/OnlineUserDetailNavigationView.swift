@@ -9,7 +9,7 @@ struct OnlineNavigationView: View {
   let schemeItem: SchemeItem
   @StateObject var router = NavigationPathRouter()
   @Environment(\.dismiss) var dismiss
-  
+
   @ViewBuilder
   @MainActor
   var content: some View {
@@ -22,7 +22,7 @@ struct OnlineNavigationView: View {
       OnlineTweetDetailView(viewModel: .init(userID: userID, tweetID: id))
     }
   }
-  
+
   var body: some View {
     NavigationStack(path: $router.path) {
       content
@@ -46,7 +46,7 @@ enum SchemeItem: Identifiable {
   case userID(String)
   case screenID(String)
   case tweetID(String)
-  
+
   var id: String {
     switch self {
     case .screenID(let id): return id
@@ -54,20 +54,20 @@ enum SchemeItem: Identifiable {
     case .tweetID(let id): return id
     }
   }
-  
+
   static func from(url: URL) -> SchemeItem? {
     if let userID = url.queryItems.first(where: { $0.name == "userID" })?.value {
       return .userID(userID)
     }
-    
+
     if let screenID = url.queryItems.first(where: { $0.name == "screenID" })?.value {
       return .screenID(screenID)
     }
-    
+
     if let tweetID = url.queryItems.first(where: { $0.name == "tweetID" })?.value {
       return .tweetID(tweetID)
     }
-    
+
     return nil
   }
 }

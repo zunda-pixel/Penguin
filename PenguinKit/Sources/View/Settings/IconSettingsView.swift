@@ -8,7 +8,7 @@ struct Icon: Identifiable, Hashable {
   let id = UUID()
   let name: String
   let iconName: String
-  
+
   static let icons: [Icon] = [
     .init(name: "Primary", iconName: "AppIcon"),
     .init(name: "Secondary", iconName: "AppIcon1"),
@@ -20,20 +20,20 @@ struct IconSettingsView: View {
 
   @State var selectedIcon: Icon
   @State var errorHandle: ErrorHandle?
-  
+
   init() {
     let currentIcon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }!
     self._selectedIcon = .init(initialValue: currentIcon)
   }
-  
+
   @MainActor
   func changeIcon(_ icon: Icon) async {
     guard icon.iconName != selectedIcon.iconName else { return }
-    
+
     let iconName: String? = icon.iconName == UIApplication.primaryIconName ? nil : icon.iconName
-    
+
     let previousIcon = selectedIcon
-    
+
     selectedIcon = icon
 
     do {
@@ -42,17 +42,17 @@ struct IconSettingsView: View {
       let errorHandle = ErrorHandle(error: error)
       errorHandle.log()
       self.errorHandle = errorHandle
-      
+
       selectedIcon = previousIcon
     }
   }
-  
+
   @MainActor
   func iconCell(icon: Icon) -> some View {
     Label {
       Text(icon.name)
       Spacer()
-      if(icon == selectedIcon) {
+      if icon == selectedIcon {
         Image(systemName: "checkmark.circle.fill")
           .foregroundColor(settings.colorType.colorSet.tintColor)
       } else {
@@ -71,7 +71,7 @@ struct IconSettingsView: View {
       }
     }
   }
-  
+
   func creatorCell(userName: String, iconURL: URL, link: URL) -> some View {
     Link(destination: link) {
       Label {
@@ -88,8 +88,7 @@ struct IconSettingsView: View {
       }
     }
   }
-  
-  
+
   var body: some View {
     List {
       Section {

@@ -27,14 +27,14 @@ struct SpaceDetail: View {
       .padding(.horizontal, 50)
     }
   }
-  
+
   var spaceInfoView: some View {
     VStack {
-      if let title = viewModel.space.title { // アカウントが非公開だとタイトルは取得できない
+      if let title = viewModel.space.title {  // アカウントが非公開だとタイトルは取得できない
         Text(title)
           .font(.title)
       }
-      
+
       ProfileImageView(url: viewModel.creator.profileImageURL!)
         .frame(width: 100, height: 100)
         .onTapGesture {
@@ -44,23 +44,23 @@ struct SpaceDetail: View {
           )
           router.path.append(userViewModel)
         }
-      
+
       speakersView
-      
+
       let url: URL = .init(string: "https://twitter.com/i/spaces/\(viewModel.space.id)")!
-      
+
       Link("Open Space", destination: url)
         .padding()
         .buttonStyle(.bordered)
     }
   }
-  
+
   var body: some View {
     let spaceTweetsViewModel: SpaceTweetsViewModel = .init(
       userID: viewModel.userID,
       spaceID: viewModel.space.id
     )
-    
+
     TweetsView(viewModel: spaceTweetsViewModel) {
       spaceInfoView
     }

@@ -8,11 +8,11 @@ import os
 
 public struct ErrorHandle {
   let error: any Error
-  
+
   public init(error: any Error) {
     self.error = error
   }
-  
+
   var title: String {
     switch error {
     case let twitterError as Sweet.TwitterError:
@@ -27,7 +27,7 @@ public struct ErrorHandle {
       return error.localizedDescription
     }
   }
-  
+
   var message: String {
     switch error {
     case let twitterError as Sweet.TwitterError:
@@ -40,7 +40,7 @@ public struct ErrorHandle {
       return error.localizedDescription
     }
   }
-  
+
   var logMessage: String {
     switch error {
     case let twitterError as Sweet.TwitterError:
@@ -53,13 +53,14 @@ public struct ErrorHandle {
       return error.localizedDescription
     }
   }
-  
+
   public func log() {
-    Logger.main.error("""
-Title: \(title)
-Message: \(message)
-Log: \(logMessage)
-"""
+    Logger.main.error(
+      """
+      Title: \(title)
+      Message: \(message)
+      Log: \(logMessage)
+      """
     )
   }
 }

@@ -8,7 +8,7 @@ import SwiftUI
 struct ProfileImageView: View {
   let url: URL
   let lineWidth: CGFloat = 2
-  
+
   var body: some View {
     KFImage(url)
       .resizable()

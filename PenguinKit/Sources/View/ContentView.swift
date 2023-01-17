@@ -2,12 +2,12 @@
 //  ContentView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 import WidgetKit
 
 public struct ContentView: View {
-  public init() { }
+  public init() {}
   
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
   
@@ -72,20 +72,20 @@ public struct ContentView: View {
   }
   
   func fetchLatestTweet(userID: String) async {
-//    WidgetCenter.shared.reloadAllTimelines()
-//    
-//    do {
-//      guard let activity = try await WidgetsManager.fetchLatestTweet(userID: userID) else {
-//        return
-//      }
-//      print(activity)
-//      // await activity.update(using: .init()) stateのアップデート。今回は意味ない
-//      // await activity.end() activityの削除
-//      
-//    } catch {
-//      let errorHandle = ErrorHandle(error: error)
-//      errorHandle.log()
-//    }
+    WidgetCenter.shared.reloadAllTimelines()
+    
+    do {
+      guard let activity = try await WidgetsManager.fetchLatestTweet(userID: userID) else {
+        return
+      }
+      print(activity)
+      // await activity.update(using: .init()) stateのアップデート。今回は意味ない
+      // await activity.end() activityの削除
+      
+    } catch {
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+    }
   }
   
   @Environment(\.colorScheme) var colorScheme
@@ -101,7 +101,11 @@ public struct ContentView: View {
             Label(tab.title, systemImage: tab.systemImage)
           }
           .tag(tab)
-          .toolbarBackground(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar)
+          .toolbarBackground(
+            colorScheme == .dark
+            ? settings.colorType.colorSet.darkPrimaryColor
+            : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
+          )
           .toolbarBackground(.visible, for: .tabBar)
       }
     }
@@ -127,7 +131,11 @@ public struct ContentView: View {
       }
     } detail: {
       tabViewContent(currentUser: currentUser, tabItem: selectedTab)
-        .toolbarBackground(colorScheme == .dark ? settings.colorType.colorSet.darkPrimaryColor : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar)
+        .toolbarBackground(
+          colorScheme == .dark
+          ? settings.colorType.colorSet.darkPrimaryColor
+          : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
+        )
         .toolbarBackground(.visible, for: .tabBar)
     }
     .navigationSplitViewStyle(.balanced)
@@ -142,15 +150,15 @@ public struct ContentView: View {
           case .split: splitView(currentUser: currentUser)
           }
         }
-          .task {
-            await fetchLatestTweet(userID: currentUser.id)
-          }
-          .onOpenURL { url in
-            self.schemeItem = .from(url: url)
-          }
-          .sheet(item: $schemeItem) { schemeItem in
-            OnlineNavigationView(userID: currentUser.id, schemeItem: schemeItem)
-          }
+        .task {
+          await fetchLatestTweet(userID: currentUser.id)
+        }
+        .onOpenURL { url in
+          self.schemeItem = .from(url: url)
+        }
+        .sheet(item: $schemeItem) { schemeItem in
+          OnlineNavigationView(userID: currentUser.id, schemeItem: schemeItem)
+        }
       } else {
         VStack {
           let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
@@ -169,7 +177,9 @@ public struct ContentView: View {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
               .bold()
               .padding()
-              .background(RoundedRectangle(cornerRadius: 15).foregroundColor(settings.colorType.colorSet.tintColor.opacity(0.5)))
+              .background(
+                RoundedRectangle(cornerRadius: 15).foregroundColor(
+                  settings.colorType.colorSet.tintColor.opacity(0.5)))
           }
         }
         .tabItem {

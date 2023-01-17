@@ -8,14 +8,14 @@ import SwiftUI
 struct ListDetailView: View {
   @ObservedObject var viewModel: ListDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
-  
+
   var listInfoView: some View {
     VStack {
       Text(viewModel.list.name)
       Text(viewModel.list.description!)
-      
+
       Text("Created At \(Text(viewModel.list.createdAt!, format: .dateTime.year().month().day()))")
-      
+
       HStack {
         Button {
           let listMembersViewModel = ListMembersViewModel(
@@ -40,7 +40,7 @@ struct ListDetailView: View {
     }
     .frame(maxWidth: .infinity)
   }
-  
+
   var body: some View {
     VStack {
       listInfoView

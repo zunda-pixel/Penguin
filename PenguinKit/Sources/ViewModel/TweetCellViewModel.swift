@@ -55,7 +55,7 @@ import Sweet
     self.poll = poll
     self.place = place
   }
-  
+
   nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(userID)
     hasher.combine(author)

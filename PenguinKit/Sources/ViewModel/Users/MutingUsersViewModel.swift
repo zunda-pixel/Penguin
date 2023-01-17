@@ -8,7 +8,7 @@ import Sweet
 @MainActor final class MutingUsersViewModel: UsersViewProtocol, Hashable {
   let userID: String
   let ownerID: String
-  
+
   var paginationToken: String?
   var loadingUser: Bool
 
@@ -30,7 +30,7 @@ import Sweet
     hasher.combine(userID)
     hasher.combine(ownerID)
   }
-  
+
   func fetchUsers(reset resetData: Bool) async {
     guard !loadingUser else { return }
 

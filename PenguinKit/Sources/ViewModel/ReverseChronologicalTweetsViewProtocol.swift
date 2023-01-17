@@ -5,23 +5,20 @@
 import CoreData
 import Foundation
 import Sweet
+import RegexBuilder
 
 @MainActor
 protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDelegate,
   ObservableObject
 {
   var loadingTweets: Bool { get set }
-
   var userID: String { get }
-  
   var latestTweetDate: Date? { get set }
-
   var errorHandle: ErrorHandle? { get set }
-
   var viewContext: NSManagedObjectContext { get }
-  
-  func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
+  var searchSettings: TimelineSearchSettings { get set }
 
+  func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
   func updateTimeLine()
 
   var fetchTimelineController: NSFetchedResultsController<Timeline> { get }
@@ -36,49 +33,59 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
 extension ReverseChronologicalTweetsViewProtocol {
   var notShowTweetCount: Int {
     guard let latestTweetDate else { return 0 }
-    
+
     return showTweets.filter { $0.createdAt! > latestTweetDate }.count
   }
-  
+
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
-  var showTweets: [Tweet] { fetchShowTweetController.fetchedObjects ?? [] }
+  
+  var showTweets: [Tweet] {
+    let tweets = fetchShowTweetController.fetchedObjects ?? []
+    
+    if searchSettings.query.isEmpty {
+      return tweets
+    } else {
+      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
+    }
+ }
+  
   var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
   var allUsers: [User] { fetchUserController.fetchedObjects ?? [] }
   var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
   var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
   var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
-  
+
   func updateLatestTweetDate(date: Date) {
     guard let latestTweetDate else {
       latestTweetDate = date
       return
     }
-    
+
     if latestTweetDate < date {
       self.latestTweetDate = date
     }
   }
-  
+
   func tweetCellOnAppear(tweet: Sweet.TweetModel) async {
     updateLatestTweetDate(date: tweet.createdAt!)
-    
+
     guard let lastTweet = showTweets.last else { return }
     guard tweet.id == lastTweet.id else { return }
     await fetchTweets(last: tweet.id, paginationToken: nil)
   }
-  
+
   func fetchNewTweet() async {
     guard !loadingTweets else { return }
-    
+
     loadingTweets.toggle()
-    
+
     defer {
       loadingTweets.toggle()
     }
-    
+
     await fetchTweets(last: nil, paginationToken: nil)
   }
-  
+
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
 

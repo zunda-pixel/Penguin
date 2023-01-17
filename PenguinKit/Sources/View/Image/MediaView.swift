@@ -2,10 +2,10 @@
 //  MediaView.swift
 //
 
-import SwiftUI
-import Sweet
-import Kingfisher
 import AVKit
+import Kingfisher
+import Sweet
+import SwiftUI
 
 struct MediaView: View {
   let media: Sweet.MediaModel
@@ -13,7 +13,7 @@ struct MediaView: View {
   @State var isPresentedVideoPlayer: Bool = false
   @Binding var selectedMedia: Sweet.MediaModel
   @Binding var isPresentedImageView: Bool
-  
+
   func videoImage(url: URL) -> some View {
     KFImage(url)
       .placeholder { p in
@@ -34,7 +34,7 @@ struct MediaView: View {
           }
       }
   }
-  
+
   func image(url: URL) -> some View {
     KFImage(url)
       .placeholder { p in
@@ -46,12 +46,12 @@ struct MediaView: View {
         isPresentedImageView.toggle()
       }
   }
-  
+
   var body: some View {
     switch media.mediaType {
-    case .image(url: let url):
+    case .image(let url):
       image(url: url)
-    case .video(url: let url):
+    case .video(let url):
       videoImage(url: url)
     }
   }
@@ -62,19 +62,22 @@ struct MediaView_Previews: PreviewProvider {
     let media: Sweet.MediaModel
     @State var selectedMedia: Sweet.MediaModel
     @State var isPresentedImageView = false
-    
+
     init() {
-      let media = Sweet.MediaModel(key: "key1", type: .photo, size: .init(width: 100, height: 100), url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
-      
+      let media = Sweet.MediaModel(
+        key: "key1", type: .photo, size: .init(width: 100, height: 100),
+        url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
+
       self.media = media
       self._selectedMedia = .init(initialValue: media)
     }
-    
+
     var body: some View {
-      MediaView(media: media, selectedMedia: $selectedMedia, isPresentedImageView: $isPresentedImageView)
+      MediaView(
+        media: media, selectedMedia: $selectedMedia, isPresentedImageView: $isPresentedImageView)
     }
   }
-  
+
   static var previews: some View {
     Preview()
   }
@@ -85,16 +88,16 @@ extension Sweet.MediaModel {
     case video(url: URL)
     case image(url: URL)
   }
-  
+
   var mediaType: MediaType {
     if let previewImageURL {
       return .video(url: previewImageURL)
     }
-    
+
     if let url {
       return .image(url: url)
     }
-    
+
     fatalError()
   }
 }

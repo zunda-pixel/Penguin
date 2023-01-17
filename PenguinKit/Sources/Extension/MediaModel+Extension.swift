@@ -9,7 +9,7 @@ import Sweet
 extension Sweet.MediaModel {
   init(media: Media) {
     let size = CGSize(width: media.width, height: media.height)
-    
+
     let type: Sweet.MediaType = .init(rawValue: media.type!)!
 
     let decoder = JSONDecoder.twitter

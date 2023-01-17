@@ -104,7 +104,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         {
           OGPCardView(viewModel: .init(url: url))
         }
-        
+
         if isRetweeted {
           HStack {
             Image(systemName: "repeat")

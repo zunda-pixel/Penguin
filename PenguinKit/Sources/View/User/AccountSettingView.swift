@@ -18,7 +18,7 @@ struct AccountDetailView: View {
         NavigationLink(value: mutingUsersViewModel) {
           Label("Mute", systemImage: "speaker.slash")
         }
-        
+
         let blockingUsersViewModel = BlockingUsersViewModel(
           userID: viewModel.userID,
           ownerID: viewModel.user.id

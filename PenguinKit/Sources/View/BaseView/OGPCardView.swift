@@ -21,17 +21,16 @@ struct OGPCardView: View {
             .resizable()
             .scaledToFit()
 
-
           VStack(alignment: .leading) {
             Text(viewModel.url.host!)
               .foregroundStyle(settings.colorType.colorSet.tintColor)
-            
+
             // ToDo なぜか2回removingHTMLEntities()しないと識字可能な文字にならない
             if let title = viewModel.ogp?.title?.removingHTMLEntities().removingHTMLEntities() {
               Text(title)
                 .lineLimit(2)
             }
-            
+
             if let description = viewModel.ogp?.description?.removingHTMLEntities() {
               Text(description.removingHTMLEntities())
                 .foregroundStyle(.secondary)

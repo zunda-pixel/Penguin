@@ -114,14 +114,14 @@ struct LinkableText: View {
             let viewModel: SearchTweetsViewModel = .init(
               userID: userID,
               query: query!,
-              searchSettings: .init()
+              queryBuilder: .init()
             )
             router.path.append(viewModel)
           case .hashtag:
             let viewModel: SearchTweetsViewModel = .init(
               userID: userID,
               query: query!,
-              searchSettings: .init()
+              queryBuilder: .init()
             )
             router.path.append(viewModel)
           case .mention:
