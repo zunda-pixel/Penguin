@@ -190,42 +190,56 @@ extension ReverseChronologicalTweetsViewProtocol {
     return .init(user: firstUser)
   }
 
+  func retweetContent(tweet: Sweet.TweetModel) -> TweetContentModel? {
+    let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted })
+
+    guard let retweet else { return nil }
+
+    let tweet = getTweet(retweet.id)!
+    let user = getUser(tweet.authorID!)!
+
+    return TweetContentModel(tweet: tweet, author: user)
+  }
+  
+  func quotedContent(tweet: Sweet.TweetModel, retweet: Sweet.TweetModel?) -> QuotedTweetModel? {
+    let quotedTweetID: String?
+    
+    if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
+      quotedTweetID = quoted.id
+    }
+    else if let quoted = retweet?.referencedTweets.first(where: { $0.type == .quoted }) {
+      quotedTweetID = quoted.id
+    }
+    else {
+      quotedTweetID = nil
+    }
+
+    guard let quotedTweetID else { return nil }
+
+    let tweet = getTweet(quotedTweetID)!
+    let user = getUser(tweet.authorID!)!
+
+    let quotedQuotedTweet: TweetContentModel?
+    
+    if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
+      let tweet = getTweet(quoted.id)!
+      let user = getUser(tweet.authorID!)!
+      quotedQuotedTweet = TweetContentModel(tweet: tweet, author: user)
+    } else {
+      quotedQuotedTweet = nil
+    }
+
+    return QuotedTweetModel(tweetContent: .init(tweet: tweet, author: user), quoted: quotedQuotedTweet)
+  }
+  
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweet = getTweet(tweetID)!
 
     let author = getUser(tweet.authorID!)!
 
-    let retweet: TweetAndUser? = {
-      let retweet = tweet.referencedTweets.first(where: { $0.type == .retweeted })
+    let retweet: TweetContentModel? = retweetContent(tweet: tweet)
 
-      guard let retweet else { return nil }
-
-      let tweet = getTweet(retweet.id)!
-      let user = getUser(tweet.authorID!)!
-
-      return (tweet, user)
-    }()
-
-    let quoted: TweetAndUser? = {
-      let quotedTweetID: String? = {
-        if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
-          return quoted.id
-        }
-
-        if let quoted = retweet?.tweet.referencedTweets.first(where: { $0.type == .quoted }) {
-          return quoted.id
-        }
-
-        return nil
-      }()
-
-      guard let quotedTweetID else { return nil }
-
-      let tweet = getTweet(quotedTweetID)!
-      let user = getUser(tweet.authorID!)!
-
-      return (tweet, user)
-    }()
+    let quoted: QuotedTweetModel? = quotedContent(tweet: tweet, retweet: retweet?.tweet)
 
     let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
 
