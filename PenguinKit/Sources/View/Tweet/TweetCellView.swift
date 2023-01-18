@@ -81,6 +81,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if let quoted = viewModel.quoted {
           QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweetContent.tweet, user: quoted.tweetContent.author)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .onTapGesture {
               let quotedTweetModel: QuotedTweetModel?
