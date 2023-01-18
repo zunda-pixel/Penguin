@@ -61,7 +61,10 @@ struct TweetDetailView: View {
       .scrollViewAttitude()
     } else {
       ScrollView {
-        cellView(viewModel: viewModel.cellViewModel)
+        VStack {
+          cellView(viewModel: viewModel.cellViewModel)
+          Divider()
+        }
           .scrollContentAttribute()
       }
       .scrollViewAttitude()
