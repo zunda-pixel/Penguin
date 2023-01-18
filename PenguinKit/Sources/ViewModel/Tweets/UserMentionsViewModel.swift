@@ -2,9 +2,9 @@
 //  UserMentionsViewModel.swift
 //
 
+import Algorithms
 import Foundation
 import Sweet
-import Algorithms
 
 @MainActor final class UserMentionsViewModel: TimelineTweetsProtocol {
   let userID: String
@@ -62,7 +62,10 @@ import Algorithms
 
       addResponse(response: response)
 
-      let referencedTweetIDs = Array(response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(\.id).uniqued())
+      let referencedTweetIDs = Array(
+        response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(
+          \.id
+        ).uniqued())
 
       if !referencedTweetIDs.isEmpty {
         let referencedResponse = try await Sweet(userID: userID).tweets(

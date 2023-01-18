@@ -4,8 +4,8 @@
 
 import CoreData
 import Foundation
-import Sweet
 import RegexBuilder
+import Sweet
 
 @MainActor
 protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDelegate,
@@ -38,17 +38,17 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
-  
+
   var showTweets: [Tweet] {
     let tweets = fetchShowTweetController.fetchedObjects ?? []
-    
+
     if searchSettings.query.isEmpty {
       return tweets
     } else {
       return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
     }
- }
-  
+  }
+
   var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
   var allUsers: [User] { fetchUserController.fetchedObjects ?? [] }
   var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
@@ -200,17 +200,15 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     return TweetContentModel(tweet: tweet, author: user)
   }
-  
+
   func quotedContent(tweet: Sweet.TweetModel, retweet: Sweet.TweetModel?) -> QuotedTweetModel? {
     let quotedTweetID: String?
-    
+
     if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
       quotedTweetID = quoted.id
-    }
-    else if let quoted = retweet?.referencedTweets.first(where: { $0.type == .quoted }) {
+    } else if let quoted = retweet?.referencedTweets.first(where: { $0.type == .quoted }) {
       quotedTweetID = quoted.id
-    }
-    else {
+    } else {
       quotedTweetID = nil
     }
 
@@ -220,7 +218,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     let user = getUser(tweet.authorID!)!
 
     let quotedQuotedTweet: TweetContentModel?
-    
+
     if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
       let tweet = getTweet(quoted.id)!
       let user = getUser(tweet.authorID!)!
@@ -229,9 +227,10 @@ extension ReverseChronologicalTweetsViewProtocol {
       quotedQuotedTweet = nil
     }
 
-    return QuotedTweetModel(tweetContent: .init(tweet: tweet, author: user), quoted: quotedQuotedTweet)
+    return QuotedTweetModel(
+      tweetContent: .init(tweet: tweet, author: user), quoted: quotedQuotedTweet)
   }
-  
+
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweet = getTweet(tweetID)!
 

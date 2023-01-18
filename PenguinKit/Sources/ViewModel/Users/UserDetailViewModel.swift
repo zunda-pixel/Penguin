@@ -96,7 +96,10 @@ import Sweet
 
       addResponse(response: response)
 
-      let tweetIDs = Array(response.relatedTweets.lazy.flatMap(\.referencedTweets).filter {$0.type == .quoted }.map(\.id).uniqued())
+      let tweetIDs = Array(
+        response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(
+          \.id
+        ).uniqued())
 
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)

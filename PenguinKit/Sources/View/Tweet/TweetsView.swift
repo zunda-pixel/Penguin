@@ -8,36 +8,36 @@ import SwiftUI
 struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View {
   @Environment(\.settings) var settings
   @EnvironmentObject var router: NavigationPathRouter
-  
+
   @ObservedObject var viewModel: ViewModel
   let listTopContent: ListTopContent
   let hasTopContent: Bool
-  
+
   init(viewModel: ViewModel, @ViewBuilder listTopContent: () -> ListTopContent) {
     self.viewModel = viewModel
     self.listTopContent = listTopContent()
     self.hasTopContent = true
   }
-  
+
   init(viewModel: ViewModel) where ListTopContent == EmptyView {
     self.viewModel = viewModel
     self.listTopContent = EmptyView()
     self.hasTopContent = false
   }
-  
+
   @ViewBuilder
   var listView: some View {
     List {
       listTopContent
         .listContentAttribute()
-      
+
       if viewModel.showTweets.isEmpty && viewModel.loadingTweet {
         ProgressView()
           .controlSize(.large)
           .tint(.secondary)
           .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
-      
+
       if viewModel.showTweets.isEmpty && !viewModel.loadingTweet {
         VStack {
           Image(systemName: "info.square")
@@ -45,7 +45,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         }
         .frame(maxWidth: .infinity)
       }
-      
+
       tweetsView
         .listContentAttribute()
     }
@@ -55,7 +55,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     .scrollViewAttitude()
     .listStyle(.inset)
   }
-  
+
   var body: some View {
     listView
       .alert(errorHandle: $viewModel.errorHandle)
@@ -69,12 +69,12 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         await viewModel.fetchTweets(first: firstTweetID, last: nil)
       }
   }
-  
+
   @ViewBuilder
   var tweetsView: some View {
     ForEach(viewModel.showTweets) { tweet in
       let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
-      
+
       TweetCellView(viewModel: cellViewModel)
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
@@ -97,8 +97,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           .tint(.gray)
         }
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
-          LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id)
-            .tint(.pink.opacity(0.5))
+          LikeButton(
+            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
+          )
+          .tint(.pink.opacity(0.5))
         }
         .swipeActions(edge: .leading) {
           BookmarkButton(

@@ -3,16 +3,20 @@
 //
 
 import ActivityKit
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 public struct ActivityWidgets: Widget {
-  public init() { }
-  
+  public init() {}
+
   public var body: some WidgetConfiguration {
     ActivityConfiguration(for: TweetAttributes.self) { context in
       TweetNotification(attributes: context.attributes)
-        .widgetURL(URL(string: "penguin://")!.appending(queryItems: [.init(name: "tweetID", value: context.attributes.tweet.id)]))
+        .widgetURL(
+          URL(string: "penguin://")!.appending(queryItems: [
+            .init(name: "tweetID", value: context.attributes.tweet.id)
+          ])
+        )
         .padding()
     } dynamicIsland: { context in
       DynamicIsland {
@@ -22,8 +26,8 @@ public struct ActivityWidgets: Widget {
         DynamicIslandExpandedRegion(.center) {
           VStack(alignment: .leading) {
             (Text(context.attributes.user.name).bold()
-             + Text(" @\(context.attributes.user.userName)").foregroundColor(.secondary))
-            .font(.title3)
+              + Text(" @\(context.attributes.user.userName)").foregroundColor(.secondary))
+              .font(.title3)
             Text(context.attributes.tweet.createdAt!, format: .relative(presentation: .named))
           }
         }
@@ -39,7 +43,10 @@ public struct ActivityWidgets: Widget {
       } minimal: {
         Text("🐧")
       }
-      .widgetURL(URL(string: "penguin://")!.appending(queryItems: [.init(name: "tweetID", value: context.attributes.tweet.id)]))
+      .widgetURL(
+        URL(string: "penguin://")!.appending(queryItems: [
+          .init(name: "tweetID", value: context.attributes.tweet.id)
+        ]))
     }
     .configurationDisplayName("Latest Tweet")
     .description("This is Latest Tweet widget.")

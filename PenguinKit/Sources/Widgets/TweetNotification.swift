@@ -12,7 +12,7 @@ struct TweetNotification: View {
     HStack {
       Image(systemName: "person")
         .font(.system(size: 30))
-      
+
       VStack(alignment: .leading) {
         HStack {
           (Text(attributes.user.name).bold()
@@ -36,7 +36,11 @@ struct TweetNotification_Previews: PreviewProvider {
   static var previews: some View {
     TweetNotification(
       attributes: .init(
-        user: .init(id: "", name: "zunda", userName: "zunda", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!),
+        user: .init(
+          id: "", name: "zunda", userName: "zunda",
+          profileImageURL: URL(
+            string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!
+        ),
         tweet: .init(id: "", text: "zunda", createdAt: Date())
       )
     )
