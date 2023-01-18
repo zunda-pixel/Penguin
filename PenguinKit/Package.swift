@@ -23,7 +23,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-collections", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/Sweet", branch: "main"),
     .package(url: "https://github.com/onevcat/Kingfisher", .upToNextMajor(from: "7.0.0")),
-    .package(url: "https://github.com/zunda-pixel/ChatBubble", branch: "main"),
+    .package(url: "https://github.com/zunda-pixel/ChatBubble", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/AttributedText", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/hyperoslo/Cache", .upToNextMajor(from: "6.0.0")),
     .package(url: "https://github.com/alexisakers/HTMLString", .upToNextMajor(from: "6.0.0")),

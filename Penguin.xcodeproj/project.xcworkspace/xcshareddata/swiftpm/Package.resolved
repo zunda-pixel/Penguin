@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/ChatBubble",
       "state" : {
-        "branch" : "main",
-        "revision" : "6131d70114a71e52c4cbc0bf55647c2b1117f84f"
+        "revision" : "5406cadfaf6aefc9d6895bdbc2c44c9db386fab5",
+        "version" : "1.0.0"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/HTTPClient",
       "state" : {
-        "revision" : "270418dad6d9bbe64158394f4e88feb49866889c",
-        "version" : "1.4.0"
+        "revision" : "10b9114bd5d18787a4c9f5709d6dc5c933a99e64",
+        "version" : "1.4.1"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/LicenseView",
       "state" : {
-        "revision" : "7402450c7ce1cc57c192d5f97720de56ca9c6696",
-        "version" : "1.0.1"
+        "revision" : "fb886042a9a63ee53c96d3406ea0114275214809",
+        "version" : "1.0.2"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Node",
       "state" : {
-        "revision" : "b7e89902b8f293b75ed481c2f56928e04ce92a7e",
-        "version" : "1.0.0"
+        "revision" : "0a0b9e4c4a5fefbc8cfc75d518594069f983059d",
+        "version" : "1.0.1"
       }
     },
     {
@@ -95,8 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/OAuth1",
       "state" : {
-        "revision" : "e9dd391d38e21188ec6031951cab42304d8c6189",
-        "version" : "1.0.4"
+        "revision" : "661ffab29a563649955618b2bdaed1cf63e1a132",
+        "version" : "1.0.5"
       }
     },
     {
@@ -177,7 +177,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "abc66e0e5661e6f90b1c24feb3af5da98cc690a0"
+        "revision" : "759043e97faf388a1cf059b70126ea3a90d5f6d2"
       }
     },
     {
