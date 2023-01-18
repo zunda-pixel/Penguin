@@ -8,13 +8,13 @@ import WidgetKit
 
 public struct ContentView: View {
   public init() {}
-  
+
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
-  
+
   @State var currentUser: Sweet.UserModel? = Secure.currentUser
   @State var loginUsers: [Sweet.UserModel] = Secure.loginUsers
   @State var settings = Secure.settings
-  
+
   @MainActor
   @ViewBuilder
   func tabViewContent(currentUser: Sweet.UserModel, tabItem: TabItem) -> some View {
@@ -70,10 +70,10 @@ public struct ContentView: View {
       )
     }
   }
-  
+
   func fetchLatestTweet(userID: String) async {
     WidgetCenter.shared.reloadAllTimelines()
-    
+
     do {
       guard let activity = try await WidgetsManager.fetchLatestTweet(userID: userID) else {
         return
@@ -81,16 +81,16 @@ public struct ContentView: View {
       print(activity)
       // await activity.update(using: .init()) stateのアップデート。今回は意味ない
       // await activity.end() activityの削除
-      
+
     } catch {
       let errorHandle = ErrorHandle(error: error)
       errorHandle.log()
     }
   }
-  
+
   @Environment(\.colorScheme) var colorScheme
   @State var schemeItem: SchemeItem?
-  
+
   @ViewBuilder
   @MainActor
   func tabView(currentUser: Sweet.UserModel) -> some View {
@@ -103,14 +103,14 @@ public struct ContentView: View {
           .tag(tab)
           .toolbarBackground(
             colorScheme == .dark
-            ? settings.colorType.colorSet.darkPrimaryColor
-            : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
+              ? settings.colorType.colorSet.darkPrimaryColor
+              : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
           )
           .toolbarBackground(.visible, for: .tabBar)
       }
     }
   }
-  
+
   @ViewBuilder
   @MainActor
   func splitView(currentUser: Sweet.UserModel) -> some View {
@@ -122,7 +122,7 @@ public struct ContentView: View {
           selectedTab = newTab
         }
       }
-      
+
       List(selection: binding) {
         ForEach(settings.tabs) { tab in
           Label(tab.title, systemImage: tab.systemImage)
@@ -133,14 +133,14 @@ public struct ContentView: View {
       tabViewContent(currentUser: currentUser, tabItem: selectedTab)
         .toolbarBackground(
           colorScheme == .dark
-          ? settings.colorType.colorSet.darkPrimaryColor
-          : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
+            ? settings.colorType.colorSet.darkPrimaryColor
+            : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
         )
         .toolbarBackground(.visible, for: .tabBar)
     }
     .navigationSplitViewStyle(.balanced)
   }
-  
+
   public var body: some View {
     VStack {
       if let currentUser {
@@ -162,17 +162,17 @@ public struct ContentView: View {
       } else {
         VStack {
           let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
-          
+
           Image(icon!.iconName, bundle: .module)
             .resizable()
             .scaledToFit()
             .cornerRadius(15)
             .padding(40)
-          
+
           Text("Thanks for using Penguin!")
             .font(.title)
             .bold()
-          
+
           LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
               .bold()

@@ -14,8 +14,8 @@ import Sweet
   var author: Sweet.UserModel { get }
   var tweet: Sweet.TweetModel { get }
 
-  var retweet: TweetAndUser? { get }
-  var quoted: TweetAndUser? { get }
+  var retweet: TweetContentModel? { get }
+  var quoted: QuotedTweetModel? { get }
 
   var medias: [Sweet.MediaModel] { get }
   var poll: Sweet.PollModel? { get }
@@ -28,8 +28,8 @@ import Sweet
   let userID: String
   let author: Sweet.UserModel
   let tweet: Sweet.TweetModel
-  let retweet: TweetAndUser?
-  let quoted: TweetAndUser?
+  let retweet: TweetContentModel?
+  let quoted: QuotedTweetModel?
   let medias: [Sweet.MediaModel]
   let poll: Sweet.PollModel?
   let place: Sweet.PlaceModel?
@@ -40,8 +40,8 @@ import Sweet
     userID: String,
     tweet: Sweet.TweetModel,
     author: Sweet.UserModel,
-    retweet: TweetAndUser? = nil,
-    quoted: TweetAndUser? = nil,
+    retweet: TweetContentModel? = nil,
+    quoted: QuotedTweetModel? = nil,
     medias: [Sweet.MediaModel] = [],
     poll: Sweet.PollModel? = nil,
     place: Sweet.PlaceModel? = nil
@@ -60,10 +60,8 @@ import Sweet
     hasher.combine(userID)
     hasher.combine(author)
     hasher.combine(tweet)
-    hasher.combine(retweet?.tweet)
-    hasher.combine(retweet?.user)
-    hasher.combine(quoted?.tweet)
-    hasher.combine(quoted?.user)
+    hasher.combine(retweet)
+    hasher.combine(quoted)
     hasher.combine(medias)
     hasher.combine(poll)
     hasher.combine(place)

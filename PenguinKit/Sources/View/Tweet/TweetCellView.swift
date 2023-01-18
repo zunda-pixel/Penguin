@@ -16,7 +16,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
-    let user = isRetweeted ? viewModel.retweet!.user : viewModel.author
+    let user = isRetweeted ? viewModel.retweet!.author : viewModel.author
 
     HStack(alignment: .top) {
       ProfileImageView(url: user.profileImageURL!)
@@ -80,21 +80,36 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         if let quoted = viewModel.quoted {
-          QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweet, user: quoted.user)
-            .contentShape(Rectangle())
-            .onTapGesture {
-              let tweetDetailView: TweetDetailViewModel = .init(
-                cellViewModel: TweetCellViewModel(
-                  userID: viewModel.userID,
-                  tweet: quoted.tweet,
-                  author: quoted.user
-                )
-              )
-              router.path.append(tweetDetailView)
+          QuotedTweetCellView(
+            userID: viewModel.userID, tweet: quoted.tweetContent.tweet,
+            user: quoted.tweetContent.author
+          )
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .contentShape(Rectangle())
+          .onTapGesture {
+            let quotedTweetModel: QuotedTweetModel?
+
+            if let quotedTweet = quoted.quoted {
+              quotedTweetModel = QuotedTweetModel(
+                tweetContent: .init(tweet: quotedTweet.tweet, author: quotedTweet.author),
+                quoted: nil)
+            } else {
+              quotedTweetModel = nil
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+
+            let tweetDetailView: TweetDetailViewModel = .init(
+              cellViewModel: TweetCellViewModel(
+                userID: viewModel.userID,
+                tweet: quoted.tweetContent.tweet,
+                author: quoted.tweetContent.author,
+                quoted: quotedTweetModel
+              )
+            )
+            router.path.append(tweetDetailView)
+          }
+          .padding(.horizontal, 10)
+          .padding(.vertical, 5)
+          .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
         }
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
@@ -102,7 +117,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           let urlModel = viewModel.tweet.entity?.urls.first,
           let url = urlModel.expandedURL.map { URL(string: $0) } ?? urlModel.url
         {
-          OGPCardView(viewModel: .init(url: url))
+          OGPCardView(viewModel: OGPCardViewModel(url: url))
         }
 
         if isRetweeted {

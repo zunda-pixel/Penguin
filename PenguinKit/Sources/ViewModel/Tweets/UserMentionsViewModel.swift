@@ -2,6 +2,7 @@
 //  UserMentionsViewModel.swift
 //
 
+import Algorithms
 import Foundation
 import Sweet
 
@@ -61,13 +62,14 @@ import Sweet
 
       addResponse(response: response)
 
-      let referencedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({
-        $0.type == .quoted
-      }).map(\.id)
+      let referencedTweetIDs = Array(
+        response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(
+          \.id
+        ).uniqued())
 
-      if referencedTweetIDs.count > 0 {
+      if !referencedTweetIDs.isEmpty {
         let referencedResponse = try await Sweet(userID: userID).tweets(
-          by: Array(referencedTweetIDs)
+          by: referencedTweetIDs
         )
 
         addResponse(response: referencedResponse)

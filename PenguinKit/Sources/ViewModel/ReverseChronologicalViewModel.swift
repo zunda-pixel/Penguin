@@ -32,7 +32,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     self.loadingTweets = false
 
     self.searchSettings = TimelineSearchSettings(query: "")
-    
+
     self.fetchTimelineController = {
       let fetchRequest = NSFetchRequest<Timeline>()
       fetchRequest.entity = Timeline.entity()

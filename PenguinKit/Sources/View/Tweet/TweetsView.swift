@@ -75,51 +75,44 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     ForEach(viewModel.showTweets) { tweet in
       let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
 
-      VStack {
-        TweetCellView(viewModel: cellViewModel)
-        TweetToolBar(
-          viewModel: .init(
-            userID: viewModel.userID,
-            tweet: cellViewModel.tweet,
-            user: cellViewModel.author
+      TweetCellView(viewModel: cellViewModel)
+        .frame(maxWidth: .infinity)
+        .contentShape(Rectangle())
+        .contextMenu {
+          let url: URL = .init(
+            string:
+              "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweet.id)"
+          )!
+          ShareLink(item: url) {
+            Label("Share", systemImage: "square.and.arrow.up")
+          }
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+          Button {
+            let tweetDetailViewModel = TweetDetailViewModel(cellViewModel: cellViewModel)
+            router.path.append(tweetDetailViewModel)
+          } label: {
+            Image(systemName: "ellipsis")
+          }
+          .tint(.gray)
+        }
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+          LikeButton(
+            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
           )
-        )
-      }
-      .frame(maxWidth: .infinity)
-      .contentShape(Rectangle())
-      .contextMenu {
-        let url: URL = .init(
-          string:
-            "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweet.id)"
-        )!
-        ShareLink(item: url) {
-          Label("Share", systemImage: "square.and.arrow.up")
-        }
-      }
-      .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-        Button {
-          let tweetDetailViewModel = TweetDetailViewModel(cellViewModel: cellViewModel)
-          router.path.append(tweetDetailViewModel)
-        } label: {
-          Image(systemName: "ellipsis")
-        }
-        .tint(.gray)
-      }
-      .swipeActions(edge: .leading, allowsFullSwipe: true) {
-        LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id)
           .tint(.pink.opacity(0.5))
-      }
-      .swipeActions(edge: .leading) {
-        BookmarkButton(
-          errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
-        )
-        .tint(.brown.opacity(0.5))
-      }
-      .task {
-        guard let lastTweet = viewModel.showTweets.last else { return }
-        guard tweet.id == lastTweet.id else { return }
-        await viewModel.fetchTweets(first: nil, last: lastTweet.id)
-      }
+        }
+        .swipeActions(edge: .leading) {
+          BookmarkButton(
+            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
+          )
+          .tint(.brown.opacity(0.5))
+        }
+        .task {
+          guard let lastTweet = viewModel.showTweets.last else { return }
+          guard tweet.id == lastTweet.id else { return }
+          await viewModel.fetchTweets(first: nil, last: lastTweet.id)
+        }
     }
   }
 }

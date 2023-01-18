@@ -211,7 +211,7 @@ struct TweetToolBar: View {
     .sheet(isPresented: $isPresentedNewTweetView) {
       let viewModel: NewTweetViewModel = .init(
         userID: viewModel.userID,
-        quoted: (viewModel.tweet, viewModel.user)
+        quoted: TweetContentModel(tweet: viewModel.tweet, author: viewModel.user)
       )
       NewTweetView(viewModel: viewModel)
     }

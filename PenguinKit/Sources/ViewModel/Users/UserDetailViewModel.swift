@@ -96,16 +96,14 @@ import Sweet
 
       addResponse(response: response)
 
-      let referencedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({
-        $0.type == .quoted
-      }).map(\.id)
+      let tweetIDs = Array(
+        response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(
+          \.id
+        ).uniqued())
 
-      if referencedTweetIDs.count > 0 {
-        let referencedResponse = try await Sweet(userID: userID).tweets(
-          by: Array(referencedTweetIDs)
-        )
-
-        addResponse(response: referencedResponse)
+      if !tweetIDs.isEmpty {
+        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+        addResponse(response: response)
       }
 
       timelines = []
