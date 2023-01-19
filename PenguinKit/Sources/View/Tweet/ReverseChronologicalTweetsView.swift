@@ -19,7 +19,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           .frame(maxWidth: .infinity)
           .contextMenu {
             let url: URL = URL(
-              string: "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweet.id)"
+              string: "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweetText.id)"
             )!
             ShareLink(item: url) {
               Label("Share", systemImage: "square.and.arrow.up")
@@ -33,14 +33,14 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           }
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
             LikeButton(
-              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id
             )
             .tint(.secondary)
             .labelStyle(.iconOnly)
           }
           .swipeActions(edge: .leading) {
             BookmarkButton(
-              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id!
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id
             )
             .tint(.secondary)
             .labelStyle(.iconOnly)

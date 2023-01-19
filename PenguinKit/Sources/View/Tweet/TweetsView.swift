@@ -80,7 +80,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         .contentShape(Rectangle())
         .contextMenu {
           let url: URL = URL(
-            string: "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweet.id)"
+            string: "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweetText.id)"
           )!
           ShareLink(item: url) {
             Label("Share", systemImage: "square.and.arrow.up")
@@ -103,13 +103,13 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         }
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
           LikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
+            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id
           )
           .tint(.pink.opacity(0.5))
         }
         .swipeActions(edge: .leading) {
           BookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: tweet.id
+            errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id
           )
           .tint(.brown.opacity(0.5))
         }

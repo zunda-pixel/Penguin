@@ -47,7 +47,7 @@ struct OnlineTweetDetailView: View {
     }
     .contextMenu {
       let url: URL = URL(
-        string: "https://twitter.com/\(viewModel.author.id)/status/\(viewModel.tweet.id)"
+        string: "https://twitter.com/\(viewModel.author.id)/status/\(viewModel.tweetText.id)"
       )!
       ShareLink(item: url) {
         Label("Share", systemImage: "square.and.arrow.up")
