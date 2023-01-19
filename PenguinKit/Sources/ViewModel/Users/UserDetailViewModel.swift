@@ -106,6 +106,7 @@ import Sweet
         addResponse(response: response)
       }
 
+      // TODO need to be empty?
       timelines = []
 
       addTimelines(response.tweets.map(\.id))

@@ -25,6 +25,12 @@ struct NavigationManager: ViewModifier {
           .navigationBarTitleDisplayMode(.inline)
           .navigationBarAttribute()
       }
+      .navigationDestination(for: UserTweetsViewModel.self) { viewModel in
+        TweetsView(viewModel: viewModel)
+          .navigationTitle("All Tweets")
+          .navigationBarTitleDisplayMode(.inline)
+          .navigationBarAttribute()
+      }
       .navigationDestination(for: UserDetailViewModel.self) { viewModel in
         UserDetailView(viewModel: viewModel)
           .navigationTitle("@\(viewModel.user.userName)")

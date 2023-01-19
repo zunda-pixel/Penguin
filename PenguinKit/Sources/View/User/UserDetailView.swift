@@ -85,9 +85,9 @@ struct UserDetailView: View {
           Label("Mention", systemImage: "ellipsis.message").frame(maxWidth: .infinity)
         }
 
-        // TODO NavigationLinkを使わないでうまくViewModelを分割する
-        NavigationLink {
-          TweetsView(viewModel: viewModel)
+        Button {
+          let viewModel = UserTweetsViewModel(viewModel: viewModel)
+          router.path.append(viewModel)
         } label: {
           Label("All Tweets", systemImage: "list.dash.header.rectangle").frame(maxWidth: .infinity)
         }
