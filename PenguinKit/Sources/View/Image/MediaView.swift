@@ -53,8 +53,6 @@ struct MediaView: View {
       image(url: url)
     case .video(let url):
       videoImage(url: url)
-    case .unknown:
-      Text("Unavailable Media")
     }
   }
 }
@@ -89,7 +87,6 @@ extension Sweet.MediaModel {
   enum MediaType {
     case video(url: URL)
     case image(url: URL)
-    case unknown
   }
 
   var mediaType: MediaType {
@@ -101,6 +98,6 @@ extension Sweet.MediaModel {
       return .image(url: url)
     }
 
-    return .unknown
+    fatalError()
   }
 }

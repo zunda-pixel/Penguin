@@ -4,7 +4,6 @@
 
 import CoreData
 import Foundation
-import OpenGraph
 import Sweet
 
 @MainActor
@@ -185,10 +184,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         paginationToken: paginationToken
       )
 
-      Task.detached {
-        _ = try await OGPManager.fetchOGPData(tweets: response.tweets)
-      }
-
       let referencedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter({
         $0.type == .quoted
       }).map(\.id)
@@ -198,10 +193,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
           by: Array(referencedTweetIDs)
         )
         try addResponse(response: referencedResponse)
-
-        Task.detached {
-          _ = try await OGPManager.fetchOGPData(tweets: referencedResponse.tweets)
-        }
       }
 
       try addResponse(response: response)

@@ -111,13 +111,14 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .padding(.vertical, 5)
           .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
         }
-
+        
+        let urlModel = viewModel.tweet.entity?.urls.filter { !$0.images.isEmpty && (200..<300).contains($0.status!) }.first
+        
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
-        if viewModel.tweet.attachments?.mediaKeys.isEmpty != false,
-          let urlModel = viewModel.tweet.entity?.urls.first,
-          let url = urlModel.expandedURL.map { URL(string: $0) } ?? urlModel.url
+        if let urlModel = urlModel,
+            viewModel.tweet.attachments?.mediaKeys.isEmpty != false
         {
-          OGPCardView(viewModel: OGPCardViewModel(url: url))
+          OGPCardView(urlModel: urlModel)
         }
 
         if isRetweeted {

@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "cache",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hyperoslo/Cache",
-      "state" : {
-        "revision" : "c7f4d633049c3bd649a353bad36f6c17e9df085f",
-        "version" : "6.0.0"
-      }
-    },
-    {
       "identity" : "chatbubble",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/ChatBubble",
@@ -100,36 +91,18 @@
       }
     },
     {
-      "identity" : "ohhttpstubs",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
-      "state" : {
-        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
-        "version" : "9.1.0"
-      }
-    },
-    {
-      "identity" : "opengraph",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zunda-pixel/OpenGraph",
-      "state" : {
-        "revision" : "137a0932289ca8c1e9ddc0997c35c103258f593e",
-        "version" : "1.0.0"
-      }
-    },
-    {
       "identity" : "sweet",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
         "branch" : "main",
-        "revision" : "ce605037701258e4d13eacb51b8b41a7a56c8539"
+        "revision" : "1916726f21573015124cc2a26a83c274a219964d"
       }
     },
     {
       "identity" : "swift-algorithms",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-algorithms.git",
+      "location" : "https://github.com/apple/swift-algorithms",
       "state" : {
         "revision" : "b14b7f4c528c942f121c8b860b9410b2bf57825e",
         "version" : "1.0.0"
@@ -147,7 +120,7 @@
     {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections.git",
+      "location" : "https://github.com/apple/swift-collections",
       "state" : {
         "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
         "version" : "1.0.4"
@@ -177,7 +150,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "759043e97faf388a1cf059b70126ea3a90d5f6d2"
+        "revision" : "fcc2b008f3c80684d171f704b803b2be0dab5f71"
       }
     },
     {
