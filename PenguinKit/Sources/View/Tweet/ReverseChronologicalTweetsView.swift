@@ -72,15 +72,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       .listContentAttribute()
     }
     .searchable(text: $viewModel.searchSettings.query)
-    .overlay(alignment: .topTrailing) {
-      if viewModel.notShowTweetCount != 0 {
-        Text("\(viewModel.notShowTweetCount)")
-          .padding(.horizontal)
-          .frame(minWidth: 30)
-          .background(settings.colorType.colorSet.tintColor, in: RoundedRectangle(cornerRadius: 14))
-          .padding()
-      }
-    }
     .scrollViewAttitude()
     .listStyle(.plain)
     .alert(errorHandle: $viewModel.errorHandle)

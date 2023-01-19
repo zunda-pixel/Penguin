@@ -22,7 +22,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   @Published var searchSettings: TimelineSearchSettings
   @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
-  @Published var latestTweetDate: Date?
 
   init(userID: String, viewContext: NSManagedObjectContext) {
     self.userID = userID
