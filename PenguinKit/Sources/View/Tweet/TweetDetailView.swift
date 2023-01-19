@@ -6,7 +6,8 @@ import SwiftUI
 
 struct TweetDetailView: View {
   @ObservedObject var viewModel: TweetDetailViewModel
-
+  @EnvironmentObject var router: NavigationPathRouter
+  
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
@@ -44,30 +45,71 @@ struct TweetDetailView: View {
         )
       }
     }
+    .contextMenu {
+      let url: URL = URL(
+        string: "https://twitter.com/\(viewModel.author.id)/status/\(viewModel.tweet.id)"
+      )!
+      ShareLink(item: url) {
+        Label("Share", systemImage: "square.and.arrow.up")
+      }
+      
+      LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
+      UnLikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
+      
+      BookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
+      UnBookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
+    }
+    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+      Button {
+        let tweetDetailViewModel = TweetDetailViewModel(cellViewModel: viewModel)
+        router.path.append(tweetDetailViewModel)
+      } label: {
+        Image(systemName: "ellipsis")
+      }
+      .tint(.gray)
+    }
+    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+      LikeButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id
+      )
+      .tint(.pink.opacity(0.5))
+    }
+    .swipeActions(edge: .leading) {
+      BookmarkButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id
+      )
+      .tint(.brown.opacity(0.5))
+    }
   }
 
+  func adjustDepth(depth: Int) -> Int {
+    if depth < 3 {
+      return depth
+    }
+    else {
+      return 3
+    }
+  }
+  
   var body: some View {
     if let tweetNode = viewModel.tweetNode {
-      ScrollView {
-        NodeView([tweetNode], children: \.children) { child, depth in
+      List {
+        NodeView([tweetNode], children: \.children) { child in
           let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-          let depth = depth < 3 ? depth : 3
+                    
           cellView(viewModel: viewModel)
-            .padding(.leading, CGFloat(depth) * 10)
-          Divider()
         }
-        .scrollContentAttribute()
+        .listContentAttribute()
       }
       .scrollViewAttitude()
+      .listStyle(.inset)
     } else {
-      ScrollView {
-        VStack {
-          cellView(viewModel: viewModel.cellViewModel)
-          Divider()
-        }
-          .scrollContentAttribute()
+      List {
+        cellView(viewModel: viewModel.cellViewModel)
+          .listContentAttribute()
       }
       .scrollViewAttitude()
+      .listStyle(.inset)
       .task {
         await viewModel.fetchTweets(first: nil, last: nil)
       }

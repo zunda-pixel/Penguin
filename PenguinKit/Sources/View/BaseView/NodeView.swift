@@ -13,14 +13,12 @@ where
 {
   var contentData: ContentData
   var children: KeyPath<ContentData.Element, ContentData>
-  var rawContent: (ContentData.Element, Int) -> RowContent
-
-  let depth = 0
+  var rawContent: (ContentData.Element) -> RowContent
 
   init(
     _ contentData: ContentData,
     children: KeyPath<ContentData.Element, ContentData>,
-    @ViewBuilder rawContent: @escaping (ContentData.Element, Int) -> RowContent
+    @ViewBuilder rawContent: @escaping (ContentData.Element) -> RowContent
   ) {
     self.contentData = contentData
     self.children = children
@@ -29,13 +27,13 @@ where
 
   var body: some View {
     ForEach(contentData) { item in
-      rawContent(item, depth)
+      rawContent(item)
 
       NodeView(
         item[keyPath: children],
         children: children
-      ) { item, depth in
-        rawContent(item, depth + 1)
+      ) { item in
+        rawContent(item)
       }
     }
   }
