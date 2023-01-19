@@ -19,28 +19,39 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           .frame(maxWidth: .infinity)
           .contextMenu {
             let url: URL = URL(
-              string: "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweetText.id)"
+              string:
+                "https://twitter.com/\(cellViewModel.author.id)/status/\(cellViewModel.tweetText.id)"
             )!
             ShareLink(item: url) {
               Label("Share", systemImage: "square.and.arrow.up")
             }
-            
-            LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id)
-            UnLikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id)
-            
-            BookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id)
-            UnBookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id)
+
+            LikeButton(
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+              tweetID: cellViewModel.tweetText.id)
+            UnLikeButton(
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+              tweetID: cellViewModel.tweetText.id)
+
+            BookmarkButton(
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+              tweetID: cellViewModel.tweetText.id)
+            UnBookmarkButton(
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+              tweetID: cellViewModel.tweetText.id)
           }
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
             LikeButton(
-              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+              tweetID: cellViewModel.tweetText.id
             )
             .tint(.secondary)
             .labelStyle(.iconOnly)
           }
           .swipeActions(edge: .leading) {
             BookmarkButton(
-              errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: cellViewModel.tweetText.id
+              errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+              tweetID: cellViewModel.tweetText.id
             )
             .tint(.secondary)
             .labelStyle(.iconOnly)

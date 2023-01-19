@@ -7,7 +7,7 @@ import SwiftUI
 struct TweetDetailView: View {
   @ObservedObject var viewModel: TweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
-  
+
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
@@ -52,12 +52,20 @@ struct TweetDetailView: View {
       ShareLink(item: url) {
         Label("Share", systemImage: "square.and.arrow.up")
       }
-      
-      LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
-      UnLikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
-      
-      BookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
-      UnBookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
+
+      LikeButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
+      UnLikeButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
+
+      BookmarkButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
+      UnBookmarkButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
@@ -70,13 +78,15 @@ struct TweetDetailView: View {
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
       LikeButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
       )
       .tint(.pink.opacity(0.5))
     }
     .swipeActions(edge: .leading) {
       BookmarkButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
       )
       .tint(.brown.opacity(0.5))
     }
@@ -85,18 +95,17 @@ struct TweetDetailView: View {
   func adjustDepth(depth: Int) -> Int {
     if depth < 3 {
       return depth
-    }
-    else {
+    } else {
       return 3
     }
   }
-  
+
   var body: some View {
     if let tweetNode = viewModel.tweetNode {
       List {
         NodeView([tweetNode], children: \.children) { child in
           let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-                    
+
           cellView(viewModel: viewModel)
         }
         .listContentAttribute()

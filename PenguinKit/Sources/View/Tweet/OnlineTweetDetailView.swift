@@ -7,7 +7,7 @@ import SwiftUI
 struct OnlineTweetDetailView: View {
   @ObservedObject var viewModel: OnlineTweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
-  
+
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
@@ -52,12 +52,20 @@ struct OnlineTweetDetailView: View {
       ShareLink(item: url) {
         Label("Share", systemImage: "square.and.arrow.up")
       }
-      
-      LikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
-      UnLikeButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
-      
-      BookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
-      UnBookmarkButton(errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id)
+
+      LikeButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
+      UnLikeButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
+
+      BookmarkButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
+      UnBookmarkButton(
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id)
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
@@ -70,13 +78,15 @@ struct OnlineTweetDetailView: View {
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
       LikeButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
       )
       .tint(.pink.opacity(0.5))
     }
     .swipeActions(edge: .leading) {
       BookmarkButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID, tweetID: viewModel.tweetText.id
+        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
       )
       .tint(.brown.opacity(0.5))
     }
@@ -89,7 +99,7 @@ struct OnlineTweetDetailView: View {
           let viewModel = self.viewModel.getTweetCellViewModel(child.id)
           cellView(viewModel: viewModel)
         }
-          .listContentAttribute()
+        .listContentAttribute()
 
       } else {
         ProgressView()
