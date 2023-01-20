@@ -15,6 +15,7 @@ struct Icon: Identifiable, Hashable {
   ]
 }
 
+#if !os(macOS)
 struct IconSettingsView: View {
   @Environment(\.settings) var settings
 
@@ -114,3 +115,4 @@ struct IconSettingsView_Previews: PreviewProvider {
     IconSettingsView()
   }
 }
+#endif

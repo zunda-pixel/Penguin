@@ -50,7 +50,9 @@ struct UserListsView: View {
       }
       .tag(ListTab.added)
     }
+    #if !os(macOS)
     .tabViewStyle(.page)
+    #endif
     .toolbar {
       ToolbarItem(placement: .navigation) {
         Picker("Tab", selection: $selection) {

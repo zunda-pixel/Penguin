@@ -23,7 +23,7 @@ struct ReverseChronologicalNavigationView: View {
         viewModel: ReverseChronologicalViewModel(userID: userID, viewContext: viewContext)
       )
       .navigationTitle("Timeline")
-      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarTitleDisplayModeIfAvailable(.inline)
       .navigationDestination()
       .toolbar {
         TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)

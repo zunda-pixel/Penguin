@@ -20,7 +20,7 @@ struct MentionNavigationView: View {
       TweetsView(viewModel: viewModel)
         .navigationBarAttribute()
         .navigationTitle("Mention")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayModeIfAvailable(.inline)
         .navigationDestination()
         .toolbar {
           TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)

@@ -84,12 +84,14 @@ struct SettingsView: View {
               }
             #endif
 
+            #if !os(macOS)
             NavigationLink {
               IconSettingsView()
                 .navigationTitle("App Icon")
             } label: {
               Label("App Icon", systemImage: "rectangle.grid.2x2")
             }
+            #endif
           }
 
           Section("ABOUT") {
@@ -143,7 +145,7 @@ struct SettingsView: View {
         Secure.settings = newValue
       }
       .navigationTitle("Settings")
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayModeIfAvailable(.large)
       .navigationDestination()
     }
     .environmentObject(router)
