@@ -30,10 +30,12 @@ struct OGPCardView: View {
           Text(urlModel.title!)
             .lineLimit(2)
 
-          Text(urlModel.description!)
-            .foregroundStyle(.secondary)
-            .font(.caption)
-            .lineLimit(2)
+          if let description = urlModel.description {
+            Text(description)
+              .foregroundStyle(.secondary)
+              .font(.caption)
+              .lineLimit(2)
+          }
         }
         .padding(.horizontal, padding)
       }
