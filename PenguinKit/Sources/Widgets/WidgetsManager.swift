@@ -20,7 +20,7 @@ enum WidgetsManager {
     let author = response.users.first { $0.id == latestTweet.authorID }!
 
     for activity in Activity<TweetAttributes>.activities {
-      await activity.end(activity.content)
+      await activity.end(nil, dismissalPolicy: .immediate)
     }
 
     let tweet = TweetAttributes(user: author, tweet: latestTweet)
