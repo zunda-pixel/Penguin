@@ -26,8 +26,11 @@ struct Settings: Codable, Equatable {
     dateFormat = .relative
     tabs = [.timeline, .mention, .list, .search, .like]
 
-    let isIPhone = UIDevice.current.userInterfaceIdiom == .phone
-    tabStyle = isIPhone ? .tab : .split
+    #if os(macOS)
+    tabStyle = .split
+    #else
+    tabStyle = UIDevice.current.userInterfaceIdiom == .phone ? .tab : .split
+    #endif
   }
 
   init(from decoder: Decoder) throws {

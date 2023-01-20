@@ -2,6 +2,7 @@
 //  TweetAttributes.swift
 //
 
+#if canImport(ActivityKit)
 import ActivityKit
 import Sweet
 
@@ -12,3 +13,4 @@ struct TweetAttributes: ActivityAttributes {
   struct ContentState: Codable, Hashable {
   }
 }
+#endif

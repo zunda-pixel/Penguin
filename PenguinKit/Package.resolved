@@ -19,21 +19,12 @@
       }
     },
     {
-      "identity" : "cache",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hyperoslo/Cache",
-      "state" : {
-        "revision" : "c7f4d633049c3bd649a353bad36f6c17e9df085f",
-        "version" : "6.0.0"
-      }
-    },
-    {
       "identity" : "chatbubble",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/ChatBubble",
       "state" : {
-        "branch" : "main",
-        "revision" : "6131d70114a71e52c4cbc0bf55647c2b1117f84f"
+        "revision" : "5406cadfaf6aefc9d6895bdbc2c44c9db386fab5",
+        "version" : "1.0.0"
       }
     },
     {
@@ -97,24 +88,6 @@
       "state" : {
         "revision" : "e9dd391d38e21188ec6031951cab42304d8c6189",
         "version" : "1.0.4"
-      }
-    },
-    {
-      "identity" : "ohhttpstubs",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
-      "state" : {
-        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
-        "version" : "9.1.0"
-      }
-    },
-    {
-      "identity" : "opengraph",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zunda-pixel/OpenGraph",
-      "state" : {
-        "revision" : "137a0932289ca8c1e9ddc0997c35c103258f593e",
-        "version" : "1.0.0"
       }
     },
     {

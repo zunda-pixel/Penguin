@@ -18,7 +18,11 @@ extension View {
   }
 
   func navigationBarAttribute() -> some View {
+    #if os(macOS)
+    self
+    #else
     self.modifier(NavigationBarAttribute())
+    #endif
   }
 }
 
@@ -62,6 +66,8 @@ struct ListContentAttribute: ViewModifier {
   }
 }
 
+
+#if !os(macOS)
 struct NavigationBarAttribute: ViewModifier {
   @Environment(\.settings) var settings
   @Environment(\.colorScheme) var colorScheme
@@ -76,3 +82,4 @@ struct NavigationBarAttribute: ViewModifier {
       .toolbarBackground(.visible, for: .navigationBar)
   }
 }
+#endif

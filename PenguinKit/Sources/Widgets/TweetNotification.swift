@@ -2,6 +2,7 @@
 //  TweetNotification.swift
 //
 
+#if canImport(ActivityKit)
 import SwiftUI
 import WidgetKit
 
@@ -47,3 +48,5 @@ struct TweetNotification_Previews: PreviewProvider {
     .previewContext(WidgetPreviewContext(family: .systemMedium))
   }
 }
+
+#endif
