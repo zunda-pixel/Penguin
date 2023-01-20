@@ -134,5 +134,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       }
     }
     .alert(errorHandle: $viewModel.errorHandle)
+    .alignmentGuide(.listRowSeparatorLeading) { _ in
+      return 0
+    }
   }
 }
