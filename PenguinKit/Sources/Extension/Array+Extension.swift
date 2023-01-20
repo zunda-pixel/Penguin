@@ -66,4 +66,9 @@ extension Sequence {
       return isAscending ? lhs < rhs : lhs > rhs
     }
   }
+  
+  func uniqued<T: Hashable>(by keyPath: KeyPath<Element, T>) -> [Element] {
+    return uniqued { $0[keyPath: keyPath] }
+  }
 }
+
