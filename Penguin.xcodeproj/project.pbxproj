@@ -14,11 +14,11 @@
 		2E271EB429742F67002B93CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E271EB329742F67002B93CC /* Assets.xcassets */; };
 		2E271EB629742F67002B93CC /* TweetWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EB229742F66002B93CC /* TweetWidgets.intentdefinition */; };
 		2E271EB729742F67002B93CC /* TweetWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EB229742F66002B93CC /* TweetWidgets.intentdefinition */; };
-		2E271EBA29742F67002B93CC /* Widgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E271EA829742F66002B93CC /* Widgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2E271EBA29742F67002B93CC /* Widgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E271EA829742F66002B93CC /* Widgets.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2E271EBF297437FB002B93CC /* PenguinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2E271EBE297437FB002B93CC /* PenguinKit */; };
 		2E271EFE29744AE0002B93CC /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E271EFD29744AE0002B93CC /* Intents.framework */; };
 		2E271F0129744AE1002B93CC /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E271F0029744AE1002B93CC /* IntentHandler.swift */; };
-		2E271F0529744AE1002B93CC /* TweetIntent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E271EFC29744AE0002B93CC /* TweetIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2E271F0529744AE1002B93CC /* TweetIntent.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E271EFC29744AE0002B93CC /* TweetIntent.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2E271F0A29744D7F002B93CC /* PenguinKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2E271F0929744D7F002B93CC /* PenguinKit */; };
 		2E271F0B29744DE2002B93CC /* TweetWidgets.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 2E271EB229742F66002B93CC /* TweetWidgets.intentdefinition */; };
 		E0C37BC92823189D007B925B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0C37BC82823189D007B925B /* Assets.xcassets */; };
@@ -359,11 +359,13 @@
 /* Begin PBXTargetDependency section */
 		2E271EB929742F67002B93CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 2E271EA729742F66002B93CC /* Widgets */;
 			targetProxy = 2E271EB829742F67002B93CC /* PBXContainerItemProxy */;
 		};
 		2E271F0429744AE1002B93CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 2E271EFB29744AE0002B93CC /* TweetIntent */;
 			targetProxy = 2E271F0329744AE1002B93CC /* PBXContainerItemProxy */;
 		};
