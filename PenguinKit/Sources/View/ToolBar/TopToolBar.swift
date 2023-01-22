@@ -14,19 +14,18 @@ struct TopToolBar: ToolbarContent {
 
   @MainActor
   var body: some ToolbarContent {
+    #if !os(macOS)
     if let currentUser {
-#if os(macOS)
-let placement: ToolbarItemPlacement = .navigation
-#else
-let placement: ToolbarItemPlacement = .navigationBarLeading
-#endif
-      
-      ToolbarItem(placement: placement) {
+      ToolbarItem(placement: .navigationBarLeading) {
         LoginMenu(
-          bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
-          currentUser: currentUser)
+          bindingCurrentUser: $currentUser,
+          loginUsers: $loginUsers,
+          settings: $settings,
+          currentUser: currentUser
+        )
       }
     }
+    #endif
 
 #if os(macOS)
 let placement: ToolbarItemPlacement = .navigation

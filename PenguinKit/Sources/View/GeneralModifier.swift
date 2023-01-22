@@ -6,15 +6,27 @@ import SwiftUI
 
 extension View {
   func scrollViewAttitude() -> some View {
+    #if os(macOS)
+    self
+    #else
     self.modifier(ScrollViewAttitude())
+    #endif
   }
 
   func scrollContentAttribute() -> some View {
+    #if os(macOS)
+    self
+    #else
     self.modifier(ScrollContentAttribute())
+    #endif
   }
 
   func listContentAttribute() -> some View {
+    #if os(macOS)
+    self
+    #else
     self.modifier(ListContentAttribute())
+    #endif
   }
 
   func navigationBarAttribute() -> some View {
