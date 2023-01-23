@@ -21,7 +21,7 @@ struct BookmarksNavigationView: View {
       TweetsView(viewModel: viewModel)
         .navigationBarAttribute()
         .navigationTitle("Bookmark")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayModeIfAvailable(.inline)
         .navigationDestination()
         .toolbar {
           TopToolBar(

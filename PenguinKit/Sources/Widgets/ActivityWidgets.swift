@@ -2,6 +2,7 @@
 //  ActivityWidgets.swift
 //
 
+#if canImport(ActivityKit)
 import ActivityKit
 import SwiftUI
 import WidgetKit
@@ -52,3 +53,4 @@ public struct ActivityWidgets: Widget {
     .description("This is Latest Tweet widget.")
   }
 }
+#endif

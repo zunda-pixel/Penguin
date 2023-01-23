@@ -116,7 +116,13 @@ struct UserDetailView: View {
     }
     .toolbar {
       if viewModel.userID != viewModel.user.id {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        #if os(macOS)
+        let placement: ToolbarItemPlacement = .navigation
+        #else
+        let placement: ToolbarItemPlacement = .navigationBarTrailing
+        #endif
+        
+        ToolbarItem(placement: placement) {
           UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id)
         }
       }

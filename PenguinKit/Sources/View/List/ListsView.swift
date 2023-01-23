@@ -90,18 +90,30 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
       .navigationBarAttribute()
       .scrollViewAttitude()
       .navigationTitle("List")
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayModeIfAvailable(.large)
       .navigationDestination()
       .toolbar {
         if let currentUser {
-          ToolbarItem(placement: .navigationBarLeading) {
+#if os(macOS)
+let placement: ToolbarItemPlacement = .navigation
+#else
+let placement: ToolbarItemPlacement = .navigationBarLeading
+#endif
+          
+          ToolbarItem(placement: placement) {
             LoginMenu(
               bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
               currentUser: currentUser)
           }
         }
 
-        ToolbarItem(placement: .navigationBarTrailing) {
+#if os(macOS)
+let placement: ToolbarItemPlacement = .navigation
+#else
+let placement: ToolbarItemPlacement = .navigationBarTrailing
+#endif
+        
+        ToolbarItem(placement: placement) {
           Button {
             viewModel.isPresentedAddList.toggle()
           } label: {

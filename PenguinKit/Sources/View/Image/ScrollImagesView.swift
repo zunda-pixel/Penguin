@@ -23,7 +23,9 @@ struct ScrollImagesView: View {
             .tag(media)
         }
       }
+      #if !os(macOS)
       .tabViewStyle(.page)
+      #endif
     }
   }
 }

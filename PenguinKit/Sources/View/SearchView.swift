@@ -76,7 +76,7 @@ struct SearchView: View {
       .scrollViewAttitude()
       .scrollDismissesKeyboard(.immediately)
       .navigationTitle("Search")
-      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarTitleDisplayModeIfAvailable(.inline)
       .navigationDestination()
       .toolbar {
         TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)

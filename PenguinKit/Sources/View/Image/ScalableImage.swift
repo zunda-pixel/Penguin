@@ -15,7 +15,11 @@ struct ScalableImage: View {
 
   @MainActor init(mediaURL: URL) {
     self.mediaURL = mediaURL
+    #if os(macOS)
+    self._location = .init(wrappedValue: NSScreen.main!.frame.size.center)
+    #else
     self._location = .init(wrappedValue: UIScreen.main.bounds.size.center)
+    #endif
   }
 
   func resetScale() {
@@ -32,7 +36,11 @@ struct ScalableImage: View {
 
   @MainActor func resetLocation() {
     withAnimation(.easeInOut) {
+      #if os(macOS)
+      location = NSScreen.main!.frame.size.center
+      #else
       location = UIScreen.main.bounds.size.center
+      #endif
     }
   }
 

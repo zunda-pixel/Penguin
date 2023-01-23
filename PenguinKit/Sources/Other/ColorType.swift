@@ -40,6 +40,81 @@ struct ColorSet: Codable, Equatable {
   let lightSecondaryColor: Color
 }
 
+#if os(macOS)
+extension ColorSet {
+  static let red = ColorSet(
+    tintColor: .red,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let blue = ColorSet(
+    tintColor: .accentColor,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let cyan = ColorSet(
+    tintColor: .cyan,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let orange = ColorSet(
+    tintColor: .orange,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let pink = ColorSet(
+    tintColor: .pink,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let green = ColorSet(
+    tintColor: .green,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let yellow = ColorSet(
+    tintColor: .yellow,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let purple = ColorSet(
+    tintColor: .purple,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+
+  static let indigo = ColorSet(
+    tintColor: .indigo,
+    darkPrimaryColor: Color(.systemGray),
+    darkSecondaryColor: Color(.systemGray),
+    lightPrimaryColor: .white,
+    lightSecondaryColor: Color(.systemGray)
+  )
+}
+#else
 extension ColorSet {
   static let red = ColorSet(
     tintColor: .red,
@@ -113,3 +188,4 @@ extension ColorSet {
     lightSecondaryColor: Color(.systemGroupedBackground)
   )
 }
+#endif

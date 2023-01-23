@@ -43,9 +43,15 @@ struct MediasView: View {
         }
       }
     }
+    #if os(macOS)
+    .sheet(isPresented: $isPresentedImageView) {
+      ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
+    }
+    #else
     .fullScreenCover(isPresented: $isPresentedImageView) {
       ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
     }
+    #endif
   }
 }
 

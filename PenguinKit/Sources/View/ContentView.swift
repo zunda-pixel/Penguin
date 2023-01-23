@@ -7,13 +7,17 @@ import SwiftUI
 import WidgetKit
 
 public struct ContentView: View {
-  public init() {}
+  public init(settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>, loginUsers: Binding<[Sweet.UserModel]>) {
+    self._settings = settings
+    self._currentUser = currentUser
+    self._loginUsers = loginUsers
+  }
 
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
 
-  @State var currentUser: Sweet.UserModel? = Secure.currentUser
-  @State var loginUsers: [Sweet.UserModel] = Secure.loginUsers
-  @State var settings = Secure.settings
+  @Binding var currentUser: Sweet.UserModel?
+  @Binding var loginUsers: [Sweet.UserModel]
+  @Binding var settings: Settings
 
   @MainActor
   @ViewBuilder
@@ -74,6 +78,7 @@ public struct ContentView: View {
   func fetchLatestTweet(userID: String) async {
     WidgetCenter.shared.reloadAllTimelines()
 
+    #if canImport(ActivityKit)
     do {
       guard let activity = try await WidgetsManager.fetchLatestTweet(userID: userID) else {
         return
@@ -86,6 +91,7 @@ public struct ContentView: View {
       let errorHandle = ErrorHandle(error: error)
       errorHandle.log()
     }
+    #endif
   }
 
   @Environment(\.colorScheme) var colorScheme
@@ -101,12 +107,15 @@ public struct ContentView: View {
             Label(tab.title, systemImage: tab.systemImage)
           }
           .tag(tab)
+          // TODO
+        #if !os(macOS)
           .toolbarBackground(
             colorScheme == .dark
               ? settings.colorType.colorSet.darkPrimaryColor
               : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
           )
           .toolbarBackground(.visible, for: .tabBar)
+        #endif
       }
     }
   }
@@ -131,12 +140,15 @@ public struct ContentView: View {
       }
     } detail: {
       tabViewContent(currentUser: currentUser, tabItem: selectedTab)
+      // TODO
+    #if !os(macOS)
         .toolbarBackground(
           colorScheme == .dark
             ? settings.colorType.colorSet.darkPrimaryColor
             : settings.colorType.colorSet.lightPrimaryColor, for: .tabBar
         )
         .toolbarBackground(.visible, for: .tabBar)
+      #endif
     }
     .navigationSplitViewStyle(.balanced)
   }
@@ -161,7 +173,11 @@ public struct ContentView: View {
         }
       } else {
         VStack {
+          #if os(macOS)
+          let icon = Icon.icons.first { $0.iconName == NSApplication.shared.iconName }
+          #else
           let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
+          #endif
 
           Image(icon!.iconName, bundle: .module)
             .resizable()

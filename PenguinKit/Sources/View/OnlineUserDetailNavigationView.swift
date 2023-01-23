@@ -29,7 +29,13 @@ struct OnlineNavigationView: View {
         .navigationBarAttribute()
         .navigationDestination()
         .toolbar {
-          ToolbarItem(placement: .navigationBarLeading) {
+#if os(macOS)
+let placement: ToolbarItemPlacement = .navigation
+#else
+let placement: ToolbarItemPlacement = .navigationBarLeading
+#endif
+          
+          ToolbarItem(placement: placement) {
             Button {
               dismiss()
             } label: {

@@ -49,4 +49,21 @@ extension View {
       Button(errorHandle.title) {}
     }
   }
+  
+  func navigationBarTitleDisplayModeIfAvailable(_ displayMode: NavigationBarItem.TitleDisplayMode) -> some View {
+    #if os(macOS)
+    self
+    #else
+    self.navigationBarTitleDisplayMode(displayMode)
+    #endif
+  }
 }
+
+#if os(macOS)
+enum NavigationBarItem {
+  enum TitleDisplayMode {
+    case inline
+    case large
+  }
+}
+#endif

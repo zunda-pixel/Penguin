@@ -55,7 +55,13 @@ struct ListDetailView: View {
       await viewModel.fetchTweets(first: viewModel.showTweets.first?.id, last: nil)
     }
     .toolbar {
-      ToolbarItem(placement: .navigationBarTrailing) {
+      #if os(macOS)
+      let placement: ToolbarItemPlacement = .navigation
+      #else
+      let placement: ToolbarItemPlacement = .navigationBarTrailing
+      #endif
+      
+      ToolbarItem(placement: placement) {
         let url: URL = .init(string: "https://twitter.com/i/lists/\(viewModel.list.id)")!
         ShareLink(item: url)
       }

@@ -29,9 +29,15 @@ struct NewListView: View {
       }
       .alert(errorHandle: $viewModel.errorHandle)
       .navigationTitle("New List")
-      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
+#if os(macOS)
+let savePlacement: ToolbarItemPlacement = .navigation
+#else
+let savePlacement: ToolbarItemPlacement = .navigationBarTrailing
+#endif
+        
+        ToolbarItem(placement: savePlacement) {
           Button("Save") {
             Task {
               do {
@@ -45,10 +51,15 @@ struct NewListView: View {
             }
           }
           .disabled(viewModel.disableCreateList)
-
         }
+        
+#if os(macOS)
+let cancelPlacement: ToolbarItemPlacement = .navigation
+#else
+let cancelPlacement: ToolbarItemPlacement = .navigationBarLeading
+#endif
 
-        ToolbarItem(placement: .navigationBarLeading) {
+        ToolbarItem(placement: cancelPlacement) {
           Button("Cancel") {
             dismiss()
           }

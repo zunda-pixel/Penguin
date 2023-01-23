@@ -70,7 +70,9 @@ struct TabSettingsView: View {
       settings.tabStyle = tabStyle
       Secure.settings = settings
     }
+    #if !os(macOS)
     .environment(\.editMode, .constant(.active))
+    #endif
     .toolbar {
       Menu {
         ForEach(unSelectedTabs) { tab in

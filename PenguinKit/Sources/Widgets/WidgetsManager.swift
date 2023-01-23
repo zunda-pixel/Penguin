@@ -2,6 +2,7 @@
 //  WidgetsManager.swift
 //
 
+#if canImport(ActivityKit)
 import ActivityKit
 import Foundation
 import Sweet
@@ -33,3 +34,4 @@ enum WidgetsManager {
     return activity
   }
 }
+#endif

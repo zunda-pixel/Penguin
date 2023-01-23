@@ -21,7 +21,7 @@ struct LikeNavigationView: View {
       TweetsView(viewModel: viewModel)
         .navigationBarAttribute()
         .navigationTitle("Like")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayModeIfAvailable(.inline)
         .navigationDestination()
         .toolbar {
           TopToolBar(

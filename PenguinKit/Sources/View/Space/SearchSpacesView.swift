@@ -88,13 +88,15 @@ struct SearchSpacesView: View {
           .scrollContentBackground(.hidden)
           .tag(SpaceTab.upcoming)
         }
+        #if !os(macOS)
         .tabViewStyle(.page(indexDisplayMode: .never))
+        #endif
       }
       .scrollContentAttribute()
       .navigationBarAttribute()
       .alert(errorHandle: $viewModel.errorHandle)
       .navigationTitle("Search Space")
-      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarTitleDisplayModeIfAvailable(.inline)
       .navigationDestination()
       .toolbar {
         TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)

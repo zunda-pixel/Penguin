@@ -58,7 +58,9 @@ struct DirectMessageDetailView: View {
       .padding()
       .background(.ultraThinMaterial)
     }
+    #if !os(macOS)
     .toolbar(.hidden, for: .tabBar)
+    #endif
     .scrollDismissesKeyboard(.immediately)
     .task {
       await viewModel.fetchDirectMessages()

@@ -74,9 +74,9 @@ struct SmallTweetStatusView: View {
     VStack(alignment: .leading) {
       HStack {
         let imageData = try! Data(contentsOf: model.user.profileImageURL!)
-        let uiImage = UIImage(data: imageData)
-
-        Image(uiImage: uiImage!)
+        let image = ImageData(data: imageData)!
+        
+        Image(image: image)
           .resizable()
           .clipShape(Circle())
           .overlay {
@@ -105,9 +105,9 @@ struct MediumTweetStatusView: View {
   var body: some View {
     HStack(alignment: .top) {
       let imageData = try! Data(contentsOf: model.user.profileImageURL!)
-      let uiImage = UIImage(data: imageData)
+      let image = ImageData(data: imageData)!
 
-      Image(uiImage: uiImage!)
+      Image(image: image)
         .resizable()
         .clipShape(Circle())
         .overlay {
@@ -158,7 +158,7 @@ struct ExtraLargeTweetStatusView_Previews: PreviewProvider {
         )
       )
     )
-    .previewContext(WidgetPreviewContext(family: .systemExtraLarge))
+    .previewContext(WidgetPreviewContext(family: .systemLarge))
   }
 }
 

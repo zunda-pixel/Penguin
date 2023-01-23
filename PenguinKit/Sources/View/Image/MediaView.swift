@@ -23,7 +23,8 @@ struct MediaView: View {
       .onTapGesture {
         isPresentedVideoPlayer.toggle()
       }
-      .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
+    #if os(macOS)
+      .sheet(isPresented: $isPresentedVideoPlayer) {
         let url = media.variants.first { $0.contentType == .mp4 }!.url
 
         let player = AVPlayer(url: url)
@@ -33,6 +34,20 @@ struct MediaView: View {
             player.play()
           }
       }
+    #else
+        .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
+          let url = media.variants.first { $0.contentType == .mp4 }!.url
+
+          let player = AVPlayer(url: url)
+          MoviePlayer(player: player)
+            .ignoresSafeArea()
+            .onAppear {
+              player.play()
+            }
+        }
+    #endif
+    
+      
   }
 
   func image(url: URL) -> some View {

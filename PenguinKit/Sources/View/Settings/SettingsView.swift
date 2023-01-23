@@ -7,7 +7,7 @@ import StoreKit
 import Sweet
 import SwiftUI
 
-struct SettingsView: View {
+public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
   @Environment(\.requestReview) var requestReview
 
@@ -17,6 +17,12 @@ struct SettingsView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
 
+  public init(settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>, loginUsers: Binding<[Sweet.UserModel]>) {
+    self._settings = settings
+    self._currentUser = currentUser
+    self._loginUsers = loginUsers
+  }
+  
   func logout(user: Sweet.UserModel) {
     Secure.removeUserData(userID: user.id)
 
@@ -28,7 +34,7 @@ struct SettingsView: View {
     }
   }
 
-  var body: some View {
+  public var body: some View {
     NavigationStack(path: $router.path) {
       List {
         Group {
@@ -84,12 +90,14 @@ struct SettingsView: View {
               }
             #endif
 
+            #if !os(macOS)
             NavigationLink {
               IconSettingsView()
                 .navigationTitle("App Icon")
             } label: {
               Label("App Icon", systemImage: "rectangle.grid.2x2")
             }
+            #endif
           }
 
           Section("ABOUT") {
@@ -143,7 +151,7 @@ struct SettingsView: View {
         Secure.settings = newValue
       }
       .navigationTitle("Settings")
-      .navigationBarTitleDisplayMode(.large)
+      .navigationBarTitleDisplayModeIfAvailable(.large)
       .navigationDestination()
     }
     .environmentObject(router)
