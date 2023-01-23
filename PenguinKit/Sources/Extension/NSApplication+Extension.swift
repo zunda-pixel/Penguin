@@ -2,7 +2,7 @@
 //  NSApplication+Extension.swift
 //
 
-#if canImport(AppKit)
+#if os(macOS)
 import AppKit
 
 extension NSApplication {
