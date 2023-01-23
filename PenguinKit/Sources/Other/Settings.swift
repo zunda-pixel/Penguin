@@ -4,7 +4,7 @@
 
 import SwiftUI
 
-struct Settings: Codable, Equatable {
+public struct Settings: Codable, Equatable {
   var colorType: ColorType
 
   var userNameDisplayMode: DisplayUserNameMode
@@ -20,7 +20,7 @@ struct Settings: Codable, Equatable {
     case tabStyle
   }
 
-  init() {
+  public init() {
     colorType = .cyan
     userNameDisplayMode = .all
     dateFormat = .relative
@@ -33,7 +33,7 @@ struct Settings: Codable, Equatable {
     #endif
   }
 
-  init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let colorType = try container.decode(String.self, forKey: .colorType)
     self.colorType = ColorType(rawValue: colorType)!
@@ -51,7 +51,7 @@ struct Settings: Codable, Equatable {
     self.tabStyle = TabStyle(rawValue: tabStyle)!
   }
 
-  func encode(to encoder: Encoder) throws {
+  public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(colorType.rawValue, forKey: .colorType)
     try container.encode(userNameDisplayMode.rawValue, forKey: .userNameDisplayMode)

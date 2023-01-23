@@ -102,7 +102,7 @@ public struct Secure {
     }
   }
 
-  static var settings: Settings {
+  public static var settings: Settings {
     get {
       guard let data = userDefaults.data(forKey: settingKey) else {
         return Settings()
