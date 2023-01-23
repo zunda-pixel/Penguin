@@ -110,7 +110,6 @@ public struct ContentView: View {
           Label(tab.title, systemImage: tab.systemImage)
         }
         .tag(tab)
-        // TODO
         #if !os(macOS)
           .toolbarBackground(
             colorScheme == .dark
@@ -143,7 +142,6 @@ public struct ContentView: View {
       }
     } detail: {
       tabViewContent(currentUser: currentUser, tabItem: selectedTab)
-      // TODO
       #if !os(macOS)
         .toolbarBackground(
           colorScheme == .dark
