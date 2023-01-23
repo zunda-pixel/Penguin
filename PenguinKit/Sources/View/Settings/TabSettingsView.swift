@@ -41,7 +41,7 @@ struct TabSettingsView: View {
         Picker("Tab Style", selection: $tabStyle) {
           ForEach(TabStyle.allCases) { tabStyle in
             Text(tabStyle.rawValue)
-              .tag(tabStyle)
+            .tag(tabStyle)
           }
         }
         .pickerStyle(.segmented)
@@ -71,7 +71,7 @@ struct TabSettingsView: View {
       Secure.settings = settings
     }
     #if !os(macOS)
-    .environment(\.editMode, .constant(.active))
+      .environment(\.editMode, .constant(.active))
     #endif
     .toolbar {
       Menu {

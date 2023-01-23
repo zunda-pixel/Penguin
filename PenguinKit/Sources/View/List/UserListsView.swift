@@ -22,11 +22,11 @@ struct UserListsView: View {
       List(viewModel.ownedLists) { list in
         let owner = viewModel.getListOwner(list: list)
         ListCellView(list: list, owner: owner, userID: viewModel.userID)
-          .task {
-            if list.id == viewModel.ownedLists.last?.id {
-              await viewModel.fetchOwnedLists()
-            }
+        .task {
+          if list.id == viewModel.ownedLists.last?.id {
+            await viewModel.fetchOwnedLists()
           }
+        }
       }
       .overlay(alignment: .center) {
         if viewModel.ownedLists.isEmpty {
@@ -37,11 +37,11 @@ struct UserListsView: View {
       List(viewModel.addedLists) { list in
         let owner = viewModel.getListOwner(list: list)
         ListCellView(list: list, owner: owner, userID: viewModel.userID)
-          .task {
-            if list.id == viewModel.addedLists.last?.id {
-              await viewModel.fetchAddedLists()
-            }
+        .task {
+          if list.id == viewModel.addedLists.last?.id {
+            await viewModel.fetchAddedLists()
           }
+        }
       }
       .overlay(alignment: .center) {
         if viewModel.addedLists.isEmpty {
@@ -51,7 +51,7 @@ struct UserListsView: View {
       .tag(ListTab.added)
     }
     #if !os(macOS)
-    .tabViewStyle(.page)
+      .tabViewStyle(.page)
     #endif
     .toolbar {
       ToolbarItem(placement: .navigation) {

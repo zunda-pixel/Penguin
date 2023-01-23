@@ -15,7 +15,7 @@ struct LoginView<Label: View>: View {
 
   @Environment(\.managedObjectContext) var context
   @Environment(\.dismiss) var dismiss
-  
+
   @Environment(\.openURL) var openURL
 
   @Binding var currentUser: Sweet.UserModel?
@@ -73,9 +73,9 @@ struct LoginView<Label: View>: View {
       label
     }
     // TODO
-//    .sheet(item: $authorizeURL) { url in
-//      SafariView(url: url)
-//    }
+    //    .sheet(item: $authorizeURL) { url in
+    //      SafariView(url: url)
+    //    }
     .alert(errorHandle: $errorHandle)
     .onOpenURL { url in
       Task {

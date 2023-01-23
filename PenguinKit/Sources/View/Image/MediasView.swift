@@ -35,22 +35,22 @@ struct MediasView: View {
           // Gifの場合viewCountが取得できない
           if let viewCount = media.metrics?.viewCount {
             Text("\(viewCount) views")
-              .font(.caption2)
-              .padding(.horizontal, 3)
-              .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
-              .padding(7)
+            .font(.caption2)
+            .padding(.horizontal, 3)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
+            .padding(7)
           }
         }
       }
     }
     #if os(macOS)
-    .sheet(isPresented: $isPresentedImageView) {
-      ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
-    }
+      .sheet(isPresented: $isPresentedImageView) {
+        ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
+      }
     #else
-    .fullScreenCover(isPresented: $isPresentedImageView) {
-      ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
-    }
+      .fullScreenCover(isPresented: $isPresentedImageView) {
+        ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
+      }
     #endif
   }
 }

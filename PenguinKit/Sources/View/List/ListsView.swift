@@ -94,12 +94,12 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
       .navigationDestination()
       .toolbar {
         if let currentUser {
-#if os(macOS)
-let placement: ToolbarItemPlacement = .navigation
-#else
-let placement: ToolbarItemPlacement = .navigationBarLeading
-#endif
-          
+          #if os(macOS)
+            let placement: ToolbarItemPlacement = .navigation
+          #else
+            let placement: ToolbarItemPlacement = .navigationBarLeading
+          #endif
+
           ToolbarItem(placement: placement) {
             LoginMenu(
               bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
@@ -107,12 +107,12 @@ let placement: ToolbarItemPlacement = .navigationBarLeading
           }
         }
 
-#if os(macOS)
-let placement: ToolbarItemPlacement = .navigation
-#else
-let placement: ToolbarItemPlacement = .navigationBarTrailing
-#endif
-        
+        #if os(macOS)
+          let placement: ToolbarItemPlacement = .navigation
+        #else
+          let placement: ToolbarItemPlacement = .navigationBarTrailing
+        #endif
+
         ToolbarItem(placement: placement) {
           Button {
             viewModel.isPresentedAddList.toggle()

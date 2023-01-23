@@ -56,11 +56,11 @@ struct ListDetailView: View {
     }
     .toolbar {
       #if os(macOS)
-      let placement: ToolbarItemPlacement = .navigation
+        let placement: ToolbarItemPlacement = .navigation
       #else
-      let placement: ToolbarItemPlacement = .navigationBarTrailing
+        let placement: ToolbarItemPlacement = .navigationBarTrailing
       #endif
-      
+
       ToolbarItem(placement: placement) {
         let url: URL = .init(string: "https://twitter.com/i/lists/\(viewModel.list.id)")!
         ShareLink(item: url)

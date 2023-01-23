@@ -7,7 +7,10 @@ import SwiftUI
 import WidgetKit
 
 public struct ContentView: View {
-  public init(settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>, loginUsers: Binding<[Sweet.UserModel]>) {
+  public init(
+    settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>,
+    loginUsers: Binding<[Sweet.UserModel]>
+  ) {
     self._settings = settings
     self._currentUser = currentUser
     self._loginUsers = loginUsers
@@ -79,18 +82,18 @@ public struct ContentView: View {
     WidgetCenter.shared.reloadAllTimelines()
 
     #if canImport(ActivityKit)
-    do {
-      guard let activity = try await WidgetsManager.fetchLatestTweet(userID: userID) else {
-        return
-      }
-      print(activity)
-      // await activity.update(using: .init()) stateのアップデート。今回は意味ない
-      // await activity.end() activityの削除
+      do {
+        guard let activity = try await WidgetsManager.fetchLatestTweet(userID: userID) else {
+          return
+        }
+        print(activity)
+        // await activity.update(using: .init()) stateのアップデート。今回は意味ない
+        // await activity.end() activityの削除
 
-    } catch {
-      let errorHandle = ErrorHandle(error: error)
-      errorHandle.log()
-    }
+      } catch {
+        let errorHandle = ErrorHandle(error: error)
+        errorHandle.log()
+      }
     #endif
   }
 
@@ -103,11 +106,11 @@ public struct ContentView: View {
     TabView(selection: $selectedTab) {
       ForEach(settings.tabs) { tab in
         tabViewContent(currentUser: currentUser, tabItem: tab)
-          .tabItem {
-            Label(tab.title, systemImage: tab.systemImage)
-          }
-          .tag(tab)
-          // TODO
+        .tabItem {
+          Label(tab.title, systemImage: tab.systemImage)
+        }
+        .tag(tab)
+        // TODO
         #if !os(macOS)
           .toolbarBackground(
             colorScheme == .dark
@@ -141,7 +144,7 @@ public struct ContentView: View {
     } detail: {
       tabViewContent(currentUser: currentUser, tabItem: selectedTab)
       // TODO
-    #if !os(macOS)
+      #if !os(macOS)
         .toolbarBackground(
           colorScheme == .dark
             ? settings.colorType.colorSet.darkPrimaryColor
@@ -174,9 +177,9 @@ public struct ContentView: View {
       } else {
         VStack {
           #if os(macOS)
-          let icon = Icon.icons.first { $0.iconName == NSApplication.shared.iconName }
+            let icon = Icon.icons.first { $0.iconName == NSApplication.shared.iconName }
           #else
-          let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
+            let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
           #endif
 
           Image(icon!.iconName, bundle: .module)

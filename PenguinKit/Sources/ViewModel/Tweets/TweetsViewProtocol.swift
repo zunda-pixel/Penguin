@@ -83,7 +83,7 @@ extension TweetsViewProtocol {
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
     let medias = allMedias.filter { mediaIDs.contains($0.key) }
-    
+
     return medias.uniqued(by: \.id)
   }
 

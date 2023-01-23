@@ -88,18 +88,28 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           }
 
           LikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
+
           UnLikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
 
           BookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
+
           UnBookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {

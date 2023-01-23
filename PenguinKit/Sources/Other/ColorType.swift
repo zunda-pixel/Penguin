@@ -41,151 +41,151 @@ struct ColorSet: Codable, Equatable {
 }
 
 #if os(macOS)
-extension ColorSet {
-  static let red = ColorSet(
-    tintColor: .red,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+  extension ColorSet {
+    static let red = ColorSet(
+      tintColor: .red,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let blue = ColorSet(
-    tintColor: .accentColor,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let blue = ColorSet(
+      tintColor: .accentColor,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let cyan = ColorSet(
-    tintColor: .cyan,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let cyan = ColorSet(
+      tintColor: .cyan,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let orange = ColorSet(
-    tintColor: .orange,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let orange = ColorSet(
+      tintColor: .orange,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let pink = ColorSet(
-    tintColor: .pink,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let pink = ColorSet(
+      tintColor: .pink,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let green = ColorSet(
-    tintColor: .green,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let green = ColorSet(
+      tintColor: .green,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let yellow = ColorSet(
-    tintColor: .yellow,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let yellow = ColorSet(
+      tintColor: .yellow,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let purple = ColorSet(
-    tintColor: .purple,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
+    static let purple = ColorSet(
+      tintColor: .purple,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
 
-  static let indigo = ColorSet(
-    tintColor: .indigo,
-    darkPrimaryColor: Color(.systemGray),
-    darkSecondaryColor: Color(.systemGray),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGray)
-  )
-}
+    static let indigo = ColorSet(
+      tintColor: .indigo,
+      darkPrimaryColor: Color(.systemGray),
+      darkSecondaryColor: Color(.systemGray),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGray)
+    )
+  }
 #else
-extension ColorSet {
-  static let red = ColorSet(
-    tintColor: .red,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+  extension ColorSet {
+    static let red = ColorSet(
+      tintColor: .red,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let blue = ColorSet(
-    tintColor: .accentColor,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let blue = ColorSet(
+      tintColor: .accentColor,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let cyan = ColorSet(
-    tintColor: .cyan,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let cyan = ColorSet(
+      tintColor: .cyan,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let orange = ColorSet(
-    tintColor: .orange,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let orange = ColorSet(
+      tintColor: .orange,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let pink = ColorSet(
-    tintColor: .pink,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let pink = ColorSet(
+      tintColor: .pink,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let green = ColorSet(
-    tintColor: .green,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let green = ColorSet(
+      tintColor: .green,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let yellow = ColorSet(
-    tintColor: .yellow,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let yellow = ColorSet(
+      tintColor: .yellow,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let purple = ColorSet(
-    tintColor: .purple,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
+    static let purple = ColorSet(
+      tintColor: .purple,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
 
-  static let indigo = ColorSet(
-    tintColor: .indigo,
-    darkPrimaryColor: Color(.systemGray6),
-    darkSecondaryColor: Color(.systemGroupedBackground),
-    lightPrimaryColor: .white,
-    lightSecondaryColor: Color(.systemGroupedBackground)
-  )
-}
+    static let indigo = ColorSet(
+      tintColor: .indigo,
+      darkPrimaryColor: Color(.systemGray6),
+      darkSecondaryColor: Color(.systemGroupedBackground),
+      lightPrimaryColor: .white,
+      lightSecondaryColor: Color(.systemGroupedBackground)
+    )
+  }
 #endif

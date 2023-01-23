@@ -54,18 +54,28 @@ struct OnlineTweetDetailView: View {
       }
 
       LikeButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-        tweetID: viewModel.tweetText.id)
+        errorHandle: $viewModel.errorHandle,
+        userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
+      )
+
       UnLikeButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-        tweetID: viewModel.tweetText.id)
+        errorHandle: $viewModel.errorHandle,
+        userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
+      )
 
       BookmarkButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-        tweetID: viewModel.tweetText.id)
+        errorHandle: $viewModel.errorHandle,
+        userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
+      )
+
       UnBookmarkButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-        tweetID: viewModel.tweetText.id)
+        errorHandle: $viewModel.errorHandle,
+        userID: viewModel.userID,
+        tweetID: viewModel.tweetText.id
+      )
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
@@ -78,14 +88,16 @@ struct OnlineTweetDetailView: View {
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
       LikeButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        errorHandle: $viewModel.errorHandle,
+        userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
       .tint(.secondary)
     }
     .swipeActions(edge: .leading) {
       BookmarkButton(
-        errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
+        errorHandle: $viewModel.errorHandle,
+        userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
       .tint(.secondary)

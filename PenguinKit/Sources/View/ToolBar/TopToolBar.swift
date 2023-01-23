@@ -15,24 +15,24 @@ struct TopToolBar: ToolbarContent {
   @MainActor
   var body: some ToolbarContent {
     #if !os(macOS)
-    if let currentUser {
-      ToolbarItem(placement: .navigationBarLeading) {
-        LoginMenu(
-          bindingCurrentUser: $currentUser,
-          loginUsers: $loginUsers,
-          settings: $settings,
-          currentUser: currentUser
-        )
+      if let currentUser {
+        ToolbarItem(placement: .navigationBarLeading) {
+          LoginMenu(
+            bindingCurrentUser: $currentUser,
+            loginUsers: $loginUsers,
+            settings: $settings,
+            currentUser: currentUser
+          )
+        }
       }
-    }
     #endif
 
-#if os(macOS)
-let placement: ToolbarItemPlacement = .navigation
-#else
-let placement: ToolbarItemPlacement = .navigationBarTrailing
-#endif
-    
+    #if os(macOS)
+      let placement: ToolbarItemPlacement = .navigation
+    #else
+      let placement: ToolbarItemPlacement = .navigationBarTrailing
+    #endif
+
     ToolbarItem(placement: placement) {
       Button {
         isPresentedCreateTweetView.toggle()
