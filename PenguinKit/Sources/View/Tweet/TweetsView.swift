@@ -115,14 +115,14 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
             tweetID: cellViewModel.tweetText.id
           )
-          .tint(.pink.opacity(0.5))
+          .tint(.secondary)
         }
         .swipeActions(edge: .leading) {
           BookmarkButton(
             errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
             tweetID: cellViewModel.tweetText.id
           )
-          .tint(.brown.opacity(0.5))
+          .tint(.secondary)
         }
         .task {
           guard let lastTweet = viewModel.showTweets.last else { return }
