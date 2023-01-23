@@ -12,11 +12,11 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
   var paginationToken: String?
 
-  var allTweets: [Sweet.TweetModel]
-  var allUsers: [Sweet.UserModel]
-  var allMedias: [Sweet.MediaModel]
-  var allPolls: [Sweet.PollModel]
-  var allPlaces: [Sweet.PlaceModel]
+  var allTweets: Set<Sweet.TweetModel>
+  var allUsers: Set<Sweet.UserModel>
+  var allMedias: Set<Sweet.MediaModel>
+  var allPolls: Set<Sweet.PollModel>
+  var allPlaces: Set<Sweet.PlaceModel>
 
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
@@ -46,7 +46,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     ].compacted()
 
     tweets.forEach {
-      allTweets.appendOrUpdate($0)
+      allTweets.insertOrUpdate($0, by: \.id)
     }
 
     let users = [
@@ -57,21 +57,21 @@ final class TweetDetailViewModel: TweetsViewProtocol {
     ].compacted()
 
     users.forEach {
-      allUsers.appendOrUpdate($0)
+      allUsers.insertOrUpdate($0, by: \.id)
     }
 
     cellViewModel.medias.forEach {
-      allMedias.appendOrUpdate($0)
+      allMedias.insertOrUpdate($0, by: \.id)
     }
 
     let polls = [cellViewModel.poll].compacted()
     polls.forEach {
-      allPolls.appendOrUpdate($0)
+      allPolls.insertOrUpdate($0, by: \.id)
     }
 
     let places = [cellViewModel.place].compacted()
     places.forEach {
-      allPlaces.appendOrUpdate($0)
+      allPlaces.insertOrUpdate($0, by: \.id)
     }
   }
 

@@ -30,7 +30,7 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
 }
 
 extension ReverseChronologicalTweetsViewProtocol {
-  var timelines: [String] { fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? [] }
+  var timelines: Set<String> { Set(fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? []) }
 
   var showTweets: [Tweet] {
     let tweets = fetchShowTweetController.fetchedObjects ?? []
@@ -42,11 +42,11 @@ extension ReverseChronologicalTweetsViewProtocol {
     }
   }
 
-  var allTweets: [Tweet] { fetchTweetController.fetchedObjects ?? [] }
-  var allUsers: [User] { fetchUserController.fetchedObjects ?? [] }
-  var allMedias: [Media] { fetchMediaController.fetchedObjects ?? [] }
-  var allPolls: [Poll] { fetchPollController.fetchedObjects ?? [] }
-  var allPlaces: [Place] { fetchPlaceController.fetchedObjects ?? [] }
+  var allTweets: Set<Tweet> { Set(fetchTweetController.fetchedObjects ?? []) }
+  var allUsers: Set<User> { Set(fetchUserController.fetchedObjects ?? []) }
+  var allMedias: Set<Media> { Set(fetchMediaController.fetchedObjects ?? []) }
+  var allPolls: Set<Poll> { Set(fetchPollController.fetchedObjects ?? []) }
+  var allPlaces: Set<Place> { Set(fetchPlaceController.fetchedObjects ?? []) }
 
   func tweetCellOnAppear(tweet: Sweet.TweetModel) async {
     guard let lastTweet = showTweets.last else { return }

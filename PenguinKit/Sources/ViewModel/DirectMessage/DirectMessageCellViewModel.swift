@@ -10,7 +10,7 @@ class DirectMessageCellViewModel: ObservableObject {
 
   let directMessage: Sweet.DirectMessageModel
   let user: Sweet.UserModel
-  let medias: [Sweet.MediaModel]
+  let medias: Set<Sweet.MediaModel>
 
   let isBeforeElementSame: Bool
 
@@ -18,7 +18,7 @@ class DirectMessageCellViewModel: ObservableObject {
     userID: String,
     directMessage: Sweet.DirectMessageModel,
     user: Sweet.UserModel,
-    medias: [Sweet.MediaModel],
+    medias: Set<Sweet.MediaModel>,
     isBeforeElementSame: Bool
   ) {
     self.userID = userID

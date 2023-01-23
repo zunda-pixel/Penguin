@@ -10,16 +10,6 @@ extension Array {
   }
 }
 
-extension Array where Element: Equatable {
-  mutating func appendOrUpdate(_ element: Element) {
-    if let index = self.firstIndex(of: element) {
-      self[index] = element
-    } else {
-      self.append(element)
-    }
-  }
-}
-
 extension RangeReplaceableCollection where Element: Equatable {
   mutating func appendIfNotContains(_ element: Element) {
     if !contains(element) {
@@ -69,5 +59,24 @@ extension Sequence {
 
   func uniqued<T: Hashable>(by keyPath: KeyPath<Element, T>) -> [Element] {
     return uniqued { $0[keyPath: keyPath] }
+  }
+}
+
+
+extension Set {
+  mutating func inserOrUpdate(_ newMember: Element) {
+    if let index = self.firstIndex(where: { $0 == newMember }) {
+      self.remove(at: index)
+    }
+    
+    self.insert(newMember)
+  }
+  
+  mutating func insertOrUpdate<T: Equatable>(_ newMember: Element, by keyPath: KeyPath<Element, T>) {
+    if let index = self.firstIndex(where: { $0[keyPath: keyPath] == newMember[keyPath: keyPath] }) {
+      self.remove(at: index)
+    }
+    
+    self.insert(newMember)
   }
 }
