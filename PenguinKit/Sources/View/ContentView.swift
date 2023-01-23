@@ -7,13 +7,17 @@ import SwiftUI
 import WidgetKit
 
 public struct ContentView: View {
-  public init() {}
+  public init(settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>, loginUsers: Binding<[Sweet.UserModel]>) {
+    self._settings = settings
+    self._currentUser = currentUser
+    self._loginUsers = loginUsers
+  }
 
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
 
-  @State var currentUser: Sweet.UserModel? = Secure.currentUser
-  @State var loginUsers: [Sweet.UserModel] = Secure.loginUsers
-  @State var settings = Secure.settings
+  @Binding var currentUser: Sweet.UserModel?
+  @Binding var loginUsers: [Sweet.UserModel]
+  @Binding var settings: Settings
 
   @MainActor
   @ViewBuilder
