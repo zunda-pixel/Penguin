@@ -58,6 +58,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
 
   var body: some View {
     listView
+      .sheet(item: $viewModel.reply) { reply in
+        let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
+        NewTweetView(viewModel: viewModel)
+      }
       .alert(errorHandle: $viewModel.errorHandle)
       .task(id: viewModel.userID) {
         guard viewModel.showTweets.isEmpty else { return }
@@ -117,6 +121,18 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             router.path.append(tweetDetailViewModel)
           } label: {
             Image(systemName: "ellipsis")
+          }
+          .tint(.gray)
+        }
+        .swipeActions(edge: .trailing) {
+          Button {
+            let mentions = cellViewModel.tweet.entity?.mentions ?? []
+            let userNames = mentions.map(\.userName)
+            let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+
+            viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: users)
+          } label: {
+            Image(systemName: "arrowshape.turn.up.right")
           }
           .tint(.gray)
         }
