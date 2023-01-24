@@ -31,12 +31,12 @@ struct NewListView: View {
       .navigationTitle("New List")
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
-#if os(macOS)
-let savePlacement: ToolbarItemPlacement = .navigation
-#else
-let savePlacement: ToolbarItemPlacement = .navigationBarTrailing
-#endif
-        
+        #if os(macOS)
+          let savePlacement: ToolbarItemPlacement = .navigation
+        #else
+          let savePlacement: ToolbarItemPlacement = .navigationBarTrailing
+        #endif
+
         ToolbarItem(placement: savePlacement) {
           Button("Save") {
             Task {
@@ -52,12 +52,12 @@ let savePlacement: ToolbarItemPlacement = .navigationBarTrailing
           }
           .disabled(viewModel.disableCreateList)
         }
-        
-#if os(macOS)
-let cancelPlacement: ToolbarItemPlacement = .navigation
-#else
-let cancelPlacement: ToolbarItemPlacement = .navigationBarLeading
-#endif
+
+        #if os(macOS)
+          let cancelPlacement: ToolbarItemPlacement = .navigation
+        #else
+          let cancelPlacement: ToolbarItemPlacement = .navigationBarLeading
+        #endif
 
         ToolbarItem(placement: cancelPlacement) {
           Button("Cancel") {

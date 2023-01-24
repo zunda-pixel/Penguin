@@ -14,7 +14,9 @@ extension Binding {
   }
 
   init<T>(value: T, set: @escaping (T) -> Void) where Value == T? {
-    self.init(get: { value }) { newValue in
+    self.init {
+      value
+    } set: { newValue in
       if let newValue {
         set(newValue)
       }

@@ -27,9 +27,9 @@ public struct Settings: Codable, Equatable {
     tabs = [.timeline, .mention, .list, .search, .like]
 
     #if os(macOS)
-    tabStyle = .split
+      tabStyle = .split
     #else
-    tabStyle = UIDevice.current.userInterfaceIdiom == .phone ? .tab : .split
+      tabStyle = UIDevice.current.userInterfaceIdiom == .phone ? .tab : .split
     #endif
   }
 

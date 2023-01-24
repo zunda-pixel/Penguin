@@ -3,10 +3,10 @@
 //
 
 #if canImport(UIKit)
-import UIKit
+  import UIKit
 
-extension UIApplication {
-  static let primaryIconName = "AppIcon"
-  var iconName: String { alternateIconName ?? UIApplication.primaryIconName }
-}
+  extension UIApplication {
+    static let primaryIconName = "AppIcon"
+    var iconName: String { alternateIconName ?? UIApplication.primaryIconName }
+  }
 #endif

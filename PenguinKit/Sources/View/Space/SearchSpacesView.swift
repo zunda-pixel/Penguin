@@ -89,7 +89,7 @@ struct SearchSpacesView: View {
           .tag(SpaceTab.upcoming)
         }
         #if !os(macOS)
-        .tabViewStyle(.page(indexDisplayMode: .never))
+          .tabViewStyle(.page(indexDisplayMode: .never))
         #endif
       }
       .scrollContentAttribute()

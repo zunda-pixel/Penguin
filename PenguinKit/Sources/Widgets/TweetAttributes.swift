@@ -3,14 +3,14 @@
 //
 
 #if canImport(ActivityKit)
-import ActivityKit
-import Sweet
+  import ActivityKit
+  import Sweet
 
-struct TweetAttributes: ActivityAttributes {
-  let user: Sweet.UserModel
-  let tweet: Sweet.TweetModel
+  struct TweetAttributes: ActivityAttributes {
+    let user: Sweet.UserModel
+    let tweet: Sweet.TweetModel
 
-  struct ContentState: Codable, Hashable {
+    struct ContentState: Codable, Hashable {
+    }
   }
-}
 #endif

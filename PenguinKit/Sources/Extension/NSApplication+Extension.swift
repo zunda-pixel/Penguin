@@ -3,9 +3,9 @@
 //
 
 #if os(macOS)
-import AppKit
+  import AppKit
 
-extension NSApplication {
-  var iconName : String { "AppIcon"}
-}
+  extension NSApplication {
+    var iconName: String { "AppIcon" }
+  }
 #endif

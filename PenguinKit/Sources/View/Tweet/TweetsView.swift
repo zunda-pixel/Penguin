@@ -88,18 +88,28 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           }
 
           LikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
+
           UnLikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
 
           BookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
+
           UnBookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
@@ -115,14 +125,14 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
             tweetID: cellViewModel.tweetText.id
           )
-          .tint(.pink.opacity(0.5))
+          .tint(.secondary)
         }
         .swipeActions(edge: .leading) {
           BookmarkButton(
             errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
             tweetID: cellViewModel.tweetText.id
           )
-          .tint(.brown.opacity(0.5))
+          .tint(.secondary)
         }
         .task {
           guard let lastTweet = viewModel.showTweets.last else { return }

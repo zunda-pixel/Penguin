@@ -17,12 +17,15 @@ public struct SettingsView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
 
-  public init(settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>, loginUsers: Binding<[Sweet.UserModel]>) {
+  public init(
+    settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>,
+    loginUsers: Binding<[Sweet.UserModel]>
+  ) {
     self._settings = settings
     self._currentUser = currentUser
     self._loginUsers = loginUsers
   }
-  
+
   func logout(user: Sweet.UserModel) {
     Secure.removeUserData(userID: user.id)
 
@@ -91,12 +94,12 @@ public struct SettingsView: View {
             #endif
 
             #if !os(macOS)
-            NavigationLink {
-              IconSettingsView()
-                .navigationTitle("App Icon")
-            } label: {
-              Label("App Icon", systemImage: "rectangle.grid.2x2")
-            }
+              NavigationLink {
+                IconSettingsView()
+                  .navigationTitle("App Icon")
+              } label: {
+                Label("App Icon", systemImage: "rectangle.grid.2x2")
+              }
             #endif
           }
 

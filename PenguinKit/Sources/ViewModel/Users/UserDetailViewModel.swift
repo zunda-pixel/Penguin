@@ -11,11 +11,11 @@ import Sweet
 
   var paginationToken: String?
 
-  var allTweets: [Sweet.TweetModel]
-  var allUsers: [Sweet.UserModel]
-  var allMedias: [Sweet.MediaModel]
-  var allPolls: [Sweet.PollModel]
-  var allPlaces: [Sweet.PlaceModel]
+  var allTweets: Set<Sweet.TweetModel>
+  var allUsers: Set<Sweet.UserModel>
+  var allMedias: Set<Sweet.MediaModel>
+  var allPolls: Set<Sweet.PollModel>
+  var allPlaces: Set<Sweet.PlaceModel>
 
   @Published var loadingTweet: Bool
   @Published var errorHandle: ErrorHandle?
@@ -52,22 +52,22 @@ import Sweet
     do {
       let response = try await Sweet(userID: userID).tweet(by: pinnedTweetID)
 
-      allTweets.appendOrUpdate(response.tweet)
+      allTweets.insertOrUpdate(response.tweet, by: \.id)
 
       response.relatedTweets.forEach {
-        allTweets.appendOrUpdate($0)
+        allTweets.insertOrUpdate($0, by: \.id)
       }
 
       response.medias.forEach {
-        allMedias.appendOrUpdate($0)
+        allMedias.insertOrUpdate($0, by: \.id)
       }
 
       response.places.forEach {
-        allPlaces.appendOrUpdate($0)
+        allPlaces.insertOrUpdate($0, by: \.id)
       }
 
       response.users.forEach {
-        allUsers.appendOrUpdate($0)
+        allUsers.insertOrUpdate($0, by: \.id)
       }
 
       self.pinnedTweetID = pinnedTweetID

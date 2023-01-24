@@ -50,9 +50,7 @@ extension ListsViewModelProtocol {
   }
 }
 
-// TODO なぜか@uncheckedにしないと警告される
-// withTaskGroupでSendableが必要
-@MainActor class ListsViewModel: ListsViewModelProtocol, @unchecked Sendable {
+@MainActor class ListsViewModel: ListsViewModelProtocol {
   let userID: String
   var allLists: [Sweet.ListModel]
 

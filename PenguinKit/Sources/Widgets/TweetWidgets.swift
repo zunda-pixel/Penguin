@@ -75,7 +75,7 @@ struct SmallTweetStatusView: View {
       HStack {
         let imageData = try! Data(contentsOf: model.user.profileImageURL!)
         let image = ImageData(data: imageData)!
-        
+
         Image(image: image)
           .resizable()
           .clipShape(Circle())

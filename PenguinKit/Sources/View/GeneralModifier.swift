@@ -7,33 +7,33 @@ import SwiftUI
 extension View {
   func scrollViewAttitude() -> some View {
     #if os(macOS)
-    self
+      self
     #else
-    self.modifier(ScrollViewAttitude())
+      self.modifier(ScrollViewAttitude())
     #endif
   }
 
   func scrollContentAttribute() -> some View {
     #if os(macOS)
-    self
+      self
     #else
-    self.modifier(ScrollContentAttribute())
+      self.modifier(ScrollContentAttribute())
     #endif
   }
 
   func listContentAttribute() -> some View {
     #if os(macOS)
-    self
+      self
     #else
-    self.modifier(ListContentAttribute())
+      self.modifier(ListContentAttribute())
     #endif
   }
 
   func navigationBarAttribute() -> some View {
     #if os(macOS)
-    self
+      self
     #else
-    self.modifier(NavigationBarAttribute())
+      self.modifier(NavigationBarAttribute())
     #endif
   }
 }
@@ -78,20 +78,19 @@ struct ListContentAttribute: ViewModifier {
   }
 }
 
-
 #if !os(macOS)
-struct NavigationBarAttribute: ViewModifier {
-  @Environment(\.settings) var settings
-  @Environment(\.colorScheme) var colorScheme
+  struct NavigationBarAttribute: ViewModifier {
+    @Environment(\.settings) var settings
+    @Environment(\.colorScheme) var colorScheme
 
-  func body(content: Content) -> some View {
-    content
-      .toolbarBackground(
-        colorScheme == .dark
-          ? settings.colorType.colorSet.darkPrimaryColor
-          : settings.colorType.colorSet.lightPrimaryColor, for: .navigationBar
-      )
-      .toolbarBackground(.visible, for: .navigationBar)
+    func body(content: Content) -> some View {
+      content
+        .toolbarBackground(
+          colorScheme == .dark
+            ? settings.colorType.colorSet.darkPrimaryColor
+            : settings.colorType.colorSet.lightPrimaryColor, for: .navigationBar
+        )
+        .toolbarBackground(.visible, for: .navigationBar)
+    }
   }
-}
 #endif

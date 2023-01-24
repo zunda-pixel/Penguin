@@ -20,11 +20,11 @@ struct ScrollImagesView: View {
           let mediaURL = media.url ?? media.previewImageURL!
 
           ScalableImage(mediaURL: mediaURL)
-            .tag(media)
+          .tag(media)
         }
       }
       #if !os(macOS)
-      .tabViewStyle(.page)
+        .tabViewStyle(.page)
       #endif
     }
   }

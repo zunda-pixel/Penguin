@@ -17,11 +17,11 @@ import Sweet
 
   var paginationToken: String?
 
-  var allTweets: [Sweet.TweetModel]
-  var allUsers: [Sweet.UserModel]
-  var allMedias: [Sweet.MediaModel]
-  var allPolls: [Sweet.PollModel]
-  var allPlaces: [Sweet.PlaceModel]
+  var allTweets: Set<Sweet.TweetModel>
+  var allUsers: Set<Sweet.UserModel>
+  var allMedias: Set<Sweet.MediaModel>
+  var allPolls: Set<Sweet.PollModel>
+  var allPlaces: Set<Sweet.PlaceModel>
 
   init(userID: String, list: Sweet.ListModel) {
     self.userID = userID

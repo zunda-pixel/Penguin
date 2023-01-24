@@ -10,9 +10,9 @@ import Sweet
   let userID: String
 
   var paginationToken: String?
-  var allDirectMessages: [Sweet.DirectMessageModel]
-  var allUsers: [Sweet.UserModel]
-  var allMedias: [Sweet.MediaModel]
+  var allDirectMessages: Set<Sweet.DirectMessageModel>
+  var allUsers: Set<Sweet.UserModel>
+  var allMedias: Set<Sweet.MediaModel>
 
   var showDirectMessages: [Sweet.DirectMessageModel] {
     guard let timelines else { return [] }
@@ -64,7 +64,7 @@ import Sweet
         senderID: userID
       )
 
-      allDirectMessages.append(directMessage)
+      allDirectMessages.insert(directMessage)
 
       if timelines == nil {
         timelines = []
@@ -82,15 +82,15 @@ import Sweet
 
   func addResponse(_ response: Sweet.DirectMessagesResponse) {
     response.directMessages.forEach {
-      allDirectMessages.appendOrUpdate($0)
+      allDirectMessages.insertOrUpdate($0, by: \.id)
     }
 
     response.users.forEach {
-      allUsers.appendOrUpdate($0)
+      allUsers.insertOrUpdate($0, by: \.id)
     }
 
     response.medias.forEach {
-      allMedias.appendOrUpdate($0)
+      allMedias.insertOrUpdate($0, by: \.id)
     }
   }
 
@@ -110,8 +110,11 @@ import Sweet
     }
 
     return .init(
-      userID: userID, directMessage: directMessage, user: user, medias: medias,
-      isBeforeElementSame: isBeforeElementSame)
+      userID: userID,
+      directMessage: directMessage,
+      user: user, medias: medias,
+      isBeforeElementSame: isBeforeElementSame
+    )
   }
 
   func fetchDirectMessages() async {

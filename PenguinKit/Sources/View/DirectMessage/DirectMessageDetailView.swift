@@ -44,7 +44,7 @@ struct DirectMessageDetailView: View {
         Label("Photo", systemImage: "photo")
 
         TextField("", text: $viewModel.text, axis: .vertical)
-          .textFieldStyle(.roundedBorder)
+        .textFieldStyle(.roundedBorder)
 
         Button {
           Task {
@@ -59,7 +59,7 @@ struct DirectMessageDetailView: View {
       .background(.ultraThinMaterial)
     }
     #if !os(macOS)
-    .toolbar(.hidden, for: .tabBar)
+      .toolbar(.hidden, for: .tabBar)
     #endif
     .scrollDismissesKeyboard(.immediately)
     .task {

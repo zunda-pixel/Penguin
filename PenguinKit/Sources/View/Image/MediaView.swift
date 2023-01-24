@@ -16,38 +16,37 @@ struct MediaView: View {
 
   func videoImage(url: URL) -> some View {
     KFImage(url)
-      .placeholder { p in
-        ProgressView(p)
-      }
-      .resizable()
-      .onTapGesture {
-        isPresentedVideoPlayer.toggle()
-      }
+    .placeholder { p in
+      ProgressView(p)
+    }
+    .resizable()
+    .onTapGesture {
+      isPresentedVideoPlayer.toggle()
+    }
     #if os(macOS)
       .sheet(isPresented: $isPresentedVideoPlayer) {
         let url = media.variants.first { $0.contentType == .mp4 }!.url
 
         let player = AVPlayer(url: url)
         MoviePlayer(player: player)
-          .ignoresSafeArea()
-          .onAppear {
-            player.play()
-          }
+        .ignoresSafeArea()
+        .onAppear {
+          player.play()
+        }
       }
     #else
-        .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
-          let url = media.variants.first { $0.contentType == .mp4 }!.url
+      .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
+        let url = media.variants.first { $0.contentType == .mp4 }!.url
 
-          let player = AVPlayer(url: url)
-          MoviePlayer(player: player)
-            .ignoresSafeArea()
-            .onAppear {
-              player.play()
-            }
+        let player = AVPlayer(url: url)
+        MoviePlayer(player: player)
+        .ignoresSafeArea()
+        .onAppear {
+          player.play()
         }
+      }
     #endif
-    
-      
+
   }
 
   func image(url: URL) -> some View {

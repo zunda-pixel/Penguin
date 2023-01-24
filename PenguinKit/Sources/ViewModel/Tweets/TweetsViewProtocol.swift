@@ -12,11 +12,11 @@ import Sweet
 
   var loadingTweet: Bool { get set }
 
-  var allTweets: [Sweet.TweetModel] { get set }
-  var allUsers: [Sweet.UserModel] { get set }
-  var allMedias: [Sweet.MediaModel] { get set }
-  var allPolls: [Sweet.PollModel] { get set }
-  var allPlaces: [Sweet.PlaceModel] { get set }
+  var allTweets: Set<Sweet.TweetModel> { get set }
+  var allUsers: Set<Sweet.UserModel> { get set }
+  var allMedias: Set<Sweet.MediaModel> { get set }
+  var allPolls: Set<Sweet.PollModel> { get set }
+  var allPlaces: Set<Sweet.PlaceModel> { get set }
 
   func getTweet(_ tweetID: String) -> Sweet.TweetModel?
   func getPoll(_ pollID: String?) -> Sweet.PollModel?
@@ -33,27 +33,27 @@ import Sweet
 extension TweetsViewProtocol {
   func addResponse(response: Sweet.TweetsResponse) {
     response.tweets.forEach {
-      allTweets.appendOrUpdate($0)
+      allTweets.insertOrUpdate($0, by: \.id)
     }
-
+    
     response.relatedTweets.forEach {
-      allTweets.appendOrUpdate($0)
+      allTweets.insertOrUpdate($0, by: \.id)
     }
 
     response.users.forEach {
-      allUsers.appendOrUpdate($0)
+      allUsers.insertOrUpdate($0, by: \.id)
     }
 
     response.medias.forEach {
-      allMedias.appendOrUpdate($0)
+      allMedias.insertOrUpdate($0, by: \.id)
     }
 
     response.polls.forEach {
-      allPolls.appendOrUpdate($0)
+      allPolls.insertOrUpdate($0, by: \.id)
     }
 
     response.places.forEach {
-      allPlaces.appendOrUpdate($0)
+      allPlaces.insertOrUpdate($0, by: \.id)
     }
   }
 
@@ -83,7 +83,7 @@ extension TweetsViewProtocol {
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
     let medias = allMedias.filter { mediaIDs.contains($0.key) }
-    
+
     return medias.uniqued(by: \.id)
   }
 
