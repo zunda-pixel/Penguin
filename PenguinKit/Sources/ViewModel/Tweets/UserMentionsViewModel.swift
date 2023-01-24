@@ -16,7 +16,8 @@ import Sweet
   @Published var loadingTweet: Bool
   @Published var timelines: Set<String>?
   @Published var searchSettings: TimelineSearchSettings
-
+  @Published var reply: Reply?
+  
   var allTweets: Set<Sweet.TweetModel>
   var allUsers: Set<Sweet.UserModel>
   var allMedias: Set<Sweet.MediaModel>

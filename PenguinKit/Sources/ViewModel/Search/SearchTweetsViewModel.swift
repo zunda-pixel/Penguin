@@ -14,7 +14,8 @@ import Sweet
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
-
+  @Published var reply: Reply?
+  
   var paginationToken: String?
   var allTweets: Set<Sweet.TweetModel>
   var allUsers: Set<Sweet.UserModel>

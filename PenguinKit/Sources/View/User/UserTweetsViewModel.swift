@@ -59,6 +59,7 @@ final class UserTweetsViewModel: TimelineTweetsProtocol {
   var allPolls: Set<Sweet.PollModel>
   var allPlaces: Set<Sweet.PlaceModel>
 
+  @Published var reply: Reply?
   @Published var loadingTweet: Bool
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?

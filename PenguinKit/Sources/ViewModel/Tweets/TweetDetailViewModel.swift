@@ -21,7 +21,8 @@ final class TweetDetailViewModel: TweetsViewProtocol {
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
   @Published var tweetNode: TweetNode?
-
+  @Published var reply: Reply?
+  
   init(cellViewModel: TweetCellViewModel) {
     self.cellViewModel = cellViewModel
     self.userID = cellViewModel.userID

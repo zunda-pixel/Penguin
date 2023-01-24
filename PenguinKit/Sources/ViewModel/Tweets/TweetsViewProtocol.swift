@@ -11,6 +11,7 @@ import Sweet
   var errorHandle: ErrorHandle? { get set }
 
   var loadingTweet: Bool { get set }
+  var  reply: Reply? { get set }
 
   var allTweets: Set<Sweet.TweetModel> { get set }
   var allUsers: Set<Sweet.UserModel> { get set }

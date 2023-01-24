@@ -11,7 +11,8 @@ import Sweet
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
-
+  @Published var reply: Reply?
+  
   let list: Sweet.ListModel
   let userID: String
 

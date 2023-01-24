@@ -12,6 +12,7 @@ import Sweet
   var allPolls: Set<Sweet.PollModel>
   var allPlaces: Set<Sweet.PlaceModel>
 
+  @Published var reply: Reply?
   @Published var errorHandle: ErrorHandle?
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool

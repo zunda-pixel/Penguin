@@ -18,6 +18,7 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
   var allPolls: Set<Sweet.PollModel>
   var allPlaces: Set<Sweet.PlaceModel>
 
+  @Published var reply: Reply?
   @Published var tweetNode: TweetNode?
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool

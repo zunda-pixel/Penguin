@@ -22,7 +22,8 @@ import Sweet
   @Published var pinnedTweetID: String?
   @Published var timelines: Set<String>?
   @Published var searchSettings: TimelineSearchSettings
-
+  @Published var reply: Reply?
+  
   init(userID: String, user: Sweet.UserModel) {
     self.userID = userID
     self.user = user

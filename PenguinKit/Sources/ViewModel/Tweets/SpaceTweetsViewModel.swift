@@ -17,7 +17,8 @@ import Sweet
   @Published var timelines: Set<String>?
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
-
+  @Published var reply: Reply?
+  
   init(userID: String, spaceID: String) {
     self.userID = userID
     self.spaceID = spaceID
