@@ -23,6 +23,9 @@ import SwiftUI
   var loadingLocation: Bool { get set }
   var quoted: TweetContentModel? { get }
   var title: String { get }
+  var reply: Reply? { get }
+  var selectedUserID: Set<String> { get set }
+  var isPresentedSelectUserView: Bool { get set }
   func postTweet() async throws
   func setLocation() async
   func loadPhotos(with pickers: [PhotosPickerItem]) async
@@ -33,7 +36,10 @@ import SwiftUI
   let quoted: TweetContentModel?
 
   var locationManager: CLLocationManager
-
+  let reply: Reply?
+  
+  @Published var selectedUserID: Set<String>
+  @Published var isPresentedSelectUserView: Bool
   @Published var text: String
   @Published var selectedReplySetting: Sweet.ReplySetting
   @Published var locationString: String?
@@ -44,10 +50,14 @@ import SwiftUI
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
 
-  init(userID: String, quoted: TweetContentModel? = nil) {
+  init(userID: String, quoted: TweetContentModel? = nil, reply: Reply? = nil) {
     self.userID = userID
     self.quoted = quoted
+    self.reply = reply
+    
+    self.selectedUserID = Set(reply?.replyUsers.map(\.id) ?? [])
 
+    self.isPresentedSelectUserView = false
     self.text = ""
     self.selectedReplySetting = .everyone
     self.photos = []
@@ -93,6 +103,15 @@ import SwiftUI
   }
 
   func postTweet() async throws {
+    let replySetting: Sweet.ReplyModel?
+    
+    if let reply {
+      let excludeReplyUserIDs = Set(reply.replyUsers.map(\.id)).subtracting(selectedUserID)
+      replySetting = .init(replyToTweetIDs: reply.replyID, excludeReplyUserIDs: Array(excludeReplyUserIDs))
+    } else {
+      replySetting = nil
+    }
+    
     let tweet = Sweet.PostTweetModel(
       text: text,
       directMessageDeepLink: nil,
@@ -101,7 +120,7 @@ import SwiftUI
       media: nil,
       poll: poll,
       quoteTweetID: quoted?.tweet.id,
-      reply: nil,
+      reply: replySetting,
       replySettings: selectedReplySetting
     )
 
