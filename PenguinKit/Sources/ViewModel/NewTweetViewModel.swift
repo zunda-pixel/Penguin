@@ -49,8 +49,20 @@ import SwiftUI
   @Published var loadingLocation: Bool
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
+  
+  convenience init(userID: String) {
+    self.init(userID: userID, quoted: nil, reply: nil)
+  }
+  
+  convenience init(userID: String, reply: Reply?) {
+    self.init(userID: userID, quoted: nil, reply: reply)
+  }
+  
+  convenience init(userID: String, quoted: TweetContentModel?) {
+    self.init(userID: userID, quoted: quoted, reply: nil)
+  }
 
-  init(userID: String, quoted: TweetContentModel? = nil, reply: Reply? = nil) {
+  private init(userID: String, quoted: TweetContentModel?, reply: Reply?) {
     self.userID = userID
     self.quoted = quoted
     self.reply = reply
