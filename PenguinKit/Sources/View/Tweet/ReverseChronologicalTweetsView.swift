@@ -10,6 +10,20 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @ObservedObject var viewModel: ViewModel
   @Environment(\.settings) var settings
 
+  @ViewBuilder
+  func replyButton(viewModel: TweetCellViewModel) -> some View {
+    Button {
+      let mentions = viewModel.tweet.entity?.mentions ?? []
+      let userNames = mentions.map(\.userName)
+      let users: [User] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+      let userModels: [Sweet.UserModel] = users.map { Sweet.UserModel(user: $0) } + [viewModel.author]
+      
+      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: userModels.uniqued(by: \.id))
+    } label: {
+      Label("Reply", systemImage: "arrowshape.turn.up.right")
+    }
+  }
+  
   var body: some View {
     List {
       ForEach(viewModel.showTweets) { tweet in
@@ -40,16 +54,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
               tweetID: cellViewModel.tweetText.id)
             
-            Button {
-              let mentions = cellViewModel.tweet.entity?.mentions ?? []
-              let userNames = mentions.map(\.userName)
-              let users: [User] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
-              let userModels: [Sweet.UserModel] = users.map { .init(user: $0) }
-              
-              viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: userModels)
-            } label: {
-              Label("Reply", systemImage: "arrowshape.turn.up.right")
-            }
+            replyButton(viewModel: cellViewModel)
           }
           .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button {
@@ -61,18 +66,9 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
             .tint(.secondary)
           }
           .swipeActions(edge: .trailing) {
-            Button {
-              let mentions = cellViewModel.tweet.entity?.mentions ?? []
-              let userNames = mentions.map(\.userName)
-              let users: [User] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
-              let userModels: [Sweet.UserModel] = users.map { .init(user: $0) }
-              
-              viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: userModels)
-            } label: {
-              Label("Reply", systemImage: "arrowshape.turn.up.right")
-                .labelStyle(.iconOnly)
-            }
-            .tint(.secondary)
+            replyButton(viewModel: cellViewModel)
+              .labelStyle(.iconOnly)
+              .tint(.secondary)
           }
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
             LikeButton(

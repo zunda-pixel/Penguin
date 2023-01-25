@@ -10,6 +10,19 @@ struct OnlineTweetDetailView: View {
   @EnvironmentObject var router: NavigationPathRouter
 
   @ViewBuilder
+  func replyButton(viewModel: TweetCellViewModel) -> some View {
+    Button {
+      let mentions = viewModel.tweet.entity?.mentions ?? []
+      let userNames = mentions.map(\.userName)
+      let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [viewModel.author]
+      
+      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users.uniqued(by: \.id))
+    } label: {
+      Label("Reply", systemImage: "arrowshape.turn.up.right")
+    }
+  }
+  
+  @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
       TweetCellView(viewModel: viewModel)
@@ -78,15 +91,7 @@ struct OnlineTweetDetailView: View {
         tweetID: viewModel.tweetText.id
       )
       
-      Button {
-        let mentions = viewModel.tweet.entity?.mentions ?? []
-        let userNames = mentions.map(\.userName)
-        let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
-        
-        self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users)
-      } label: {
-        Label("Reply", systemImage: "arrowshape.turn.up.right")
-      }
+      replyButton(viewModel: viewModel)
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
@@ -98,17 +103,9 @@ struct OnlineTweetDetailView: View {
       .tint(.secondary)
     }
     .swipeActions(edge: .trailing) {
-      Button {
-        let mentions = viewModel.tweet.entity?.mentions ?? []
-        let userNames = mentions.map(\.userName)
-        let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
-        
-        self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users)
-      } label: {
-        Label("Reply", systemImage: "arrowshape.turn.up.right")
-          .labelStyle(.iconOnly)
-      }
-      .tint(.secondary)
+      replyButton(viewModel: viewModel)
+        .labelStyle(.iconOnly)
+        .tint(.secondary)
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
       LikeButton(

@@ -26,6 +26,19 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   }
 
   @ViewBuilder
+  func replyButton(viewModel: TweetCellViewModel) -> some View {
+    Button {
+      let mentions = viewModel.tweet.entity?.mentions ?? []
+      let userNames = mentions.map(\.userName)
+      let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [viewModel.author]
+      
+      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users.uniqued(by: \.id))
+    } label: {
+      Label("Reply", systemImage: "arrowshape.turn.up.right")
+    }
+  }
+  
+  @ViewBuilder
   var listView: some View {
     List {
       listTopContent
@@ -115,15 +128,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             tweetID: cellViewModel.tweetText.id
           )
           
-          Button {
-            let mentions = cellViewModel.tweet.entity?.mentions ?? []
-            let userNames = mentions.map(\.userName)
-            let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
-
-            viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: users)
-          } label: {
-            Label("Reply", systemImage: "arrowshape.turn.up.right")
-          }
+          replyButton(viewModel: cellViewModel)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
@@ -135,17 +140,9 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           .tint(.secondary)
         }
         .swipeActions(edge: .trailing) {
-          Button {
-            let mentions = cellViewModel.tweet.entity?.mentions ?? []
-            let userNames = mentions.map(\.userName)
-            let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
-
-            viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: users)
-          } label: {
-            Label("Reply", systemImage: "arrowshape.turn.up.right")
-              .labelStyle(.iconOnly)
-          }
-          .tint(.secondary)
+          replyButton(viewModel: cellViewModel)
+            .labelStyle(.iconOnly)
+            .tint(.secondary)
         }
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
           LikeButton(
