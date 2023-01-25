@@ -64,7 +64,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
               }
               
               HStack(alignment: .top) {
-                TextField(viewModel.title, text: $viewModel.text, axis: .vertical)
+                TextField(viewModel.placeHolder, text: $viewModel.text, axis: .vertical)
                   .focused($showKeyboard, equals: true)
                 
                 Text("\(viewModel.leftTweetCount)")

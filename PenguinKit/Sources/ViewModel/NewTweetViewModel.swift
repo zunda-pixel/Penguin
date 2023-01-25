@@ -22,7 +22,7 @@ import SwiftUI
   var leftTweetCount: Int { get }
   var loadingLocation: Bool { get set }
   var quoted: TweetContentModel? { get }
-  var title: String { get }
+  var placeHolder: String { get }
   var reply: Reply? { get }
   var selectedUserID: Set<String> { get set }
   var isPresentedSelectUserView: Bool { get set }
@@ -82,7 +82,7 @@ import SwiftUI
     locationManager.delegate = self
   }
 
-  var title: String {
+  var placeHolder: String {
     if text.isEmpty {
       return quoted == nil ? " Say something..." : " Add Comment..."
     } else {
