@@ -39,6 +39,40 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
             UnBookmarkButton(
               errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
               tweetID: cellViewModel.tweetText.id)
+            
+            Button {
+              let mentions = cellViewModel.tweet.entity?.mentions ?? []
+              let userNames = mentions.map(\.userName)
+              let users: [User] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+              let userModels: [Sweet.UserModel] = users.map { .init(user: $0) }
+              
+              viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: userModels)
+            } label: {
+              Label("Reply", systemImage: "arrowshape.turn.up.right")
+            }
+          }
+          .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button {
+              let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
+              router.path.append(tweetDetailViewModel)
+            } label: {
+              Image(systemName: "ellipsis")
+            }
+            .tint(.secondary)
+          }
+          .swipeActions(edge: .trailing) {
+            Button {
+              let mentions = cellViewModel.tweet.entity?.mentions ?? []
+              let userNames = mentions.map(\.userName)
+              let users: [User] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+              let userModels: [Sweet.UserModel] = users.map { .init(user: $0) }
+              
+              viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: userModels)
+            } label: {
+              Label("Reply", systemImage: "arrowshape.turn.up.right")
+                .labelStyle(.iconOnly)
+            }
+            .tint(.secondary)
           }
           .swipeActions(edge: .leading, allowsFullSwipe: true) {
             LikeButton(
@@ -56,20 +90,15 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
             .tint(.secondary)
             .labelStyle(.iconOnly)
           }
-          .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button {
-              let tweetDetailViewModel: TweetDetailViewModel = .init(cellViewModel: cellViewModel)
-              router.path.append(tweetDetailViewModel)
-            } label: {
-              Image(systemName: "ellipsis")
-            }
-            .tint(.gray)
-          }
           .task {
             await viewModel.tweetCellOnAppear(tweet: cellViewModel.tweet)
           }
       }
       .listContentAttribute()
+    }
+    .sheet(item: $viewModel.reply) { reply in
+      let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
+      NewTweetView(viewModel: viewModel)
     }
     .searchable(text: $viewModel.searchSettings.query)
     .scrollViewAttitude()

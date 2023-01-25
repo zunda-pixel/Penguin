@@ -114,6 +114,16 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             userID: viewModel.userID,
             tweetID: cellViewModel.tweetText.id
           )
+          
+          Button {
+            let mentions = cellViewModel.tweet.entity?.mentions ?? []
+            let userNames = mentions.map(\.userName)
+            let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+
+            viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: users)
+          } label: {
+            Label("Reply", systemImage: "arrowshape.turn.up.right")
+          }
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
@@ -122,7 +132,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           } label: {
             Image(systemName: "ellipsis")
           }
-          .tint(.gray)
+          .tint(.secondary)
         }
         .swipeActions(edge: .trailing) {
           Button {
@@ -132,9 +142,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
 
             viewModel.reply = Reply(replyID: cellViewModel.tweetText.id, ownerID: cellViewModel.tweetText.authorID!, replyUsers: users)
           } label: {
-            Image(systemName: "arrowshape.turn.up.right")
+            Label("Reply", systemImage: "arrowshape.turn.up.right")
+              .labelStyle(.iconOnly)
           }
-          .tint(.gray)
+          .tint(.secondary)
         }
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
           LikeButton(

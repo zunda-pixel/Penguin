@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import Sweet
 
 struct OnlineTweetDetailView: View {
   @ObservedObject var viewModel: OnlineTweetDetailViewModel
@@ -76,6 +77,16 @@ struct OnlineTweetDetailView: View {
         userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
+      
+      Button {
+        let mentions = viewModel.tweet.entity?.mentions ?? []
+        let userNames = mentions.map(\.userName)
+        let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+        
+        self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users)
+      } label: {
+        Label("Reply", systemImage: "arrowshape.turn.up.right")
+      }
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
@@ -84,7 +95,20 @@ struct OnlineTweetDetailView: View {
       } label: {
         Image(systemName: "ellipsis")
       }
-      .tint(.gray)
+      .tint(.secondary)
+    }
+    .swipeActions(edge: .trailing) {
+      Button {
+        let mentions = viewModel.tweet.entity?.mentions ?? []
+        let userNames = mentions.map(\.userName)
+        let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+        
+        self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users)
+      } label: {
+        Label("Reply", systemImage: "arrowshape.turn.up.right")
+          .labelStyle(.iconOnly)
+      }
+      .tint(.secondary)
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
       LikeButton(

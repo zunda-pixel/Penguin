@@ -16,7 +16,8 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var errorHandle: ErrorHandle? { get set }
   var viewContext: NSManagedObjectContext { get }
   var searchSettings: TimelineSearchSettings { get set }
-
+  var reply: Reply? { get set }
+  
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
   func updateTimeLine()
 

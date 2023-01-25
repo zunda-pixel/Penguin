@@ -3,6 +3,7 @@
 //
 
 import SwiftUI
+import Sweet
 
 struct TweetDetailView: View {
   @ObservedObject var viewModel: TweetDetailViewModel
@@ -76,6 +77,16 @@ struct TweetDetailView: View {
         userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
+      
+      Button {
+        let mentions = viewModel.tweet.entity?.mentions ?? []
+        let userNames = mentions.map(\.userName)
+        let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+        
+        self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users)
+      } label: {
+        Label("Reply", systemImage: "arrowshape.turn.up.right")
+      }
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
@@ -84,7 +95,20 @@ struct TweetDetailView: View {
       } label: {
         Image(systemName: "ellipsis")
       }
-      .tint(.gray)
+      .tint(.secondary)
+    }
+    .swipeActions(edge: .trailing) {
+      Button {
+        let mentions = viewModel.tweet.entity?.mentions ?? []
+        let userNames = mentions.map(\.userName)
+        let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! }
+        
+        self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users)
+      } label: {
+        Label("Reply", systemImage: "arrowshape.turn.up.right")
+          .labelStyle(.iconOnly)
+      }
+      .tint(.secondary)
     }
     .swipeActions(edge: .leading, allowsFullSwipe: true) {
       LikeButton(
@@ -111,28 +135,34 @@ struct TweetDetailView: View {
   }
 
   var body: some View {
-    if let tweetNode = viewModel.tweetNode {
-      List {
-        NodeView([tweetNode], children: \.children) { child in
-          let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-
-          cellView(viewModel: viewModel)
-        }
-        .listContentAttribute()
-      }
-      .scrollViewAttitude()
-      .listStyle(.inset)
-    } else {
-      List {
-        cellView(viewModel: viewModel.cellViewModel)
+    Group {
+      if let tweetNode = viewModel.tweetNode {
+        List {
+          NodeView([tweetNode], children: \.children) { child in
+            let viewModel = self.viewModel.getTweetCellViewModel(child.id)
+            
+            cellView(viewModel: viewModel)
+          }
           .listContentAttribute()
+        }
+        .scrollViewAttitude()
+        .listStyle(.inset)
+      } else {
+        List {
+          cellView(viewModel: viewModel.cellViewModel)
+            .listContentAttribute()
+        }
+        .scrollViewAttitude()
+        .listStyle(.inset)
+        .task {
+          await viewModel.fetchTweets(first: nil, last: nil)
+        }
+        .alert(errorHandle: $viewModel.errorHandle)
       }
-      .scrollViewAttitude()
-      .listStyle(.inset)
-      .task {
-        await viewModel.fetchTweets(first: nil, last: nil)
-      }
-      .alert(errorHandle: $viewModel.errorHandle)
+    }
+    .sheet(item: $viewModel.reply) { reply in
+      let viewModel: NewTweetViewModel = .init(userID: viewModel.userID, reply: reply)
+      NewTweetView(viewModel: viewModel)
     }
   }
 }

@@ -22,6 +22,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   @Published var searchSettings: TimelineSearchSettings
   @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
+  @Published var reply: Reply?
 
   init(userID: String, viewContext: NSManagedObjectContext) {
     self.userID = userID
