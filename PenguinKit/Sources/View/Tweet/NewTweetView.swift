@@ -59,6 +59,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                     allUsers: reply.replyUsers,
                     selection: $viewModel.selectedUserID
                   )
+                  .presentationDetents([.medium])
                 }
               }
               
