@@ -185,7 +185,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         .padding()
         .alert(errorHandle: $viewModel.errorHandle)
       }
-      .navigationTitle("New Tweet")
+      .navigationTitle(viewModel.title)
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
         #if os(macOS)

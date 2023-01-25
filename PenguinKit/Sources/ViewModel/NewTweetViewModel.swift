@@ -26,6 +26,7 @@ import SwiftUI
   var reply: Reply? { get }
   var selectedUserID: Set<String> { get set }
   var isPresentedSelectUserView: Bool { get set }
+  var title: String { get }
   func postTweet() async throws
   func setLocation() async
   func loadPhotos(with pickers: [PhotosPickerItem]) async
@@ -37,6 +38,8 @@ import SwiftUI
 
   var locationManager: CLLocationManager
   let reply: Reply?
+  
+  let title: String
   
   @Published var selectedUserID: Set<String>
   @Published var isPresentedSelectUserView: Bool
@@ -51,21 +54,22 @@ import SwiftUI
   @Published var errorHandle: ErrorHandle?
   
   convenience init(userID: String) {
-    self.init(userID: userID, quoted: nil, reply: nil)
+    self.init(userID: userID, quoted: nil, reply: nil, title: "New Tweet")
   }
   
   convenience init(userID: String, reply: Reply?) {
-    self.init(userID: userID, quoted: nil, reply: reply)
+    self.init(userID: userID, quoted: nil, reply: reply, title: "Reply Tweet")
   }
   
   convenience init(userID: String, quoted: TweetContentModel?) {
-    self.init(userID: userID, quoted: quoted, reply: nil)
+    self.init(userID: userID, quoted: quoted, reply: nil, title: "Quote Tweet")
   }
 
-  private init(userID: String, quoted: TweetContentModel?, reply: Reply?) {
+  private init(userID: String, quoted: TweetContentModel?, reply: Reply?, title: String) {
     self.userID = userID
     self.quoted = quoted
     self.reply = reply
+    self.title = title
     
     self.selectedUserID = Set(reply?.replyUsers.map(\.id) ?? [])
 
