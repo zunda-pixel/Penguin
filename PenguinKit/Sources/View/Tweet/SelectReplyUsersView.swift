@@ -16,35 +16,58 @@ struct SelectReplyUsersView: View {
     self._selection = selection
   }
   
+  func userCell(user: Sweet.UserModel) -> some View {
+    Label {
+      Text(user.userName)
+    } icon: {
+      ProfileImageView(url: user.profileImageURL!)
+        .frame(width: 40, height: 40)
+    }
+    .tag(user.id)
+  }
+  
   var body: some View {
     NavigationStack {
       List(selection: $selection) {
-        ForEach(allUsers) { user in
-          Label {
-            Text(user.userName)
-          } icon: {
-            ProfileImageView(url: user.profileImageURL!)
-              .frame(width: 40, height: 40)
+        let owner = allUsers.first { $0.id == tweetOwnerID }!
+        userCell(user: owner)
+        
+        let otherUsers = allUsers.filter { $0.id != tweetOwnerID }
+        
+        if !otherUsers.isEmpty {
+          Section {
+            ForEach(otherUsers) { user in
+              userCell(user: user)
+            }
+          } header: {
+            HStack {
+              Text("Others in this conversation")
+                 
+              Spacer()
+              
+              Toggle("Select/Deselect All",isOn: .init(
+                get: {
+                  selection.count == allUsers.count
+                },
+                set: { isOn in
+                  if isOn {
+                    selection = Set(allUsers.map(\.id))
+                  } else {
+                    selection = []
+                  }
+                })
+              )
+              .labelsHidden()
+            }
           }
-          .tag(user.id)
         }
       }
       .environment(\.editMode, .constant(.active))
+      // TODO List(selection)内でdisabledが使用できれば以下のコードは不要
       .onChange(of: selection) { _ in
         selection.insert(tweetOwnerID)
       }
-      .navigationTitle("Reply To")
-      .toolbar {
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
-          Button("Deselect All") {
-            selection = []
-          }
-          
-          Button("Select All") {
-            selection = Set(allUsers.map(\.id))
-          }
-        }
-      }
+      .navigationTitle("Replying to")
     }
   }
 }
