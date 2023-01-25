@@ -113,7 +113,9 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         let urlModel = viewModel.tweet.entity?.urls.filter {
-          !$0.images.isEmpty && (200..<300).contains($0.status!)
+          // TODO statusがnilの場合がある
+          // 対処しなくてもいい
+          !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
         }.first
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
