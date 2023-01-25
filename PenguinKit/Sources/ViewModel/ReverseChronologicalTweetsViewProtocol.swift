@@ -160,8 +160,8 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
-    let medias = allMedias.filter { mediaIDs.contains($0.key!) }
-
+    let medias = mediaIDs.map { id in allMedias.first { $0.key! == id }! }
+    
     return medias.map { .init(media: $0) }
   }
 
