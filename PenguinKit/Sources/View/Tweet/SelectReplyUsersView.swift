@@ -62,7 +62,9 @@ struct SelectReplyUsersView: View {
           }
         }
       }
+      #if !os(macOS)
       .environment(\.editMode, .constant(.active))
+      #endif
       // TODO List(selection)内でdisabledが使用できれば以下のコードは不要
       .onChange(of: selection) { _ in
         selection.insert(tweetOwnerID)

@@ -188,7 +188,13 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       .navigationTitle("New Tweet")
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        #if os(macOS)
+        let tweetPlacement: ToolbarItemPlacement = .navigation
+        #else
+        let tweetPlacement: ToolbarItemPlacement = .navigationBarTrailing
+        #endif
+        
+        ToolbarItem(placement: tweetPlacement) {
           Button("Tweet") {
             Task {
               do {
@@ -205,7 +211,13 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           .buttonStyle(.bordered)
         }
         
-        ToolbarItem(placement: .navigationBarLeading) {
+        #if os(macOS)
+        let closePlacement: ToolbarItemPlacement = .navigation
+        #else
+        let closePlacement: ToolbarItemPlacement = .navigationBarLeading
+        #endif
+        
+        ToolbarItem(placement: closePlacement) {
           Button("Close") {
             dismiss()
           }
