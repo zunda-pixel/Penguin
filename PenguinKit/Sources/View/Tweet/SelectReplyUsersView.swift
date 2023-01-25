@@ -17,20 +17,34 @@ struct SelectReplyUsersView: View {
   }
   
   var body: some View {
-    List(selection: $selection) {
-      ForEach(allUsers) { user in
-        Label {
-          Text(user.userName)
-        } icon: {
-          ProfileImageView(url: user.profileImageURL!)
-            .frame(width: 40, height: 40)
+    NavigationStack {
+      List(selection: $selection) {
+        ForEach(allUsers) { user in
+          Label {
+            Text(user.userName)
+          } icon: {
+            ProfileImageView(url: user.profileImageURL!)
+              .frame(width: 40, height: 40)
+          }
+          .tag(user.id)
         }
-        .tag(user.id)
       }
-    }
-    .environment(\.editMode, .constant(.active))
-    .onChange(of: selection) { _ in
-      selection.insert(tweetOwnerID)
+      .environment(\.editMode, .constant(.active))
+      .onChange(of: selection) { _ in
+        selection.insert(tweetOwnerID)
+      }
+      .navigationTitle("Reply To")
+      .toolbar {
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
+          Button("Deselect All") {
+            selection = []
+          }
+          
+          Button("Select All") {
+            selection = Set(allUsers.map(\.id))
+          }
+        }
+      }
     }
   }
 }
@@ -69,24 +83,5 @@ struct SelectReplyUsersView_Preview: PreviewProvider {
   
   static var previews: some View {
     Preview()
-  }
-}
-
-
-
-struct ListDisableTest: View {
-  let disableIDs: [Int] = [1, 3]
-  @State var selection: Set<Int> = [1, 3]
-  
-  var body: some View {
-    List(1..<20, id: \.self, selection: $selection) { i in
-      Text("\(i)")
-        .tag(i)
-        .disabled(disableIDs.contains(i))
-    }
-    .environment(\.editMode, .constant(.active))
-    .onChange(of: selection) { _ in
-      selection = selection.union(disableIDs)
-    }
   }
 }
