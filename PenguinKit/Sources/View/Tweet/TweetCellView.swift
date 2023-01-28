@@ -76,8 +76,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           let place = viewModel.places.first { $0.id == placeID }!
           Text(place.fullName)
             .onTapGesture {
-              var components: URLComponents = .init(string: "http://maps.apple.com/")!
-              components.queryItems = [.init(name: "q", value: place.name)]
+              var components: URLComponents = .init(string: "https://maps.apple.com/")!
+              components.queryItems = [.init(name: "q", value: place.fullName)]
               openURL(components.url!)
             }
             .foregroundColor(.secondary)
