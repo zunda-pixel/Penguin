@@ -11,19 +11,13 @@ import Sweet
   var errorHandle: ErrorHandle? { get set }
 
   var loadingTweet: Bool { get set }
-  var  reply: Reply? { get set }
+  var reply: Reply? { get set }
 
   var allTweets: Set<Sweet.TweetModel> { get set }
   var allUsers: Set<Sweet.UserModel> { get set }
   var allMedias: Set<Sweet.MediaModel> { get set }
   var allPolls: Set<Sweet.PollModel> { get set }
   var allPlaces: Set<Sweet.PlaceModel> { get set }
-
-  func getTweet(_ tweetID: String) -> Sweet.TweetModel?
-  func getPoll(_ pollID: String?) -> Sweet.PollModel?
-  func getUser(_ userID: String) -> Sweet.UserModel?
-  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel]
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel?
 
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel
 
@@ -64,28 +58,16 @@ extension TweetsViewProtocol {
     return tweet
   }
 
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel? {
-    guard let placeID else { return nil }
-
-    guard let firstPlace = allPlaces.first(where: { $0.id == placeID }) else {
-      return nil
-    }
-
-    return firstPlace
+  func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
+    return placeIDs.map { id in allPlaces.first { $0.id == id }! }
   }
 
-  func getPoll(_ pollID: String?) -> Sweet.PollModel? {
-    guard let pollID else { return nil }
-
-    guard let firstPoll = allPolls.first(where: { $0.id == pollID }) else { return nil }
-
-    return firstPoll
+  func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel] {
+    return pollIDs.map { id in allPolls.first { $0.id == id }! }
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
-    let medias = mediaIDs.map { id in allMedias.first { $0.id == id }! }
-
-    return medias
+    return mediaIDs.map { id in allMedias.first { $0.id == id }! }
   }
 
   func getUser(_ userID: String) -> Sweet.UserModel? {
@@ -145,11 +127,21 @@ extension TweetsViewProtocol {
 
     let quoted: QuotedTweetModel? = quotedContent(tweet: tweet, retweet: retweet?.tweet)
 
-    let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
+    let tweets = [
+      tweet,
+      retweet?.tweet,
+      quoted?.tweetContent.tweet,
+      quoted?.quoted?.tweet
+    ].compacted()
+    
+    let mediaKeys = tweets.compactMap(\.attachments).flatMap(\.mediaKeys)
+    let medias = getMedias(Array(mediaKeys.uniqued()))
 
-    let poll = getPoll(tweet.attachments?.pollID)
+    let pollIDs = tweets.compactMap(\.attachments).compactMap(\.pollID)
+    let polls = getPolls(pollIDs)
 
-    let place = getPlace(tweet.geo?.placeID)
+    let placeIDs = tweets.compactMap(\.geo).compactMap(\.placeID)
+    let places = getPlaces(placeIDs)
 
     let viewModel: TweetCellViewModel = .init(
       userID: userID,
@@ -158,8 +150,8 @@ extension TweetsViewProtocol {
       retweet: retweet,
       quoted: quoted,
       medias: medias,
-      poll: poll,
-      place: place
+      polls: polls,
+      places: places
     )
 
     return viewModel

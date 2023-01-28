@@ -14,7 +14,12 @@ struct DisplaySettingsView: View {
         let viewModel = TweetCellViewModel(
           userID: "",
           tweet: .twitterTweet,
-          author: .twitterUser
+          author: .twitterUser,
+          retweet: nil,
+          quoted: nil,
+          medias: [],
+          polls: [],
+          places: []
         )
 
         TweetCellView(viewModel: viewModel)

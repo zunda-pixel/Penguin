@@ -18,8 +18,8 @@ import Sweet
   var quoted: QuotedTweetModel? { get }
 
   var medias: [Sweet.MediaModel] { get }
-  var poll: Sweet.PollModel? { get }
-  var place: Sweet.PlaceModel? { get }
+  var polls: [Sweet.PollModel] { get }
+  var places: [Sweet.PlaceModel] { get }
   var tweetText: Sweet.TweetModel { get }
   var showDate: Date { get }
 }
@@ -31,8 +31,8 @@ import Sweet
   let retweet: TweetContentModel?
   let quoted: QuotedTweetModel?
   let medias: [Sweet.MediaModel]
-  let poll: Sweet.PollModel?
-  let place: Sweet.PlaceModel?
+  let polls: [Sweet.PollModel]
+  let places: [Sweet.PlaceModel]
 
   @Published var errorHandle: ErrorHandle?
 
@@ -40,11 +40,11 @@ import Sweet
     userID: String,
     tweet: Sweet.TweetModel,
     author: Sweet.UserModel,
-    retweet: TweetContentModel? = nil,
-    quoted: QuotedTweetModel? = nil,
-    medias: [Sweet.MediaModel] = [],
-    poll: Sweet.PollModel? = nil,
-    place: Sweet.PlaceModel? = nil
+    retweet: TweetContentModel?,
+    quoted: QuotedTweetModel?,
+    medias: [Sweet.MediaModel],
+    polls: [Sweet.PollModel],
+    places: [Sweet.PlaceModel]
   ) {
     self.userID = userID
     self.tweet = tweet
@@ -52,8 +52,8 @@ import Sweet
     self.retweet = retweet
     self.quoted = quoted
     self.medias = medias
-    self.poll = poll
-    self.place = place
+    self.polls = polls
+    self.places = places
   }
 
   nonisolated func hash(into hasher: inout Hasher) {
@@ -63,8 +63,8 @@ import Sweet
     hasher.combine(retweet)
     hasher.combine(quoted)
     hasher.combine(medias)
-    hasher.combine(poll)
-    hasher.combine(place)
+    hasher.combine(polls)
+    hasher.combine(places)
   }
 
   nonisolated static func == (lhs: TweetCellViewModel, rhs: TweetCellViewModel) -> Bool {

@@ -65,13 +65,11 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       allMedias.insertOrUpdate($0, by: \.id)
     }
 
-    let polls = [cellViewModel.poll].compacted()
-    polls.forEach {
+    cellViewModel.polls.forEach {
       allPolls.insertOrUpdate($0, by: \.id)
     }
 
-    let places = [cellViewModel.place].compacted()
-    places.forEach {
+    cellViewModel.places.forEach {
       allPlaces.insertOrUpdate($0, by: \.id)
     }
   }
