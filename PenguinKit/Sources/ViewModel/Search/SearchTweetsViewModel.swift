@@ -4,6 +4,7 @@
 
 import Foundation
 import Sweet
+import Algorithms
 
 @MainActor final class SearchTweetsViewModel: TimelineTweetsProtocol {
   let query: String
@@ -68,11 +69,19 @@ import Sweet
 
       paginationToken = response.meta?.nextToken
 
-      let tweetIDs = Array(
-        response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(
-          \.id
-        ).uniqued())
-
+      let tweetID1s = response.relatedTweets.lazy
+        .flatMap(\.referencedTweets).filter { $0.type == .quoted }
+        .map(\.id)
+      
+      let tweetIDs2 = response.relatedTweets.lazy
+        .filter { tweet in
+          let ids = tweet.attachments?.mediaKeys ?? []
+          return !ids.allSatisfy(response.medias.map(\.id).contains)
+        }
+        .map(\.id)
+      
+      let tweetIDs = Array(chain(tweetID1s, tweetIDs2).uniqued())
+      
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         addResponse(response: response)
