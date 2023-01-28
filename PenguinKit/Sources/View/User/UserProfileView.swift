@@ -4,49 +4,83 @@
 
 import Sweet
 import SwiftUI
+import MapKit
 
 struct UserProfileView: View {
-  let user: Sweet.UserModel
+  @StateObject var viewModel: UserProfileViewModel
 
+  @Environment(\.openURL) var openURL
+  @Environment(\.settings) var settings
+  
   var body: some View {
     VStack {
-      Text(user.name)
+      Text(viewModel.user.name)
         .font(.title)
 
-      Text("@\(user.userName)")
+      Text("@\(viewModel.user.userName)")
         .foregroundColor(.secondary)
 
-      Text(user.description!)
+      Text(viewModel.user.description!)
 
-      if let url = user.url {
+      if let url = viewModel.user.url {
         HStack {
           Image(systemName: "link")
 
-          let urlModel = user.entity?.urls.first { $0.url == url }
+          let urlModel = viewModel.user.entity?.urls.first { $0.url == url }
 
           Link(urlModel!.displayURL ?? "\(urlModel!.url)", destination: url)
         }
       }
 
       HStack {
-        Image(systemName: "bird")
+        Image(systemName: "bird").foregroundColor(settings.colorType.colorSet.tintColor)
 
-        Text(user.createdAt!, style: .date)
+        Text(viewModel.user.createdAt!, style: .date)
       }
 
-      if let location = user.location {
+      if let location = viewModel.user.location {
         HStack {
-          Image(systemName: "location")
-          Text(location)
+          if let region = viewModel.region {
+            let rectangle = RoundedRectangle(cornerRadius: 10)
+            
+            Map(coordinateRegion: .constant(region.boundingRegion))
+              .aspectRatio(1, contentMode: .fit)
+              .frame(width: 60)
+              .clipShape(rectangle)
+              .overlay {
+                rectangle.stroke(.secondary, lineWidth: 2)
+              }
+            
+            VStack(alignment: .leading){
+              Text(location)
+              if let title = region.mapItems.first?.placemark.title {
+                Text(title)
+                  .font(.footnote)
+                  .lineLimit(2)
+                  .foregroundColor(.secondary)
+              }
+            }
+          } else {
+            Text("\(Image(systemName: "location")) \(location)")
+          }
+        }
+        .onTapGesture {
+          var components: URLComponents = .init(string: "https://maps.apple.com/")!
+          components.queryItems = [.init(name: "q", value: location)]
+          openURL(components.url!)
+        }
+        .task {
+          await viewModel.fetchRegion(location: location)
         }
       }
     }
   }
 }
 
+
 struct UserProfileView_Previews: PreviewProvider {
   static var previews: some View {
-    UserProfileView(
-      user: .init(id: "3123131", name: "zunda", userName: "zunda_pixel", createdAt: Date()))
+    let viewModel: UserProfileViewModel = .init(user: .init(id: "3123131", name: "zunda", userName: "zunda_pixel", description: "description", createdAt: Date(), location: "ichikawa"))
+    UserProfileView(viewModel: viewModel)
   }
 }
