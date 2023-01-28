@@ -71,6 +71,10 @@ import Algorithms
       response.users.forEach {
         allUsers.insertOrUpdate($0, by: \.id)
       }
+      
+      response.polls.forEach {
+        allPolls.insertOrUpdate($0, by: \.id)
+      }
 
       self.pinnedTweetID = pinnedTweetID
     } catch {
