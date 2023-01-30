@@ -21,7 +21,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     HStack(alignment: .top) {
       ProfileImageView(url: user.profileImageURL!)
         .frame(width: 50, height: 50)
-        .padding(.horizontal, 4)
+        .padding(.trailing, 4)
         .contentShape(Circle())
         .onTapGesture {
           let userViewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: user)
