@@ -93,6 +93,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
             await viewModel.tweetCellOnAppear(tweet: cellViewModel.tweet)
           }
       }
+      .listRowSeparator(.hidden)
       .listContentAttribute()
     }
     .sheet(item: $viewModel.reply) { reply in
