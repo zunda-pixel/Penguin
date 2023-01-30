@@ -58,6 +58,8 @@ struct OnlineTweetDetailView: View {
           metrics: viewModel.tweet.publicMetrics!
         )
       }
+      
+      Divider()
     }
     .contextMenu {
       let url: URL = URL(
@@ -131,11 +133,14 @@ struct OnlineTweetDetailView: View {
         NodeView([tweetNode], children: \.children) { child in
           let viewModel = self.viewModel.getTweetCellViewModel(child.id)
           cellView(viewModel: viewModel)
+            .listRowInsets(EdgeInsets())
         }
+        .listRowSeparator(.hidden)
         .listContentAttribute()
 
       } else {
         ProgressView()
+          .listRowSeparator(.hidden)
           .listContentAttribute()
       }
     }

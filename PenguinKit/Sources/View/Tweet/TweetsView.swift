@@ -42,6 +42,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   var listView: some View {
     List {
       listTopContent
+        .listRowSeparator(.hidden)
         .listContentAttribute()
 
       if viewModel.showTweets.isEmpty && viewModel.loadingTweet {
@@ -49,6 +50,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           .controlSize(.large)
           .tint(.secondary)
           .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .listRowSeparator(.hidden)
       }
 
       if viewModel.showTweets.isEmpty && !viewModel.loadingTweet {
@@ -57,10 +59,12 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           Text("No Tweets Found.")
         }
         .frame(maxWidth: .infinity)
+        .listRowSeparator(.hidden)
       }
 
       tweetsView
         .listContentAttribute()
+        .listRowSeparator(.hidden)
     }
     .if(!hasTopContent) {
       $0.searchable(text: $viewModel.searchSettings.query)
@@ -92,9 +96,11 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     ForEach(viewModel.showTweets) { tweet in
       let cellViewModel = viewModel.getTweetCellViewModel(tweet.id)
 
-      TweetCellView(viewModel: cellViewModel)
-        .frame(maxWidth: .infinity)
-        .contentShape(Rectangle())
+      VStack {
+        TweetCellView(viewModel: cellViewModel)
+        Divider()
+      }
+        .listRowInsets(EdgeInsets())
         .contextMenu {
           let url: URL = URL(
             string:
