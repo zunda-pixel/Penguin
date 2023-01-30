@@ -8,7 +8,7 @@ import Sweet
 import SwiftUI
 
 #if !os(macOS)
-import CoreLocationUI
+  import CoreLocationUI
 #endif
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
@@ -16,30 +16,31 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.loginUsers) var loginUsers
   @Environment(\.settings) var settings
   @Environment(\.colorScheme) var colorScheme
-  
+
   @ObservedObject var viewModel: ViewModel
-  
+
   @FocusState private var showKeyboard: Bool
-  
+
   var body: some View {
     NavigationStack {
       ScrollView {
         VStack {
           HStack(alignment: .top) {
             let user = loginUsers.first { $0.id == viewModel.userID }!
-            
+
             Menu {
               SelectUserView(currentUser: .init(get: { user }, set: { viewModel.userID = $0.id }))
             } label: {
               ProfileImageView(url: user.profileImageURL!)
                 .frame(width: 40, height: 40)
             }
-            
+
             VStack {
               if let reply = viewModel.reply {
                 ScrollView(.horizontal) {
                   HStack {
-                    ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) { user in
+                    ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) {
+                      user in
                       Label {
                         Text(user.userName)
                       } icon: {
@@ -62,14 +63,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                   .presentationDetents([.medium])
                 }
               }
-              
+
               HStack(alignment: .top) {
                 TextField(viewModel.placeHolder, text: $viewModel.text, axis: .vertical)
                   .focused($showKeyboard, equals: true)
-                
+
                 Text("\(viewModel.leftTweetCount)")
               }
-              
+
               if let poll = viewModel.poll, poll.options.count > 1 {
                 NewPollView(
                   options: .init(
@@ -90,11 +91,11 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
               }
             }
           }
-          
+
           if !viewModel.photos.isEmpty {
             Text("Photo Upload UnAvailable")
           }
-          
+
           LazyVGrid(columns: .init(repeating: .init(), count: 2)) {
             ForEach(viewModel.photos) { photo in
               PhotoView(photo: photo)
@@ -102,22 +103,24 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 .scaledToFit()
             }
           }
-          
+
           VStack(alignment: .leading) {
             if let quoted = viewModel.quoted {
-              QuotedTweetCellView(userID: viewModel.userID, tweet: quoted.tweet, user: quoted.author)
-                .padding()
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+              QuotedTweetCellView(
+                userID: viewModel.userID, tweet: quoted.tweet, user: quoted.author
+              )
+              .padding()
+              .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
             }
           }
-          
+
           if let location = viewModel.locationString {
             Text("Location Upload UnAvailable")
-            
+
             HStack {
               Text(location)
                 .foregroundColor(.secondary)
-              
+
               Button {
                 self.viewModel.locationString = nil
               } label: {
@@ -125,14 +128,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
               }
             }
           }
-          
+
           Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
             ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
               Text(replySetting.description)
                 .tag(replySetting)
             }
           }
-          
+
           HStack {
             PhotosPicker(
               selection: $viewModel.photosPickerItems,
@@ -143,23 +146,23 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             ) {
               Image(systemName: "photo")
             }
-            
-#if !os(macOS)
-            LocationButton(.sendCurrentLocation) {
-              Task {
-                await viewModel.setLocation()
+
+            #if !os(macOS)
+              LocationButton(.sendCurrentLocation) {
+                Task {
+                  await viewModel.setLocation()
+                }
               }
-            }
-            .labelStyle(.iconOnly)
-            .foregroundColor(settings.colorType.colorSet.tintColor)
-            .tint(
-              colorScheme == .dark
-              ? settings.colorType.colorSet.darkPrimaryColor
-              : settings.colorType.colorSet.lightPrimaryColor
-            )
-            .disabled(viewModel.loadingLocation)
-#endif
-            
+              .labelStyle(.iconOnly)
+              .foregroundColor(settings.colorType.colorSet.tintColor)
+              .tint(
+                colorScheme == .dark
+                  ? settings.colorType.colorSet.darkPrimaryColor
+                  : settings.colorType.colorSet.lightPrimaryColor
+              )
+              .disabled(viewModel.loadingLocation)
+            #endif
+
             Button {
               viewModel.pollButtonAction()
             } label: {
@@ -189,11 +192,11 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
         #if os(macOS)
-        let tweetPlacement: ToolbarItemPlacement = .navigation
+          let tweetPlacement: ToolbarItemPlacement = .navigation
         #else
-        let tweetPlacement: ToolbarItemPlacement = .navigationBarTrailing
+          let tweetPlacement: ToolbarItemPlacement = .navigationBarTrailing
         #endif
-        
+
         ToolbarItem(placement: tweetPlacement) {
           Button("Tweet") {
             Task {
@@ -210,13 +213,13 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           .disabled(viewModel.disableTweetButton)
           .buttonStyle(.bordered)
         }
-        
+
         #if os(macOS)
-        let closePlacement: ToolbarItemPlacement = .navigation
+          let closePlacement: ToolbarItemPlacement = .navigation
         #else
-        let closePlacement: ToolbarItemPlacement = .navigationBarLeading
+          let closePlacement: ToolbarItemPlacement = .navigationBarLeading
         #endif
-        
+
         ToolbarItem(placement: closePlacement) {
           Button("Close") {
             dismiss()

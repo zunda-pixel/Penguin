@@ -2,8 +2,8 @@
 //  TweetDetailView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct TweetDetailView: View {
   @ObservedObject var viewModel: TweetDetailViewModel
@@ -14,14 +14,21 @@ struct TweetDetailView: View {
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [viewModel.author]
-      
-      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users.uniqued(by: \.id))
+      let users: [Sweet.UserModel] =
+        userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [
+          viewModel.author
+        ]
+
+      self.viewModel.reply = Reply(
+        replyID: viewModel.tweetText.id,
+        ownerID: viewModel.tweetText.authorID!,
+        replyUsers: users.uniqued(by: \.id)
+      )
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
   }
-  
+
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
@@ -59,7 +66,7 @@ struct TweetDetailView: View {
           metrics: viewModel.tweet.publicMetrics!
         )
       }
-      
+
       Divider()
     }
     .contextMenu {
@@ -93,7 +100,7 @@ struct TweetDetailView: View {
         userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
-      
+
       replyButton(viewModel: viewModel)
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -139,21 +146,21 @@ struct TweetDetailView: View {
       if let tweetNode = viewModel.tweetNode {
         NodeView([tweetNode], children: \.children) { child in
           let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-          
+
           cellView(viewModel: viewModel)
             .listRowInsets(EdgeInsets())
         }
         .listRowSeparator(.hidden)
-          .listContentAttribute()
+        .listContentAttribute()
       } else {
         cellView(viewModel: viewModel.cellViewModel)
           .listRowSeparator(.hidden)
           .listContentAttribute()
           .listRowInsets(EdgeInsets())
-        .task {
-          await viewModel.fetchTweets(first: nil, last: nil)
-        }
-        .alert(errorHandle: $viewModel.errorHandle)
+          .task {
+            await viewModel.fetchTweets(first: nil, last: nil)
+          }
+          .alert(errorHandle: $viewModel.errorHandle)
       }
     }
     .scrollViewAttitude()

@@ -17,9 +17,9 @@ struct LoginView<Label: View>: View {
   @Environment(\.dismiss) var dismiss
 
   #if os(macOS)
-  @Environment(\.openURL) var openURL
+    @Environment(\.openURL) var openURL
   #endif
-  
+
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
 
@@ -71,15 +71,15 @@ struct LoginView<Label: View>: View {
     Button {
       authorizeURL = getAuthorizeURL()
       #if os(macOS)
-      openURL(authorizeURL!)
+        openURL(authorizeURL!)
       #endif
     } label: {
       label
     }
     #if !os(macOS)
-    .sheet(item: $authorizeURL) { url in
-      SafariView(url: url)
-    }
+      .sheet(item: $authorizeURL) { url in
+        SafariView(url: url)
+      }
     #endif
     .alert(errorHandle: $errorHandle)
     .onOpenURL { url in

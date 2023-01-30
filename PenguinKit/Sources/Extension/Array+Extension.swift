@@ -62,21 +62,21 @@ extension Sequence {
   }
 }
 
-
 extension Set {
   mutating func inserOrUpdate(_ newMember: Element) {
     if let index = self.firstIndex(where: { $0 == newMember }) {
       self.remove(at: index)
     }
-    
+
     self.insert(newMember)
   }
-  
-  mutating func insertOrUpdate<T: Equatable>(_ newMember: Element, by keyPath: KeyPath<Element, T>) {
+
+  mutating func insertOrUpdate<T: Equatable>(_ newMember: Element, by keyPath: KeyPath<Element, T>)
+  {
     if let index = self.firstIndex(where: { $0[keyPath: keyPath] == newMember[keyPath: keyPath] }) {
       self.remove(at: index)
     }
-    
+
     self.insert(newMember)
   }
 }

@@ -70,9 +70,9 @@ import Sweet
           return !ids.allSatisfy(response.medias.map(\.id).contains)
         }
         .map(\.id)
-      
+
       let tweetIDs = Array(tweetIDs1) + Array(tweetIDs2)
-      
+
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         addResponse(response: response)

@@ -2,16 +2,16 @@
 //  UserProfileView.swift
 //
 
+import MapKit
 import Sweet
 import SwiftUI
-import MapKit
 
 struct UserProfileView: View {
   @StateObject var viewModel: UserProfileViewModel
 
   @Environment(\.openURL) var openURL
   @Environment(\.settings) var settings
-  
+
   var body: some View {
     VStack {
       Text(viewModel.user.name)
@@ -42,7 +42,7 @@ struct UserProfileView: View {
         HStack {
           if let region = viewModel.region {
             let rectangle = RoundedRectangle(cornerRadius: 10)
-            
+
             Map(coordinateRegion: .constant(region.boundingRegion))
               .aspectRatio(1, contentMode: .fit)
               .frame(width: 60)
@@ -50,8 +50,8 @@ struct UserProfileView: View {
               .overlay {
                 rectangle.stroke(.secondary, lineWidth: 2)
               }
-            
-            VStack(alignment: .leading){
+
+            VStack(alignment: .leading) {
               Text(location)
               if let title = region.mapItems.first?.placemark.title {
                 Text(title)
@@ -77,10 +77,12 @@ struct UserProfileView: View {
   }
 }
 
-
 struct UserProfileView_Previews: PreviewProvider {
   static var previews: some View {
-    let viewModel: UserProfileViewModel = .init(user: .init(id: "3123131", name: "zunda", userName: "zunda_pixel", description: "description", createdAt: Date(), location: "ichikawa"))
+    let viewModel: UserProfileViewModel = .init(
+      user: .init(
+        id: "3123131", name: "zunda", userName: "zunda_pixel", description: "description",
+        createdAt: Date(), location: "ichikawa"))
     UserProfileView(viewModel: viewModel)
   }
 }

@@ -38,9 +38,9 @@ import SwiftUI
 
   var locationManager: CLLocationManager
   let reply: Reply?
-  
+
   let title: String
-  
+
   @Published var selectedUserID: Set<String>
   @Published var isPresentedSelectUserView: Bool
   @Published var text: String
@@ -52,15 +52,15 @@ import SwiftUI
   @Published var loadingLocation: Bool
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
-  
+
   convenience init(userID: String) {
     self.init(userID: userID, quoted: nil, reply: nil, title: "New Tweet")
   }
-  
+
   convenience init(userID: String, reply: Reply?) {
     self.init(userID: userID, quoted: nil, reply: reply, title: "Reply Tweet")
   }
-  
+
   convenience init(userID: String, quoted: TweetContentModel?) {
     self.init(userID: userID, quoted: quoted, reply: nil, title: "Quote Tweet")
   }
@@ -70,7 +70,7 @@ import SwiftUI
     self.quoted = quoted
     self.reply = reply
     self.title = title
-    
+
     self.selectedUserID = Set(reply?.replyUsers.map(\.id) ?? [])
 
     self.isPresentedSelectUserView = false
@@ -120,14 +120,15 @@ import SwiftUI
 
   func postTweet() async throws {
     let replySetting: Sweet.ReplyModel?
-    
+
     if let reply {
       let excludeReplyUserIDs = Set(reply.replyUsers.map(\.id)).subtracting(selectedUserID)
-      replySetting = Sweet.ReplyModel(replyToTweetID: reply.replyID, excludeReplyUserIDs: Array(excludeReplyUserIDs))
+      replySetting = Sweet.ReplyModel(
+        replyToTweetID: reply.replyID, excludeReplyUserIDs: Array(excludeReplyUserIDs))
     } else {
       replySetting = nil
     }
-    
+
     let tweet = Sweet.PostTweetModel(
       text: text,
       directMessageDeepLink: nil,

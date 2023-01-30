@@ -20,7 +20,10 @@ struct ReverseChronologicalNavigationView: View {
   var body: some View {
     NavigationStack(path: $router.path) {
       ReverseChronologicalTweetsView(
-        viewModel: ReverseChronologicalViewModel(userID: userID, viewContext: viewContext)
+        viewModel: ReverseChronologicalViewModel(
+          userID: userID,
+          viewContext: viewContext
+        )
       )
       .navigationTitle("Timeline")
       .navigationBarTitleDisplayModeIfAvailable(.inline)

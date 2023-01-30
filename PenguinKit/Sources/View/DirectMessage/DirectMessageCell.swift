@@ -8,20 +8,20 @@ import SwiftUI
 struct DirectMessageCell: View {
   @ObservedObject var viewModel: DirectMessageCellViewModel
   @Environment(\.settings) var settings
-  
+
   var isOwned: Bool {
     viewModel.userID == viewModel.user.id
   }
-  
+
   var dateView: some View {
     Text(viewModel.directMessage.createdAt!, style: .time)
       .font(.caption2)
   }
-  
+
   @ViewBuilder
   var chatText: some View {
     let position: ChatBubble.TailPosition = isOwned ? .trailingBottom : .leadingBottom
-    
+
     Text(viewModel.directMessage.text)
       .fixedSize(horizontal: false, vertical: true)
       .padding(.horizontal, 10)
@@ -29,7 +29,7 @@ struct DirectMessageCell: View {
       .frame(minWidth: 40)
       .background {
         let cornerRadius: CGFloat = 17
-        
+
         Group {
           if viewModel.isBeforeElementSame {
             RoundedRectangle(cornerRadius: cornerRadius)
@@ -39,19 +39,19 @@ struct DirectMessageCell: View {
           }
         }
         .foregroundColor(settings.colorType.colorSet.tintColor.opacity(0.5))
-        
+
       }
   }
-  
+
   @ViewBuilder
   var mediaPlayer: some View {
     let videos = viewModel.medias.filter { $0.type == .video }
-    
+
     let video = videos.flatMap(\.variants).max { $0.bitRate ?? 0 < $1.bitRate ?? 0 }
-    
+
     if let video {
       let rectangle = RoundedRectangle(cornerSize: .init(width: 10, height: 10))
-      
+
       MiniSoundPlayer(
         viewModel: .init(
           url: video.url,
@@ -67,7 +67,7 @@ struct DirectMessageCell: View {
       .clipShape(rectangle)
     }
   }
-  
+
   var body: some View {
     HStack(alignment: .top) {
       if isOwned {
@@ -81,13 +81,13 @@ struct DirectMessageCell: View {
       } else {
         ProfileImageView(url: viewModel.user.profileImageURL!)
           .frame(width: 40, height: 40)
-        
+
         VStack(alignment: .leading) {
           HStack(alignment: .bottom) {
             chatText
             dateView
           }
-          
+
           mediaPlayer
         }
       }
@@ -124,7 +124,10 @@ struct DirectMessageCell_Preview: PreviewProvider {
               .init(
                 bitRate: 1,
                 contentType: .mp4,
-                url: URL(string: "https://video.twimg.com/dm_video/1591388494718717953/vid/1280x720/Emjm-m0iDYwfwVTwEtXgYOA-iRq08QpyzU8oxRC1eg4.mp4?tag=1")!
+                url: URL(
+                  string:
+                    "https://video.twimg.com/dm_video/1591388494718717953/vid/1280x720/Emjm-m0iDYwfwVTwEtXgYOA-iRq08QpyzU8oxRC1eg4.mp4?tag=1"
+                )!
               )
             ],
             durationMicroSeconds: 10
@@ -132,11 +135,11 @@ struct DirectMessageCell_Preview: PreviewProvider {
         ],
         isBeforeElementSame: false
       )
-      
+
       DirectMessageCell(viewModel: viewModel)
     }
   }
-  
+
   static var previews: some View {
     Preview()
       .frame(height: 50)

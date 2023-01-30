@@ -17,7 +17,7 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var viewContext: NSManagedObjectContext { get }
   var searchSettings: TimelineSearchSettings { get set }
   var reply: Reply? { get set }
-  
+
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
   func updateTimeLine()
 
@@ -143,19 +143,19 @@ extension ReverseChronologicalTweetsViewProtocol {
 
   func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
     let places = placeIDs.map { id in allPlaces.first { $0.id! == id }! }
-    
+
     return places.map { .init(place: $0) }
   }
 
   func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel] {
     let polls = pollIDs.map { id in allPolls.first { $0.id! == id }! }
-    
+
     return polls.map { .init(poll: $0) }
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
     let medias = mediaIDs.map { id in allMedias.first { $0.key! == id }! }
-    
+
     return medias.map { .init(media: $0) }
   }
 
@@ -221,7 +221,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       quoted?.tweetContent.tweet,
       quoted?.quoted?.tweet,
     ].compacted()
-    
+
     let mediaKeys = tweets.compactMap(\.attachments).flatMap(\.mediaKeys)
     let medias = getMedias(Array(mediaKeys.uniqued()))
 

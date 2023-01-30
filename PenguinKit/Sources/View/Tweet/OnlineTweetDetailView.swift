@@ -2,8 +2,8 @@
 //  OnlineTweetDetailView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct OnlineTweetDetailView: View {
   @ObservedObject var viewModel: OnlineTweetDetailViewModel
@@ -14,20 +14,25 @@ struct OnlineTweetDetailView: View {
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [viewModel.author]
-      
-      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users.uniqued(by: \.id))
+      let users: [Sweet.UserModel] =
+        userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [
+          viewModel.author
+        ]
+
+      self.viewModel.reply = Reply(
+        replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!,
+        replyUsers: users.uniqued(by: \.id))
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
   }
-  
+
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
       VStack {
         TweetCellView(viewModel: viewModel)
-        
+
         if self.viewModel.tweetID == viewModel.tweetText.id {
           TweetToolBar(
             viewModel: .init(
@@ -37,22 +42,22 @@ struct OnlineTweetDetailView: View {
             )
           )
           .labelStyle(.iconOnly)
-          
+
           Divider()
-          
+
           HStack {
             Text(
               viewModel.tweet.createdAt!.formatted(date: .abbreviated, time: .standard)
             )
-            
+
             // sourceがnilの場合を考慮(APIの仕様変更の可能性があるため)
             if let source = viewModel.tweet.source {
               Text("via \(source)")
             }
           }
-          
+
           Divider()
-          
+
           TweetDetailInformation(
             userID: viewModel.userID,
             tweetID: viewModel.tweet.id,
@@ -61,7 +66,7 @@ struct OnlineTweetDetailView: View {
         }
       }
       .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
-      
+
       Divider()
     }
     .contextMenu {
@@ -95,7 +100,7 @@ struct OnlineTweetDetailView: View {
         userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
-      
+
       replyButton(viewModel: viewModel)
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
