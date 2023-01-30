@@ -74,7 +74,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             .cornerRadius(15)
         }
 
-        // TODO fullName, nameどちらを使うべきか
         if let placeID = viewModel.tweetText.geo?.placeID {
           let place = viewModel.places.first { $0.id == placeID }!
           Text(place.fullName)
