@@ -102,7 +102,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     }
     .searchable(text: $viewModel.searchSettings.query)
     .scrollViewAttitude()
-    .listStyle(.plain)
+    .listStyle(.inset)
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
       await viewModel.fetchNewTweet()
