@@ -31,6 +31,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
         TweetCellView(viewModel: cellViewModel)
           .frame(maxWidth: .infinity)
+          .listRowInsets(EdgeInsets())
           .contextMenu {
             let url: URL = URL(
               string:
