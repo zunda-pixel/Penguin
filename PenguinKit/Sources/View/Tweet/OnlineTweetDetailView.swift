@@ -25,39 +25,42 @@ struct OnlineTweetDetailView: View {
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
-      TweetCellView(viewModel: viewModel)
-
-      if self.viewModel.tweetID == viewModel.tweetText.id {
-        TweetToolBar(
-          viewModel: .init(
-            userID: viewModel.userID,
-            tweet: viewModel.tweet,
-            user: viewModel.author
+      VStack {
+        TweetCellView(viewModel: viewModel)
+        
+        if self.viewModel.tweetID == viewModel.tweetText.id {
+          TweetToolBar(
+            viewModel: .init(
+              userID: viewModel.userID,
+              tweet: viewModel.tweet,
+              user: viewModel.author
+            )
           )
-        )
-        .labelStyle(.iconOnly)
-
-        Divider()
-
-        HStack {
-          Text(
-            viewModel.tweet.createdAt!.formatted(date: .abbreviated, time: .standard)
-          )
-
-          // sourceがnilの場合を考慮(APIの仕様変更の可能性があるため)
-          if let source = viewModel.tweet.source {
-            Text("via \(source)")
+          .labelStyle(.iconOnly)
+          
+          Divider()
+          
+          HStack {
+            Text(
+              viewModel.tweet.createdAt!.formatted(date: .abbreviated, time: .standard)
+            )
+            
+            // sourceがnilの場合を考慮(APIの仕様変更の可能性があるため)
+            if let source = viewModel.tweet.source {
+              Text("via \(source)")
+            }
           }
+          
+          Divider()
+          
+          TweetDetailInformation(
+            userID: viewModel.userID,
+            tweetID: viewModel.tweet.id,
+            metrics: viewModel.tweet.publicMetrics!
+          )
         }
-
-        Divider()
-
-        TweetDetailInformation(
-          userID: viewModel.userID,
-          tweetID: viewModel.tweet.id,
-          metrics: viewModel.tweet.publicMetrics!
-        )
       }
+      .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
       
       Divider()
     }

@@ -26,6 +26,7 @@ struct TweetDetailView: View {
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
       TweetCellView(viewModel: viewModel)
+        .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
 
       if self.viewModel.cellViewModel.tweetText.id == viewModel.tweetText.id {
         TweetToolBar(

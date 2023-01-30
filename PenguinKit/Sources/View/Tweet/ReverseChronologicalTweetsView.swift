@@ -31,6 +31,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
         VStack {
           TweetCellView(viewModel: cellViewModel)
+            .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
           Divider()
         }
           .listRowInsets(EdgeInsets())
