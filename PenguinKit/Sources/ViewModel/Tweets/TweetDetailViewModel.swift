@@ -21,7 +21,8 @@ final class TweetDetailViewModel: TweetsViewProtocol {
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
   @Published var tweetNode: TweetNode?
-
+  @Published var reply: Reply?
+  
   init(cellViewModel: TweetCellViewModel) {
     self.cellViewModel = cellViewModel
     self.userID = cellViewModel.userID
@@ -64,13 +65,11 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       allMedias.insertOrUpdate($0, by: \.id)
     }
 
-    let polls = [cellViewModel.poll].compacted()
-    polls.forEach {
+    cellViewModel.polls.forEach {
       allPolls.insertOrUpdate($0, by: \.id)
     }
 
-    let places = [cellViewModel.place].compacted()
-    places.forEach {
+    cellViewModel.places.forEach {
       allPlaces.insertOrUpdate($0, by: \.id)
     }
   }
@@ -95,6 +94,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       let tweetResponse = try await Sweet(userID: cellViewModel.userID).tweets(by: [
         cellViewModel.tweetText.id
       ])
+      
       addResponse(response: tweetResponse)
 
       let query = "conversation_id:\(conversationID)"
@@ -108,13 +108,20 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
-      let tweetIDs1 = tweetResponse.relatedTweets.lazy.flatMap(\.referencedTweets).filter {
-        $0.type == .quoted
-      }.map(\.id)
-      let tweetIDs2 = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter {
-        $0.type == .quoted
-      }.map(\.id)
-
+      let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
+      let medias = tweetResponse.medias + response.medias
+      
+      let tweetIDs1 = relatedTweets.lazy.flatMap(\.referencedTweets)
+        .filter { $0.type == .quoted }
+        .map(\.id)
+      
+      let tweetIDs2 = relatedTweets.lazy
+        .filter { tweet in
+          let ids = tweet.attachments?.mediaKeys ?? []
+          return !ids.allSatisfy(medias.map(\.id).contains)
+        }
+        .map(\.id)
+      
       let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
 
       if !tweetIDs.isEmpty {
@@ -124,8 +131,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
       let sortedTweets = allTweets.lazy.sorted(by: \.createdAt!)
 
-      let topTweet =
-        sortedTweets
+      let topTweet = sortedTweets
         .filter { $0.conversationID! == conversationID }
         .first { $0.referencedType != .reply }
 

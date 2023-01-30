@@ -4,6 +4,7 @@
 
 import Foundation
 import Sweet
+import Algorithms
 
 @MainActor final class UserDetailViewModel: TimelineTweetsProtocol {
   let userID: String
@@ -22,7 +23,8 @@ import Sweet
   @Published var pinnedTweetID: String?
   @Published var timelines: Set<String>?
   @Published var searchSettings: TimelineSearchSettings
-
+  @Published var reply: Reply?
+  
   init(userID: String, user: Sweet.UserModel) {
     self.userID = userID
     self.user = user
@@ -69,6 +71,10 @@ import Sweet
       response.users.forEach {
         allUsers.insertOrUpdate($0, by: \.id)
       }
+      
+      response.polls.forEach {
+        allPolls.insertOrUpdate($0, by: \.id)
+      }
 
       self.pinnedTweetID = pinnedTweetID
     } catch {
@@ -96,11 +102,19 @@ import Sweet
 
       addResponse(response: response)
 
-      let tweetIDs = Array(
-        response.relatedTweets.lazy.flatMap(\.referencedTweets).filter { $0.type == .quoted }.map(
-          \.id
-        ).uniqued())
-
+      let tweetIDs1 = response.relatedTweets.lazy.flatMap(\.referencedTweets)
+        .filter { $0.type == .quoted }
+        .map(\.id)
+      
+      let tweetIDs2 = response.relatedTweets.lazy
+        .filter { tweet in
+          let ids = tweet.attachments?.mediaKeys ?? []
+          return !ids.allSatisfy(response.medias.map(\.id).contains)
+        }
+        .map(\.id)
+      
+      let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
+      
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         addResponse(response: response)

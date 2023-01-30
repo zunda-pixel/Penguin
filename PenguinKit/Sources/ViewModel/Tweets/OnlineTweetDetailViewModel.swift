@@ -18,6 +18,7 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
   var allPolls: Set<Sweet.PollModel>
   var allPlaces: Set<Sweet.PlaceModel>
 
+  @Published var reply: Reply?
   @Published var tweetNode: TweetNode?
   @Published var errorHandle: ErrorHandle?
   @Published var loadingTweet: Bool
@@ -70,24 +71,30 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
 
       addResponse(response: response)
 
-      let tweetIDs1 = tweetResponse.relatedTweets.lazy.flatMap(\.referencedTweets).filter {
-        $0.type == .quoted
-      }.map(\.id)
-      let tweetIDs2 = response.relatedTweets.lazy.flatMap(\.referencedTweets).filter {
-        $0.type == .quoted
-      }.map(\.id)
-
+      let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
+      let medias = tweetResponse.medias + response.medias
+      
+      let tweetIDs1 = relatedTweets.lazy.flatMap(\.referencedTweets)
+        .filter { $0.type == .quoted }
+        .map(\.id)
+      
+      let tweetIDs2 = relatedTweets.lazy
+        .filter { tweet in
+          let ids = tweet.attachments?.mediaKeys ?? []
+          return !ids.allSatisfy(medias.map(\.id).contains)
+        }
+        .map(\.id)
+      
       let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
 
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         addResponse(response: response)
       }
+      
+      let sortedTweets = allTweets.sorted(by: \.createdAt!)
 
-      let sortedTweets = allTweets.lazy.sorted(by: \.createdAt!)
-
-      let topTweet =
-        sortedTweets
+      let topTweet = sortedTweets
         .filter { $0.conversationID! == conversationID }
         .first { $0.referencedType != .reply }
 

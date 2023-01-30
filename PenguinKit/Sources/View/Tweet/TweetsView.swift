@@ -26,6 +26,19 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   }
 
   @ViewBuilder
+  func replyButton(viewModel: TweetCellViewModel) -> some View {
+    Button {
+      let mentions = viewModel.tweet.entity?.mentions ?? []
+      let userNames = mentions.map(\.userName)
+      let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [viewModel.author]
+      
+      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users.uniqued(by: \.id))
+    } label: {
+      Label("Reply", systemImage: "arrowshape.turn.up.right")
+    }
+  }
+  
+  @ViewBuilder
   var listView: some View {
     List {
       listTopContent
@@ -58,6 +71,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
 
   var body: some View {
     listView
+      .sheet(item: $viewModel.reply) { reply in
+        let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
+        NewTweetView(viewModel: viewModel)
+      }
       .alert(errorHandle: $viewModel.errorHandle)
       .task(id: viewModel.userID) {
         guard viewModel.showTweets.isEmpty else { return }
@@ -110,6 +127,8 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             userID: viewModel.userID,
             tweetID: cellViewModel.tweetText.id
           )
+          
+          replyButton(viewModel: cellViewModel)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {
@@ -118,7 +137,12 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           } label: {
             Image(systemName: "ellipsis")
           }
-          .tint(.gray)
+          .tint(.secondary)
+        }
+        .swipeActions(edge: .trailing) {
+          replyButton(viewModel: cellViewModel)
+            .labelStyle(.iconOnly)
+            .tint(.secondary)
         }
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
           LikeButton(

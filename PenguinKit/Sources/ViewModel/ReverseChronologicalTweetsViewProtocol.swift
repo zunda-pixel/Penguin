@@ -16,7 +16,8 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var errorHandle: ErrorHandle? { get set }
   var viewContext: NSManagedObjectContext { get }
   var searchSettings: TimelineSearchSettings { get set }
-
+  var reply: Reply? { get set }
+  
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
   func updateTimeLine()
 
@@ -140,27 +141,21 @@ extension ReverseChronologicalTweetsViewProtocol {
     try! fetchShowTweetController.performFetch()
   }
 
-  func getPlace(_ placeID: String?) -> Sweet.PlaceModel? {
-    guard let placeID else { return nil }
-
-    guard let firstPlace = allPlaces.first(where: { $0.id == placeID }) else {
-      return nil
-    }
-
-    return .init(place: firstPlace)
+  func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
+    let places = placeIDs.map { id in allPlaces.first { $0.id! == id }! }
+    
+    return places.map { .init(place: $0) }
   }
 
-  func getPoll(_ pollID: String?) -> Sweet.PollModel? {
-    guard let pollID else { return nil }
-
-    guard let firstPoll = allPolls.first(where: { $0.id == pollID }) else { return nil }
-
-    return .init(poll: firstPoll)
+  func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel] {
+    let polls = pollIDs.map { id in allPolls.first { $0.id! == id }! }
+    
+    return polls.map { .init(poll: $0) }
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
-    let medias = allMedias.filter { mediaIDs.contains($0.key!) }
-
+    let medias = mediaIDs.map { id in allMedias.first { $0.key! == id }! }
+    
     return medias.map { .init(media: $0) }
   }
 
@@ -220,11 +215,21 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     let quoted: QuotedTweetModel? = quotedContent(tweet: tweet, retweet: retweet?.tweet)
 
-    let medias = getMedias(tweet.attachments?.mediaKeys ?? [])
+    let tweets = [
+      tweet,
+      retweet?.tweet,
+      quoted?.tweetContent.tweet,
+      quoted?.quoted?.tweet,
+    ].compacted()
+    
+    let mediaKeys = tweets.compactMap(\.attachments).flatMap(\.mediaKeys)
+    let medias = getMedias(Array(mediaKeys.uniqued()))
 
-    let poll = getPoll(tweet.attachments?.pollID)
+    let pollIDs = tweets.compactMap(\.attachments).compactMap(\.pollID)
+    let polls = getPolls(pollIDs)
 
-    let place = getPlace(tweet.geo?.placeID)
+    let placeIDs = tweets.compactMap(\.geo).compactMap(\.placeID)
+    let places = getPlaces(placeIDs)
 
     let viewModel: TweetCellViewModel = .init(
       userID: userID,
@@ -233,8 +238,8 @@ extension ReverseChronologicalTweetsViewProtocol {
       retweet: retweet,
       quoted: quoted,
       medias: medias,
-      poll: poll,
-      place: place
+      polls: polls,
+      places: places
     )
 
     return viewModel

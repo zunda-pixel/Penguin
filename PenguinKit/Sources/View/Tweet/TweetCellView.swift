@@ -54,7 +54,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
 
-        if let poll = viewModel.poll {
+        if let pollID = viewModel.tweetText.attachments?.pollID {
+          let poll = viewModel.polls.first { $0.id == pollID }!
           PollView(poll: poll)
             .padding()
             .overlay {
@@ -64,16 +65,19 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
-        if !viewModel.medias.isEmpty {
-          MediasView(medias: viewModel.medias)
+        let medias = viewModel.tweetText.attachments?.mediaKeys.map { id in viewModel.medias.first { $0.id == id }! } ?? []
+        if !medias.isEmpty {
+          MediasView(medias: medias)
             .cornerRadius(15)
         }
 
-        if let placeName = viewModel.place?.name {
-          Text(placeName)
+        // TODO fullName, nameどちらを使うべきか
+        if let placeID = viewModel.tweetText.geo?.placeID {
+          let place = viewModel.places.first { $0.id == placeID }!
+          Text(place.fullName)
             .onTapGesture {
-              var components: URLComponents = .init(string: "http://maps.apple.com/")!
-              components.queryItems = [.init(name: "q", value: placeName)]
+              var components: URLComponents = .init(string: "https://maps.apple.com/")!
+              components.queryItems = [.init(name: "q", value: place.fullName)]
               openURL(components.url!)
             }
             .foregroundColor(.secondary)
@@ -81,7 +85,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if let quoted = viewModel.quoted {
           QuotedTweetCellView(
-            userID: viewModel.userID, tweet: quoted.tweetContent.tweet,
+            userID: viewModel.userID,
+            tweet: quoted.tweetContent.tweet,
             user: quoted.tweetContent.author
           )
           .frame(maxWidth: .infinity, alignment: .leading)
@@ -97,12 +102,28 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
               quotedTweetModel = nil
             }
 
+            let tweets = [
+              quoted.tweetContent.tweet,
+              quotedTweetModel?.tweetContent.tweet,
+              quotedTweetModel?.quoted?.tweet
+            ].compacted()
+            
+            let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).map { id in viewModel.medias.first { $0.id == id }! }
+            
+            let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).map { id in viewModel.polls.first { $0.id == id }! }
+            
+            let places = tweets.compactMap(\.geo).compactMap(\.placeID).map { id in viewModel.places.first { $0.id == id }! }
+            
             let tweetDetailView: TweetDetailViewModel = .init(
               cellViewModel: TweetCellViewModel(
                 userID: viewModel.userID,
                 tweet: quoted.tweetContent.tweet,
                 author: quoted.tweetContent.author,
-                quoted: quotedTweetModel
+                retweet: nil,
+                quoted: quotedTweetModel,
+                medias: medias,
+                polls: polls,
+                places: places
               )
             )
             router.path.append(tweetDetailView)
@@ -113,7 +134,9 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         let urlModel = viewModel.tweet.entity?.urls.filter {
-          !$0.images.isEmpty && (200..<300).contains($0.status!)
+          // TODO statusがnilの場合がある
+          // 対処しなくてもいい
+          !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
         }.first
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる

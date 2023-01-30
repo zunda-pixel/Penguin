@@ -46,7 +46,15 @@ extension View {
     } message: { errorHandle in
       Text(errorHandle.message)
     } actions: { errorHandle in
-      Button(errorHandle.title) {}
+      Button("OK") {
+        #if DEBUG
+        #if os(macOS)
+        NSPasteboard.general.setString(errorHandle.logMessage, forType: .string)
+        #else
+        UIPasteboard.general.string = errorHandle.logMessage
+        #endif
+        #endif
+      }
     }
   }
 

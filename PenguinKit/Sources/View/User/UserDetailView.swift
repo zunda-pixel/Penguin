@@ -15,7 +15,7 @@ struct UserDetailView: View {
       ProfileImageView(url: viewModel.user.profileImageURL!)
         .frame(width: 100, height: 100)
 
-      UserProfileView(user: viewModel.user)
+      UserProfileView(viewModel: .init(user: viewModel.user))
 
       Button {
         let dmViewModel = DirectMessageDetailViewModel(

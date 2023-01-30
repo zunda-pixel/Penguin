@@ -22,6 +22,10 @@ import SwiftUI
   var leftTweetCount: Int { get }
   var loadingLocation: Bool { get set }
   var quoted: TweetContentModel? { get }
+  var placeHolder: String { get }
+  var reply: Reply? { get }
+  var selectedUserID: Set<String> { get set }
+  var isPresentedSelectUserView: Bool { get set }
   var title: String { get }
   func postTweet() async throws
   func setLocation() async
@@ -33,7 +37,12 @@ import SwiftUI
   let quoted: TweetContentModel?
 
   var locationManager: CLLocationManager
-
+  let reply: Reply?
+  
+  let title: String
+  
+  @Published var selectedUserID: Set<String>
+  @Published var isPresentedSelectUserView: Bool
   @Published var text: String
   @Published var selectedReplySetting: Sweet.ReplySetting
   @Published var locationString: String?
@@ -43,11 +52,28 @@ import SwiftUI
   @Published var loadingLocation: Bool
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
+  
+  convenience init(userID: String) {
+    self.init(userID: userID, quoted: nil, reply: nil, title: "New Tweet")
+  }
+  
+  convenience init(userID: String, reply: Reply?) {
+    self.init(userID: userID, quoted: nil, reply: reply, title: "Reply Tweet")
+  }
+  
+  convenience init(userID: String, quoted: TweetContentModel?) {
+    self.init(userID: userID, quoted: quoted, reply: nil, title: "Quote Tweet")
+  }
 
-  init(userID: String, quoted: TweetContentModel? = nil) {
+  private init(userID: String, quoted: TweetContentModel?, reply: Reply?, title: String) {
     self.userID = userID
     self.quoted = quoted
+    self.reply = reply
+    self.title = title
+    
+    self.selectedUserID = Set(reply?.replyUsers.map(\.id) ?? [])
 
+    self.isPresentedSelectUserView = false
     self.text = ""
     self.selectedReplySetting = .everyone
     self.photos = []
@@ -60,7 +86,7 @@ import SwiftUI
     locationManager.delegate = self
   }
 
-  var title: String {
+  var placeHolder: String {
     if text.isEmpty {
       return quoted == nil ? " Say something..." : " Add Comment..."
     } else {
@@ -93,6 +119,15 @@ import SwiftUI
   }
 
   func postTweet() async throws {
+    let replySetting: Sweet.ReplyModel?
+    
+    if let reply {
+      let excludeReplyUserIDs = Set(reply.replyUsers.map(\.id)).subtracting(selectedUserID)
+      replySetting = Sweet.ReplyModel(replyToTweetID: reply.replyID, excludeReplyUserIDs: Array(excludeReplyUserIDs))
+    } else {
+      replySetting = nil
+    }
+    
     let tweet = Sweet.PostTweetModel(
       text: text,
       directMessageDeepLink: nil,
@@ -101,7 +136,7 @@ import SwiftUI
       media: nil,
       poll: poll,
       quoteTweetID: quoted?.tweet.id,
-      reply: nil,
+      reply: replySetting,
       replySettings: selectedReplySetting
     )
 

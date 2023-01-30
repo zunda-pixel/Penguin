@@ -30,6 +30,7 @@ class SoundPlayerViewModel: ObservableObject {
     }
   }
 
+  @MainActor
   func buttonClick() async {
     if player == nil {
       await fetchVoice()
