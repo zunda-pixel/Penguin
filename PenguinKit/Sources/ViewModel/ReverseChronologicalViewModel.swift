@@ -2,10 +2,10 @@
 //  ReverseChronologicalViewModel.swift
 //
 
+import Algorithms
 import CoreData
 import Foundation
 import Sweet
-import Algorithms
 
 @MainActor
 final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsViewProtocol {
@@ -188,16 +188,16 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
       let tweetIDs1 = response.relatedTweets.lazy.flatMap(\.referencedTweets)
         .filter { $0.type == .quoted }
         .map(\.id)
-      
+
       let tweetIDs2 = response.relatedTweets.lazy
         .filter { tweet in
           let ids = tweet.attachments?.mediaKeys ?? []
           return !ids.allSatisfy(response.medias.map(\.id).contains)
         }
         .map(\.id)
-      
+
       let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
-      
+
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         try addResponse(response: response)

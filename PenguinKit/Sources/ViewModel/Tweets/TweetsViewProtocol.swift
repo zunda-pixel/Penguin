@@ -30,7 +30,7 @@ extension TweetsViewProtocol {
     response.tweets.forEach {
       allTweets.insertOrUpdate($0, by: \.id)
     }
-    
+
     response.relatedTweets.forEach {
       allTweets.insertOrUpdate($0, by: \.id)
     }
@@ -131,9 +131,9 @@ extension TweetsViewProtocol {
       tweet,
       retweet?.tweet,
       quoted?.tweetContent.tweet,
-      quoted?.quoted?.tweet
+      quoted?.quoted?.tweet,
     ].compacted()
-    
+
     let mediaKeys = tweets.compactMap(\.attachments).flatMap(\.mediaKeys)
     let medias = getMedias(Array(mediaKeys.uniqued()))
 

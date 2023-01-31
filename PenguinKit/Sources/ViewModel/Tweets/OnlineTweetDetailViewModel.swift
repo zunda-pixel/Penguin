@@ -73,28 +73,29 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
 
       let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
       let medias = tweetResponse.medias + response.medias
-      
+
       let tweetIDs1 = relatedTweets.lazy.flatMap(\.referencedTweets)
         .filter { $0.type == .quoted }
         .map(\.id)
-      
+
       let tweetIDs2 = relatedTweets.lazy
         .filter { tweet in
           let ids = tweet.attachments?.mediaKeys ?? []
           return !ids.allSatisfy(medias.map(\.id).contains)
         }
         .map(\.id)
-      
+
       let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
 
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         addResponse(response: response)
       }
-      
+
       let sortedTweets = allTweets.sorted(by: \.createdAt!)
 
-      let topTweet = sortedTweets
+      let topTweet =
+        sortedTweets
         .filter { $0.conversationID! == conversationID }
         .first { $0.referencedType != .reply }
 

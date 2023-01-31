@@ -10,7 +10,7 @@ struct Reply: Identifiable {
   let replyID: String
   let ownerID: String
   let replyUsers: [Sweet.UserModel]
-  
+
   init(replyID: String, ownerID: String, replyUsers: [Sweet.UserModel]) {
     self.replyID = replyID
     self.ownerID = ownerID

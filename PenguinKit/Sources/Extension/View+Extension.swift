@@ -48,11 +48,11 @@ extension View {
     } actions: { errorHandle in
       Button("OK") {
         #if DEBUG
-        #if os(macOS)
-        NSPasteboard.general.setString(errorHandle.logMessage, forType: .string)
-        #else
-        UIPasteboard.general.string = errorHandle.logMessage
-        #endif
+          #if os(macOS)
+            NSPasteboard.general.setString(errorHandle.logMessage, forType: .string)
+          #else
+            UIPasteboard.general.string = errorHandle.logMessage
+          #endif
         #endif
       }
     }

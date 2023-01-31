@@ -2,9 +2,9 @@
 //  SearchTweetsViewModel.swift
 //
 
+import Algorithms
 import Foundation
 import Sweet
-import Algorithms
 
 @MainActor final class SearchTweetsViewModel: TimelineTweetsProtocol {
   let query: String
@@ -16,7 +16,7 @@ import Algorithms
   @Published var loadingTweet: Bool
   @Published var searchSettings: TimelineSearchSettings
   @Published var reply: Reply?
-  
+
   var paginationToken: String?
   var allTweets: Set<Sweet.TweetModel>
   var allUsers: Set<Sweet.UserModel>
@@ -72,16 +72,16 @@ import Algorithms
       let tweetID1s = response.relatedTweets.lazy
         .flatMap(\.referencedTweets).filter { $0.type == .quoted }
         .map(\.id)
-      
+
       let tweetIDs2 = response.relatedTweets.lazy
         .filter { tweet in
           let ids = tweet.attachments?.mediaKeys ?? []
           return !ids.allSatisfy(response.medias.map(\.id).contains)
         }
         .map(\.id)
-      
+
       let tweetIDs = Array(chain(tweetID1s, tweetIDs2).uniqued())
-      
+
       if !tweetIDs.isEmpty {
         let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
         addResponse(response: response)

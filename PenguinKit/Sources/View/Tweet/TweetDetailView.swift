@@ -2,8 +2,8 @@
 //  TweetDetailView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct TweetDetailView: View {
   @ObservedObject var viewModel: TweetDetailViewModel
@@ -14,18 +14,26 @@ struct TweetDetailView: View {
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] = userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [viewModel.author]
-      
-      self.viewModel.reply = Reply(replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!, replyUsers: users.uniqued(by: \.id))
+      let users: [Sweet.UserModel] =
+        userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [
+          viewModel.author
+        ]
+
+      self.viewModel.reply = Reply(
+        replyID: viewModel.tweetText.id,
+        ownerID: viewModel.tweetText.authorID!,
+        replyUsers: users.uniqued(by: \.id)
+      )
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
   }
-  
+
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     VStack {
       TweetCellView(viewModel: viewModel)
+        .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
 
       if self.viewModel.cellViewModel.tweetText.id == viewModel.tweetText.id {
         TweetToolBar(
@@ -58,6 +66,8 @@ struct TweetDetailView: View {
           metrics: viewModel.tweet.publicMetrics!
         )
       }
+
+      Divider()
     }
     .contextMenu {
       let url: URL = URL(
@@ -90,7 +100,7 @@ struct TweetDetailView: View {
         userID: viewModel.userID,
         tweetID: viewModel.tweetText.id
       )
-      
+
       replyButton(viewModel: viewModel)
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -132,31 +142,29 @@ struct TweetDetailView: View {
   }
 
   var body: some View {
-    Group {
+    List {
       if let tweetNode = viewModel.tweetNode {
-        List {
-          NodeView([tweetNode], children: \.children) { child in
-            let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-            
-            cellView(viewModel: viewModel)
-          }
-          .listContentAttribute()
+        NodeView([tweetNode], children: \.children) { child in
+          let viewModel = self.viewModel.getTweetCellViewModel(child.id)
+
+          cellView(viewModel: viewModel)
+            .listRowInsets(EdgeInsets())
         }
-        .scrollViewAttitude()
-        .listStyle(.inset)
+        .listRowSeparator(.hidden)
+        .listContentAttribute()
       } else {
-        List {
-          cellView(viewModel: viewModel.cellViewModel)
-            .listContentAttribute()
-        }
-        .scrollViewAttitude()
-        .listStyle(.inset)
-        .task {
-          await viewModel.fetchTweets(first: nil, last: nil)
-        }
-        .alert(errorHandle: $viewModel.errorHandle)
+        cellView(viewModel: viewModel.cellViewModel)
+          .listRowSeparator(.hidden)
+          .listContentAttribute()
+          .listRowInsets(EdgeInsets())
+          .task {
+            await viewModel.fetchTweets(first: nil, last: nil)
+          }
+          .alert(errorHandle: $viewModel.errorHandle)
       }
     }
+    .scrollViewAttitude()
+    .listStyle(.inset)
     .sheet(item: $viewModel.reply) { reply in
       let viewModel: NewTweetViewModel = .init(userID: viewModel.userID, reply: reply)
       NewTweetView(viewModel: viewModel)

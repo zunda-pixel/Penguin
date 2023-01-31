@@ -21,7 +21,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     HStack(alignment: .top) {
       ProfileImageView(url: user.profileImageURL!)
         .frame(width: 50, height: 50)
-        .padding(.horizontal, 4)
+        .padding(.trailing, 4)
         .contentShape(Circle())
         .onTapGesture {
           let userViewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: user)
@@ -65,13 +65,15 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
-        let medias = viewModel.tweetText.attachments?.mediaKeys.map { id in viewModel.medias.first { $0.id == id }! } ?? []
+        let medias =
+          viewModel.tweetText.attachments?.mediaKeys.map { id in
+            viewModel.medias.first { $0.id == id }!
+          } ?? []
         if !medias.isEmpty {
           MediasView(medias: medias)
             .cornerRadius(15)
         }
 
-        // TODO fullName, nameどちらを使うべきか
         if let placeID = viewModel.tweetText.geo?.placeID {
           let place = viewModel.places.first { $0.id == placeID }!
           Text(place.fullName)
@@ -105,15 +107,21 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             let tweets = [
               quoted.tweetContent.tweet,
               quotedTweetModel?.tweetContent.tweet,
-              quotedTweetModel?.quoted?.tweet
+              quotedTweetModel?.quoted?.tweet,
             ].compacted()
-            
-            let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).map { id in viewModel.medias.first { $0.id == id }! }
-            
-            let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).map { id in viewModel.polls.first { $0.id == id }! }
-            
-            let places = tweets.compactMap(\.geo).compactMap(\.placeID).map { id in viewModel.places.first { $0.id == id }! }
-            
+
+            let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).map { id in
+              viewModel.medias.first { $0.id == id }!
+            }
+
+            let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).map { id in
+              viewModel.polls.first { $0.id == id }!
+            }
+
+            let places = tweets.compactMap(\.geo).compactMap(\.placeID).map { id in
+              viewModel.places.first { $0.id == id }!
+            }
+
             let tweetDetailView: TweetDetailViewModel = .init(
               cellViewModel: TweetCellViewModel(
                 userID: viewModel.userID,
@@ -159,8 +167,5 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
       }
     }
     .alert(errorHandle: $viewModel.errorHandle)
-    .alignmentGuide(.listRowSeparatorLeading) { _ in
-      return 0
-    }
   }
 }
