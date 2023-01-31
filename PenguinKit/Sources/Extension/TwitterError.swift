@@ -97,3 +97,28 @@ extension Sweet.RequestError: LocalizedError {
     }
   }
 }
+
+extension Sweet.AuthorizationError: LocalizedError {
+  public var errorDescription: String? {
+    switch self {
+    case .invalidClient: return "Invalid Client"
+    case .invalidRequest: return "Invalid Request"
+    case .unknown: return "Unknown Authorization Error"
+    }
+  }
+
+  public var recoverySuggestion: String? {
+    return "Please Contact with Developer"
+  }
+
+  public var logMessage: String {
+    switch self {
+    case .invalidRequest: return "Invalid Request"
+    case .invalidClient: return "Invalid Client"
+    case .unknown(response: let response): return """
+\(response.error)
+\(response.errorDescription)
+"""
+    }
+  }
+}
