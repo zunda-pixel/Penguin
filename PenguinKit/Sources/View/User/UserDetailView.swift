@@ -123,15 +123,18 @@ struct UserDetailView: View {
 
       if let pinnedTweetID = viewModel.pinnedTweetID {
         let viewModel = viewModel.getTweetCellViewModel(pinnedTweetID)
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
           Divider()
-          Text("\(Image(systemName: "pin.fill")) Pinned Tweet")
-            .font(.caption)
-            .foregroundColor(.secondary)
-            .padding(.leading)
-            .padding(2)
-          
-          TweetCellView(viewModel: viewModel)
+          VStack(alignment: .leading, spacing: 0) {
+            Text("\(Image(systemName: "pin.fill")) Pinned Tweet")
+              .font(.caption)
+              .foregroundColor(.secondary)
+              .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 0))
+            
+            TweetCellView(viewModel: viewModel)
+          }
+            .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+
           Divider()
         }
         .listRowInsets(EdgeInsets())
