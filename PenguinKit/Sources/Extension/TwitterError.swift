@@ -5,16 +5,6 @@
 import Foundation
 import Sweet
 
-extension Sweet.TwitterError: RecoverableError {
-  public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
-    recoveryOptionIndex == 0
-  }
-
-  public var recoveryOptions: [String] {
-    return ["OK"]
-  }
-}
-
 extension Sweet.TwitterError: LocalizedError {
   public var errorDescription: String? {
     switch self {
@@ -53,16 +43,6 @@ extension Sweet.TwitterError: LocalizedError {
   }
 }
 
-extension Sweet.UnknownError: RecoverableError {
-  public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
-    recoveryOptionIndex == 0
-  }
-
-  public var recoveryOptions: [String] {
-    return ["OK"]
-  }
-}
-
 extension Sweet.UnknownError: LocalizedError {
   public var errorDescription: String? {
     return "UnknownError"
@@ -79,16 +59,6 @@ extension Sweet.UnknownError: LocalizedError {
       \(String(data: data, encoding: .utf8)!)
       \(response)
       """
-  }
-}
-
-extension Sweet.RequestError: RecoverableError {
-  public func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
-    recoveryOptionIndex == 0
-  }
-
-  public var recoveryOptions: [String] {
-    return ["OK"]
   }
 }
 
@@ -124,6 +94,31 @@ extension Sweet.RequestError: LocalizedError {
         \(request.type)
         \(request.errors)
         """
+    }
+  }
+}
+
+extension Sweet.AuthorizationError: LocalizedError {
+  public var errorDescription: String? {
+    switch self {
+    case .invalidClient: return "Invalid Client"
+    case .invalidRequest: return "Invalid Request"
+    case .unknown: return "Unknown Authorization Error"
+    }
+  }
+
+  public var recoverySuggestion: String? {
+    return "Please Contact with Developer"
+  }
+
+  public var logMessage: String {
+    switch self {
+    case .invalidRequest: return "Invalid Request"
+    case .invalidClient: return "Invalid Client"
+    case .unknown(response: let response): return """
+\(response.error)
+\(response.errorDescription)
+"""
     }
   }
 }

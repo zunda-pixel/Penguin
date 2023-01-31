@@ -6,9 +6,19 @@ import Foundation
 import Sweet
 
 extension Sweet {
-  private static func updateUserBearerToken(userID: String) async throws {
+  private static func updateUserBearerToken(userID: String, tryCount: Int = 0) async throws {
+    guard tryCount < 2 else { return }
+    
     let refreshToken = Secure.getRefreshToken(userID: userID)
-    let response = try await Sweet.OAuth2().refreshUserBearerToken(with: refreshToken)
+    
+    let response: Sweet.OAuth2Model
+    
+    do {
+      response = try await Sweet.OAuth2().refreshUserBearerToken(with: refreshToken)
+    } catch Sweet.AuthorizationError.invalidRequest {
+      try await updateUserBearerToken(userID: userID, tryCount: tryCount + 1)
+      return
+    }
 
     let expireDate = Date.now.addingTimeInterval(TimeInterval(response.expiredSeconds))
 

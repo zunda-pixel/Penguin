@@ -94,25 +94,115 @@ struct UserDetailView: View {
       }
     }
   }
-
+  
   @ViewBuilder
-  var pinnedTweet: some View {
-    if let pinnedTweetID = viewModel.pinnedTweetID {
-      let viewModel = viewModel.getTweetCellViewModel(pinnedTweetID)
-      VStack(alignment: .leading) {
-        Text("\(Image(systemName: "pin.fill")) Pinned Tweet")
-        TweetCellView(viewModel: viewModel)
-      }
+  func replyButton(viewModel: TweetCellViewModel) -> some View {
+    Button {
+      let mentions = viewModel.tweet.entity?.mentions ?? []
+      let userNames = mentions.map(\.userName)
+      let users: [Sweet.UserModel] =
+        userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [
+          viewModel.author
+        ]
+
+      self.viewModel.reply = Reply(
+        replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!,
+        replyUsers: users.uniqued(by: \.id))
+    } label: {
+      Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
   }
 
   var body: some View {
     TweetsView(viewModel: viewModel) {
       userProfile
+        .padding()
         .buttonStyle(.bordered)
         .buttonBorderShape(.roundedRectangle)
+        .listRowInsets(EdgeInsets())
 
-      pinnedTweet
+      if let pinnedTweetID = viewModel.pinnedTweetID {
+        let viewModel = viewModel.getTweetCellViewModel(pinnedTweetID)
+        VStack(spacing: 0) {
+          Divider()
+          VStack(alignment: .leading, spacing: 0) {
+            Text("\(Image(systemName: "pin.fill")) Pinned Tweet")
+              .font(.caption)
+              .foregroundColor(.secondary)
+              .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 0))
+            
+            TweetCellView(viewModel: viewModel)
+          }
+            .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+
+          Divider()
+        }
+        .listRowInsets(EdgeInsets())
+        .contextMenu {
+          let url: URL = URL(
+            string: "https://twitter.com/\(viewModel.author.id)/status/\(viewModel.tweetText.id)"
+          )!
+          ShareLink(item: url) {
+            Label("Share", systemImage: "square.and.arrow.up")
+          }
+
+          LikeButton(
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: viewModel.tweetText.id
+          )
+
+          UnLikeButton(
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: viewModel.tweetText.id
+          )
+
+          BookmarkButton(
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: viewModel.tweetText.id
+          )
+
+          UnBookmarkButton(
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: viewModel.tweetText.id
+          )
+
+          replyButton(viewModel: viewModel)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+          Button {
+            let tweetDetailViewModel = TweetDetailViewModel(cellViewModel: viewModel)
+            router.path.append(tweetDetailViewModel)
+          } label: {
+            Image(systemName: "ellipsis")
+          }
+          .tint(.secondary)
+        }
+        .swipeActions(edge: .trailing) {
+          replyButton(viewModel: viewModel)
+            .labelStyle(.iconOnly)
+            .tint(.secondary)
+        }
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+          LikeButton(
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: viewModel.tweetText.id
+          )
+          .tint(.secondary)
+        }
+        .swipeActions(edge: .leading) {
+          BookmarkButton(
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: viewModel.tweetText.id
+          )
+          .tint(.secondary)
+        }
+      }
     }
     .toolbar {
       if viewModel.userID != viewModel.user.id {

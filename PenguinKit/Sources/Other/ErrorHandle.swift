@@ -17,10 +17,10 @@ public struct ErrorHandle {
     switch error {
     case let twitterError as Sweet.TwitterError:
       return twitterError.errorDescription!
-    case let twitterError as Sweet.TwitterError:
-      return twitterError.errorDescription!
     case let requestError as Sweet.RequestError:
       return requestError.errorDescription!
+    case let authorizationError as Sweet.AuthorizationError:
+      return authorizationError.errorDescription!
     case let unknownError as Sweet.UnknownError:
       return unknownError.errorDescription!
     default:
@@ -34,6 +34,8 @@ public struct ErrorHandle {
       return twitterError.recoverySuggestion!
     case let requestError as Sweet.RequestError:
       return requestError.recoverySuggestion!
+    case let authorizationError as Sweet.AuthorizationError:
+      return authorizationError.recoverySuggestion!
     case let unknownError as Sweet.UnknownError:
       return unknownError.recoverySuggestion!
     default:
@@ -47,6 +49,8 @@ public struct ErrorHandle {
       return twitterError.errorDescription!
     case let requestError as Sweet.RequestError:
       return requestError.logMessage
+    case let authorizationError as Sweet.AuthorizationError:
+      return authorizationError.logMessage
     case let unknownError as Sweet.UnknownError:
       return unknownError.logMessage
     default:

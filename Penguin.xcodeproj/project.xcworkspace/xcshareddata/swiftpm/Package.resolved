@@ -96,7 +96,7 @@
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
         "branch" : "main",
-        "revision" : "27367cb912112708cff5c19a7cd75125afd0d126"
+        "revision" : "7ea89f97bb773d5cab4cf172dcd64fae6b21b22e"
       }
     },
     {
@@ -150,7 +150,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "5c98b247aa5e8499aed08bf08cdd6f61b70f58d3"
+        "revision" : "278960d46633ff5bfe43ee108cfee823b607506d"
       }
     },
     {
