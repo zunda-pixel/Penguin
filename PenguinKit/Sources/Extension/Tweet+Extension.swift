@@ -14,7 +14,6 @@ extension Tweet {
     self.createdAt = tweet.createdAt
     self.replySetting = tweet.replySetting?.rawValue
     self.conversationID = tweet.conversationID
-    self.source = tweet.source
     self.replyUserID = tweet.replyUserID
 
     let encoder = JSONEncoder.twitter
@@ -105,7 +104,6 @@ extension Sweet.TweetModel {
       lang: tweet.lang,
       replySetting: replySettings,
       createdAt: tweet.createdAt,
-      source: tweet.source,
       sensitive: tweet.sensitive,
       conversationID: tweet.conversationID,
       replyUserID: tweet.replyUserID,

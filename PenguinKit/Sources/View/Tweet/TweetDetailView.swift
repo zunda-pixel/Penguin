@@ -47,16 +47,10 @@ struct TweetDetailView: View {
 
         Divider()
 
-        HStack {
-          Text(
-            viewModel.tweet.createdAt!.formatted(date: .abbreviated, time: .standard)
-          )
-
-          // sourceがnilの場合を考慮(APIの仕様変更の可能性があるため)
-          if let source = viewModel.tweet.source {
-            Text("via \(source)")
-          }
-        }
+        Text(viewModel.tweet.createdAt!.formatted(
+            date: .abbreviated,
+            time: .standard
+        ))
 
         Divider()
 
