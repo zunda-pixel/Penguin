@@ -24,7 +24,7 @@
 		2E56134B2989FAC8006CB14F /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E56134A2989FAC8006CB14F /* UniformTypeIdentifiers.framework */; };
 		2E56134E2989FAC8006CB14F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E56134D2989FAC8006CB14F /* Media.xcassets */; };
 		2E5613502989FAC8006CB14F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E56134F2989FAC8006CB14F /* ActionViewController.swift */; };
-		2E5613572989FAC8006CB14F /* Action.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E5613492989FAC8006CB14F /* Action.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2E5613572989FAC8006CB14F /* OpenInPenguin.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E5613492989FAC8006CB14F /* OpenInPenguin.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2E56135C2989FB07006CB14F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E56135B2989FB07006CB14F /* MainInterface.storyboard */; };
 		E0C37BC92823189D007B925B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0C37BC82823189D007B925B /* Assets.xcassets */; };
 		E0C37BDF28232B8B007B925B /* PenguinKit in Frameworks */ = {isa = PBXBuildFile; productRef = E0C37BDE28232B8B007B925B /* PenguinKit */; };
@@ -62,7 +62,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				2E5613572989FAC8006CB14F /* Action.appex in Embed Foundation Extensions */,
+				2E5613572989FAC8006CB14F /* OpenInPenguin.appex in Embed Foundation Extensions */,
 				2E271EBA29742F67002B93CC /* Widgets.appex in Embed Foundation Extensions */,
 				2E271F0529744AE1002B93CC /* TweetIntent.appex in Embed Foundation Extensions */,
 			);
@@ -85,7 +85,7 @@
 		2E271F0229744AE1002B93CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E271F0C29744E57002B93CC /* TweetIntent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TweetIntent.entitlements; sourceTree = "<group>"; };
 		2E271F0D29744E63002B93CC /* Widgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widgets.entitlements; sourceTree = "<group>"; };
-		2E5613492989FAC8006CB14F /* Action.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Action.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E5613492989FAC8006CB14F /* OpenInPenguin.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenInPenguin.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E56134A2989FAC8006CB14F /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		2E56134D2989FAC8006CB14F /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		2E56134F2989FAC8006CB14F /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 				E0C37BC12823189A007B925B /* Penguin.app */,
 				2E271EA829742F66002B93CC /* Widgets.appex */,
 				2E271EFC29744AE0002B93CC /* TweetIntent.appex */,
-				2E5613492989FAC8006CB14F /* Action.appex */,
+				2E5613492989FAC8006CB14F /* OpenInPenguin.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,9 +274,9 @@
 			productReference = 2E271EFC29744AE0002B93CC /* TweetIntent.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		2E5613482989FAC8006CB14F /* Action */ = {
+		2E5613482989FAC8006CB14F /* OpenInPenguin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2E56135A2989FAC8006CB14F /* Build configuration list for PBXNativeTarget "Action" */;
+			buildConfigurationList = 2E56135A2989FAC8006CB14F /* Build configuration list for PBXNativeTarget "OpenInPenguin" */;
 			buildPhases = (
 				2E5613452989FAC8006CB14F /* Sources */,
 				2E5613462989FAC8006CB14F /* Frameworks */,
@@ -286,9 +286,9 @@
 			);
 			dependencies = (
 			);
-			name = Action;
+			name = OpenInPenguin;
 			productName = Action;
-			productReference = 2E5613492989FAC8006CB14F /* Action.appex */;
+			productReference = 2E5613492989FAC8006CB14F /* OpenInPenguin.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		E0C37BC02823189A007B925B /* Penguin */ = {
@@ -357,7 +357,7 @@
 				E0C37BC02823189A007B925B /* Penguin */,
 				2E271EA729742F66002B93CC /* Widgets */,
 				2E271EFB29744AE0002B93CC /* TweetIntent */,
-				2E5613482989FAC8006CB14F /* Action */,
+				2E5613482989FAC8006CB14F /* OpenInPenguin */,
 			);
 		};
 /* End PBXProject section */
@@ -451,7 +451,8 @@
 		};
 		2E5613562989FAC8006CB14F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2E5613482989FAC8006CB14F /* Action */;
+			platformFilter = ios;
+			target = 2E5613482989FAC8006CB14F /* OpenInPenguin */;
 			targetProxy = 2E5613552989FAC8006CB14F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -603,7 +604,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.7;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.Action;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.openinpenguin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -633,7 +634,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.7;
-				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.Action;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zunda.penguin.openinpenguin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -862,7 +863,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2E56135A2989FAC8006CB14F /* Build configuration list for PBXNativeTarget "Action" */ = {
+		2E56135A2989FAC8006CB14F /* Build configuration list for PBXNativeTarget "OpenInPenguin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E5613582989FAC8006CB14F /* Debug */,
