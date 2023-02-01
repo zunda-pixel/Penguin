@@ -26,15 +26,8 @@ class ActionViewController: UIViewController {
     }
   }
   
-  override func viewDidLoad() {
-    // アプリ内でリンクを開いた場合に、Viewが一瞬表示されてしまうため透明化
-    // TODO
-    // extensionContext?.completeRequestがここで使えるので、工夫すれば透明化せずに済むかもしれない
-    self.view.alpha = 0
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+  override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
     guard let inputItems = extensionContext?.inputItems as? [NSExtensionItem] else { return }
     let providers = inputItems.compactMap(\.attachments).joined()
     
@@ -64,7 +57,6 @@ class ActionViewController: UIViewController {
           break
         }
       }
-      
       extensionContext?.completeRequest(returningItems: extensionContext?.inputItems)
     }
   }
