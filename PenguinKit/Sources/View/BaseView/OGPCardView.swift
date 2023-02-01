@@ -29,8 +29,10 @@ struct OGPCardView: View {
           Text(urlModel.displayURL!)
             .foregroundStyle(settings.colorType.colorSet.tintColor)
 
-          Text(urlModel.title!)
-            .lineLimit(2)
+          if let title = urlModel.title {
+            Text(title)
+              .lineLimit(2)
+          }
 
           if let description = urlModel.description {
             Text(description)
