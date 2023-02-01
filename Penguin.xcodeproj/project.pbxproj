@@ -172,7 +172,7 @@
 			path = TweetIntent;
 			sourceTree = "<group>";
 		};
-		2E56134C2989FAC8006CB14F /* Action */ = {
+		2E56134C2989FAC8006CB14F /* OpenInAction */ = {
 			isa = PBXGroup;
 			children = (
 				2E56134D2989FAC8006CB14F /* Media.xcassets */,
@@ -180,7 +180,7 @@
 				2E56135B2989FB07006CB14F /* MainInterface.storyboard */,
 				2E5613542989FAC8006CB14F /* Info.plist */,
 			);
-			path = Action;
+			path = OpenInAction;
 			sourceTree = "<group>";
 		};
 		2EB1FB892972EAFC0088CCA6 /* App */ = {
@@ -203,7 +203,7 @@
 				2E271EAB29742F66002B93CC /* Widgets */,
 				2E271EFF29744AE1002B93CC /* TweetIntent */,
 				2E23C33E29753CCE00A63991 /* ci_scripts */,
-				2E56134C2989FAC8006CB14F /* Action */,
+				2E56134C2989FAC8006CB14F /* OpenInAction */,
 				E0C37BDD28232B8B007B925B /* Frameworks */,
 				E0C37BC22823189A007B925B /* Products */,
 			);
@@ -593,7 +593,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PU5HXZ4FZ2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Action/Info.plist;
+				INFOPLIST_FILE = OpenInAction/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Open In Penguin";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Apple. All rights reserved.";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
@@ -623,7 +623,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PU5HXZ4FZ2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Action/Info.plist;
+				INFOPLIST_FILE = OpenInAction/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Open In Penguin";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Apple. All rights reserved.";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
