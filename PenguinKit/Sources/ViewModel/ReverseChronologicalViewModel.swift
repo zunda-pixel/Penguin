@@ -185,21 +185,15 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         paginationToken: paginationToken
       )
 
-      let tweetIDs1 = response.relatedTweets.lazy.flatMap(\.referencedTweets)
+      let quotedQuotedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets)
         .filter { $0.type == .quoted }
         .map(\.id)
 
-      let tweetIDs2 = response.relatedTweets.lazy
-        .filter { tweet in
-          let ids = tweet.attachments?.mediaKeys ?? []
-          return !ids.allSatisfy(response.medias.map(\.id).contains)
-        }
-        .map(\.id)
+      let ids = quotedQuotedTweetIDs + response.relatedTweets.map(\.id)
 
-      let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
+      let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
 
-      if !tweetIDs.isEmpty {
-        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+      for response in responses {
         try addResponse(response: response)
       }
 

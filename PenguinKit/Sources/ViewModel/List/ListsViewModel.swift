@@ -80,7 +80,12 @@ extension ListsViewModelProtocol {
     let owner = owners.first { $0.id == list.ownerID }!
     let isPinned = pinnedListIDs.contains(list.id)
     return PinnableListCellViewModel(
-      list: list, owner: owner, userID: userID, delegate: self, isPinned: isPinned)
+      list: list,
+      owner: owner,
+      userID: userID,
+      delegate: self,
+      isPinned: isPinned
+    )
   }
 
   func onAppear() async {

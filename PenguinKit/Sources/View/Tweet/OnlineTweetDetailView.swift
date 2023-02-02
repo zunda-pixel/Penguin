@@ -45,11 +45,12 @@ struct OnlineTweetDetailView: View {
 
           Divider()
 
-          Text(viewModel.tweet.createdAt!.formatted(
-            date: .abbreviated,
-            time: .standard
-          ))
-          
+          Text(
+            viewModel.tweet.createdAt!.formatted(
+              date: .abbreviated,
+              time: .standard
+            ))
+
           Divider()
 
           TweetDetailInformation(

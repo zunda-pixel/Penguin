@@ -60,21 +60,15 @@ import Sweet
 
       addResponse(response: response)
 
-      let tweetIDs1 = response.relatedTweets.lazy
-        .flatMap(\.referencedTweets).filter { $0.type == .quoted }
+      let quotedQuotedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets)
+        .filter { $0.type == .quoted }
         .map(\.id)
 
-      let tweetIDs2 = response.relatedTweets.lazy
-        .filter { tweet in
-          let ids = tweet.attachments?.mediaKeys ?? []
-          return !ids.allSatisfy(response.medias.map(\.id).contains)
-        }
-        .map(\.id)
+      let ids = quotedQuotedTweetIDs + response.relatedTweets.map(\.id)
 
-      let tweetIDs = Array(tweetIDs1) + Array(tweetIDs2)
+      let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
 
-      if !tweetIDs.isEmpty {
-        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+      for response in responses {
         addResponse(response: response)
       }
 

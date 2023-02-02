@@ -109,23 +109,16 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       addResponse(response: response)
 
       let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
-      let medias = tweetResponse.medias + response.medias
 
-      let tweetIDs1 = relatedTweets.lazy.flatMap(\.referencedTweets)
+      let quotedQuotedTweetIDs = relatedTweets.lazy.flatMap(\.referencedTweets)
         .filter { $0.type == .quoted }
         .map(\.id)
 
-      let tweetIDs2 = relatedTweets.lazy
-        .filter { tweet in
-          let ids = tweet.attachments?.mediaKeys ?? []
-          return !ids.allSatisfy(medias.map(\.id).contains)
-        }
-        .map(\.id)
+      let ids = quotedQuotedTweetIDs + relatedTweets.map(\.id)
 
-      let tweetIDs = Array(chain(tweetIDs1, tweetIDs2).uniqued())
+      let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
 
-      if !tweetIDs.isEmpty {
-        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+      for response in responses {
         addResponse(response: response)
       }
 

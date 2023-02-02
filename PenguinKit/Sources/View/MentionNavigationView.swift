@@ -23,7 +23,11 @@ struct MentionNavigationView: View {
         .navigationBarTitleDisplayModeIfAvailable(.inline)
         .navigationDestination()
         .toolbar {
-          TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)
+          TopToolBar(
+            currentUser: $currentUser,
+            loginUsers: $loginUsers,
+            settings: $settings
+          )
         }
     }
     .environmentObject(router)

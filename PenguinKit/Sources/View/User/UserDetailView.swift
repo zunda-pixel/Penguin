@@ -94,7 +94,7 @@ struct UserDetailView: View {
       }
     }
   }
-  
+
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
@@ -130,10 +130,10 @@ struct UserDetailView: View {
               .font(.caption)
               .foregroundColor(.secondary)
               .padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 0))
-            
+
             TweetCellView(viewModel: viewModel)
           }
-            .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+          .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
 
           Divider()
         }
@@ -213,7 +213,10 @@ struct UserDetailView: View {
         #endif
 
         ToolbarItem(placement: placement) {
-          UserToolMenu(fromUserID: viewModel.userID, toUserID: viewModel.user.id)
+          UserToolMenu(
+            fromUserID: viewModel.userID,
+            toUserID: viewModel.user.id
+          )
         }
       }
     }
