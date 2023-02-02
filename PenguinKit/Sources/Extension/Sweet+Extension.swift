@@ -55,3 +55,23 @@ extension Sweet.OAuth2 {
     self.init(clientID: Env.clientKey, clientSecret: Env.clientSecretKey)
   }
 }
+
+extension Sweet {
+  func tweets(ids: some Collection<String>) async throws -> [TweetsResponse] {
+    var responses: [TweetsResponse] = []
+    
+    try await withThrowingTaskGroup(of: Sweet.TweetsResponse.self) { group in
+      for tweetIDs in ids.chunks(ofCount: 100) {
+        group.addTask {
+          try await self.tweets(by: Array(tweetIDs))
+        }
+      }
+      
+      for try await response in group {
+        responses.append(response)
+      }
+    }
+    
+    return responses
+  }
+}
