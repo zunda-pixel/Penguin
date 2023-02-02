@@ -54,28 +54,28 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
 
-        if let pollID = viewModel.tweetText.attachments?.pollID {
-          let poll = viewModel.polls.first { $0.id == pollID }!
-          PollView(poll: poll)
-            .padding()
-            .overlay {
-              RoundedRectangle(cornerRadius: 13)
-                .stroke(.secondary, lineWidth: 1)
-            }
+        if let pollID = viewModel.tweetText.attachments?.pollID,
+           let poll = viewModel.polls.first { $0.id == pollID } {
+             PollView(poll: poll)
+               .padding()
+               .overlay {
+                 RoundedRectangle(cornerRadius: 13)
+                   .stroke(.secondary, lineWidth: 1)
+           }
         }
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
         let medias =
-          viewModel.tweetText.attachments?.mediaKeys.map { id in
-            viewModel.medias.first { $0.id == id }!
+          viewModel.tweetText.attachments?.mediaKeys.compactMap { id in
+            viewModel.medias.first { $0.id == id }
           } ?? []
         if !medias.isEmpty {
           MediasView(medias: medias)
             .cornerRadius(15)
         }
 
-        if let placeID = viewModel.tweetText.geo?.placeID {
-          let place = viewModel.places.first { $0.id == placeID }!
+        if let placeID = viewModel.tweetText.geo?.placeID,
+           let place = viewModel.places.first { $0.id == placeID } {
           Text(place.fullName)
             .onTapGesture {
               var components: URLComponents = .init(string: "https://maps.apple.com/")!
@@ -110,15 +110,16 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
               quotedTweetModel?.quoted?.tweet,
             ].compacted()
 
-            let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).map { id in
-              viewModel.medias.first { $0.id == id }!
+            // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+            let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).compactMap { id in
+              viewModel.medias.first { $0.id == id }
             }
-
-            let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).map { id in
+            // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+            let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).compactMap { id in
               viewModel.polls.first { $0.id == id }!
             }
-
-            let places = tweets.compactMap(\.geo).compactMap(\.placeID).map { id in
+            // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+            let places = tweets.compactMap(\.geo).compactMap(\.placeID).compactMap { id in
               viewModel.places.first { $0.id == id }!
             }
 

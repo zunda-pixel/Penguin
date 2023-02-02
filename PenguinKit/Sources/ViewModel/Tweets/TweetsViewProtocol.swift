@@ -59,15 +59,18 @@ extension TweetsViewProtocol {
   }
 
   func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
-    return placeIDs.map { id in allPlaces.first { $0.id == id }! }
+    // // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    return placeIDs.compactMap { id in allPlaces.first { $0.id == id } }
   }
 
   func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel] {
-    return pollIDs.map { id in allPolls.first { $0.id == id }! }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    return pollIDs.compactMap { id in allPolls.first { $0.id == id } }
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
-    return mediaIDs.map { id in allMedias.first { $0.id == id }! }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    return mediaIDs.compactMap { id in allMedias.first { $0.id == id } }
   }
 
   func getUser(_ userID: String) -> Sweet.UserModel? {

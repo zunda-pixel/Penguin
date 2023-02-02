@@ -142,19 +142,22 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
-    let places = placeIDs.map { id in allPlaces.first { $0.id! == id }! }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    let places = placeIDs.compactMap { id in allPlaces.first { $0.id! == id } }
 
     return places.map { .init(place: $0) }
   }
 
   func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel] {
-    let polls = pollIDs.map { id in allPolls.first { $0.id! == id }! }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    let polls = pollIDs.compactMap { id in allPolls.first { $0.id! == id } }
 
     return polls.map { .init(poll: $0) }
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
-    let medias = mediaIDs.map { id in allMedias.first { $0.key! == id }! }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    let medias = mediaIDs.compactMap { id in allMedias.first { $0.key! == id } }
 
     return medias.map { .init(media: $0) }
   }
