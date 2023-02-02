@@ -69,24 +69,18 @@ import Sweet
 
       paginationToken = response.meta?.nextToken
 
-      let tweetID1s = response.relatedTweets.lazy
-        .flatMap(\.referencedTweets).filter { $0.type == .quoted }
+      let quotedQuotedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets)
+        .filter { $0.type == .quoted }
         .map(\.id)
-
-      let tweetIDs2 = response.relatedTweets.lazy
-        .filter { tweet in
-          let ids = tweet.attachments?.mediaKeys ?? []
-          return !ids.allSatisfy(response.medias.map(\.id).contains)
-        }
-        .map(\.id)
-
-      let tweetIDs = Array(chain(tweetID1s, tweetIDs2).uniqued())
-
-      if !tweetIDs.isEmpty {
-        let response = try await Sweet(userID: userID).tweets(by: tweetIDs)
+      
+      let ids = quotedQuotedTweetIDs + response.relatedTweets.map(\.id)
+      
+      let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
+      
+      for response in responses {
         addResponse(response: response)
       }
-
+      
       addResponse(response: response)
 
       addTimelines(response.tweets.map(\.id))
