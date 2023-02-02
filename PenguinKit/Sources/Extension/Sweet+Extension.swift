@@ -8,11 +8,11 @@ import Sweet
 extension Sweet {
   private static func updateUserBearerToken(userID: String, tryCount: Int = 0) async throws {
     guard tryCount < 2 else { return }
-    
+
     let refreshToken = Secure.getRefreshToken(userID: userID)
-    
+
     let response: Sweet.OAuth2Model
-    
+
     do {
       response = try await Sweet.OAuth2().refreshUserBearerToken(with: refreshToken)
     } catch Sweet.AuthorizationError.invalidRequest {
@@ -59,19 +59,19 @@ extension Sweet.OAuth2 {
 extension Sweet {
   func tweets(ids: some Collection<String>) async throws -> [TweetsResponse] {
     var responses: [TweetsResponse] = []
-    
+
     try await withThrowingTaskGroup(of: Sweet.TweetsResponse.self) { group in
       for tweetIDs in ids.chunks(ofCount: 100) {
         group.addTask {
           try await self.tweets(by: Array(tweetIDs))
         }
       }
-      
+
       for try await response in group {
         responses.append(response)
       }
     }
-    
+
     return responses
   }
 }

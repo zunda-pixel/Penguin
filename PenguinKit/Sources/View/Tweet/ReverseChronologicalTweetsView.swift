@@ -22,8 +22,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         users.map { Sweet.UserModel(user: $0) } + [viewModel.author]
 
       self.viewModel.reply = Reply(
-        replyID: viewModel.tweetText.id, ownerID: viewModel.tweetText.authorID!,
-        replyUsers: userModels.uniqued(by: \.id))
+        replyID: viewModel.tweetText.id,
+        ownerID: viewModel.tweetText.authorID!,
+        replyUsers: userModels.uniqued(by: \.id)
+      )
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
@@ -50,18 +52,25 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           }
 
           LikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
           UnLikeButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
-
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
           BookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
           UnBookmarkButton(
-            errorHandle: $viewModel.errorHandle, userID: viewModel.userID,
-            tweetID: cellViewModel.tweetText.id)
+            errorHandle: $viewModel.errorHandle,
+            userID: viewModel.userID,
+            tweetID: cellViewModel.tweetText.id
+          )
 
           replyButton(viewModel: cellViewModel)
         }
@@ -105,7 +114,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       .listContentAttribute()
     }
     .sheet(item: $viewModel.reply) { reply in
-      let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
+      let viewModel = NewTweetViewModel(
+        userID: viewModel.userID,
+        reply: reply
+      )
       NewTweetView(viewModel: viewModel)
     }
     .searchable(text: $viewModel.searchSettings.query)

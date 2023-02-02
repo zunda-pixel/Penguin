@@ -48,7 +48,8 @@ struct ScrollViewAttitude: ViewModifier {
       .background(
         colorScheme == .dark
           ? settings.colorType.colorSet.darkSecondaryColor
-          : settings.colorType.colorSet.lightSecondaryColor)
+          : settings.colorType.colorSet.lightSecondaryColor
+      )
   }
 }
 
@@ -61,7 +62,8 @@ struct ScrollContentAttribute: ViewModifier {
       .background(
         colorScheme == .dark
           ? settings.colorType.colorSet.darkPrimaryColor
-          : settings.colorType.colorSet.lightPrimaryColor)
+          : settings.colorType.colorSet.lightPrimaryColor
+      )
   }
 }
 
@@ -74,7 +76,8 @@ struct ListContentAttribute: ViewModifier {
       .listRowBackground(
         colorScheme == .dark
           ? settings.colorType.colorSet.darkPrimaryColor
-          : settings.colorType.colorSet.lightPrimaryColor)
+          : settings.colorType.colorSet.lightPrimaryColor
+      )
   }
 }
 
@@ -88,7 +91,8 @@ struct ListContentAttribute: ViewModifier {
         .toolbarBackground(
           colorScheme == .dark
             ? settings.colorType.colorSet.darkPrimaryColor
-            : settings.colorType.colorSet.lightPrimaryColor, for: .navigationBar
+            : settings.colorType.colorSet.lightPrimaryColor,
+          for: .navigationBar
         )
         .toolbarBackground(.visible, for: .navigationBar)
     }

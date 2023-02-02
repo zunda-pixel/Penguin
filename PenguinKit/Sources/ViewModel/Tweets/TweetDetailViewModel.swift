@@ -109,15 +109,15 @@ final class TweetDetailViewModel: TweetsViewProtocol {
       addResponse(response: response)
 
       let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
-      
+
       let quotedQuotedTweetIDs = relatedTweets.lazy.flatMap(\.referencedTweets)
         .filter { $0.type == .quoted }
         .map(\.id)
-      
+
       let ids = quotedQuotedTweetIDs + relatedTweets.map(\.id)
-      
+
       let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
-      
+
       for response in responses {
         addResponse(response: response)
       }

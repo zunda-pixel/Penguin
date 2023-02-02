@@ -206,7 +206,9 @@ extension ReverseChronologicalTweetsViewProtocol {
     }
 
     return QuotedTweetModel(
-      tweetContent: .init(tweet: tweet, author: user), quoted: quotedQuotedTweet)
+      tweetContent: .init(tweet: tweet, author: user),
+      quoted: quotedQuotedTweet
+    )
   }
 
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {

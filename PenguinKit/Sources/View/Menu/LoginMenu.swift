@@ -31,7 +31,11 @@ struct LoginMenu: View {
         .tint(.secondary)
     }
     .sheet(isPresented: $isPresentedSettingsView) {
-      SettingsView(settings: $settings, currentUser: $bindingCurrentUser, loginUsers: $loginUsers)
+      SettingsView(
+        settings: $settings,
+        currentUser: $bindingCurrentUser,
+        loginUsers: $loginUsers
+      )
     }
   }
 }

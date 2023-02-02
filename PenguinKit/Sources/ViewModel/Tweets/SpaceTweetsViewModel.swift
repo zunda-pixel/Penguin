@@ -58,11 +58,11 @@ import Sweet
       let quotedQuotedTweetIDs = response.relatedTweets.lazy.flatMap(\.referencedTweets)
         .filter { $0.type == .quoted }
         .map(\.id)
-      
+
       let ids = quotedQuotedTweetIDs + response.relatedTweets.map(\.id)
-      
+
       let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
-      
+
       for response in responses {
         addResponse(response: response)
       }

@@ -115,10 +115,11 @@ extension Sweet.AuthorizationError: LocalizedError {
     switch self {
     case .invalidRequest: return "Invalid Request"
     case .invalidClient: return "Invalid Client"
-    case .unknown(response: let response): return """
-\(response.error)
-\(response.errorDescription)
-"""
+    case .unknown(let response):
+      return """
+        \(response.error)
+        \(response.errorDescription)
+        """
     }
   }
 }

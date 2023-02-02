@@ -55,13 +55,14 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .fixedSize(horizontal: false, vertical: true)
 
         if let pollID = viewModel.tweetText.attachments?.pollID,
-           let poll = viewModel.polls.first { $0.id == pollID } {
-             PollView(poll: poll)
-               .padding()
-               .overlay {
-                 RoundedRectangle(cornerRadius: 13)
-                   .stroke(.secondary, lineWidth: 1)
-           }
+          let poll = viewModel.polls.first { $0.id == pollID }
+        {
+          PollView(poll: poll)
+            .padding()
+            .overlay {
+              RoundedRectangle(cornerRadius: 13)
+                .stroke(.secondary, lineWidth: 1)
+            }
         }
 
         // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
@@ -75,7 +76,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         if let placeID = viewModel.tweetText.geo?.placeID,
-           let place = viewModel.places.first { $0.id == placeID } {
+          let place = viewModel.places.first { $0.id == placeID }
+        {
           Text(place.fullName)
             .onTapGesture {
               var components: URLComponents = .init(string: "https://maps.apple.com/")!

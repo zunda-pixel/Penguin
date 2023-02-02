@@ -47,10 +47,11 @@ struct TweetDetailView: View {
 
         Divider()
 
-        Text(viewModel.tweet.createdAt!.formatted(
+        Text(
+          viewModel.tweet.createdAt!.formatted(
             date: .abbreviated,
             time: .standard
-        ))
+          ))
 
         Divider()
 
@@ -160,7 +161,10 @@ struct TweetDetailView: View {
     .scrollViewAttitude()
     .listStyle(.inset)
     .sheet(item: $viewModel.reply) { reply in
-      let viewModel: NewTweetViewModel = .init(userID: viewModel.userID, reply: reply)
+      let viewModel: NewTweetViewModel = .init(
+        userID: viewModel.userID,
+        reply: reply
+      )
       NewTweetView(viewModel: viewModel)
     }
   }
