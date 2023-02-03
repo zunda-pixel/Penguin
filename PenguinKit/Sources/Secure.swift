@@ -14,6 +14,7 @@ public struct Secure {
   private static let stateKey = "state"
   private static let loginUserIDsKey = "loginUserIDs"
   private static let settingKey = "settingKey"
+  private static let customClientKey = "customClientKey"
 
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
@@ -113,6 +114,24 @@ public struct Secure {
     set {
       let data = try! JSONEncoder().encode(newValue)
       userDefaults.set(data, forKey: settingKey)
+    }
+  }
+  
+  static var customClient: Client? {
+    get {
+      guard let data = userDefaults.data(forKey: Secure.customClientKey) else {
+        return nil
+      }
+      let client = try! JSONDecoder().decode(Client.self, from: data)
+      return client
+    }
+    set {
+      guard let newValue else {
+        userDefaults.removeObject(forKey: Secure.customClientKey)
+        return
+      }
+      let data = try! JSONEncoder().encode(newValue)
+      userDefaults.set(data, forKey: Secure.customClientKey)
     }
   }
 }
