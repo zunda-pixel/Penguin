@@ -52,7 +52,11 @@ extension Sweet {
 
 extension Sweet.OAuth2 {
   init() {
-    self.init(clientID: Env.clientKey, clientSecret: Env.clientSecretKey)
+    if let customClient = Secure.customClient {
+      self.init(clientID: customClient.id, clientSecret: customClient.secretKey)
+    } else {
+      self.init(clientID: Env.clientKey, clientSecret: Env.clientSecretKey)
+    }
   }
 }
 
