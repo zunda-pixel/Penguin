@@ -27,3 +27,9 @@ struct UserToolMenu: View {
     .alert(errorHandle: $errorHandle)
   }
 }
+
+struct UserToolMenu_Preview: PreviewProvider {
+  static var previews: some View {
+    UserToolMenu(fromUserID: "fromUserID", toUserID: "toUserID")
+  }
+}
