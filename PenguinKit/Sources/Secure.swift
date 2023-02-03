@@ -4,6 +4,7 @@
 
 import Foundation
 import Sweet
+import KeychainAccess
 
 public struct Secure {
   private static let currentUserKey = "currentUser"
@@ -18,7 +19,8 @@ public struct Secure {
 
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
-
+  private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID).\(Env.appGroups)")
+  
   static func removeChallenge() throws {
     userDefaults.removeObject(forKey: challengeKey)
   }
@@ -36,19 +38,19 @@ public struct Secure {
   }
 
   static func getUserBearerToken(userID: String) -> String {
-    userDefaults.string(forKey: userID + userBearerTokenKey)!
+    try! keychain.getString(userID + userBearerTokenKey)!
   }
 
   static func setUserBearerToken(userID: String, newUserBearerToken: String) {
-    userDefaults.set(newUserBearerToken, forKey: userID + userBearerTokenKey)
+    try! keychain.set(newUserBearerToken, key: userID + userBearerTokenKey)
   }
 
   static func getRefreshToken(userID: String) -> String {
-    userDefaults.string(forKey: userID + refreshTokenKey)!
+    try! keychain.getString(userID + refreshTokenKey)!
   }
 
   static func setRefreshToken(userID: String, refreshToken: String) {
-    userDefaults.set(refreshToken, forKey: userID + refreshTokenKey)
+    try! keychain.set(refreshToken, key: userID + refreshTokenKey)
   }
 
   static func getExpireDate(userID: String) -> Date {
@@ -94,8 +96,8 @@ public struct Secure {
 
   static func removeUserData(userID: String) {
     userDefaults.removeObject(forKey: userID + expireDateKey)
-    userDefaults.removeObject(forKey: userID + userBearerTokenKey)
-    userDefaults.removeObject(forKey: userID + refreshTokenKey)
+    try! keychain.remove(userID + userBearerTokenKey)
+    try! keychain.remove(userID + refreshTokenKey)
     loginUsers.removeAll { $0.id == userID }
 
     if userID == currentUser?.id {
@@ -119,7 +121,7 @@ public struct Secure {
   
   static var customClient: Client? {
     get {
-      guard let data = userDefaults.data(forKey: Secure.customClientKey) else {
+      guard let data = try! keychain.getData(Secure.customClientKey) else {
         return nil
       }
       let client = try! JSONDecoder().decode(Client.self, from: data)
@@ -127,11 +129,11 @@ public struct Secure {
     }
     set {
       guard let newValue else {
-        userDefaults.removeObject(forKey: Secure.customClientKey)
+        try! keychain.remove(Secure.customClientKey)
         return
       }
       let data = try! JSONEncoder().encode(newValue)
-      userDefaults.set(data, forKey: Secure.customClientKey)
+      try! keychain.set(data, key: Secure.customClientKey)
     }
   }
 }
