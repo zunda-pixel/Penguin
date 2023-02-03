@@ -27,6 +27,7 @@ let package = Package(
     .package(url: "https://github.com/zunda-pixel/AttributedText", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/alexisakers/HTMLString", .upToNextMajor(from: "6.0.0")),
     .package(url: "https://github.com/stleamist/BetterSafariView", .upToNextMajor(from: "2.0.0")),
+    .package(url: "https://github.com/kishikawakatsumi/KeychainAccess", .upToNextMajor(from: "4.2.2"))
   ],
   targets: [
     .target(
@@ -42,6 +43,7 @@ let package = Package(
         .product(name: "AttributedText", package: "AttributedText"),
         .product(name: "HTMLString", package: "HTMLString"),
         .product(name: "BetterSafariView", package: "BetterSafariView"),
+        .product(name: "KeychainAccess", package: "KeychainAccess"),
       ],
       path: "Sources"
     )
