@@ -15,7 +15,7 @@ struct SpaceCell: View {
         .frame(width: 50, height: 50)
         .padding(.trailing)
 
-      VStack {
+      VStack(alignment: .leading) {
         HStack {
           (Text(viewModel.creator.name)
             + Text(" @\(viewModel.creator.userName)").foregroundColor(.secondary))
@@ -31,11 +31,8 @@ struct SpaceCell: View {
         }
 
         if let title = viewModel.space.title {
-          HStack {
-            Text(title)
-              .lineLimit(nil)
-            Spacer()
-          }
+          Text(title)
+            .lineLimit(nil)
         }
 
         HStack {
