@@ -52,14 +52,16 @@ struct DeepLink {
 
     Secure.currentUser = user
     Secure.loginUsers.append(user)
-    Secure.setUserBearerToken(userID: user.id, newUserBearerToken: response.bearerToken)
-    Secure.setRefreshToken(userID: user.id, refreshToken: response.refreshToken!)
+    
+    let expireDate = Date.now.addingTimeInterval(Double(response.expiredSeconds))
 
-    var dateComponent = DateComponents()
-    dateComponent.second = response.expiredSeconds
-
-    let expireDate = Calendar.current.date(byAdding: dateComponent, to: .now)!
-    Secure.setExpireDate(userID: user.id, expireDate: expireDate)
+    let authorization: AuthorizationModel = .init(
+      bearerToken: response.bearerToken,
+      refreshToken: response.refreshToken!,
+      expiredDate: expireDate
+    )
+    
+    Secure.setAuthorization(userID: user.id, authorization: authorization)
 
     try Secure.removeState()
     try Secure.removeChallenge()

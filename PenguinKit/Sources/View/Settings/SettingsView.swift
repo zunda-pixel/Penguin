@@ -109,7 +109,7 @@ public struct SettingsView: View {
               NavigationLink {
                 VStack {
                   if let userID = currentUser?.id {
-                    Text(Secure.getUserBearerToken(userID: userID))
+                    Text(Secure.getAuthorization(userID: userID).bearerToken)
                       .textSelection(.enabled)
                   }
                   Text("Manage Subscription")
