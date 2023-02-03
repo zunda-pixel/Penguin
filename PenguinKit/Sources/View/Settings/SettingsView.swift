@@ -140,6 +140,16 @@ public struct SettingsView: View {
             } label: {
               Label("License", systemImage: "lock.shield")
             }
+            
+            NavigationLink {
+              CustomClientSettingsView(
+                currentUser: $currentUser,
+                loginUsers: $loginUsers
+              )
+                .navigationTitle("Custom Client")
+            } label: {
+              Label("Custom Client", systemImage: "key.horizontal")
+            }
 
             Button {
               requestReview()
@@ -147,7 +157,6 @@ public struct SettingsView: View {
               Label("Review in App Store", systemImage: "star")
             }
           }
-
         }
       }
       .onChange(of: settings) { newValue in
