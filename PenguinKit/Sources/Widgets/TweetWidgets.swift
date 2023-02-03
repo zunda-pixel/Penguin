@@ -59,6 +59,7 @@ public struct TweetStatusView: View {
           fatalError()
         }
       }
+      .padding(10)
       .widgetURL(
         URL(string: "penguin://")!.appending(queryItems: [
           .init(name: "tweetID", value: model.tweet.id)
@@ -82,19 +83,22 @@ struct SmallTweetStatusView: View {
           .overlay {
             Circle().stroke(.secondary, lineWidth: 2)
           }
-          .frame(width: 50, height: 50)
+          .frame(width: 40, height: 40)
 
         VStack(alignment: .leading) {
           Text(model.user.name)
+            .font(.caption2)
             .bold()
             .lineLimit(1)
           Text("@\(model.user.userName)")
+            .font(.caption2)
             .foregroundColor(.secondary)
             .lineLimit(1)
         }
       }
 
       Text(model.tweet.tweetText)
+        .font(.caption2)
     }
   }
 }
@@ -120,11 +124,14 @@ struct MediumTweetStatusView: View {
           (Text(model.user.name).bold()
             + Text("@\(model.user.userName)").foregroundColor(.secondary))
             .lineLimit(1)
+            .font(.caption2)
+
           Spacer()
           Text(model.tweet.createdAt!.formatted(.relative(presentation: .named)))
         }
 
         Text(model.tweet.tweetText)
+          .font(.caption2)
       }
     }
   }
@@ -146,18 +153,9 @@ struct ExtraLargeTweetStatusView: View {
   }
 }
 
-struct ExtraLargeTweetStatusView_Previews: PreviewProvider {
+struct TweetStatusView_Previews: PreviewProvider {
   static var previews: some View {
-    ExtraLargeTweetStatusView(
-      model: .init(
-        tweet: .init(id: "", text: "zunda", createdAt: Date()),
-        user: .init(
-          id: "", name: "zunda", userName: "zunda",
-          profileImageURL: URL(
-            string: "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_400x400.jpg")!
-        )
-      )
-    )
+    TweetStatusView(entry: .init(date: .now, state: .loggedIn(model: .init(tweet: .init(id: "id", text: "text", createdAt: .now), user: .init(id: "id", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!)))))
     .previewContext(WidgetPreviewContext(family: .systemLarge))
   }
 }
