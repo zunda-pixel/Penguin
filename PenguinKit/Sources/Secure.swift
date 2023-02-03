@@ -17,7 +17,7 @@ public struct Secure {
   
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
-  private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID).\(Env.appGroups)")
+  private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID)\(Env.appGroups)")
   
   static func removeChallenge() throws {
     userDefaults.removeObject(forKey: challengeKey)
