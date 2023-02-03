@@ -8,15 +8,13 @@ import KeychainAccess
 
 public struct Secure {
   private static let currentUserKey = "currentUser"
-  private static let expireDateKey = "expireDate"
-  private static let refreshTokenKey = "refreshToken"
-  private static let userBearerTokenKey = "userBearerToken"
   private static let challengeKey = "challenge"
   private static let stateKey = "state"
-  private static let loginUserIDsKey = "loginUserIDs"
+  private static let loginUserIDsKey = "loginUserIDsKey"
   private static let settingKey = "settingKey"
   private static let customClientKey = "customClientKey"
-
+  private static let authorizationKey = "authorizationKey"
+  
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
   private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID).\(Env.appGroups)")
@@ -36,32 +34,15 @@ public struct Secure {
     get { userDefaults.string(forKey: stateKey) }
     set { userDefaults.set(newValue, forKey: stateKey) }
   }
-
-  static func getUserBearerToken(userID: String) -> String {
-    try! keychain.getString(userID + userBearerTokenKey)!
+  
+  static func getAuthorization(userID: String) -> AuthorizationModel? {
+    guard let data = try! keychain.getData(userID + authorizationKey) else { return nil }
+    return try! JSONDecoder().decode(AuthorizationModel.self, from: data)
   }
-
-  static func setUserBearerToken(userID: String, newUserBearerToken: String) {
-    try! keychain.set(newUserBearerToken, key: userID + userBearerTokenKey)
-  }
-
-  static func getRefreshToken(userID: String) -> String {
-    try! keychain.getString(userID + refreshTokenKey)!
-  }
-
-  static func setRefreshToken(userID: String, refreshToken: String) {
-    try! keychain.set(refreshToken, key: userID + refreshTokenKey)
-  }
-
-  static func getExpireDate(userID: String) -> Date {
-    let expireDateString = userDefaults.string(forKey: userID + expireDateKey)!
-    let expireDate = dateFormatter.date(from: expireDateString)!
-    return expireDate
-  }
-
-  static func setExpireDate(userID: String, expireDate: Date) {
-    let expireDateString = dateFormatter.string(from: expireDate)
-    userDefaults.set(expireDateString, forKey: userID + expireDateKey)
+  
+  static func setAuthorization(userID: String, authorization: AuthorizationModel) {
+    let data = try! JSONEncoder().encode(authorization)
+    try! keychain.set(data, key: userID + authorizationKey)
   }
 
   public static var currentUser: Sweet.UserModel? {
@@ -95,9 +76,8 @@ public struct Secure {
   }
 
   static func removeUserData(userID: String) {
-    userDefaults.removeObject(forKey: userID + expireDateKey)
-    try! keychain.remove(userID + userBearerTokenKey)
-    try! keychain.remove(userID + refreshTokenKey)
+    try! keychain.remove(userID + authorizationKey)
+    
     loginUsers.removeAll { $0.id == userID }
 
     if userID == currentUser?.id {
