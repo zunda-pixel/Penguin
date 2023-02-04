@@ -46,6 +46,7 @@ let package = Package(
         .product(name: "BetterSafariView", package: "BetterSafariView"),
         .product(name: "KeychainAccess", package: "KeychainAccess"),
         .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+        .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
       ],
       path: "Sources"
     )
