@@ -4,7 +4,11 @@ import Sweet
 
 @main
 struct PenguinApp: App {
+  #if os(macOS)
+  @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  #else
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+  #endif
   
   let persistenceController = PersistenceController.shared
   @State var settings: PenguinKit.Settings = Secure.settings
