@@ -215,8 +215,6 @@ public struct ContentView: View {
           .sheet(isPresented: $isPresentedSettingsView) {
             SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
           }
-          
-          Custom3Button()
         }
         .tabItem {
           Label("Login", systemImage: "person")
@@ -233,17 +231,5 @@ public struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView(settings: .constant(Settings()), currentUser: .constant(nil), loginUsers: .constant([]))
-  }
-}
-
-struct Custom3Button: View {
-  func test() {
-    fatalError("Real Device Crash \(Date.now)")
-  }
-  
-  var body: some View {
-    Button("Crash") {
-      test()
-    }
   }
 }
