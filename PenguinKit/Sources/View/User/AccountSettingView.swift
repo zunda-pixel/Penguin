@@ -32,3 +32,11 @@ struct AccountDetailView: View {
     .scrollViewAttitude()
   }
 }
+
+struct AccountDetailView_Preview: PreviewProvider {
+  static var previews: some View {
+    NavigationStack {
+      AccountDetailView(viewModel: .init(userID: "userID", user: .init(id: "id", name: "name", userName: "userName")))
+    }
+  }
+}

@@ -106,3 +106,9 @@ extension Sweet.UserModel {
     )!
   )
 }
+
+struct DisplaySettingsView_Preview: PreviewProvider {
+  static var previews: some View {
+    DisplaySettingsView(settings: .constant(.init()))
+  }
+}

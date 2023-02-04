@@ -23,6 +23,8 @@ public struct ErrorHandle {
       return authorizationError.errorDescription!
     case let unknownError as Sweet.UnknownError:
       return unknownError.errorDescription!
+    case let localError as LocalAuthorizationError:
+      return localError.errorDescription!
     default:
       return error.localizedDescription
     }
@@ -38,6 +40,8 @@ public struct ErrorHandle {
       return authorizationError.recoverySuggestion!
     case let unknownError as Sweet.UnknownError:
       return unknownError.recoverySuggestion!
+    case let localError as LocalAuthorizationError:
+      return localError.recoverySuggestion!
     default:
       return error.localizedDescription
     }
@@ -53,6 +57,8 @@ public struct ErrorHandle {
       return authorizationError.logMessage
     case let unknownError as Sweet.UnknownError:
       return unknownError.logMessage
+    case let localError as LocalAuthorizationError:
+      return localError.logMessage
     default:
       return error.localizedDescription
     }

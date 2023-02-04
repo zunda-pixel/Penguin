@@ -8,7 +8,8 @@ import WidgetKit
 
 public struct ContentView: View {
   public init(
-    settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>,
+    settings: Binding<Settings>,
+    currentUser: Binding<Sweet.UserModel?>,
     loginUsers: Binding<[Sweet.UserModel]>
   ) {
     self._settings = settings
@@ -22,6 +23,8 @@ public struct ContentView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var settings: Settings
 
+  @State var isPresentedSettingsView = false
+  
   @MainActor
   @ViewBuilder
   func tabViewContent(currentUser: Sweet.UserModel, tabItem: TabItem) -> some View {
@@ -198,6 +201,20 @@ public struct ContentView: View {
                 RoundedRectangle(cornerRadius: 15).foregroundColor(
                   settings.colorType.colorSet.tintColor.opacity(0.5)))
           }
+          
+          Button {
+            isPresentedSettingsView.toggle()
+          } label: {
+            Label("Settings", systemImage: "gear")
+          }
+          .bold()
+          .padding()
+          .background(
+            RoundedRectangle(cornerRadius: 15).foregroundColor(
+              settings.colorType.colorSet.tintColor.opacity(0.5)))
+          .sheet(isPresented: $isPresentedSettingsView) {
+            SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
+          }
         }
         .tabItem {
           Label("Login", systemImage: "person")
@@ -208,5 +225,11 @@ public struct ContentView: View {
     .environment(\.settings, settings)
     .environment(\.loginUsers, loginUsers)
     .tint(settings.colorType.colorSet.tintColor)
+  }
+}
+
+struct ContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    ContentView(settings: .constant(Settings()), currentUser: .constant(nil), loginUsers: .constant([]))
   }
 }

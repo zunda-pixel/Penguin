@@ -123,3 +123,22 @@ extension Sweet.AuthorizationError: LocalizedError {
     }
   }
 }
+
+
+extension LocalAuthorizationError: LocalizedError {
+  public var errorDescription: String? {
+    "Authorization Error"
+  }
+
+  public var recoverySuggestion: String? {
+    return "Try Again"
+  }
+
+  public var logMessage: String {
+    switch self {
+    case .noRefreshToken: return "No RefreshToken"
+    case .noBearerToken: return "No BearerToken"
+    case .noExpireDate: return "No ExpireDate"
+    }
+  }
+}

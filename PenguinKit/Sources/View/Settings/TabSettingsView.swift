@@ -91,17 +91,9 @@ struct TabSettingsView: View {
 }
 
 struct TabSettingsView_Preview: PreviewProvider {
-  struct Preview: View {
-    @State var settings = Settings()
-
-    var body: some View {
-      NavigationStack {
-        TabSettingsView(settings: $settings)
-      }
-    }
-  }
-
   static var previews: some View {
-    Preview()
+    NavigationStack {
+      TabSettingsView(settings: .constant(.init()))
+    }
   }
 }

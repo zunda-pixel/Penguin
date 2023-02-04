@@ -9,8 +9,8 @@ extension Sweet {
   private static func updateUserBearerToken(userID: String, tryCount: Int = 0) async throws {
     guard tryCount < 2 else { return }
 
-    let refreshToken = Secure.getRefreshToken(userID: userID)
-
+    guard let refreshToken = Secure.getAuthorization(userID: userID)?.refreshToken else { throw LocalAuthorizationError.noRefreshToken }
+    
     let response: Sweet.OAuth2Model
 
     do {
@@ -22,19 +22,23 @@ extension Sweet {
 
     let expireDate = Date.now.addingTimeInterval(TimeInterval(response.expiredSeconds))
 
-    Secure.setRefreshToken(userID: userID, refreshToken: response.refreshToken!)
-    Secure.setUserBearerToken(userID: userID, newUserBearerToken: response.bearerToken)
-    Secure.setExpireDate(userID: userID, expireDate: expireDate)
+    let authorization: AuthorizationModel = .init(
+      bearerToken: response.bearerToken,
+      refreshToken: response.refreshToken!,
+      expiredDate: expireDate
+    )
+    
+    Secure.setAuthorization(userID: userID, authorization: authorization)
   }
 
   public init(userID: String) async throws {
-    let expireDate = Secure.getExpireDate(userID: userID)
+    guard let expireDate = Secure.getAuthorization(userID: userID)?.expiredDate else { throw LocalAuthorizationError.noExpireDate }
 
     if expireDate < Date.now {
       try await Sweet.updateUserBearerToken(userID: userID)
     }
 
-    let userBearerToken = Secure.getUserBearerToken(userID: userID)
+    guard let userBearerToken = Secure.getAuthorization(userID: userID)?.bearerToken else { throw LocalAuthorizationError.noBearerToken }
 
     let token: Sweet.AuthorizationType = .oAuth2user(token: userBearerToken)
 
@@ -44,6 +48,7 @@ extension Sweet {
       $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
         && $0 != .contextAnnotations && $0 != .withheld
     }
+    
     self.mediaFields = Sweet.MediaField.allCases.filter {
       $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
     }
@@ -52,7 +57,11 @@ extension Sweet {
 
 extension Sweet.OAuth2 {
   init() {
-    self.init(clientID: Env.clientKey, clientSecret: Env.clientSecretKey)
+    if let customClient = Secure.customClient {
+      self.init(clientID: customClient.id, clientSecret: customClient.secretKey)
+    } else {
+      self.init(clientID: Env.clientKey, clientSecret: Env.clientSecretKey)
+    }
   }
 }
 

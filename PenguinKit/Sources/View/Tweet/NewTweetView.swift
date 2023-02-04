@@ -107,7 +107,8 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           VStack(alignment: .leading) {
             if let quoted = viewModel.quoted {
               QuotedTweetCellView(
-                userID: viewModel.userID, tweet: quoted.tweet, user: quoted.author
+                tweet: quoted.tweet,
+                user: quoted.author
               )
               .padding()
               .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
@@ -227,5 +228,12 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         }
       }
     }
+  }
+}
+
+struct NewTweetView_Preview: PreviewProvider {
+  static var previews: some View {
+    NewTweetView(viewModel: NewTweetViewModel(userID: "1234"))
+      .environment(\.loginUsers, [.init(id: "1234", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"))])
   }
 }
