@@ -4,10 +4,10 @@
 
 import CoreData
 
-public struct PersistenceController {
-  public static let shared = PersistenceController()
+struct PersistenceController {
+  static let shared = PersistenceController()
 
-  public let container: NSPersistentCloudKitContainer
+  let container: NSPersistentCloudKitContainer
 
   init(inMemory: Bool = false) {
     let modelURL = Bundle.module.url(forResource: "Penguin", withExtension: "momd")!
