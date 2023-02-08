@@ -10,7 +10,6 @@ struct PenguinApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   #endif
   
-  let persistenceController = PersistenceController.shared
   @State var settings: PenguinKit.Settings = Secure.settings
   @State var currentUser: Sweet.UserModel? = Secure.currentUser
   @State var loginUsers: [Sweet.UserModel] = Secure.loginUsers
@@ -18,7 +17,6 @@ struct PenguinApp: App {
   var body: some Scene {
     WindowGroup {
       ContentView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
-        .environment(\.managedObjectContext, persistenceController.container.viewContext)
         .handlesExternalEvents(preferring: ["penguin"], allowing: []) // prevent to generate new windows from url scheme
     }
 #if os(macOS)

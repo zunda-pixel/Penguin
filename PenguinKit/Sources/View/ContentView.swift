@@ -224,6 +224,7 @@ public struct ContentView: View {
     .fontDesign(.rounded)
     .environment(\.settings, settings)
     .environment(\.loginUsers, loginUsers)
+    .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     .tint(settings.colorType.colorSet.tintColor)
   }
 }
