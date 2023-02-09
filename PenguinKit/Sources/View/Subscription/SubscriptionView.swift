@@ -26,12 +26,15 @@ public struct SubscriptionView: View {
     let icon = Icon.icons.first { $0.iconName == iconName }!
     
     VStack {
-
       Image(icon.iconName, bundle: .module)
         .resizable()
         .scaledToFit()
         .cornerRadius(15)
         .padding(40)
+      
+      Text("Thanks for using Penguin!")
+        .font(.title)
+        .bold()
       
       ForEach(viewModel.products) { product in
         Button {
