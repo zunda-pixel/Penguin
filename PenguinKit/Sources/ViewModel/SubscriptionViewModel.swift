@@ -9,10 +9,36 @@ enum StoreError: Error {
   case failedVerification
 }
 
-actor SubscriptionViewModel: ObservableObject {
-  @MainActor @Published var response: SKProductsResponse?
-  @MainActor @Published var products: [Product] = []
-  @MainActor @Published var errorHandle: ErrorHandle?
+@MainActor
+final class SubscriptionViewModel: ObservableObject {
+  @Published var response: SKProductsResponse?
+  @Published var products: [Product] = []
+  @Published var errorHandle: ErrorHandle?
+
+  var updates: Task<Void, Never>? = nil
+
+  init() {
+    self.updates = self.newTransactionListenerTask()
+  }
+
+  deinit {
+    updates?.cancel()
+  }
+
+  private func newTransactionListenerTask() -> Task<Void, Never> {
+    // https://developer.apple.com/documentation/storekit/transaction/3851206-updates
+    Task {
+      for await verificationResult in Transaction.updates {
+        switch verificationResult {
+        case .verified(let transaction): await transaction.finish()
+        case .unverified(_, let error):
+          let errorHandle = ErrorHandle(error: error)
+          errorHandle.log()
+          self.errorHandle = errorHandle
+        }
+      }
+    }
+  }
 
   func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
     //Check whether the JWS passes StoreKit verification.
@@ -26,7 +52,6 @@ actor SubscriptionViewModel: ObservableObject {
     }
   }
 
-  @MainActor
   func fetchProducts() async {
     do {
       self.products = try await SubscribeManager.products().sorted(by: \.price)
@@ -35,14 +60,13 @@ actor SubscriptionViewModel: ObservableObject {
     }
   }
 
-  @MainActor
   func purchase(product: Product) async -> StoreKit.Transaction? {
     do {
       let result = try await product.purchase()
 
       switch result {
       case .success(let verification):
-        let transaction = try await checkVerified(verification)
+        let transaction = try checkVerified(verification)
         return transaction
       case .pending, .userCancelled: return nil
       @unknown default:
