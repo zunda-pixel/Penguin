@@ -75,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		2E1A9E2C2993A16E003581C6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2E1A9E2E2993BAC2003581C6 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		2E23C33F29753CE600A63991 /* ci_post_clone.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		2E271EA829742F66002B93CC /* Widgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Widgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E271EAC29742F66002B93CC /* Widgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widgets.swift; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 				E0C37BCA2823189D007B925B /* Penguin.entitlements */,
 				E08260FE28CAA86100071BA9 /* Info.plist */,
 				E0C37C2C2823375B007B925B /* PenguinApp.swift */,
+				2E1A9E2E2993BAC2003581C6 /* Products.storekit */,
 			);
 			path = App;
 			sourceTree = "<group>";
