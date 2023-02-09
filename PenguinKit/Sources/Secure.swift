@@ -14,10 +14,19 @@ public struct Secure {
   private static let settingKey = "settingKey"
   private static let customClientKey = "customClientKey"
   private static let authorizationKey = "authorizationKey"
-  
+  private static let subscriptionExpireDateKey = "subscriptionExpireDateKey"
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
   private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID)\(Env.appGroups)")
+  
+  static var subscriptionExpireDate: Date? {
+    get {
+      return userDefaults.object(forKey: subscriptionExpireDateKey) as? Date
+    }
+    set {
+      userDefaults.set(newValue, forKey: subscriptionExpireDateKey)
+    }
+  }
   
   static func removeChallenge() throws {
     userDefaults.removeObject(forKey: challengeKey)
