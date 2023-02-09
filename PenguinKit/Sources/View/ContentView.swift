@@ -178,12 +178,12 @@ public struct ContentView: View {
       } else {
         VStack {
           #if os(macOS)
-            let icon = Icon.icons.first { $0.iconName == NSApplication.shared.iconName }
+            let iconName = NSApplication.shared.iconName
           #else
-            let icon = Icon.icons.first { $0.iconName == UIApplication.shared.iconName }
+            let iconName = UIApplication.shared.iconName
           #endif
 
-          Image(icon!.iconName, bundle: .module)
+          Image(iconName, bundle: .module)
             .resizable()
             .scaledToFit()
             .cornerRadius(15)
