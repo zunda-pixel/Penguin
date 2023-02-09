@@ -15,7 +15,8 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
-
+  @Binding var subscriptionExpireDate: Date?
+  
   var body: some View {
     NavigationStack(path: $router.path) {
       List {
@@ -102,8 +103,12 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
 
           ToolbarItem(placement: placement) {
             LoginMenu(
-              bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
-              currentUser: currentUser)
+              bindingCurrentUser: $currentUser,
+              loginUsers: $loginUsers,
+              settings: $settings,
+              subscriptionExpireDate: $subscriptionExpireDate,
+              currentUser: currentUser
+            )
           }
         }
 

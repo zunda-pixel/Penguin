@@ -27,7 +27,8 @@ struct SearchSpacesView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
-
+  @Binding var subscriptionExpireDate: Date?
+  
   @ViewBuilder
   func spaceCell(space: Sweet.SpaceModel) -> some View {
     if let viewModel = viewModel.spaceDetailViewModel(space: space) {
@@ -102,7 +103,8 @@ struct SearchSpacesView: View {
         TopToolBar(
           currentUser: $currentUser,
           loginUsers: $loginUsers,
-          settings: $settings
+          settings: $settings,
+          subscriptionExpireDate: $subscriptionExpireDate
         )
       }
     }

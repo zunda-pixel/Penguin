@@ -9,7 +9,8 @@ struct LoginMenu: View {
   @Binding var bindingCurrentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var settings: Settings
-
+  @Binding var subscriptionExpireDate: Date?
+  
   @State var isPresentedSettingsView = false
   let currentUser: Sweet.UserModel
 
@@ -34,7 +35,8 @@ struct LoginMenu: View {
       SettingsView(
         settings: $settings,
         currentUser: $bindingCurrentUser,
-        loginUsers: $loginUsers
+        loginUsers: $loginUsers,
+        subscriptionExpireDate: $subscriptionExpireDate
       )
     }
   }

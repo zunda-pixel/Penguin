@@ -13,6 +13,7 @@ struct SearchView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
+  @Binding var subscriptionExpireDate: Date?
 
   enum Pages: String, CaseIterable, Identifiable {
     case user = "User"
@@ -79,7 +80,12 @@ struct SearchView: View {
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .navigationDestination()
       .toolbar {
-        TopToolBar(currentUser: $currentUser, loginUsers: $loginUsers, settings: $settings)
+        TopToolBar(
+          currentUser: $currentUser,
+          loginUsers: $loginUsers,
+          settings: $settings,
+          subscriptionExpireDate: $subscriptionExpireDate
+        )
       }
     }
     .environmentObject(router)

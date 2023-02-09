@@ -14,7 +14,8 @@ struct ReverseChronologicalNavigationView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
-
+  @Binding var subscriptionExpireDate: Date?
+  
   let userID: String
 
   var body: some View {
@@ -32,7 +33,8 @@ struct ReverseChronologicalNavigationView: View {
         TopToolBar(
           currentUser: $currentUser,
           loginUsers: $loginUsers,
-          settings: $settings
+          settings: $settings,
+          subscriptionExpireDate: $subscriptionExpireDate
         )
       }
       .navigationBarAttribute()

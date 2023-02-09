@@ -12,7 +12,8 @@ struct MentionNavigationView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
-
+  @Binding var subscriptionExpireDate: Date?
+  
   var body: some View {
     NavigationStack(path: $router.path) {
       let viewModel: UserMentionsViewModel = .init(userID: userID, ownerID: userID)
@@ -26,7 +27,8 @@ struct MentionNavigationView: View {
           TopToolBar(
             currentUser: $currentUser,
             loginUsers: $loginUsers,
-            settings: $settings
+            settings: $settings,
+            subscriptionExpireDate: $subscriptionExpireDate
           )
         }
     }
