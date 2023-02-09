@@ -242,9 +242,9 @@ public struct ContentView: View {
     }
     .task {
       let result = await SubscribeManager.purchasedProducts()
-      // TODO エラーハンドルするべきかも
-      subscriptionExpireDate = try? result?.payloadValue.expirationDate
+      let subscriptionExpireDate = try? result?.payloadValue.expirationDate
       Secure.subscriptionExpireDate = subscriptionExpireDate
+      self.subscriptionExpireDate = subscriptionExpireDate
     }
     .fontDesign(.rounded)
     .environment(\.settings, settings)

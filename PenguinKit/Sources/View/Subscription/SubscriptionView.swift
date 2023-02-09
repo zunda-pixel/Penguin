@@ -50,6 +50,18 @@ public struct SubscriptionView: View {
         .buttonBorderShape(.roundedRectangle)
         .padding(.horizontal, 40)
       }
+      
+      Button("Restore") {
+        Task {
+          let product = await SubscribeManager.purchasedProducts()
+          let subscriptionExpireDate = try? product?.payloadValue.expirationDate
+          Secure.subscriptionExpireDate = subscriptionExpireDate
+          self.subscriptionExpireDate = subscriptionExpireDate
+        }
+      }
+      .buttonStyle(.borderedProminent)
+      .buttonBorderShape(.roundedRectangle)
+      .padding(.horizontal, 40)
 
       #if DEBUG
         Button {
