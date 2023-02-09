@@ -13,17 +13,23 @@ public struct SettingsView: View {
 
   @StateObject var router = NavigationPathRouter()
 
+  @State var isPresentedManageSubscription: Bool = false
+  
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
-
+  @Binding var subscriptionExpireDate: Date?
+  
   public init(
-    settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>,
-    loginUsers: Binding<[Sweet.UserModel]>
+    settings: Binding<Settings>,
+    currentUser: Binding<Sweet.UserModel?>,
+    loginUsers: Binding<[Sweet.UserModel]>,
+    subscriptionExpireDate: Binding<Date?>
   ) {
     self._settings = settings
     self._currentUser = currentUser
     self._loginUsers = loginUsers
+    self._subscriptionExpireDate = subscriptionExpireDate
   }
 
   func logout(user: Sweet.UserModel) {
@@ -104,20 +110,17 @@ public struct SettingsView: View {
           }
 
           Section("ABOUT") {
+            #if !os(macOS)
+            Button {
+              isPresentedManageSubscription.toggle()
+            } label: {
+              Label("Manage Subscription", systemImage: "gear")
+            }
+            .tint(.primary)
+            .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
+            #endif
+            
             #if DEBUG
-
-              NavigationLink {
-                VStack {
-                  if let userID = currentUser?.id,
-                     let bearerToken = Secure.getAuthorization(userID: userID)?.bearerToken {
-                    Text(bearerToken)
-                      .textSelection(.enabled)
-                  }
-                  Text("Manage Subscription")
-                }
-              } label: {
-                Label("Manage Subscription", systemImage: "person")
-              }
               NavigationLink {
                 Text("Hello")
               } label: {
@@ -176,9 +179,15 @@ struct SettingsView_Preview: PreviewProvider {
     @State var settings = Settings()
     @State var currentUser: Sweet.UserModel?
     @State var loginUsers: [Sweet.UserModel] = []
-
+    @State var subscriptionExpireDate: Date? = .now
+    
     var body: some View {
-      SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
+      SettingsView(
+        settings: $settings,
+        currentUser: $currentUser,
+        loginUsers: $loginUsers,
+        subscriptionExpireDate: $subscriptionExpireDate
+      )
     }
   }
 
