@@ -110,12 +110,6 @@ public struct SettingsView: View {
           }
 
           Section("ABOUT") {
-            NavigationLink {
-              CheckSubscription()
-            } label: {
-              Text("Check Subscription")
-            }
-            
             #if !os(macOS)
               Button {
                 isPresentedManageSubscription.toggle()
@@ -200,35 +194,4 @@ struct SettingsView_Preview: PreviewProvider {
   static var previews: some View {
     Preview()
   }
-}
-
-struct CheckSubscription: View {
-  @State var expireDate: Date?
-  @State var text: String = ""
-  
-  var body: some View {
-    VStack {
-      Button("Check") {
-        Task {
-          text = "Loading"
-          
-          let result = await SubscribeManager.purchasedProducts()
-          
-          guard let result else {
-            expireDate = nil
-            return
-          }
-          
-          self.expireDate =  try? result.payloadValue.expirationDate
-          
-          text = "Finish"
-        }
-      }
-      
-      if let expireDate {
-        Text(expireDate, format: .dateTime)
-      }
-    }
-  }
-    
 }
