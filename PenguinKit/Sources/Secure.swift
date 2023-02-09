@@ -19,7 +19,7 @@ public struct Secure {
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
   private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID)\(Env.appGroups)")
   
-  static var subscriptionExpireDate: Date? {
+  public static var subscriptionExpireDate: Date? {
     get {
       return userDefaults.object(forKey: subscriptionExpireDateKey) as? Date
     }
