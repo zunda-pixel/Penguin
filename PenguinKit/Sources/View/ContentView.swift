@@ -10,11 +10,13 @@ public struct ContentView: View {
   public init(
     settings: Binding<Settings>,
     currentUser: Binding<Sweet.UserModel?>,
-    loginUsers: Binding<[Sweet.UserModel]>
+    loginUsers: Binding<[Sweet.UserModel]>,
+    subscriptionExpireDate: Binding<Date?>
   ) {
     self._settings = settings
     self._currentUser = currentUser
     self._loginUsers = loginUsers
+    self._subscriptionExpireDate = subscriptionExpireDate
   }
 
   @SceneStorage("ContentView.selectedTab") var selectedTab: TabItem = .timeline
@@ -22,7 +24,8 @@ public struct ContentView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var settings: Settings
-
+  @Binding var subscriptionExpireDate: Date?
+  
   @State var isPresentedSettingsView = false
   
   @MainActor
@@ -34,6 +37,7 @@ public struct ContentView: View {
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate,
         userID: currentUser.id
       )
     case .list:
@@ -41,27 +45,31 @@ public struct ContentView: View {
         viewModel: ListsViewModel(userID: currentUser.id),
         loginUsers: $loginUsers,
         currentUser: $currentUser,
-        settings: $settings
+        settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate
       )
     case .search:
       SearchView(
         viewModel: .init(userID: currentUser.id, searchSettings: .init(excludeRetweet: true)),
         loginUsers: $loginUsers,
         currentUser: $currentUser,
-        settings: $settings
+        settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate
       )
     case .space:
       SearchSpacesView(
         viewModel: SearchSpacesViewModel(userID: currentUser.id),
         loginUsers: $loginUsers,
         currentUser: $currentUser,
-        settings: $settings
+        settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate
       )
     case .bookmark:
       BookmarksNavigationView(
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate,
         userID: currentUser.id
       )
     case .like:
@@ -69,6 +77,7 @@ public struct ContentView: View {
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate,
         userID: currentUser.id
       )
     case .mention:
@@ -76,7 +85,8 @@ public struct ContentView: View {
         userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
-        settings: $settings
+        settings: $settings,
+        subscriptionExpireDate: $subscriptionExpireDate
       )
     }
   }
@@ -159,7 +169,10 @@ public struct ContentView: View {
 
   public var body: some View {
     VStack {
-      if let currentUser {
+      if subscriptionExpireDate == nil || subscriptionExpireDate! < Date.now {
+        SubscriptionView(expireDate: $subscriptionExpireDate)
+      }
+      else if let currentUser {
         Group {
           switch settings.tabStyle {
           case .tab: tabView(currentUser: currentUser)
@@ -213,13 +226,24 @@ public struct ContentView: View {
             RoundedRectangle(cornerRadius: 15).foregroundColor(
               settings.colorType.colorSet.tintColor.opacity(0.5)))
           .sheet(isPresented: $isPresentedSettingsView) {
-            SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
+            SettingsView(
+              settings: $settings,
+              currentUser: $currentUser,
+              loginUsers: $loginUsers,
+              subscriptionExpireDate: $subscriptionExpireDate
+            )
           }
         }
         .tabItem {
           Label("Login", systemImage: "person")
         }
       }
+    }
+    .task {
+      let result = await SubscribeManager.purchasedProducts()
+      // TODO エラーハンドルするべきかも
+      subscriptionExpireDate = try? result?.payloadValue.expirationDate
+      Secure.subscriptionExpireDate = subscriptionExpireDate
     }
     .fontDesign(.rounded)
     .environment(\.settings, settings)
@@ -231,6 +255,11 @@ public struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView(settings: .constant(Settings()), currentUser: .constant(nil), loginUsers: .constant([]))
+    ContentView(
+      settings: .constant(Settings()),
+      currentUser: .constant(nil),
+      loginUsers: .constant([]),
+      subscriptionExpireDate: .constant(.now)
+    )
   }
 }
