@@ -55,6 +55,12 @@ struct UserCellView: View {
 
 struct UserCellView_Preview: PreviewProvider {
   static var previews: some View {
-    UserCellView(ownerID: "ownerID", user: .init(id: "id", name: "name", userName: "userName", verified: true, profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!, description: "description"))
+    UserCellView(
+      ownerID: "ownerID",
+      user: .init(
+        id: "id", name: "name", userName: "userName", verified: true,
+        profileImageURL: URL(
+          string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!,
+        description: "description"))
   }
 }

@@ -221,6 +221,13 @@ struct TweetToolBar: View {
 
 struct TweetToolBar_Preview: PreviewProvider {
   static var previews: some View {
-    TweetToolBar(viewModel: .init(userID: "userID", tweet: .init(id: "id", text: "text", publicMetrics: .init(retweetCount: 1, replyCount: 32423, likeCount: 324234, quoteCount: 3423)), user: .init(id: "id", name: "name", userName: "userName")))
+    TweetToolBar(
+      viewModel: .init(
+        userID: "userID",
+        tweet: .init(
+          id: "id", text: "text",
+          publicMetrics: .init(
+            retweetCount: 1, replyCount: 32423, likeCount: 324234, quoteCount: 3423)),
+        user: .init(id: "id", name: "name", userName: "userName")))
   }
 }

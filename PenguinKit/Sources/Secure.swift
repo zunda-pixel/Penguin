@@ -3,8 +3,8 @@
 //
 
 import Foundation
-import Sweet
 import KeychainAccess
+import Sweet
 
 public struct Secure {
   private static let currentUserKey = "currentUser"
@@ -17,8 +17,9 @@ public struct Secure {
   private static let subscriptionExpireDateKey = "subscriptionExpireDateKey"
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
-  private static let keychain = Keychain(service: "main", accessGroup: "\(Env.teamID)\(Env.appGroups)")
-  
+  private static let keychain = Keychain(
+    service: "main", accessGroup: "\(Env.teamID)\(Env.appGroups)")
+
   public static var subscriptionExpireDate: Date? {
     get {
       return userDefaults.object(forKey: subscriptionExpireDateKey) as? Date
@@ -27,7 +28,7 @@ public struct Secure {
       userDefaults.set(newValue, forKey: subscriptionExpireDateKey)
     }
   }
-  
+
   static func removeChallenge() throws {
     userDefaults.removeObject(forKey: challengeKey)
   }
@@ -43,12 +44,12 @@ public struct Secure {
     get { userDefaults.string(forKey: stateKey) }
     set { userDefaults.set(newValue, forKey: stateKey) }
   }
-  
+
   static func getAuthorization(userID: String) -> AuthorizationModel? {
     guard let data = try! keychain.getData(userID + authorizationKey) else { return nil }
     return try! JSONDecoder().decode(AuthorizationModel.self, from: data)
   }
-  
+
   static func setAuthorization(userID: String, authorization: AuthorizationModel) {
     let data = try! JSONEncoder().encode(authorization)
     try! keychain.set(data, key: userID + authorizationKey)
@@ -86,7 +87,7 @@ public struct Secure {
 
   static func removeUserData(userID: String) {
     try! keychain.remove(userID + authorizationKey)
-    
+
     loginUsers.removeAll { $0.id == userID }
 
     if userID == currentUser?.id {
@@ -107,7 +108,7 @@ public struct Secure {
       userDefaults.set(data, forKey: settingKey)
     }
   }
-  
+
   static var customClient: Client? {
     get {
       guard let data = try! keychain.getData(Secure.customClientKey) else {

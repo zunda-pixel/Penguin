@@ -25,9 +25,9 @@ public struct ContentView: View {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var settings: Settings
   @Binding var subscriptionExpireDate: Date?
-  
+
   @State var isPresentedSettingsView = false
-  
+
   @MainActor
   @ViewBuilder
   func tabViewContent(currentUser: Sweet.UserModel, tabItem: TabItem) -> some View {
@@ -171,8 +171,7 @@ public struct ContentView: View {
     VStack {
       if subscriptionExpireDate == nil || subscriptionExpireDate! < Date.now {
         SubscriptionView(expireDate: $subscriptionExpireDate)
-      }
-      else if let currentUser {
+      } else if let currentUser {
         Group {
           switch settings.tabStyle {
           case .tab: tabView(currentUser: currentUser)
@@ -189,13 +188,13 @@ public struct ContentView: View {
           OnlineNavigationView(userID: currentUser.id, schemeItem: schemeItem)
         }
       } else {
-#if os(macOS)
-  let iconName = NSApplication.shared.iconName
-#else
-  let iconName = UIApplication.shared.iconName
-#endif
+        #if os(macOS)
+          let iconName = NSApplication.shared.iconName
+        #else
+          let iconName = UIApplication.shared.iconName
+        #endif
         let icon = Icon.icons.first { $0.iconName == iconName }!
-        
+
         VStack {
           Image(iconName, bundle: .module)
             .resizable()
@@ -215,7 +214,7 @@ public struct ContentView: View {
           .buttonStyle(.borderedProminent)
           .buttonBorderShape(.roundedRectangle)
           .padding()
-          
+
           Button {
             isPresentedSettingsView.toggle()
           } label: {

@@ -13,7 +13,7 @@ struct MentionNavigationView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
   @Binding var subscriptionExpireDate: Date?
-  
+
   var body: some View {
     NavigationStack(path: $router.path) {
       let viewModel: UserMentionsViewModel = .init(userID: userID, ownerID: userID)

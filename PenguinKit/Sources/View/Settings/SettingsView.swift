@@ -14,12 +14,12 @@ public struct SettingsView: View {
   @StateObject var router = NavigationPathRouter()
 
   @State var isPresentedManageSubscription: Bool = false
-  
+
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var subscriptionExpireDate: Date?
-  
+
   public init(
     settings: Binding<Settings>,
     currentUser: Binding<Sweet.UserModel?>,
@@ -111,15 +111,15 @@ public struct SettingsView: View {
 
           Section("ABOUT") {
             #if !os(macOS)
-            Button {
-              isPresentedManageSubscription.toggle()
-            } label: {
-              Label("Manage Subscription", systemImage: "gear")
-            }
-            .tint(.primary)
-            .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
+              Button {
+                isPresentedManageSubscription.toggle()
+              } label: {
+                Label("Manage Subscription", systemImage: "gear")
+              }
+              .tint(.primary)
+              .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
             #endif
-            
+
             #if DEBUG
               NavigationLink {
                 Text("Hello")
@@ -144,13 +144,13 @@ public struct SettingsView: View {
             } label: {
               Label("License", systemImage: "lock.shield")
             }
-            
+
             NavigationLink {
               CustomClientSettingsView(
                 currentUser: $currentUser,
                 loginUsers: $loginUsers
               )
-                .navigationTitle("Custom Client")
+              .navigationTitle("Custom Client")
             } label: {
               Label("Custom Client", systemImage: "key.horizontal")
             }
@@ -180,7 +180,7 @@ struct SettingsView_Preview: PreviewProvider {
     @State var currentUser: Sweet.UserModel?
     @State var loginUsers: [Sweet.UserModel] = []
     @State var subscriptionExpireDate: Date? = .now
-    
+
     var body: some View {
       SettingsView(
         settings: $settings,

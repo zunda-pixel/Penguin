@@ -15,7 +15,7 @@ struct ReverseChronologicalNavigationView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
   @Binding var subscriptionExpireDate: Date?
-  
+
   let userID: String
 
   var body: some View {

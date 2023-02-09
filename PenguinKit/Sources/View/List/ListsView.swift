@@ -16,7 +16,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
   @Binding var subscriptionExpireDate: Date?
-  
+
   var body: some View {
     NavigationStack(path: $router.path) {
       List {

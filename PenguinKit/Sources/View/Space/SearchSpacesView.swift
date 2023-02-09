@@ -28,7 +28,7 @@ struct SearchSpacesView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
   @Binding var subscriptionExpireDate: Date?
-  
+
   @ViewBuilder
   func spaceCell(space: Sweet.SpaceModel) -> some View {
     if let viewModel = viewModel.spaceDetailViewModel(space: space) {

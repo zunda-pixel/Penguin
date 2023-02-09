@@ -51,6 +51,12 @@ struct ListCellView: View {
 
 struct ListCellView_Preview: PreviewProvider {
   static var previews: some View {
-    ListCellView(list: .init(id: "id", name: "name", description: "description", isPrivate: true), owner: .init(id: "id", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!), userID: "userID")
+    ListCellView(
+      list: .init(id: "id", name: "name", description: "description", isPrivate: true),
+      owner: .init(
+        id: "id", name: "name", userName: "userName",
+        profileImageURL: URL(
+          string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!),
+      userID: "userID")
   }
 }

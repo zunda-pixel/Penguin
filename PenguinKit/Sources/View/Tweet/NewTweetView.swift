@@ -234,6 +234,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 struct NewTweetView_Preview: PreviewProvider {
   static var previews: some View {
     NewTweetView(viewModel: NewTweetViewModel(userID: "1234"))
-      .environment(\.loginUsers, [.init(id: "1234", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"))])
+      .environment(
+        \.loginUsers,
+        [
+          .init(
+            id: "1234", name: "name", userName: "userName",
+            profileImageURL: URL(
+              string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"
+            ))
+        ])
   }
 }

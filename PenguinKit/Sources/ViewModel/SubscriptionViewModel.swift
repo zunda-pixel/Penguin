@@ -25,7 +25,7 @@ actor SubscriptionViewModel: ObservableObject {
       return safe
     }
   }
-  
+
   @MainActor
   func fetchProducts() async {
     do {
@@ -34,12 +34,12 @@ actor SubscriptionViewModel: ObservableObject {
       self.errorHandle = ErrorHandle(error: error)
     }
   }
-  
+
   @MainActor
   func purchase(product: Product) async -> StoreKit.Transaction? {
     do {
       let result = try await product.purchase()
-      
+
       switch result {
       case .success(let verification):
         let transaction = try await checkVerified(verification)
@@ -51,7 +51,7 @@ actor SubscriptionViewModel: ObservableObject {
     } catch {
       self.errorHandle = ErrorHandle(error: error)
     }
-    
+
     return nil
   }
 }

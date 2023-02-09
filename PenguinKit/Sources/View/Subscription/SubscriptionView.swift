@@ -7,35 +7,35 @@ import SwiftUI
 public struct SubscriptionView: View {
   @StateObject var viewModel = SubscriptionViewModel()
   @Binding var subscriptionExpireDate: Date?
-  
+
   #if DEBUG
-  @State var isPresentedManageSubscription: Bool = false
+    @State var isPresentedManageSubscription: Bool = false
   #endif
-  
+
   public init(expireDate subscriptionExpireDate: Binding<Date?>) {
     self._subscriptionExpireDate = subscriptionExpireDate
   }
-  
+
   public var body: some View {
-#if os(macOS)
+    #if os(macOS)
       let iconName = NSApplication.shared.iconName
-#else
+    #else
       let iconName = UIApplication.shared.iconName
-#endif
-    
+    #endif
+
     let icon = Icon.icons.first { $0.iconName == iconName }!
-    
+
     VStack {
       Image(icon.iconName, bundle: .module)
         .resizable()
         .scaledToFit()
         .cornerRadius(15)
         .padding(40)
-      
+
       Text("Thanks for using Penguin!")
         .font(.title)
         .bold()
-      
+
       ForEach(viewModel.products) { product in
         Button {
           Task {
@@ -50,17 +50,17 @@ public struct SubscriptionView: View {
         .buttonBorderShape(.roundedRectangle)
         .padding(.horizontal, 40)
       }
-      
+
       #if DEBUG
-      Button {
-        isPresentedManageSubscription.toggle()
-      } label: {
-        Label("Manage Subscription", systemImage: "gear")
-      }
-      .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
-      .buttonStyle(.borderedProminent)
-      .buttonBorderShape(.roundedRectangle)
-      .padding(.horizontal, 40)
+        Button {
+          isPresentedManageSubscription.toggle()
+        } label: {
+          Label("Manage Subscription", systemImage: "gear")
+        }
+        .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.roundedRectangle)
+        .padding(.horizontal, 40)
       #endif
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -71,7 +71,6 @@ public struct SubscriptionView: View {
     }
   }
 }
-
 
 struct ManageSubscriptionView_Preview: PreviewProvider {
   static var previews: some View {

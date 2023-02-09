@@ -10,7 +10,7 @@ struct TopToolBar: ToolbarContent {
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var settings: Settings
   @Binding var subscriptionExpireDate: Date?
-  
+
   @State var isPresentedSettingsView = false
   @State var isPresentedCreateTweetView = false
 
