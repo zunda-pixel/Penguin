@@ -189,13 +189,14 @@ public struct ContentView: View {
           OnlineNavigationView(userID: currentUser.id, schemeItem: schemeItem)
         }
       } else {
+#if os(macOS)
+  let iconName = NSApplication.shared.iconName
+#else
+  let iconName = UIApplication.shared.iconName
+#endif
+        let icon = Icon.icons.first { $0.iconName == iconName }!
+        
         VStack {
-          #if os(macOS)
-            let iconName = NSApplication.shared.iconName
-          #else
-            let iconName = UIApplication.shared.iconName
-          #endif
-
           Image(iconName, bundle: .module)
             .resizable()
             .scaledToFit()
@@ -208,23 +209,22 @@ public struct ContentView: View {
 
           LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
+              .padding(8)
               .bold()
-              .padding()
-              .background(
-                RoundedRectangle(cornerRadius: 15).foregroundColor(
-                  settings.colorType.colorSet.tintColor.opacity(0.5)))
           }
+          .buttonStyle(.borderedProminent)
+          .buttonBorderShape(.roundedRectangle)
+          .padding()
           
           Button {
             isPresentedSettingsView.toggle()
           } label: {
             Label("Settings", systemImage: "gear")
+              .padding(8)
+              .bold()
           }
-          .bold()
-          .padding()
-          .background(
-            RoundedRectangle(cornerRadius: 15).foregroundColor(
-              settings.colorType.colorSet.tintColor.opacity(0.5)))
+          .buttonStyle(.borderedProminent)
+          .buttonBorderShape(.roundedRectangle)
           .sheet(isPresented: $isPresentedSettingsView) {
             SettingsView(
               settings: $settings,
@@ -234,6 +234,8 @@ public struct ContentView: View {
             )
           }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(icon.color.opacity(0.4))
         .tabItem {
           Label("Login", systemImage: "person")
         }

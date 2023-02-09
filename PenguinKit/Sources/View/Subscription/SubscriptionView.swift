@@ -17,13 +17,17 @@ public struct SubscriptionView: View {
   }
   
   public var body: some View {
-    VStack {
 #if os(macOS)
       let iconName = NSApplication.shared.iconName
 #else
       let iconName = UIApplication.shared.iconName
 #endif
-      Image(iconName, bundle: .module)
+    
+    let icon = Icon.icons.first { $0.iconName == iconName }!
+    
+    VStack {
+
+      Image(icon.iconName, bundle: .module)
         .resizable()
         .scaledToFit()
         .cornerRadius(15)
@@ -57,7 +61,7 @@ public struct SubscriptionView: View {
       #endif
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(Color.indigo.opacity(0.3))
+    .background(icon.color.opacity(0.3))
     .alert(errorHandle: $viewModel.errorHandle)
     .task {
       await viewModel.fetchProducts()

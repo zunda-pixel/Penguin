@@ -4,17 +4,6 @@
 
 import SwiftUI
 
-struct Icon: Identifiable, Hashable {
-  let id = UUID()
-  let name: String
-  let iconName: String
-
-  static let icons: [Icon] = [
-    .init(name: "Primary", iconName: "AppIcon"),
-    .init(name: "Secondary", iconName: "AppIcon1"),
-  ]
-}
-
 #if !os(macOS)
   struct IconSettingsView: View {
     @Environment(\.settings) var settings
