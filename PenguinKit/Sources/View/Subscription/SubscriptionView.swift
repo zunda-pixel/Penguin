@@ -7,7 +7,8 @@ import SwiftUI
 public struct SubscriptionView: View {
   @StateObject var viewModel = SubscriptionViewModel()
   @Binding var subscriptionExpireDate: Date?
-
+  @Environment(\.settings) var settings
+  
   #if DEBUG
     @State var isPresentedManageSubscription: Bool = false
   #endif
@@ -25,43 +26,47 @@ public struct SubscriptionView: View {
 
     let icon = Icon.icons.first { $0.iconName == iconName }!
 
+    let padding: CGFloat = 40
+    
     VStack {
       Image(icon.iconName, bundle: .module)
         .resizable()
         .scaledToFit()
         .cornerRadius(15)
-        .padding(40)
+        .padding(padding)
 
       Text("Thanks for using Penguin!")
         .font(.title)
         .bold()
 
       ForEach(viewModel.products) { product in
-        Button {
-          Task {
-            let transaction = await viewModel.purchase(product: product)
-            subscriptionExpireDate = transaction?.expirationDate
-            Secure.subscriptionExpireDate = transaction?.expirationDate
-          }
-        } label: {
-          ProductCell(product: product)
+        let model: ProductCellModel = ProductCellModel(product: product) {
+          let transaction = await viewModel.purchase(product: product)
+          subscriptionExpireDate = transaction?.expirationDate
+          Secure.subscriptionExpireDate = transaction?.expirationDate
         }
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.roundedRectangle)
-        .padding(.horizontal, 40)
+        
+        ProductCell(model: model)
+          .padding()
+          .background(settings.colorType.colorSet.tintColor.opacity(0.3))
+          .clipShape(RoundedRectangle(cornerRadius: 17))
       }
+      .padding(.horizontal, padding)
       
-      Button("Restore") {
+      Button {
         Task {
           let product = await SubscribeManager.purchasedProducts()
           let subscriptionExpireDate = try? product?.payloadValue.expirationDate
           Secure.subscriptionExpireDate = subscriptionExpireDate
           self.subscriptionExpireDate = subscriptionExpireDate
         }
+      } label: {
+        Label("Restore", systemImage: "clock.arrow.circlepath")
       }
+      .tint(settings.colorType.colorSet.tintColor.opacity(0.3))
       .buttonStyle(.borderedProminent)
       .buttonBorderShape(.roundedRectangle)
-      .padding(.horizontal, 40)
+      .padding(.horizontal, padding)
 
       #if DEBUG && !os(macOS)
         Button {
@@ -70,13 +75,13 @@ public struct SubscriptionView: View {
           Label("Manage Subscription", systemImage: "gear")
         }
         .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
+        .tint(settings.colorType.colorSet.tintColor.opacity(0.3))
         .buttonStyle(.borderedProminent)
         .buttonBorderShape(.roundedRectangle)
-        .padding(.horizontal, 40)
+        .padding(.horizontal, padding)
       #endif
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(icon.color.opacity(0.3))
     .alert(errorHandle: $viewModel.errorHandle)
     .task {
       await viewModel.fetchProducts()

@@ -6,22 +6,38 @@ import StoreKit
 import SwiftUI
 
 struct ProductCell: View {
-  let product: Product
-
+  @StateObject var model: ProductCellModel
+  
   var body: some View {
     HStack {
       VStack(alignment: .leading) {
-        Text(product.displayName)
-
-        if let period = product.subscription?.subscriptionPeriod {
+        Text(model.product.displayName)
+        
+        if let period = model.product.subscription?.subscriptionPeriod {
           Text("\(period.value) \(period.unit.localizedDescription)")
             .font(.callout)
         }
       }
-
+      
       Spacer()
-
-      Text("\(product.displayPrice)")
+      
+      Button {
+       Task {
+          await model.purchase()
+        }
+      } label: {
+        Group {
+          if model.loading {
+            ProgressView()
+          } else {
+            Text("\(model.product.displayPrice)")
+          }
+        }
+        .padding(.vertical, 4)
+        .frame(minWidth: 60)
+      }
+      .disabled(model.loading)
+      .buttonStyle(.bordered)
     }
   }
 }
