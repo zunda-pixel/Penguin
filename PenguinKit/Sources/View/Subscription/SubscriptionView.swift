@@ -63,7 +63,7 @@ public struct SubscriptionView: View {
       .buttonBorderShape(.roundedRectangle)
       .padding(.horizontal, 40)
 
-      #if DEBUG
+      #if DEBUG && !os(macOS)
         Button {
           isPresentedManageSubscription.toggle()
         } label: {

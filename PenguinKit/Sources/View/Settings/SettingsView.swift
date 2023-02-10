@@ -6,15 +6,18 @@ import LicenseView
 import StoreKit
 import Sweet
 import SwiftUI
+import BetterSafariView
 
 public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
   @Environment(\.requestReview) var requestReview
-
+  @Environment(\.openURL) var openURL
+  
   @StateObject var router = NavigationPathRouter()
 
   @State var isPresentedManageSubscription: Bool = false
-
+  @State var isPresentedPrivacyPolicy: Bool = false
+  
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
@@ -110,6 +113,27 @@ public struct SettingsView: View {
           }
 
           Section("ABOUT") {
+            let privacyPolicyURL = URL(string: "https://zunda-pixel.github.io/App/Penguin/PrivacyPolicy.html")!
+            
+            #if os(macOS)
+            Button {
+              openURL(privacyPolicyURL)
+            } label: {
+              Label("Privacy Policy", systemImage: "doc.plaintext")
+            }
+            .tint(.primary)
+            #else
+            Button {
+              isPresentedPrivacyPolicy.toggle()
+            } label: {
+              Label("Privacy Policy", systemImage: "doc.plaintext")
+            }
+            .safariView(isPresented: $isPresentedPrivacyPolicy) {
+              SafariView(url: privacyPolicyURL, configuration: .init())
+            }
+            .tint(.primary)
+            #endif
+            
             #if !os(macOS)
               Button {
                 isPresentedManageSubscription.toggle()
