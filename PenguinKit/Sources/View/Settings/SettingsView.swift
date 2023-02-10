@@ -50,27 +50,29 @@ public struct SettingsView: View {
     NavigationStack(path: $router.path) {
       List {
         Group {
-          Section("Account") {
-            ForEach(loginUsers) { user in
-              let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
-
-              NavigationLink(value: viewModel) {
-                Label {
-                  Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
-                } icon: {
-                  ProfileImageView(url: user.profileImageURL!)
-                    .frame(width: 30, height: 30)
+          if let expireDate = subscriptionExpireDate, expireDate < Date.now {
+            Section("Account") {
+              ForEach(loginUsers) { user in
+                let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
+                
+                NavigationLink(value: viewModel) {
+                  Label {
+                    Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
+                  } icon: {
+                    ProfileImageView(url: user.profileImageURL!)
+                      .frame(width: 30, height: 30)
+                  }
+                }
+                .swipeActions(edge: .trailing) {
+                  Button("Logout", role: .destructive) {
+                    logout(user: user)
+                  }
                 }
               }
-              .swipeActions(edge: .trailing) {
-                Button("Logout", role: .destructive) {
-                  logout(user: user)
-                }
+              
+              LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
+                Label("Add Account", systemImage: "plus.app")
               }
-            }
-
-            LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
-              Label("Add Account", systemImage: "plus.app")
             }
           }
 

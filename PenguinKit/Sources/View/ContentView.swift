@@ -170,7 +170,12 @@ public struct ContentView: View {
   public var body: some View {
     VStack {
       if subscriptionExpireDate == nil || subscriptionExpireDate! < Date.now {
-        SubscriptionView(expireDate: $subscriptionExpireDate)
+        SubscriptionView(
+          currentUser: $currentUser,
+          loginUsers: $loginUsers,
+          settings: $settings,
+          expireDate: $subscriptionExpireDate
+        )
       } else if let currentUser {
         Group {
           switch settings.tabStyle {
