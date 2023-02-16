@@ -190,7 +190,7 @@ public struct SettingsView: View {
         }
       }
       #if os(macOS)
-      .listStyle(.grouped)
+      .listStyle(.inset(alternatesRowBackgrounds: true))
       #else
       .listStyle(.insetGrouped)
       #endif
