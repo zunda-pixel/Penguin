@@ -189,7 +189,11 @@ public struct SettingsView: View {
           }
         }
       }
+      #if os(macOS)
+      .listStyle(.grouped)
+      #else
       .listStyle(.insetGrouped)
+      #endif
       .onChange(of: settings) { newValue in
         Secure.settings = newValue
       }

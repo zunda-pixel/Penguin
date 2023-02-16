@@ -15,7 +15,7 @@ public struct SubscriptionView: View {
   
   @State var isPresentedSettingsView: Bool = false
   
-#if DEBUG
+#if DEBUG && !os(macOS)
   @State var isPresentedManageSubscription: Bool = false
 #endif
   
@@ -61,6 +61,12 @@ public struct SubscriptionView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .listRowSeparator(.hidden)
 
+      #if os(macOS)
+      let backgroundColor: Color = Color(.systemGray)
+      #else
+      let backgroundColor: Color = Color(.systemBackground)
+      #endif
+      
       ForEach(viewModel.products) { product in
         HStack(alignment: .top) {
           ProductCell(product: product)
@@ -74,7 +80,7 @@ public struct SubscriptionView: View {
         }
         .tag(product)
         .padding(17)
-        .background(Color(.systemGray6))
+        .background(backgroundColor)
         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 17, height: 17)))
         .if(viewModel.selectedProduct == product) {
           $0.overlay {
@@ -84,7 +90,7 @@ public struct SubscriptionView: View {
         }
       }
       .listRowSeparator(.hidden)
-      .listRowBackground(Color(.systemBackground))
+      .listRowBackground(backgroundColor)
       .listRowInsets(EdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3))
       
       Text("Plan automatically renews monthly.")
@@ -124,7 +130,11 @@ public struct SubscriptionView: View {
           Label("Restore", systemImage: "clock.arrow.circlepath")
         }
         .buttonStyle(.bordered)
+        #if os(macOS)
+        .buttonBorderShape(.roundedRectangle)
+        #else
         .buttonBorderShape(.capsule)
+        #endif
         .listRowSeparator(.hidden)
         
         Spacer()
@@ -135,7 +145,11 @@ public struct SubscriptionView: View {
           Label("Settings", systemImage: "gear")
         }
         .buttonStyle(.bordered)
+#if os(macOS)
+        .buttonBorderShape(.roundedRectangle)
+#else
         .buttonBorderShape(.capsule)
+#endif
         .listRowSeparator(.hidden)
         .sheet(isPresented: $isPresentedSettingsView) {
           SettingsView(
