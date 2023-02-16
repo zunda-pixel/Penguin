@@ -66,6 +66,12 @@ public struct SubscriptionView: View {
       #else
         let backgroundColor: Color = Color(.systemBackground)
       #endif
+      
+      #if os(macOS)
+        let cellBackgroundColor: Color = Color(.systemGray)
+      #else
+        let cellBackgroundColor: Color = Color(.secondarySystemBackground)
+      #endif
 
       ForEach(viewModel.products) { product in
         HStack(alignment: .top) {
@@ -80,7 +86,7 @@ public struct SubscriptionView: View {
         }
         .tag(product)
         .padding(17)
-        .background(backgroundColor)
+        .background(cellBackgroundColor)
         .clipShape(RoundedRectangle(cornerSize: CGSize(width: 17, height: 17)))
         .if(viewModel.selectedProduct == product) {
           $0.overlay {
