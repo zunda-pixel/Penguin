@@ -2,22 +2,22 @@
 //  SettingsView.swift
 //
 
+import BetterSafariView
 import LicenseView
 import StoreKit
 import Sweet
 import SwiftUI
-import BetterSafariView
 
 public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
   @Environment(\.requestReview) var requestReview
   @Environment(\.openURL) var openURL
-  
+
   @StateObject var router = NavigationPathRouter()
 
   @State var isPresentedManageSubscription: Bool = false
   @State var isPresentedPrivacyPolicy: Bool = false
-  
+
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
@@ -54,13 +54,13 @@ public struct SettingsView: View {
             Section("Account") {
               ForEach(loginUsers) { user in
                 let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
-                
+
                 NavigationLink(value: viewModel) {
                   Label {
                     Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
                   } icon: {
                     ProfileImageView(url: user.profileImageURL!)
-                      .frame(width: 30, height: 30)
+                    .frame(width: 30, height: 30)
                   }
                 }
                 .swipeActions(edge: .trailing) {
@@ -69,7 +69,7 @@ public struct SettingsView: View {
                   }
                 }
               }
-              
+
               LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
                 Label("Add Account", systemImage: "plus.app")
               }
@@ -94,7 +94,7 @@ public struct SettingsView: View {
                 Text("Hello")
               } label: {
                 Label("Sound", systemImage: "speaker")
-                  .symbolVariant(.circle)
+                .symbolVariant(.circle)
               }
 
               NavigationLink {
@@ -107,7 +107,7 @@ public struct SettingsView: View {
             #if !os(macOS)
               NavigationLink {
                 IconSettingsView()
-                  .navigationTitle("App Icon")
+                .navigationTitle("App Icon")
               } label: {
                 Label("App Icon", systemImage: "rectangle.grid.2x2")
               }
@@ -115,27 +115,28 @@ public struct SettingsView: View {
           }
 
           Section("ABOUT") {
-            let privacyPolicyURL = URL(string: "https://zunda-pixel.github.io/App/Penguin/PrivacyPolicy.html")!
-            
+            let privacyPolicyURL = URL(
+              string: "https://zunda-pixel.github.io/App/Penguin/PrivacyPolicy.html")!
+
             #if os(macOS)
-            Button {
-              openURL(privacyPolicyURL)
-            } label: {
-              Label("Privacy Policy", systemImage: "doc.plaintext")
-            }
-            .tint(.primary)
+              Button {
+                openURL(privacyPolicyURL)
+              } label: {
+                Label("Privacy Policy", systemImage: "doc.plaintext")
+              }
+              .tint(.primary)
             #else
-            Button {
-              isPresentedPrivacyPolicy.toggle()
-            } label: {
-              Label("Privacy Policy", systemImage: "doc.plaintext")
-            }
-            .safariView(isPresented: $isPresentedPrivacyPolicy) {
-              SafariView(url: privacyPolicyURL, configuration: .init())
-            }
-            .tint(.primary)
+              Button {
+                isPresentedPrivacyPolicy.toggle()
+              } label: {
+                Label("Privacy Policy", systemImage: "doc.plaintext")
+              }
+              .safariView(isPresented: $isPresentedPrivacyPolicy) {
+                SafariView(url: privacyPolicyURL, configuration: .init())
+              }
+              .tint(.primary)
             #endif
-            
+
             #if !os(macOS)
               Button {
                 isPresentedManageSubscription.toggle()
@@ -166,7 +167,7 @@ public struct SettingsView: View {
 
             NavigationLink {
               LicenseView()
-                .navigationTitle("License")
+              .navigationTitle("License")
             } label: {
               Label("License", systemImage: "lock.shield")
             }
@@ -190,9 +191,9 @@ public struct SettingsView: View {
         }
       }
       #if os(macOS)
-      .listStyle(.inset(alternatesRowBackgrounds: true))
+        .listStyle(.inset(alternatesRowBackgrounds: true))
       #else
-      .listStyle(.insetGrouped)
+        .listStyle(.insetGrouped)
       #endif
       .onChange(of: settings) { newValue in
         Secure.settings = newValue

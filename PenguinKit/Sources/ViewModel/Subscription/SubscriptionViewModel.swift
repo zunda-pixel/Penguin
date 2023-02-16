@@ -17,7 +17,7 @@ final class SubscriptionViewModel: ObservableObject {
   @Published var errorHandle: ErrorHandle?
   @Published var selectedProduct: Product?
   @Published var loading: Bool = false
-  
+
   var updates: Task<Void, Never>? = nil
 
   init() {
@@ -70,9 +70,9 @@ final class SubscriptionViewModel: ObservableObject {
     guard !loading else { return nil }
     loading.toggle()
     defer { loading.toggle() }
-    
+
     guard let selectedProduct else { return nil }
-    
+
     do {
       let result = try await selectedProduct.purchase()
 

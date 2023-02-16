@@ -2,9 +2,9 @@
 //  SubscriptionView.swift
 //
 
-import SwiftUI
-import Sweet
 import StoreKit
+import Sweet
+import SwiftUI
 
 public struct SubscriptionView: View {
   @StateObject var viewModel = SubscriptionViewModel()
@@ -12,13 +12,13 @@ public struct SubscriptionView: View {
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
-  
+
   @State var isPresentedSettingsView: Bool = false
-  
-#if DEBUG && !os(macOS)
-  @State var isPresentedManageSubscription: Bool = false
-#endif
-  
+
+  #if DEBUG && !os(macOS)
+    @State var isPresentedManageSubscription: Bool = false
+  #endif
+
   public init(
     currentUser: Binding<Sweet.UserModel?>,
     loginUsers: Binding<[Sweet.UserModel]>,
@@ -30,16 +30,16 @@ public struct SubscriptionView: View {
     self._settings = settings
     self._subscriptionExpireDate = subscriptionExpireDate
   }
-  
+
   public var body: some View {
-#if os(macOS)
-    let iconName = NSApplication.shared.iconName
-#else
-    let iconName = UIApplication.shared.iconName
-#endif
-    
+    #if os(macOS)
+      let iconName = NSApplication.shared.iconName
+    #else
+      let iconName = UIApplication.shared.iconName
+    #endif
+
     let icon = Icon.icons.first { $0.iconName == iconName }!
-    
+
     let binding: Binding<Product?> = .init(
       get: { viewModel.selectedProduct },
       set: { newValue in
@@ -48,7 +48,7 @@ public struct SubscriptionView: View {
         }
       }
     )
-    
+
     List(selection: binding) {
       Image(icon.iconName, bundle: .module)
         .resizable()
@@ -56,17 +56,17 @@ public struct SubscriptionView: View {
         .cornerRadius(15)
         .frame(maxWidth: .infinity, alignment: .center)
         .listRowSeparator(.hidden)
-      
+
       Text("Subscription for Penguin")
         .frame(maxWidth: .infinity, alignment: .center)
         .listRowSeparator(.hidden)
 
       #if os(macOS)
-      let backgroundColor: Color = Color(.systemGray)
+        let backgroundColor: Color = Color(.systemGray)
       #else
-      let backgroundColor: Color = Color(.systemBackground)
+        let backgroundColor: Color = Color(.systemBackground)
       #endif
-      
+
       ForEach(viewModel.products) { product in
         HStack(alignment: .top) {
           ProductCell(product: product)
@@ -92,7 +92,7 @@ public struct SubscriptionView: View {
       .listRowSeparator(.hidden)
       .listRowBackground(backgroundColor)
       .listRowInsets(EdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3))
-      
+
       Text("Plan automatically renews monthly.")
         .font(.caption)
         .foregroundColor(.secondary)
@@ -100,7 +100,7 @@ public struct SubscriptionView: View {
         .listRowBackground(Color.clear)
         .frame(maxWidth: .infinity, alignment: .center)
         .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-      
+
       Button {
         Task {
           self.subscriptionExpireDate = await viewModel.purchase()
@@ -117,7 +117,7 @@ public struct SubscriptionView: View {
       .disabled(viewModel.selectedProduct == nil || viewModel.loading)
       .listRowBackground(Color.clear)
       .listRowSeparator(.hidden)
-      
+
       HStack {
         Button {
           Task {
@@ -131,25 +131,25 @@ public struct SubscriptionView: View {
         }
         .buttonStyle(.bordered)
         #if os(macOS)
-        .buttonBorderShape(.roundedRectangle)
+          .buttonBorderShape(.roundedRectangle)
         #else
-        .buttonBorderShape(.capsule)
+          .buttonBorderShape(.capsule)
         #endif
         .listRowSeparator(.hidden)
-        
+
         Spacer()
-        
+
         Button {
           isPresentedSettingsView.toggle()
         } label: {
           Label("Settings", systemImage: "gear")
         }
         .buttonStyle(.bordered)
-#if os(macOS)
-        .buttonBorderShape(.roundedRectangle)
-#else
-        .buttonBorderShape(.capsule)
-#endif
+        #if os(macOS)
+          .buttonBorderShape(.roundedRectangle)
+        #else
+          .buttonBorderShape(.capsule)
+        #endif
         .listRowSeparator(.hidden)
         .sheet(isPresented: $isPresentedSettingsView) {
           SettingsView(
@@ -160,17 +160,17 @@ public struct SubscriptionView: View {
           )
         }
       }
-      
-#if DEBUG && !os(macOS)
-      Button {
-        isPresentedManageSubscription.toggle()
-      } label: {
-        Label("Manage Subscription", systemImage: "gear")
-          .frame(maxWidth: .infinity)
-      }
-      .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
-      .listRowSeparator(.hidden)
-#endif
+
+      #if DEBUG && !os(macOS)
+        Button {
+          isPresentedManageSubscription.toggle()
+        } label: {
+          Label("Manage Subscription", systemImage: "gear")
+            .frame(maxWidth: .infinity)
+        }
+        .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
+        .listRowSeparator(.hidden)
+      #endif
     }
     .listStyle(.inset)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
