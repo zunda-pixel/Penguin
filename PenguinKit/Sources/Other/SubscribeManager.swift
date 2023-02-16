@@ -12,7 +12,13 @@ enum SubscribeManager {
   ]
 
   static func products() async throws -> [Product] {
-    try await Product.products(for: subscribeProductIDs)
+    let products = try await Product.products(for: subscribeProductIDs)
+    
+    if products.count != subscribeProductIDs.count {
+      throw StoreError.failedFetchPurchase
+    }
+    
+    return products
   }
 
   static func purchasedProducts() async -> StoreKit.VerificationResult<StoreKit.Transaction>? {

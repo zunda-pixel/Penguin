@@ -7,6 +7,7 @@ import StoreKit
 
 enum StoreError: Error {
   case failedVerification
+  case failedFetchPurchase
 }
 
 @MainActor
@@ -14,7 +15,9 @@ final class SubscriptionViewModel: ObservableObject {
   @Published var response: SKProductsResponse?
   @Published var products: [Product] = []
   @Published var errorHandle: ErrorHandle?
-
+  @Published var selectedProduct: Product?
+  @Published var loading: Bool = false
+  
   var updates: Task<Void, Never>? = nil
 
   init() {
@@ -55,25 +58,38 @@ final class SubscriptionViewModel: ObservableObject {
   func fetchProducts() async {
     do {
       self.products = try await SubscribeManager.products().sorted(by: \.price)
+      self.selectedProduct = self.products.first
     } catch {
-      self.errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 
-  func purchase(product: Product) async -> StoreKit.Transaction? {
+  func purchase() async -> Date? {
+    guard !loading else { return nil }
+    loading.toggle()
+    defer { loading.toggle() }
+    
+    guard let selectedProduct else { return nil }
+    
     do {
-      let result = try await product.purchase()
+      let result = try await selectedProduct.purchase()
 
       switch result {
       case .success(let verification):
         let transaction = try checkVerified(verification)
-        return transaction
+        let subscriptionExpireDate = transaction.expirationDate
+        Secure.subscriptionExpireDate = subscriptionExpireDate
+        return subscriptionExpireDate
       case .pending, .userCancelled: return nil
       @unknown default:
         fatalError("Not Implemented for \(result)")
       }
     } catch {
-      self.errorHandle = ErrorHandle(error: error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
 
     return nil

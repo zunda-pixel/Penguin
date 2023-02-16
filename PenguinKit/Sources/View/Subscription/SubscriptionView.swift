@@ -4,6 +4,7 @@
 
 import SwiftUI
 import Sweet
+import StoreKit
 
 public struct SubscriptionView: View {
   @StateObject var viewModel = SubscriptionViewModel()
@@ -39,28 +40,77 @@ public struct SubscriptionView: View {
     
     let icon = Icon.icons.first { $0.iconName == iconName }!
     
-    VStack {
+    let binding: Binding<Product?> = .init(
+      get: { viewModel.selectedProduct },
+      set: { newValue in
+        if let newValue {
+          viewModel.selectedProduct = newValue
+        }
+      }
+    )
+    
+    List(selection: binding) {
       Image(icon.iconName, bundle: .module)
         .resizable()
-        .scaledToFit()
+        .frame(maxWidth: 100, maxHeight: 100)
         .cornerRadius(15)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .listRowSeparator(.hidden)
       
-      Text("Thanks for using Penguin!")
-        .font(.title)
-        .bold()
-      
+      Text("Subscription for Penguin")
+        .frame(maxWidth: .infinity, alignment: .center)
+        .listRowSeparator(.hidden)
+
       ForEach(viewModel.products) { product in
-        let model: ProductCellModel = ProductCellModel(product: product) {
-          let transaction = await viewModel.purchase(product: product)
-          subscriptionExpireDate = transaction?.expirationDate
-          Secure.subscriptionExpireDate = transaction?.expirationDate
+        HStack(alignment: .top) {
+          ProductCell(product: product)
+          if viewModel.selectedProduct == product {
+            Image(systemName: "checkmark.circle")
+              .symbolRenderingMode(.palette)
+              .foregroundStyle(settings.colorType.colorSet.tintColor)
+          } else {
+            Image(systemName: "circle")
+          }
         }
-        
-        ProductCell(model: model)
-          .padding()
-          .background(settings.colorType.colorSet.tintColor.opacity(0.3))
-          .clipShape(RoundedRectangle(cornerRadius: 17))
+        .tag(product)
+        .padding(17)
+        .background(Color(.systemGray6))
+        .clipShape(RoundedRectangle(cornerSize: CGSize(width: 17, height: 17)))
+        .if(viewModel.selectedProduct == product) {
+          $0.overlay {
+            RoundedRectangle(cornerSize: CGSize(width: 17, height: 17))
+              .stroke(settings.colorType.colorSet.tintColor, lineWidth: 3)
+          }
+        }
       }
+      .listRowSeparator(.hidden)
+      .listRowBackground(Color(.systemBackground))
+      .listRowInsets(EdgeInsets(top: 3, leading: 3, bottom: 3, trailing: 3))
+      
+      Text("Plan automatically renews monthly.")
+        .font(.caption)
+        .foregroundColor(.secondary)
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color.clear)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+      
+      Button {
+        Task {
+          self.subscriptionExpireDate = await viewModel.purchase()
+        }
+      } label: {
+        Text("Subscribe")
+          .foregroundColor(.white)
+          .padding(.vertical)
+          .frame(maxWidth: .infinity, alignment: .center)
+          .background(settings.colorType.colorSet.tintColor)
+      }
+      .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+      .clipShape(RoundedRectangle(cornerRadius: 17))
+      .disabled(viewModel.selectedProduct == nil || viewModel.loading)
+      .listRowBackground(Color.clear)
+      .listRowSeparator(.hidden)
       
       HStack {
         Button {
@@ -72,21 +122,21 @@ public struct SubscriptionView: View {
           }
         } label: {
           Label("Restore", systemImage: "clock.arrow.circlepath")
-            .frame(maxWidth: .infinity)
         }
-        .tint(settings.colorType.colorSet.tintColor.opacity(0.3))
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.roundedRectangle)
+        .buttonStyle(.bordered)
+        .buttonBorderShape(.capsule)
+        .listRowSeparator(.hidden)
+        
+        Spacer()
         
         Button {
           isPresentedSettingsView.toggle()
         } label: {
           Label("Settings", systemImage: "gear")
-            .frame(maxWidth: .infinity)
         }
-        .tint(settings.colorType.colorSet.tintColor.opacity(0.3))
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.roundedRectangle)
+        .buttonStyle(.bordered)
+        .buttonBorderShape(.capsule)
+        .listRowSeparator(.hidden)
         .sheet(isPresented: $isPresentedSettingsView) {
           SettingsView(
             settings: $settings,
@@ -102,13 +152,13 @@ public struct SubscriptionView: View {
         isPresentedManageSubscription.toggle()
       } label: {
         Label("Manage Subscription", systemImage: "gear")
+          .frame(maxWidth: .infinity)
       }
       .manageSubscriptionsSheet(isPresented: $isPresentedManageSubscription)
-      .tint(settings.colorType.colorSet.tintColor.opacity(0.3))
-      .buttonStyle(.borderedProminent)
-      .buttonBorderShape(.roundedRectangle)
+      .listRowSeparator(.hidden)
 #endif
     }
+    .listStyle(.inset)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .padding(.horizontal, 40)
     .alert(errorHandle: $viewModel.errorHandle)
