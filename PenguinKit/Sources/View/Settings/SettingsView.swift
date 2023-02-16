@@ -189,6 +189,7 @@ public struct SettingsView: View {
           }
         }
       }
+      .listStyle(.insetGrouped)
       .onChange(of: settings) { newValue in
         Secure.settings = newValue
       }
