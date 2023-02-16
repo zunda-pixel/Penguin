@@ -160,6 +160,7 @@ public struct SubscriptionView: View {
           )
         }
       }
+      .listRowSeparator(.hidden)
 
       #if DEBUG && !os(macOS)
         Button {
