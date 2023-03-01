@@ -110,9 +110,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
       let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
 
-      let quotedQuotedTweetIDs = relatedTweets.lazy.flatMap(\.referencedTweets)
-        .filter { $0.type == .quoted }
-        .map(\.id)
+      let quotedQuotedTweetIDs = relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
       let ids = quotedQuotedTweetIDs + relatedTweets.map(\.id)
 
