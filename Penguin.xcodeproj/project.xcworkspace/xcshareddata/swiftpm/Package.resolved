@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/AttributedText",
       "state" : {
-        "revision" : "e2f7f016d859509bc33707414d9f8a1ac550faa0",
-        "version" : "2.0.3"
+        "revision" : "87f02d8bbeff24da9c91323d31e15ab80bf8d89c",
+        "version" : "2.0.4"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/ChatBubble",
       "state" : {
-        "revision" : "5406cadfaf6aefc9d6895bdbc2c44c9db386fab5",
-        "version" : "1.0.0"
+        "revision" : "5629065eeb6b5addf2089f2b79fb6f8a4e36bf69",
+        "version" : "1.0.1"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "0df86ea17d5d281415be74f2290df8431644f156",
-        "version" : "10.4.0"
+        "revision" : "60f9a33e7084482df67b48e16f315f4f7a6f5da9",
+        "version" : "10.6.0"
       }
     },
     {
@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "9a09ece724128e8d1e14c5133b87c0e236844ac0",
-        "version" : "10.4.0"
+        "revision" : "04351180d4c757c6c16127cb57b685fff9ef260b",
+        "version" : "10.6.0"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/HTTPClient",
       "state" : {
-        "revision" : "10b9114bd5d18787a4c9f5709d6dc5c933a99e64",
-        "version" : "1.4.1"
+        "revision" : "843a1416003cf7ad8ff1bdd30219ffafa757c350",
+        "version" : "1.4.2"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
-        "revision" : "90135885ef506506620c4911cefb55a95ca2a9a2",
-        "version" : "7.5.0"
+        "revision" : "af4be924ad984cf4d16f4ae4df424e79a443d435",
+        "version" : "7.6.2"
       }
     },
     {
@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/OAuth1",
       "state" : {
-        "revision" : "661ffab29a563649955618b2bdaed1cf63e1a132",
-        "version" : "1.0.5"
+        "revision" : "f96a150dfdcf2d77cf0e66050485d354e18bc01a",
+        "version" : "1.0.6"
       }
     },
     {
@@ -194,8 +194,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",
       "state" : {
-        "revision" : "3e4e743631e86c8c70dbc6efdc7beaa6e90fd3bb",
-        "version" : "2.1.1"
+        "revision" : "ec957ccddbcc710ccc64c9dcbd4c7006fcf8b73a",
+        "version" : "2.2.0"
       }
     },
     {
@@ -204,7 +204,7 @@
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
         "branch" : "main",
-        "revision" : "7ea89f97bb773d5cab4cf172dcd64fae6b21b22e"
+        "revision" : "196419baef6c3789b6d5880ff5c565b1a1d4013e"
       }
     },
     {
@@ -240,7 +240,7 @@
       "location" : "https://github.com/apple/swift-format",
       "state" : {
         "branch" : "main",
-        "revision" : "3cd655ff323bd22be523dd33b5e1cd0b14f6bf0a"
+        "revision" : "f2b3e6c0c9b2ae8629a2aba0224a698ecfa8c6a7"
       }
     },
     {
@@ -257,8 +257,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",
       "state" : {
-        "revision" : "ab3a58b7209a17d781c0d1dbb3e1ff3da306bae8",
-        "version" : "1.20.3"
+        "revision" : "0af9125c4eae12a4973fb66574c53a54962a9e1e",
+        "version" : "1.21.0"
       }
     },
     {
@@ -267,7 +267,7 @@
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
         "branch" : "main",
-        "revision" : "8bc71f0a9e14a1f4b71525f0137501fc3760a447"
+        "revision" : "cd772d14a481da4fb0507e98c4c3e848afa8174b"
       }
     },
     {
