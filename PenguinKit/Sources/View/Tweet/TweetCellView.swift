@@ -55,7 +55,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .fixedSize(horizontal: false, vertical: true)
 
         if let pollID = viewModel.tweetText.attachments?.pollID,
-          let poll = viewModel.polls.first { $0.id == pollID }
+           let poll = viewModel.polls.first(where: { $0.id == pollID })
         {
           PollView(poll: poll)
             .padding()
@@ -76,7 +76,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
 
         if let placeID = viewModel.tweetText.geo?.placeID,
-          let place = viewModel.places.first { $0.id == placeID }
+           let place = viewModel.places.first(where: { $0.id == placeID })
         {
           Text(place.fullName)
             .onTapGesture {
