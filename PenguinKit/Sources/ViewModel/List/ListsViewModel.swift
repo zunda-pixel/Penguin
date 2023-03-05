@@ -50,7 +50,7 @@ extension ListsViewModelProtocol {
   }
 }
 
-@MainActor class ListsViewModel: ListsViewModelProtocol {
+@MainActor final class ListsViewModel: ListsViewModelProtocol {
   let userID: String
   var allLists: [Sweet.ListModel]
 

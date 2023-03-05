@@ -41,7 +41,7 @@ struct DurationPicker: ViewRepresentable {
     }
   #endif
 
-  class Coordinator: NSObject {
+  final class Coordinator: NSObject {
     let parent: DurationPicker
 
     init(_ parent: DurationPicker) {

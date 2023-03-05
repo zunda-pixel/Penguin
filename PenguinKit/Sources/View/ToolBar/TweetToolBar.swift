@@ -5,7 +5,7 @@
 import Sweet
 import SwiftUI
 
-@MainActor class TweetToolBarViewModel: ObservableObject {
+@MainActor final class TweetToolBarViewModel: ObservableObject {
   let userID: String
 
   let tweet: Sweet.TweetModel

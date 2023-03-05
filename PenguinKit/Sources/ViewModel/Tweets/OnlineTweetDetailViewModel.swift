@@ -6,7 +6,7 @@ import Algorithms
 import Foundation
 import Sweet
 
-class OnlineTweetDetailViewModel: TweetsViewProtocol {
+final class OnlineTweetDetailViewModel: TweetsViewProtocol {
   let userID: String
   let tweetID: String
 

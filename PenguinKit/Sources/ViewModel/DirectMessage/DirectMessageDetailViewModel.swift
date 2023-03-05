@@ -5,7 +5,7 @@
 import Foundation
 import Sweet
 
-@MainActor class DirectMessageDetailViewModel: ObservableObject, Hashable {
+@MainActor final class DirectMessageDetailViewModel: ObservableObject, Hashable {
   let participantID: String
   let userID: String
 

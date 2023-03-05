@@ -7,7 +7,7 @@ import Sweet
 import SwiftUI
 import UserNotificationsUI
 
-class SoundPlayerViewModel: ObservableObject {
+final class SoundPlayerViewModel: ObservableObject {
   let url: URL
 
   let durationMicroSeconds: Int
