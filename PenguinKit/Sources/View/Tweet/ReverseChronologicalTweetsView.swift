@@ -7,7 +7,7 @@ import SwiftUI
 
 struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter
-  @ObservedObject var viewModel: ViewModel
+  @StateObject var viewModel: ViewModel
   @Environment(\.settings) var settings
 
   @ViewBuilder

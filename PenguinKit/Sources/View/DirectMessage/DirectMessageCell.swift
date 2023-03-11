@@ -6,7 +6,7 @@ import ChatBubble
 import SwiftUI
 
 struct DirectMessageCell: View {
-  @ObservedObject var viewModel: DirectMessageCellViewModel
+  @StateObject var viewModel: DirectMessageCellViewModel
   @Environment(\.settings) var settings
 
   var isOwned: Bool {

@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct ListDetailView: View {
-  @ObservedObject var viewModel: ListDetailViewModel
+  @StateObject var viewModel: ListDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
 
   var listInfoView: some View {

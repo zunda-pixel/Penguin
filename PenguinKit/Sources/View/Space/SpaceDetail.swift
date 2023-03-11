@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct SpaceDetail: View {
-  @ObservedObject var viewModel: SpaceDetailViewModel
+  @StateObject var viewModel: SpaceDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
 
   var speakersView: some View {

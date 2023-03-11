@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct OnlineTweetDetailView: View {
-  @ObservedObject var viewModel: OnlineTweetDetailViewModel
+  @StateObject var viewModel: OnlineTweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
 
   @ViewBuilder

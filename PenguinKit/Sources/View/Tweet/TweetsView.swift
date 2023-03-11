@@ -9,7 +9,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   @Environment(\.settings) var settings
   @EnvironmentObject var router: NavigationPathRouter
 
-  @ObservedObject var viewModel: ViewModel
+  @StateObject var viewModel: ViewModel
   let listTopContent: ListTopContent
   let hasTopContent: Bool
 

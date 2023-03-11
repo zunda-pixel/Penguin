@@ -17,7 +17,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.settings) var settings
   @Environment(\.colorScheme) var colorScheme
 
-  @ObservedObject var viewModel: ViewModel
+  @StateObject var viewModel: ViewModel
 
   @FocusState private var showKeyboard: Bool
 

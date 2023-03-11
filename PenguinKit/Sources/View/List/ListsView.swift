@@ -8,7 +8,7 @@ import SwiftUI
 struct ListsView<ViewModel: ListsViewModelProtocol>: View {
   @StateObject var router = NavigationPathRouter()
 
-  @ObservedObject var viewModel: ViewModel
+  @StateObject var viewModel: ViewModel
 
   let id = UUID()
 

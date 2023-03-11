@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct SearchView: View {
-  @ObservedObject var viewModel: SearchViewModel
+  @StateObject var viewModel: SearchViewModel
 
   @StateObject var router = NavigationPathRouter()
 

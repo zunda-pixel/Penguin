@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct TweetDetailView: View {
-  @ObservedObject var viewModel: TweetDetailViewModel
+  @StateObject var viewModel: TweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
 
   @ViewBuilder

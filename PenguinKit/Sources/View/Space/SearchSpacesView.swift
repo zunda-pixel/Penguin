@@ -20,7 +20,7 @@ enum SpaceTab: String, CaseIterable, Identifiable {
 }
 
 struct SearchSpacesView: View {
-  @ObservedObject var viewModel: SearchSpacesViewModel
+  @StateObject var viewModel: SearchSpacesViewModel
 
   @StateObject var router = NavigationPathRouter()
 

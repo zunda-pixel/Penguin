@@ -7,7 +7,7 @@ import Sweet
 import SwiftUI
 
 struct DirectMessageDetailView: View {
-  @ObservedObject var viewModel: DirectMessageDetailViewModel
+  @StateObject var viewModel: DirectMessageDetailViewModel
 
   var body: some View {
     ScrollView {

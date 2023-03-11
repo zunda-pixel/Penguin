@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct AccountDetailView: View {
-  @ObservedObject var viewModel: AccountDetailViewModel
+  @StateObject var viewModel: AccountDetailViewModel
 
   var body: some View {
     List {

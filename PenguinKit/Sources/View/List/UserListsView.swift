@@ -15,7 +15,7 @@ struct UserListsView: View {
 
   @State var selection: ListTab = .owned
 
-  @ObservedObject var viewModel: UserListViewModel
+  @StateObject var viewModel: UserListViewModel
 
   var body: some View {
     TabView(selection: $selection) {

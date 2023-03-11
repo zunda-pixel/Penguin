@@ -81,7 +81,7 @@ import SwiftUI
 }
 
 struct TweetToolBar: View {
-  @ObservedObject var viewModel: TweetToolBarViewModel
+  @StateObject var viewModel: TweetToolBarViewModel
 
   @State var isPresentedNewTweetView = false
   @State var isPresentedRetweetMenu = false
