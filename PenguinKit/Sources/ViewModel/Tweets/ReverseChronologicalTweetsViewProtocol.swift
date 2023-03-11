@@ -81,8 +81,6 @@ extension ReverseChronologicalTweetsViewProtocol {
       let newPlace = Place(context: viewContext)
       newPlace.setPlaceModel(place)
     }
-
-    try viewContext.save()
   }
 
   func addTweet(_ tweet: Sweet.TweetModel) throws {
@@ -99,8 +97,6 @@ extension ReverseChronologicalTweetsViewProtocol {
       let newTweet = Tweet(context: viewContext)
       newTweet.setTweetModel(tweet)
     }
-
-    try viewContext.save()
   }
 
   func addPoll(_ poll: Sweet.PollModel) throws {
@@ -117,7 +113,6 @@ extension ReverseChronologicalTweetsViewProtocol {
       let newPoll = Poll(context: viewContext)
       try newPoll.setPollModel(poll)
     }
-    try viewContext.save()
   }
 
   func addUser(_ user: Sweet.UserModel) throws {
@@ -134,7 +129,6 @@ extension ReverseChronologicalTweetsViewProtocol {
       let newUser = User(context: viewContext)
       try newUser.setUserModel(user)
     }
-    try viewContext.save()
   }
 
   func addMedia(_ media: Sweet.MediaModel) throws {
@@ -151,7 +145,6 @@ extension ReverseChronologicalTweetsViewProtocol {
       let newMedia = Media(context: viewContext)
       newMedia.setMediaModel(media)
     }
-    try viewContext.save()
   }
 
   func addTimeline(_ tweetID: String) throws {
@@ -162,7 +155,6 @@ extension ReverseChronologicalTweetsViewProtocol {
     let newTimeline = Timeline(context: viewContext)
     newTimeline.tweetID = tweetID
     newTimeline.ownerID = userID
-    try viewContext.save()
   }
 
   func updateTimeLine() {
