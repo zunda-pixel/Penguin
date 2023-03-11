@@ -97,20 +97,22 @@ extension LoginView: DeepLinkDelegate {
     self.loginUsers = Secure.loginUsers
   }
 
-  func addUser(user: Sweet.UserModel) throws {
+  func addUser(user: Sweet.UserModel) async throws {
     let fetchRequest = NSFetchRequest<User>()
     fetchRequest.entity = User.entity()
     fetchRequest.sortDescriptors = []
-
-    let users = try context.fetch(fetchRequest)
-
-    if let foundUser = users.first(where: { $0.id == user.id }) {
-      try foundUser.setUserModel(user)
-    } else {
-      let newUser = User(context: context)
-      try newUser.setUserModel(user)
+    
+    try await context.perform {
+      let users = try context.fetch(fetchRequest)
+      
+      if let foundUser = users.first(where: { $0.id == user.id }) {
+        try foundUser.setUserModel(user)
+      } else {
+        let newUser = User(context: context)
+        try newUser.setUserModel(user)
+      }
+      
+      try context.save()
     }
-
-    try context.save()
   }
 }

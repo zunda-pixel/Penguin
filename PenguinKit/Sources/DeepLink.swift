@@ -8,7 +8,7 @@ import Sweet
 
 protocol DeepLinkDelegate {
   func setUser(user: Sweet.UserModel)
-  func addUser(user: Sweet.UserModel) throws
+  func addUser(user: Sweet.UserModel) async throws
 }
 
 struct DeepLink {
@@ -66,7 +66,7 @@ struct DeepLink {
     try Secure.removeState()
     try Secure.removeChallenge()
 
-    try delegate.addUser(user: user)
+    try await delegate.addUser(user: user)
     delegate.setUser(user: user)
   }
 }
