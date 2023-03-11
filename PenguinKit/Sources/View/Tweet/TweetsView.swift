@@ -14,13 +14,13 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   let hasTopContent: Bool
 
   init(viewModel: ViewModel, @ViewBuilder listTopContent: () -> ListTopContent) {
-    self.viewModel = viewModel
+    self._viewModel = .init(wrappedValue: viewModel)
     self.listTopContent = listTopContent()
     self.hasTopContent = true
   }
 
   init(viewModel: ViewModel) where ListTopContent == EmptyView {
-    self.viewModel = viewModel
+    self._viewModel =  .init(wrappedValue: viewModel)
     self.listTopContent = EmptyView()
     self.hasTopContent = false
   }
