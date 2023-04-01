@@ -7,14 +7,13 @@ import Foundation
 import RegexBuilder
 import Sweet
 
-@MainActor
 protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDelegate,
   ObservableObject
 {
   var loadingTweets: Bool { get set }
   var userID: String { get }
   var errorHandle: ErrorHandle? { get set }
-  var viewContext: NSManagedObjectContext { get }
+  var backgroundContext: NSManagedObjectContext { get }
   var searchSettings: TimelineSearchSettings { get set }
   var reply: Reply? { get set }
 
@@ -62,7 +61,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id = %@", tweetID)
     request.fetchLimit = 1
     
-    let tweets = try! viewContext.fetch(request)
+    let tweets = try! backgroundContext.fetch(request)
     
     return tweets.first.map { .init(tweet: $0) }
   }
@@ -73,12 +72,12 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id = %@", place.id)
     request.fetchLimit = 1
     
-    let places = try! viewContext.fetch(request)
+    let places = try! backgroundContext.fetch(request)
     
     if let firstPlace = places.first {
       firstPlace.setPlaceModel(place)
     } else {
-      let newPlace = Place(context: viewContext)
+      let newPlace = Place(context: backgroundContext)
       newPlace.setPlaceModel(place)
     }
   }
@@ -89,12 +88,12 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id = %@", tweet.id)
     request.fetchLimit = 1
         
-    let tweets = try viewContext.fetch(request)
+    let tweets = try backgroundContext.fetch(request)
     
     if let firstTweet = tweets.first {
       firstTweet.setTweetModel(tweet)
     } else {
-      let newTweet = Tweet(context: viewContext)
+      let newTweet = Tweet(context: backgroundContext)
       newTweet.setTweetModel(tweet)
     }
   }
@@ -105,12 +104,12 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id = %@", poll.id)
     request.fetchLimit = 1
     
-    let polls = try viewContext.fetch(request)
+    let polls = try backgroundContext.fetch(request)
     
     if let firstPoll = polls.first {
       try firstPoll.setPollModel(poll)
     } else {
-      let newPoll = Poll(context: viewContext)
+      let newPoll = Poll(context: backgroundContext)
       try newPoll.setPollModel(poll)
     }
   }
@@ -121,12 +120,12 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id = %@", user.id)
     request.fetchLimit = 1
     
-    let users = try viewContext.fetch(request)
+    let users = try backgroundContext.fetch(request)
     
     if let firstUser = users.first {
       try firstUser.setUserModel(user)
     } else {
-      let newUser = User(context: viewContext)
+      let newUser = User(context: backgroundContext)
       try newUser.setUserModel(user)
     }
   }
@@ -137,12 +136,12 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "key = %@", media.id)
     request.fetchLimit = 1
     
-    let medias = try viewContext.fetch(request)
+    let medias = try backgroundContext.fetch(request)
     
     if let firstMedia = medias.first {
       firstMedia.setMediaModel(media)
     } else {
-      let newMedia = Media(context: viewContext)
+      let newMedia = Media(context: backgroundContext)
       newMedia.setMediaModel(media)
     }
   }
@@ -152,7 +151,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       return
     }
 
-    let newTimeline = Timeline(context: viewContext)
+    let newTimeline = Timeline(context: backgroundContext)
     newTimeline.tweetID = tweetID
     newTimeline.ownerID = userID
   }
@@ -168,7 +167,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id IN %@", placeIDs)
     request.fetchLimit = placeIDs.count
     
-    let places = try! viewContext.fetch(request)
+    let places = try! backgroundContext.fetch(request)
     
     return places.map { .init(place: $0) }
   }
@@ -179,7 +178,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id IN %@", pollIDs)
     request.fetchLimit = pollIDs.count
     
-    let polls = try! viewContext.fetch(request)
+    let polls = try! backgroundContext.fetch(request)
     
     return polls.map { .init(poll: $0) }
   }
@@ -190,7 +189,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "key IN %@", mediaIDs)
     request.fetchLimit = mediaIDs.count
     
-    let medias = try! viewContext.fetch(request)
+    let medias = try! backgroundContext.fetch(request)
     
     return medias.map { .init(media: $0) }
   }
@@ -201,7 +200,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "id = %@", userID)
     request.fetchLimit = 1
     
-    let users = try! viewContext.fetch(request)
+    let users = try! backgroundContext.fetch(request)
     
     return users.first.map { .init(user: $0) }
   }
@@ -249,6 +248,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     )
   }
 
+  @MainActor
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweet = getTweet(tweetID)!
 

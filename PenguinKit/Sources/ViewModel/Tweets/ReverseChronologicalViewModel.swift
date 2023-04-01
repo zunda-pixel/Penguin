@@ -7,11 +7,10 @@ import CoreData
 import Foundation
 import Sweet
 
-@MainActor
 final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsViewProtocol {
   let userID: String
 
-  let viewContext: NSManagedObjectContext
+  let backgroundContext: NSManagedObjectContext
   let fetchTimelineController: NSFetchedResultsController<Timeline>
   let fetchShowTweetController: NSFetchedResultsController<Tweet>
 
@@ -20,9 +19,12 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   @Published var errorHandle: ErrorHandle?
   @Published var reply: Reply?
 
-  init(userID: String, viewContext: NSManagedObjectContext) {
+  init(userID: String) {
     self.userID = userID
-    self.viewContext = viewContext
+    let backgroundContext = PersistenceController.shared.container.newBackgroundContext()
+    backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    
+    self.backgroundContext = backgroundContext
 
     self.loadingTweets = false
 
@@ -36,7 +38,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       return NSFetchedResultsController<Timeline>(
         fetchRequest: fetchRequest,
-        managedObjectContext: viewContext,
+        managedObjectContext: backgroundContext,
         sectionNameKeyPath: nil,
         cacheName: nil
       )
@@ -49,7 +51,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       return NSFetchedResultsController<Tweet>(
         fetchRequest: fetchRequest,
-        managedObjectContext: viewContext,
+        managedObjectContext: backgroundContext,
         sectionNameKeyPath: nil,
         cacheName: nil
       )
@@ -106,16 +108,12 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
       var containsTweet: Bool = false
       
-      try await viewContext.perform { [weak self] in
-        guard let self else { return }
-        
+      try await backgroundContext.perform {
         for response in responses {
           try self.addResponse(response: response)
         }
 
         try self.addResponse(response: response)
-
-        try self.viewContext.save()
         
         containsTweet = response.tweets.last.map { self.timelines.contains($0.id) } ?? false
 
@@ -123,8 +121,6 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
           try self.addTimeline(tweet.id)
         }
         
-        try self.viewContext.save()
-
         self.updateTimeLine()
       }
 
