@@ -7,73 +7,23 @@ import CoreData
 import Foundation
 import Sweet
 
-final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsViewProtocol {
+final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtocol {
   let userID: String
-
+  
   let backgroundContext: NSManagedObjectContext
-  let fetchTimelineController: NSFetchedResultsController<Timeline>
-  let fetchShowTweetController: NSFetchedResultsController<Tweet>
-
+  
   @Published var searchSettings: TimelineSearchSettings
-  @Published var loadingTweets: Bool
   @Published var errorHandle: ErrorHandle?
   @Published var reply: Reply?
-
+  
   init(userID: String) {
     self.userID = userID
-    let backgroundContext = PersistenceController.shared.container.newBackgroundContext()
-    backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    self.backgroundContext = PersistenceController.shared.container.newBackgroundContext()
+    self.backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     
-    self.backgroundContext = backgroundContext
-
-    self.loadingTweets = false
-
     self.searchSettings = TimelineSearchSettings(query: "")
-
-    self.fetchTimelineController = {
-      let fetchRequest = NSFetchRequest<Timeline>()
-      fetchRequest.entity = Timeline.entity()
-      fetchRequest.sortDescriptors = []
-      fetchRequest.predicate = .init(format: "ownerID = %@", userID)
-
-      return NSFetchedResultsController<Timeline>(
-        fetchRequest: fetchRequest,
-        managedObjectContext: backgroundContext,
-        sectionNameKeyPath: nil,
-        cacheName: nil
-      )
-    }()
-
-    self.fetchShowTweetController = {
-      let fetchRequest = NSFetchRequest<Tweet>()
-      fetchRequest.entity = Tweet.entity()
-      fetchRequest.sortDescriptors = [.init(keyPath: \Tweet.createdAt, ascending: false)]
-
-      return NSFetchedResultsController<Tweet>(
-        fetchRequest: fetchRequest,
-        managedObjectContext: backgroundContext,
-        sectionNameKeyPath: nil,
-        cacheName: nil
-      )
-    }()
-
-    super.init()
-
-    fetchTimelineController.delegate = self
-    fetchShowTweetController.delegate = self
-
-    try! fetchTimelineController.performFetch()
-    try! fetchShowTweetController.performFetch()
-
-    updateTimeLine()
   }
-
-  nonisolated func controllerWillChangeContent(
-    _ controller: NSFetchedResultsController<NSFetchRequestResult>
-  ) {
-    objectWillChange.send()
-  }
-
+  
   func addResponse(response: Sweet.TweetsResponse) throws {
     let tweets = response.tweets + response.relatedTweets
     
@@ -102,7 +52,21 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
       try backgroundContext.execute(placesRequest)
     }
   }
-
+  
+  func addTimelines(_ ids: [String]) throws {
+    let context = PersistenceController.shared.container.viewContext
+    context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    
+    for id in ids {
+      let timeline = Timeline(context: context)
+      timeline.tweetID = id
+      timeline.ownerID = userID
+    }
+    
+    try context.save()
+  }
+  
+  @MainActor
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     do {
       let response = try await Sweet(userID: userID).reverseChronological(
@@ -110,31 +74,27 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
         untilID: lastTweetID,
         paginationToken: paginationToken
       )
-
+      
       let quotedQuotedTweetIDs = response.relatedTweets.flatMap(\.referencedTweets).map(\.id)
-
+      
       let ids = quotedQuotedTweetIDs + response.relatedTweets.map(\.id)
 
       let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
-
+      
       var containsTweet: Bool = false
       
       try await backgroundContext.perform {
         for response in responses {
           try self.addResponse(response: response)
         }
-
+        
         try self.addResponse(response: response)
         
-        containsTweet = response.tweets.last.map { self.timelines.contains($0.id) } ?? false
-
-        try response.tweets.forEach { tweet in
-          try self.addTimeline(tweet.id)
-        }
+        containsTweet = true//response.tweets.last.map { self.timelines.contains($0.id) } ?? false
         
-        self.updateTimeLine()
+        try self.addTimelines(response.tweets.map(\.id))
       }
-
+      
       if let paginationToken = response.meta?.nextToken, !containsTweet {
         await fetchTweets(last: nil, paginationToken: paginationToken)
       }
