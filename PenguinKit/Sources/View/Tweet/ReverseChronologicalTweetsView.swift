@@ -9,7 +9,14 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @EnvironmentObject var router: NavigationPathRouter
   @StateObject var viewModel: ViewModel
   @Environment(\.settings) var settings
-
+  
+  @State var loadingTweets = false
+  
+  @FetchRequest(
+    sortDescriptors: [],
+    animation: .default
+  ) var timelines: FetchedResults<Timeline>
+  
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
@@ -32,8 +39,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   var body: some View {
     List {
-      ForEach(viewModel.showTweets) { tweet in
-        let cellViewModel = viewModel.getTweetCellViewModel(tweet.id!)
+      ForEach(timelines) { timeline in
+        let cellViewModel = viewModel.getTweetCellViewModel(timeline.tweetID!)
 
         VStack {
           TweetCellView(viewModel: cellViewModel)
@@ -124,10 +131,22 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .listStyle(.inset)
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
-      await viewModel.fetchNewTweet()
+      await fetchNewTweet()
     }
     .task {
-      await viewModel.fetchNewTweet()
+      await fetchNewTweet()
     }
+  }
+  
+  func fetchNewTweet() async {
+    guard !loadingTweets else { return }
+
+    loadingTweets.toggle()
+
+    defer {
+      loadingTweets.toggle()
+    }
+
+    await viewModel.fetchTweets(last: nil, paginationToken: nil)
   }
 }
