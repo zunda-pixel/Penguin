@@ -60,9 +60,11 @@ extension Sweet.MediaModel {
     let dictionary: [String: Any?] = [
       "key": key,
       "type": type.rawValue,
-      "size": size,
+      "height": size?.height,
+      "width": size?.width,
       "previewImageURL": previewImageURL,
       "url": url,
+      "variants": try! encoder.encodeIfExists(variants),
       "durationMicroSeconds": durationMicroSeconds,
       "alternateText": alternateText,
       "metrics": try! encoder.encodeIfExists(metrics),

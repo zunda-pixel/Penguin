@@ -40,7 +40,7 @@ extension Sweet.UserModel {
       "userName": userName,
       "verified": verified,
       "profileImageURL": profileImageURL,
-      "description": description,
+      "descriptions": description,
       "protected": protected,
       "url": url,
       "createdAt": createdAt,
@@ -48,7 +48,7 @@ extension Sweet.UserModel {
       "pinnedTweetID": pinnedTweetID,
       "metrics": try! encoder.encodeIfExists(metrics),
       "withheld": try! encoder.encodeIfExists(withheld),
-      "entity": try! encoder.encodeIfExists(entity)
+      "entities": try! encoder.encodeIfExists(entity)
     ]
     
     return dictionary.compactMapValues { $0 }

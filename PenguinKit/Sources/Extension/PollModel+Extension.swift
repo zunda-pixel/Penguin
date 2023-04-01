@@ -23,14 +23,14 @@ extension Sweet.PollModel {
   func dictionaryValue() -> [String: Any] {
     let encoder = JSONEncoder.twitter
     
-    let dictionaryValue: [String: Any?] = [
+    let dictionary: [String: Any] = [
       "id": id,
       "votingStatus": votingStatus.rawValue,
       "endDateTime": endDateTime,
       "durationMinutes": durationMinutes,
-      "options": try! encoder.encodeIfExists(options)
+      "options": try! encoder.encode(options)
     ]
   
-    return dictionaryValue.compactMapValues { $0 }
+    return dictionary
   }
 }
