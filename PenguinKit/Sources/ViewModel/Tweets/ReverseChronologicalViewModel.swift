@@ -76,20 +76,31 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
 
   func addResponse(response: Sweet.TweetsResponse) throws {
     let tweets = response.tweets + response.relatedTweets
-    let tweetsRequest = NSBatchInsertRequest(entity: Tweet.entity(), objects: tweets.map { $0.dictionaryValue() })
-    try backgroundContext.execute(tweetsRequest)
     
-    let usersRequest = NSBatchInsertRequest(entity: User.entity(), objects: response.users.map { $0.dictionaryValue() })
-    try backgroundContext.execute(usersRequest)
-
-    let mediasRequest = NSBatchInsertRequest(entity: Media.entity(), objects: response.medias.map { $0.dictionaryValue() })
-    try backgroundContext.execute(mediasRequest)
+    if !tweets.isEmpty {
+      let tweetsRequest = NSBatchInsertRequest(entity: Tweet.entity(), objects: tweets.map { $0.dictionaryValue() })
+      try backgroundContext.execute(tweetsRequest)
+    }
     
-    let pollsRequest = NSBatchInsertRequest(entity: Poll.entity(), objects: response.polls.map { $0.dictionaryValue() })
-    try backgroundContext.execute(pollsRequest)
-
-    let placesRequest = NSBatchInsertRequest(entity: Place.entity(), objects: response.places.map { $0.dictionaryValue() })
-    try backgroundContext.execute(placesRequest)
+    if !response.users.isEmpty {
+      let usersRequest = NSBatchInsertRequest(entity: User.entity(), objects: response.users.map { $0.dictionaryValue() })
+      try backgroundContext.execute(usersRequest)
+    }
+    
+    if !response.medias.isEmpty {
+      let mediasRequest = NSBatchInsertRequest(entity: Media.entity(), objects: response.medias.map { $0.dictionaryValue() })
+      try backgroundContext.execute(mediasRequest)
+    }
+    
+    if !response.polls.isEmpty {
+      let pollsRequest = NSBatchInsertRequest(entity: Poll.entity(), objects: response.polls.map { $0.dictionaryValue() })
+      try backgroundContext.execute(pollsRequest)
+    }
+    
+    if !response.places.isEmpty {
+      let placesRequest = NSBatchInsertRequest(entity: Place.entity(), objects: response.places.map { $0.dictionaryValue() })
+      try backgroundContext.execute(placesRequest)
+    }
   }
 
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
