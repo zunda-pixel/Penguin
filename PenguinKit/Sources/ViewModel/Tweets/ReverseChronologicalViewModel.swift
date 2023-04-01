@@ -73,28 +73,21 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
   }
 
   func addResponse(response: Sweet.TweetsResponse) throws {
-    try response.tweets.forEach { tweet in
-      try addTweet(tweet)
-    }
+    let tweets = response.tweets + response.relatedTweets
+    let tweetsRequest = NSBatchInsertRequest(entity: Tweet.entity(), objects: tweets.map { $0.dictionaryValue() })
+    try backgroundContext.execute(tweetsRequest)
+    
+    let usersRequest = NSBatchInsertRequest(entity: User.entity(), objects: response.users.map { $0.dictionaryValue() })
+    try backgroundContext.execute(usersRequest)
 
-    try response.relatedTweets.forEach { tweet in
-      try addTweet(tweet)
-    }
+    let mediasRequest = NSBatchInsertRequest(entity: Media.entity(), objects: response.medias.map { $0.dictionaryValue() })
+    try backgroundContext.execute(usersRequest)
+    
+    let pollsRequest = NSBatchInsertRequest(entity: Poll.entity(), objects: response.polls.map { $0.dictionaryValue() })
+    try backgroundContext.execute(pollsRequest)
 
-    try response.users.forEach { user in
-      try addUser(user)
-    }
-
-    try response.medias.forEach { media in
-      try addMedia(media)
-    }
-    try response.polls.forEach { poll in
-      try addPoll(poll)
-    }
-
-    try response.places.forEach { place in
-      try addPlace(place)
-    }    
+    let placesRequest = NSBatchInsertRequest(entity: Place.entity(), objects: response.places.map { $0.dictionaryValue() })
+    try backgroundContext.execute(placesRequest)
   }
 
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
