@@ -7,10 +7,8 @@ import Foundation
 import RegexBuilder
 import Sweet
 
-protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDelegate,
-  ObservableObject
+protocol ReverseChronologicalTweetsViewProtocol: ObservableObject
 {
-  var loadingTweets: Bool { get set }
   var userID: String { get }
   var errorHandle: ErrorHandle? { get set }
   var backgroundContext: NSManagedObjectContext { get }
@@ -18,41 +16,23 @@ protocol ReverseChronologicalTweetsViewProtocol: NSFetchedResultsControllerDeleg
   var reply: Reply? { get set }
 
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
-  func updateTimeLine()
-
-  var fetchTimelineController: NSFetchedResultsController<Timeline> { get }
-  var fetchShowTweetController: NSFetchedResultsController<Tweet> { get }
 }
 
 extension ReverseChronologicalTweetsViewProtocol {
-  var timelines: Set<String> { Set(fetchTimelineController.fetchedObjects?.map(\.tweetID!) ?? []) }
-
-  var showTweets: [Tweet] {
-    let tweets = fetchShowTweetController.fetchedObjects ?? []
-
-    if searchSettings.query.isEmpty {
-      return tweets
-    } else {
-      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
-    }
-  }
+//  var showTweets: [Tweet] {
+//    let tweets = fetchShowTweetController.fetchedObjects ?? []
+//
+//    if searchSettings.query.isEmpty {
+//      return tweets
+//    } else {
+//      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
+//    }
+//  }
 
   func tweetCellOnAppear(tweet: Sweet.TweetModel) async {
-    guard let lastTweet = showTweets.last else { return }
-    guard tweet.id == lastTweet.id else { return }
-    await fetchTweets(last: tweet.id, paginationToken: nil)
-  }
-
-  func fetchNewTweet() async {
-    guard !loadingTweets else { return }
-
-    loadingTweets.toggle()
-
-    defer {
-      loadingTweets.toggle()
-    }
-
-    await fetchTweets(last: nil, paginationToken: nil)
+//    guard let lastTweet = showTweets.last else { return }
+//    guard tweet.id == lastTweet.id else { return }
+//    await fetchTweets(last: tweet.id, paginationToken: nil)
   }
 
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
@@ -64,101 +44,6 @@ extension ReverseChronologicalTweetsViewProtocol {
     let tweets = try! backgroundContext.fetch(request)
     
     return tweets.first.map { .init(tweet: $0) }
-  }
-
-  func addPlace(_ place: Sweet.PlaceModel) throws {
-    let request = NSFetchRequest<Place>()
-    request.entity = Place.entity()
-    request.predicate = .init(format: "id = %@", place.id)
-    request.fetchLimit = 1
-    
-    let places = try! backgroundContext.fetch(request)
-    
-    if let firstPlace = places.first {
-      firstPlace.setPlaceModel(place)
-    } else {
-      let newPlace = Place(context: backgroundContext)
-      newPlace.setPlaceModel(place)
-    }
-  }
-
-  func addTweet(_ tweet: Sweet.TweetModel) throws {
-    let request = NSFetchRequest<Tweet>()
-    request.entity = Tweet.entity()
-    request.predicate = .init(format: "id = %@", tweet.id)
-    request.fetchLimit = 1
-        
-    let tweets = try backgroundContext.fetch(request)
-    
-    if let firstTweet = tweets.first {
-      firstTweet.setTweetModel(tweet)
-    } else {
-      let newTweet = Tweet(context: backgroundContext)
-      newTweet.setTweetModel(tweet)
-    }
-  }
-
-  func addPoll(_ poll: Sweet.PollModel) throws {
-    let request = NSFetchRequest<Poll>()
-    request.entity = Poll.entity()
-    request.predicate = .init(format: "id = %@", poll.id)
-    request.fetchLimit = 1
-    
-    let polls = try backgroundContext.fetch(request)
-    
-    if let firstPoll = polls.first {
-      try firstPoll.setPollModel(poll)
-    } else {
-      let newPoll = Poll(context: backgroundContext)
-      try newPoll.setPollModel(poll)
-    }
-  }
-
-  func addUser(_ user: Sweet.UserModel) throws {
-    let request = NSFetchRequest<User>()
-    request.entity = User.entity()
-    request.predicate = .init(format: "id = %@", user.id)
-    request.fetchLimit = 1
-    
-    let users = try backgroundContext.fetch(request)
-    
-    if let firstUser = users.first {
-      try firstUser.setUserModel(user)
-    } else {
-      let newUser = User(context: backgroundContext)
-      try newUser.setUserModel(user)
-    }
-  }
-
-  func addMedia(_ media: Sweet.MediaModel) throws {
-    let request = NSFetchRequest<Media>()
-    request.entity = Media.entity()
-    request.predicate = .init(format: "key = %@", media.id)
-    request.fetchLimit = 1
-    
-    let medias = try backgroundContext.fetch(request)
-    
-    if let firstMedia = medias.first {
-      firstMedia.setMediaModel(media)
-    } else {
-      let newMedia = Media(context: backgroundContext)
-      newMedia.setMediaModel(media)
-    }
-  }
-
-  func addTimeline(_ tweetID: String) throws {
-    if timelines.contains(where: { $0 == tweetID }) {
-      return
-    }
-
-    let newTimeline = Timeline(context: backgroundContext)
-    newTimeline.tweetID = tweetID
-    newTimeline.ownerID = userID
-  }
-
-  func updateTimeLine() {
-    fetchShowTweetController.fetchRequest.predicate = .init(format: "id IN %@", timelines)
-    try! fetchShowTweetController.performFetch()
   }
 
   func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
