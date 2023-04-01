@@ -83,7 +83,7 @@ final class ReverseChronologicalViewModel: NSObject, ReverseChronologicalTweetsV
     try backgroundContext.execute(usersRequest)
 
     let mediasRequest = NSBatchInsertRequest(entity: Media.entity(), objects: response.medias.map { $0.dictionaryValue() })
-    try backgroundContext.execute(usersRequest)
+    try backgroundContext.execute(mediasRequest)
     
     let pollsRequest = NSBatchInsertRequest(entity: Poll.entity(), objects: response.polls.map { $0.dictionaryValue() })
     try backgroundContext.execute(pollsRequest)
