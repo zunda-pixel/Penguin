@@ -47,8 +47,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel] {
-    let request = NSFetchRequest<Place>()
-    request.entity = Place.entity()
+    let request = Place.fetchRequest()
     request.predicate = .init(format: "id IN %@", placeIDs)
     request.fetchLimit = placeIDs.count
     
@@ -58,8 +57,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel] {
-    let request = NSFetchRequest<Poll>()
-    request.entity = Poll.entity()
+    let request = Poll.fetchRequest()
     request.predicate = .init(format: "id IN %@", pollIDs)
     request.fetchLimit = pollIDs.count
     
@@ -69,8 +67,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel] {
-    let request = NSFetchRequest<Media>()
-    request.entity = Media.entity()
+    let request = Media.fetchRequest()
     request.predicate = .init(format: "key IN %@", mediaIDs)
     request.fetchLimit = mediaIDs.count
     
@@ -80,8 +77,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   }
 
   func getUser(_ userID: String) -> Sweet.UserModel? {
-    let request = NSFetchRequest<User>()
-    request.entity = User.entity()
+    let request = User.fetchRequest()
     request.predicate = .init(format: "id = %@", userID)
     request.fetchLimit = 1
     
