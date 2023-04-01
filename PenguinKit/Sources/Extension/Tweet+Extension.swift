@@ -15,6 +15,10 @@ extension Tweet {
     self.replySetting = tweet.replySetting?.rawValue
     self.conversationID = tweet.conversationID
     self.replyUserID = tweet.replyUserID
+    
+    tweet.sensitive.map {
+      self.sensitive = $0
+    }
 
     let encoder = JSONEncoder.twitter
     self.geo = try! encoder.encodeIfExists(tweet.geo)
