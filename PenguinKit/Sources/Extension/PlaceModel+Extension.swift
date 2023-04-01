@@ -29,10 +29,10 @@ extension Sweet.PlaceModel {
       containedWithin: containedWithin ?? []
     )
   }
-  
+
   func dictionaryValue() -> [String: Any] {
     let encoder = JSONEncoder.twitter
-    
+
     let dictionary: [String: Any?] = [
       "id": id,
       "fullName": fullName,
@@ -41,9 +41,9 @@ extension Sweet.PlaceModel {
       "countryCode": countryCode,
       "geo": try! encoder.encodeIfExists(geo),
       "type": type?.rawValue,
-      "containedWithin": try! encoder.encode(containedWithin)
+      "containedWithin": try! encoder.encode(containedWithin),
     ]
-    
+
     return dictionary.compactMapValues { $0 }
   }
 }

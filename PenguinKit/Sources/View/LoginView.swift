@@ -101,17 +101,17 @@ extension LoginView: DeepLinkDelegate {
     let fetchRequest = NSFetchRequest<User>()
     fetchRequest.entity = User.entity()
     fetchRequest.sortDescriptors = []
-    
+
     try await context.perform {
       let users = try context.fetch(fetchRequest)
-      
+
       if let foundUser = users.first(where: { $0.id == user.id }) {
         try foundUser.setUserModel(user)
       } else {
         let newUser = User(context: context)
         try newUser.setUserModel(user)
       }
-      
+
       try context.save()
     }
   }

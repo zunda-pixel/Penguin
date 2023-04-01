@@ -67,10 +67,10 @@ extension Sweet.TweetModel {
 
     fatalError()
   }
-  
+
   func dictionaryValue() -> [String: Any] {
     let encoder = JSONEncoder.twitter
-    
+
     let dictionary: [String: Any?] = [
       "id": id,
       "text": text,
@@ -94,7 +94,7 @@ extension Sweet.TweetModel {
       "editControl": try! encoder.encodeIfExists(editControl),
       "editHistoryTweetIDs": try! encoder.encodeIfExists(editHistoryTweetIDs),
     ]
-    
+
     return dictionary.compactMapValues { $0 }
   }
 }

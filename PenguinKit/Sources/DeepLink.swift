@@ -52,7 +52,7 @@ struct DeepLink {
 
     Secure.currentUser = user
     Secure.loginUsers.append(user)
-    
+
     let expireDate = Date.now.addingTimeInterval(Double(response.expiredSeconds))
 
     let authorization: AuthorizationModel = .init(
@@ -60,7 +60,7 @@ struct DeepLink {
       refreshToken: response.refreshToken!,
       expiredDate: expireDate
     )
-    
+
     Secure.setAuthorization(userID: user.id, authorization: authorization)
 
     try Secure.removeState()

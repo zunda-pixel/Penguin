@@ -158,7 +158,19 @@ struct ExtraLargeTweetStatusView: View {
 
 struct TweetStatusView_Previews: PreviewProvider {
   static var previews: some View {
-    TweetStatusView(entry: .init(date: .now, state: .loggedIn(model: .init(tweet: .init(id: "id", text: "text", createdAt: .now), user: .init(id: "id", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!)))))
+    TweetStatusView(
+      entry: .init(
+        date: .now,
+        state: .loggedIn(
+          model: .init(
+            tweet: .init(id: "id", text: "text", createdAt: .now),
+            user: .init(
+              id: "id", name: "name", userName: "userName",
+              profileImageURL: URL(
+                string:
+                  "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!))
+        ))
+    )
     .previewContext(WidgetPreviewContext(family: .systemLarge))
   }
 }

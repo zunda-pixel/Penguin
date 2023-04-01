@@ -20,17 +20,17 @@ struct ReverseChronologicalNavigationView: View {
   var body: some View {
     NavigationStack(path: $router.path) {
       ReverseChronologicalTweetsView(viewModel: ReverseChronologicalViewModel(userID: userID))
-      .navigationTitle("Timeline")
-      .navigationBarTitleDisplayModeIfAvailable(.inline)
-      .navigationDestination()
-      .toolbar {
-        TopToolBar(
-          currentUser: $currentUser,
-          loginUsers: $loginUsers,
-          settings: $settings
-        )
-      }
-      .navigationBarAttribute()
+        .navigationTitle("Timeline")
+        .navigationBarTitleDisplayModeIfAvailable(.inline)
+        .navigationDestination()
+        .toolbar {
+          TopToolBar(
+            currentUser: $currentUser,
+            loginUsers: $loginUsers,
+            settings: $settings
+          )
+        }
+        .navigationBarAttribute()
     }
     .environmentObject(router)
   }

@@ -109,7 +109,8 @@ public struct SettingsView: View {
               NavigationLink {
                 VStack {
                   if let userID = currentUser?.id,
-                     let bearerToken = Secure.getAuthorization(userID: userID)?.bearerToken {
+                    let bearerToken = Secure.getAuthorization(userID: userID)?.bearerToken
+                  {
                     Text(bearerToken)
                       .textSelection(.enabled)
                   }
@@ -141,13 +142,13 @@ public struct SettingsView: View {
             } label: {
               Label("License", systemImage: "lock.shield")
             }
-            
+
             NavigationLink {
               CustomClientSettingsView(
                 currentUser: $currentUser,
                 loginUsers: $loginUsers
               )
-                .navigationTitle("Custom Client")
+              .navigationTitle("Custom Client")
             } label: {
               Label("Custom Client", systemImage: "key.horizontal")
             }

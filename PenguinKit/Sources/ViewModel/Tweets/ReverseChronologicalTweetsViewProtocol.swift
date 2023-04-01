@@ -7,8 +7,7 @@ import Foundation
 import RegexBuilder
 import Sweet
 
-protocol ReverseChronologicalTweetsViewProtocol: ObservableObject
-{
+protocol ReverseChronologicalTweetsViewProtocol: ObservableObject {
   var userID: String { get }
   var errorHandle: ErrorHandle? { get set }
   var backgroundContext: NSManagedObjectContext { get }
@@ -19,30 +18,29 @@ protocol ReverseChronologicalTweetsViewProtocol: ObservableObject
 }
 
 extension ReverseChronologicalTweetsViewProtocol {
-//  var showTweets: [Tweet] {
-//    let tweets = fetchShowTweetController.fetchedObjects ?? []
-//
-//    if searchSettings.query.isEmpty {
-//      return tweets
-//    } else {
-//      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
-//    }
-//  }
+  //  var showTweets: [Tweet] {
+  //    let tweets = fetchShowTweetController.fetchedObjects ?? []
+  //
+  //    if searchSettings.query.isEmpty {
+  //      return tweets
+  //    } else {
+  //      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
+  //    }
+  //  }
 
   func tweetCellOnAppear(tweet: Sweet.TweetModel) async {
-//    guard let lastTweet = showTweets.last else { return }
-//    guard tweet.id == lastTweet.id else { return }
-//    await fetchTweets(last: tweet.id, paginationToken: nil)
+    //    guard let lastTweet = showTweets.last else { return }
+    //    guard tweet.id == lastTweet.id else { return }
+    //    await fetchTweets(last: tweet.id, paginationToken: nil)
   }
 
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
-    let request = NSFetchRequest<Tweet>()
-    request.entity = Tweet.entity()
+    let request = Tweet.fetchRequest()
     request.predicate = .init(format: "id = %@", tweetID)
     request.fetchLimit = 1
-    
+
     let tweets = try! backgroundContext.fetch(request)
-    
+
     return tweets.first.map { .init(tweet: $0) }
   }
 
@@ -50,9 +48,9 @@ extension ReverseChronologicalTweetsViewProtocol {
     let request = Place.fetchRequest()
     request.predicate = .init(format: "id IN %@", placeIDs)
     request.fetchLimit = placeIDs.count
-    
+
     let places = try! backgroundContext.fetch(request)
-    
+
     return places.map { .init(place: $0) }
   }
 
@@ -60,9 +58,9 @@ extension ReverseChronologicalTweetsViewProtocol {
     let request = Poll.fetchRequest()
     request.predicate = .init(format: "id IN %@", pollIDs)
     request.fetchLimit = pollIDs.count
-    
+
     let polls = try! backgroundContext.fetch(request)
-    
+
     return polls.map { .init(poll: $0) }
   }
 
@@ -70,9 +68,9 @@ extension ReverseChronologicalTweetsViewProtocol {
     let request = Media.fetchRequest()
     request.predicate = .init(format: "key IN %@", mediaIDs)
     request.fetchLimit = mediaIDs.count
-    
+
     let medias = try! backgroundContext.fetch(request)
-    
+
     return medias.map { .init(media: $0) }
   }
 
@@ -80,9 +78,9 @@ extension ReverseChronologicalTweetsViewProtocol {
     let request = User.fetchRequest()
     request.predicate = .init(format: "id = %@", userID)
     request.fetchLimit = 1
-    
+
     let users = try! backgroundContext.fetch(request)
-    
+
     return users.first.map { .init(user: $0) }
   }
 
@@ -116,7 +114,8 @@ extension ReverseChronologicalTweetsViewProtocol {
     let quotedQuotedTweet: TweetContentModel?
 
     if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }),
-       let tweet = getTweet(quoted.id) /* TODO 引用先のツイートが非公開アカウントのツイートの可能性があるためif letアンラップ */{
+      let tweet = getTweet(quoted.id) /* TODO 引用先のツイートが非公開アカウントのツイートの可能性があるためif letアンラップ */
+    {
       let user = getUser(tweet.authorID!)!
       quotedQuotedTweet = TweetContentModel(tweet: tweet, author: user)
     } else {

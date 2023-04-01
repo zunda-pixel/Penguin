@@ -24,7 +24,7 @@ public struct ContentView: View {
   @Binding var settings: Settings
 
   @State var isPresentedSettingsView = false
-  
+
   @MainActor
   @ViewBuilder
   func tabViewContent(currentUser: Sweet.UserModel, tabItem: TabItem) -> some View {
@@ -201,7 +201,7 @@ public struct ContentView: View {
                 RoundedRectangle(cornerRadius: 15).foregroundColor(
                   settings.colorType.colorSet.tintColor.opacity(0.5)))
           }
-          
+
           Button {
             isPresentedSettingsView.toggle()
           } label: {
@@ -211,7 +211,8 @@ public struct ContentView: View {
           .padding()
           .background(
             RoundedRectangle(cornerRadius: 15).foregroundColor(
-              settings.colorType.colorSet.tintColor.opacity(0.5)))
+              settings.colorType.colorSet.tintColor.opacity(0.5))
+          )
           .sheet(isPresented: $isPresentedSettingsView) {
             SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
           }
@@ -231,6 +232,7 @@ public struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView(settings: .constant(Settings()), currentUser: .constant(nil), loginUsers: .constant([]))
+    ContentView(
+      settings: .constant(Settings()), currentUser: .constant(nil), loginUsers: .constant([]))
   }
 }

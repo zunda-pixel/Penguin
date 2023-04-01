@@ -15,7 +15,7 @@ extension Tweet {
     self.replySetting = tweet.replySetting?.rawValue
     self.conversationID = tweet.conversationID
     self.replyUserID = tweet.replyUserID
-    
+
     tweet.sensitive.map {
       self.sensitive = $0
     }

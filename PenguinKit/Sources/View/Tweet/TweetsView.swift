@@ -20,7 +20,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   }
 
   init(viewModel: ViewModel) where ListTopContent == EmptyView {
-    self._viewModel =  .init(wrappedValue: viewModel)
+    self._viewModel = .init(wrappedValue: viewModel)
     self.listTopContent = EmptyView()
     self.hasTopContent = false
   }

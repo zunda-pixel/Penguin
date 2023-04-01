@@ -30,10 +30,10 @@ extension Sweet.UserModel {
       entity: entity
     )
   }
-  
+
   func dictionaryValue() -> [String: Any] {
     let encoder = JSONEncoder.twitter
-    
+
     let dictionary: [String: Any?] = [
       "id": id,
       "name": name,
@@ -48,9 +48,9 @@ extension Sweet.UserModel {
       "pinnedTweetID": pinnedTweetID,
       "metrics": try! encoder.encodeIfExists(metrics),
       "withheld": try! encoder.encodeIfExists(withheld),
-      "entities": try! encoder.encodeIfExists(entity)
+      "entities": try! encoder.encodeIfExists(entity),
     ]
-    
+
     return dictionary.compactMapValues { $0 }
   }
 }

@@ -9,14 +9,14 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @EnvironmentObject var router: NavigationPathRouter
   @StateObject var viewModel: ViewModel
   @Environment(\.settings) var settings
-  
+
   @State var loadingTweets = false
-  
+
   @FetchRequest(
     sortDescriptors: [],
     animation: .default
   ) var timelines: FetchedResults<Timeline>
-  
+
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
@@ -137,7 +137,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
     }
   }
-  
+
   func fetchNewTweet() async {
     guard !loadingTweets else { return }
 

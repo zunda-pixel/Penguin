@@ -69,12 +69,22 @@ struct SpaceDetail: View {
 
 struct SpaceDetail_Preview: PreviewProvider {
   static var previews: some View {
-    SpaceDetail(viewModel: .init(
-      userID: "userID",
-      space: .init(id: "id", state: .all, creatorID: "creatorID", speakerIDs: []),
-      creator: .init(id: "id", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!),
-      speakers: [
-        .init(id: "id1", name: "name", userName: "userName", profileImageURL: URL(string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!),
-      ])).spaceInfoView
+    SpaceDetail(
+      viewModel: .init(
+        userID: "userID",
+        space: .init(id: "id", state: .all, creatorID: "creatorID", speakerIDs: []),
+        creator: .init(
+          id: "id", name: "name", userName: "userName",
+          profileImageURL: URL(
+            string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!
+        ),
+        speakers: [
+          .init(
+            id: "id1", name: "name", userName: "userName",
+            profileImageURL: URL(
+              string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"
+            )!)
+        ])
+    ).spaceInfoView
   }
 }
