@@ -13,7 +13,9 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @State var loadingTweets = false
 
   @FetchRequest(
-    sortDescriptors: [],
+    sortDescriptors: [
+      .init(keyPath: \Timeline.createdAt, ascending: false)
+    ],
     animation: .default
   ) var timelines: FetchedResults<Timeline>
 
