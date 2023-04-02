@@ -14,7 +14,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   @FetchRequest(
     sortDescriptors: [
-      .init(keyPath: \Timeline.createdAt, ascending: false)
+      .init(keyPath: \Timeline.tweetID, ascending: false)
     ],
     animation: .default
   ) var timelines: FetchedResults<Timeline>
