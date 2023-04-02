@@ -115,7 +115,9 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           .labelStyle(.iconOnly)
         }
         .task {
-          await viewModel.tweetCellOnAppear(tweet: cellViewModel.tweet)
+          if timeline.tweetID == timelines.last?.tweetID {
+            await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
+          }
         }
       }
       .listRowSeparator(.hidden)
