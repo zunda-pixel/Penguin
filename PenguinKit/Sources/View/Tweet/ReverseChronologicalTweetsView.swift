@@ -138,6 +138,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .task {
       await fetchNewTweet()
     }
+    .onAppear {
+      // TODO 本当はonAppearではなくinitで行いたいがinitで行うとエラーになってしまう
+      self.timelines.nsPredicate = .init(format: "ownerID = %@", viewModel.userID)
+    }
   }
 
   func fetchNewTweet() async {
