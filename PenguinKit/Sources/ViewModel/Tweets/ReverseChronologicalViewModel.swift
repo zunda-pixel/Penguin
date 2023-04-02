@@ -58,13 +58,14 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
     }
   }
 
-  func addTimelines(_ ids: [String]) throws {
+  func addTimelines(_ tweets: [Sweet.TweetModel]) throws {
     let context = PersistenceController.shared.container.viewContext
     context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 
-    for id in ids {
+    for tweet in tweets {
       let timeline = Timeline(context: context)
-      timeline.tweetID = id
+      timeline.tweetID = tweet.id
+      timeline.createdAt = tweet.createdAt
       timeline.ownerID = userID
     }
 
@@ -97,7 +98,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
         containsTweet = true  //response.tweets.last.map { self.timelines.contains($0.id) } ?? false
 
-        try self.addTimelines(response.tweets.map(\.id))
+        try self.addTimelines(response.tweets)
       }
 
       if let paginationToken = response.meta?.nextToken, !containsTweet {
