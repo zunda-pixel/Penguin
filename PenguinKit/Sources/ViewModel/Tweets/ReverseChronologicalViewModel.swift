@@ -23,54 +23,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
     self.searchSettings = TimelineSearchSettings(query: "")
   }
-
-  func addResponse(response: Sweet.TweetsResponse) throws {
-    let tweets = response.tweets + response.relatedTweets
-
-    if !tweets.isEmpty {
-      let tweetsRequest = NSBatchInsertRequest(
-        entity: Tweet.entity(), objects: tweets.map { $0.dictionaryValue() })
-      try backgroundContext.execute(tweetsRequest)
-    }
-
-    if !response.users.isEmpty {
-      let usersRequest = NSBatchInsertRequest(
-        entity: User.entity(), objects: response.users.map { $0.dictionaryValue() })
-      try backgroundContext.execute(usersRequest)
-    }
-
-    if !response.medias.isEmpty {
-      let mediasRequest = NSBatchInsertRequest(
-        entity: Media.entity(), objects: response.medias.map { $0.dictionaryValue() })
-      try backgroundContext.execute(mediasRequest)
-    }
-
-    if !response.polls.isEmpty {
-      let pollsRequest = NSBatchInsertRequest(
-        entity: Poll.entity(), objects: response.polls.map { $0.dictionaryValue() })
-      try backgroundContext.execute(pollsRequest)
-    }
-
-    if !response.places.isEmpty {
-      let placesRequest = NSBatchInsertRequest(
-        entity: Place.entity(), objects: response.places.map { $0.dictionaryValue() })
-      try backgroundContext.execute(placesRequest)
-    }
-  }
-
-  func addTimelines(_ ids: [String]) throws {
-    let context = PersistenceController.shared.container.viewContext
-    context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-
-    for id in ids {
-      let timeline = Timeline(context: context)
-      timeline.tweetID = id
-      timeline.ownerID = userID
-    }
-
-    try context.save()
-  }
-
+  
   @MainActor
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     do {
@@ -86,7 +39,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
       let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
 
-      var containsTweet: Bool = false
+      var containsTweet: Bool = true
 
       try await backgroundContext.perform {
         for response in responses {
@@ -95,7 +48,9 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
         try self.addResponse(response: response)
 
-        containsTweet = true  //response.tweets.last.map { self.timelines.contains($0.id) } ?? false
+        if let lastTweetID = response.tweets.last?.id {
+          containsTweet = try self.containsTimelineDataBase(tweetID: lastTweetID)
+        }
 
         try self.addTimelines(response.tweets.map(\.id))
       }
