@@ -82,7 +82,7 @@ final class OnlineTweetDetailViewModel: TweetsViewProtocol {
         addResponse(response: response)
       }
 
-      let sortedTweets = allTweets.sorted(by: \.createdAt!)
+      let sortedTweets = allTweets.sorted(by: \.id, isAscending: false)
 
       let topTweet =
         sortedTweets

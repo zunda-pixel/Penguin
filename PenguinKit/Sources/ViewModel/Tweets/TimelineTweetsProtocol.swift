@@ -16,7 +16,7 @@ extension TimelineTweetsProtocol {
   var showTweets: [Sweet.TweetModel] {
     let tweets = timelines?.lazy.map { timeline in
       self.allTweets.first(where: { $0.id == timeline })!
-    }.sorted(by: { $0.createdAt! > $1.createdAt! })
+    }.sorted(by: \.id, isAscending: false)
 
     if searchSettings.query.isEmpty {
       return tweets ?? []
