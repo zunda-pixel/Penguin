@@ -48,6 +48,7 @@
         </uniquenessConstraints>
     </entity>
     <entity name="Timeline" representedClassName="Timeline" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="ownerID" optional="YES" attributeType="String"/>
         <attribute name="tweetID" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
