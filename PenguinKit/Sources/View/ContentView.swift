@@ -43,6 +43,7 @@ public struct ContentView: View {
         currentUser: $currentUser,
         settings: $settings
       )
+      .id(currentUser.id)
     case .search:
       SearchView(
         viewModel: .init(userID: currentUser.id, searchSettings: .init(excludeRetweet: true)),
@@ -50,6 +51,7 @@ public struct ContentView: View {
         currentUser: $currentUser,
         settings: $settings
       )
+      .id(currentUser.id)
     case .space:
       SearchSpacesView(
         viewModel: SearchSpacesViewModel(userID: currentUser.id),
@@ -57,27 +59,32 @@ public struct ContentView: View {
         currentUser: $currentUser,
         settings: $settings
       )
+      .id(currentUser.id)
     case .bookmark:
       BookmarksNavigationView(
+        viewModel: BookmarksViewModel(userID: currentUser.id),
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings,
         userID: currentUser.id
       )
+      .id(currentUser.id)
     case .like:
       LikeNavigationView(
-        loginUsers: $loginUsers,
-        currentUser: $currentUser,
-        settings: $settings,
-        userID: currentUser.id
-      )
-    case .mention:
-      MentionNavigationView(
-        userID: currentUser.id,
+        viewModel: LikesViewModel(userID: currentUser.id, ownerID: currentUser.id),
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
+      .id(currentUser.id)
+    case .mention:
+      MentionNavigationView(
+        viewModel: UserMentionsViewModel(userID: currentUser.id, ownerID: currentUser.id),
+        loginUsers: $loginUsers,
+        currentUser: $currentUser,
+        settings: $settings
+      )
+      .id(currentUser.id)
     }
   }
 

@@ -7,7 +7,7 @@ import SwiftUI
 
 struct BookmarksNavigationView: View {
   @StateObject var router = NavigationPathRouter()
-
+  @StateObject var viewModel: BookmarksViewModel
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
@@ -16,8 +16,6 @@ struct BookmarksNavigationView: View {
 
   var body: some View {
     NavigationStack(path: $router.path) {
-      let viewModel: BookmarksViewModel = .init(userID: userID)
-
       TweetsView(viewModel: viewModel)
         .navigationBarAttribute()
         .navigationTitle("Bookmark")
