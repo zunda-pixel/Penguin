@@ -3,13 +3,7 @@ import PenguinKit
 import Sweet
 
 @main
-struct PenguinApp: App {
-  #if os(macOS)
-  @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-  #else
-  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-  #endif
-  
+struct PenguinApp: App {  
   @State var settings: PenguinKit.Settings = Secure.settings
   @State var currentUser: Sweet.UserModel? = Secure.currentUser
   @State var loginUsers: [Sweet.UserModel] = Secure.loginUsers

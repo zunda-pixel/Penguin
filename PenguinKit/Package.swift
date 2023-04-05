@@ -28,7 +28,6 @@ let package = Package(
     .package(url: "https://github.com/alexisakers/HTMLString", .upToNextMajor(from: "6.0.0")),
     .package(url: "https://github.com/stleamist/BetterSafariView", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/kishikawakatsumi/KeychainAccess", .upToNextMajor(from: "4.2.2")),
-    .package(url: "https://github.com/firebase/firebase-ios-sdk", .upToNextMajor(from: "10.4.0")),
   ],
   targets: [
     .target(
@@ -45,8 +44,6 @@ let package = Package(
         .product(name: "HTMLString", package: "HTMLString"),
         .product(name: "BetterSafariView", package: "BetterSafariView"),
         .product(name: "KeychainAccess", package: "KeychainAccess"),
-        .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-        .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
       ],
       path: "Sources"
     )
