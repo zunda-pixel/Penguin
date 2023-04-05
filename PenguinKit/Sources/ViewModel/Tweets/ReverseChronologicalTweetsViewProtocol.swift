@@ -62,16 +62,16 @@ extension ReverseChronologicalTweetsViewProtocol {
     }
   }
 
-  func addTimelines(_ ids: [String]) throws {
+  func addTimelines(_ ids: [String]) async throws {
     let context = PersistenceController.shared.container.viewContext
-    context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-
-    for id in ids {
-      let timeline = Timeline(context: context)
-      timeline.tweetID = id
-      timeline.ownerID = userID
-      
-      try context.save()
+    try await context.perform {
+      for id in ids {
+        let timeline = Timeline(context: context)
+        timeline.tweetID = id
+        timeline.ownerID = self.userID
+        
+        try context.save()
+      }
     }
   }
 

@@ -39,21 +39,21 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
       let responses = try await Sweet(userID: userID).tweets(ids: Set(ids))
 
-      var containsTweet: Bool = true
-
       try await backgroundContext.perform {
         for response in responses {
           try self.addResponse(response: response)
         }
-
+        
         try self.addResponse(response: response)
-
-        if let lastTweetID = response.tweets.last?.id {
-          containsTweet = try self.containsTimelineDataBase(tweetID: lastTweetID)
-        }
-
-        try self.addTimelines(response.tweets.map(\.id))
       }
+      
+      let containsTweet: Bool = try await backgroundContext.perform {
+        guard let lastTweetID = response.tweets.last?.id else { return true }
+        
+        return try self.containsTimelineDataBase(tweetID: lastTweetID)
+      }
+      
+      try await self.addTimelines(response.tweets.map(\.id))
 
       if let paginationToken = response.meta?.nextToken, !containsTweet {
         await fetchTweets(last: nil, paginationToken: paginationToken)
