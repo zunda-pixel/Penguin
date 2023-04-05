@@ -31,17 +31,16 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
   }
-
+  
+  @FetchRequest(
+    sortDescriptors: [
+      .init(keyPath: \Timeline.tweetID, ascending: false)
+    ],
+    animation: .default
+  ) var timelines: FetchedResults<Timeline>
+  
   var body: some View {
     List {
-      @FetchRequest(
-        sortDescriptors: [
-          .init(keyPath: \Timeline.tweetID, ascending: false)
-        ],
-        predicate: .init(format: "ownerID = %@", viewModel.userID),
-        animation: .default
-      ) var timelines: FetchedResults<Timeline>
-
       ForEach(timelines) { timeline in
         let cellViewModel = viewModel.getTweetCellViewModel(timeline.tweetID!)
 
@@ -139,6 +138,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
     }
     .task {
+      timelines.nsPredicate = .init(format: "ownerID = %@", viewModel.userID)
       await fetchNewTweet()
     }
   }
