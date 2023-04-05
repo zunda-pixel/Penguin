@@ -174,19 +174,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
 struct TweetCellView_Previews: PreviewProvider {
   static var previews: some View {
-    let viewModel = TweetCellViewModel(
-      userID: "userID",
-      tweet: .init(id: "id", text: "text", createdAt: .now.addingTimeInterval(-1000)),
-      author: .init(
-        id: "id", name: "name", userName: "userName", verified: true,
-        profileImageURL: URL(
-          string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!),
-      retweet: nil,
-      quoted: nil,
-      medias: [],
-      polls: [],
-      places: []
-    )
-    TweetCellView(viewModel: viewModel)
+    TweetCellView(viewModel: TweetCellViewModel.placeHolder)
   }
 }
