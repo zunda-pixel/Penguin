@@ -164,7 +164,8 @@ extension ReverseChronologicalTweetsViewProtocol {
     let quotedQuotedTweet: TweetContentModel?
 
     if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }),
-      let tweet = getTweet(quoted.id) /* TODO 引用先のツイートが非公開アカウントのツイートの可能性があるためif letアンラップ */
+      // TODO 引用先のツイートが非公開アカウントのツイートの可能性があるためif letアンラップ
+      let tweet = getTweet(quoted.id)
     {
       let user = getUser(tweet.authorID!)!
       quotedQuotedTweet = TweetContentModel(tweet: tweet, author: user)
