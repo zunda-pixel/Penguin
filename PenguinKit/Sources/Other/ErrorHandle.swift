@@ -8,9 +8,15 @@ import os
 
 public struct ErrorHandle {
   let error: any Error
-
-  public init(error: any Error) {
+  let filePath: String
+  let functionName: String
+  let date: Date
+  
+  public init(error: any Error, filePath: String = #filePath, functionName: String = #function) {
     self.error = error
+    self.filePath = filePath
+    self.functionName = functionName
+    self.date = Date.now
   }
 
   var title: String {
@@ -66,11 +72,14 @@ public struct ErrorHandle {
 
   public func log() {
     Logger.main.error(
-      """
-      Title: \(title)
-      Message: \(message)
-      Log: \(logMessage)
-      """
+"""
+Title: \(title)
+Message: \(message)
+Log: \(logMessage)
+Function: \(functionName)
+FilePath: \(filePath)
+Date: \(date.formatted(.iso8601))
+"""
     )
   }
 }
