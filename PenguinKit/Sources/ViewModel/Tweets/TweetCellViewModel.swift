@@ -7,7 +7,7 @@ import Foundation
 import MapKit
 import Sweet
 
-@MainActor protocol TweetCellViewProtocol: ObservableObject, Hashable {
+protocol TweetCellViewProtocol: Hashable {
   var userID: String { get }
 
   var author: Sweet.UserModel { get }
@@ -23,7 +23,7 @@ import Sweet
   var showDate: Date { get }
 }
 
-@MainActor class TweetCellViewModel: TweetCellViewProtocol, Sendable {
+struct TweetCellViewModel: TweetCellViewProtocol {
   let userID: String
   let author: Sweet.UserModel
   let tweet: Sweet.TweetModel
