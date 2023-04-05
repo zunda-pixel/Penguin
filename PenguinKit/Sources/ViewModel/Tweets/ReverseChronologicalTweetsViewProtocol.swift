@@ -178,7 +178,6 @@ extension ReverseChronologicalTweetsViewProtocol {
     )
   }
 
-  @MainActor
   func getTweetCellViewModel(_ tweetID: String) -> TweetCellViewModel {
     let tweet = getTweet(tweetID)!
 
