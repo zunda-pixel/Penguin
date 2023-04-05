@@ -20,7 +20,9 @@ struct DeepLink {
 
     guard let queryItems = components.queryItems,
       let savedState = Secure.state
-    else { return }
+    else {
+      return
+    }
 
     if let state = queryItems.first(where: { $0.name == "state" })?.value,
       let code = queryItems.first(where: { $0.name == "code" })?.value,

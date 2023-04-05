@@ -27,7 +27,7 @@ extension ReverseChronologicalTweetsViewProtocol {
   //      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
   //    }
   //  }
-  
+
   func addResponse(response: Sweet.TweetsResponse) throws {
     let tweets = response.tweets + response.relatedTweets
 
@@ -69,7 +69,7 @@ extension ReverseChronologicalTweetsViewProtocol {
         let timeline = Timeline(context: context)
         timeline.tweetID = id
         timeline.ownerID = self.userID
-        
+
         try context.save()
       }
     }
@@ -80,7 +80,7 @@ extension ReverseChronologicalTweetsViewProtocol {
     request.predicate = .init(format: "tweetID = %@ AND ownerID = %@", tweetID, userID)
     request.fetchLimit = 1
     let tweetCount = try self.backgroundContext.count(for: request)
-    
+
     return tweetCount > 0
   }
 

@@ -115,7 +115,7 @@ extension TweetCellViewModel {
         durationMinutes: 10,
         options: [
           .init(position: 1, label: "label1", votes: 40),
-          .init(position: 2, label: "label2", votes: 100)
+          .init(position: 2, label: "label2", votes: 100),
         ]
       )
     ],

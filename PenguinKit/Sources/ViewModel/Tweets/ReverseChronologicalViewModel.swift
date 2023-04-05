@@ -23,7 +23,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
     self.searchSettings = TimelineSearchSettings(query: "")
   }
-  
+
   @MainActor
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     do {
@@ -43,16 +43,16 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
         for response in responses {
           try self.addResponse(response: response)
         }
-        
+
         try self.addResponse(response: response)
       }
-      
+
       let containsTweet: Bool = try await backgroundContext.perform {
         guard let lastTweetID = response.tweets.last?.id else { return true }
-        
+
         return try self.containsTimelineDataBase(tweetID: lastTweetID)
       }
-      
+
       try await self.addTimelines(response.tweets.map(\.id))
 
       if let paginationToken = response.meta?.nextToken, !containsTweet {

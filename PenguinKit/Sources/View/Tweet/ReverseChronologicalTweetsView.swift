@@ -31,14 +31,14 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
   }
-  
+
   @FetchRequest(
     sortDescriptors: [
       .init(keyPath: \Timeline.tweetID, ascending: false)
     ],
     animation: .default
   ) var timelines: FetchedResults<Timeline>
-  
+
   var body: some View {
     List {
       ForEach(timelines) { timeline in
