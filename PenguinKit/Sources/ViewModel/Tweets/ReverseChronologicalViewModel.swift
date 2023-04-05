@@ -18,7 +18,8 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
   init(userID: String) {
     self.userID = userID
-    self.backgroundContext = PersistenceController.shared.container.newBackgroundContext()
+    self.backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    self.backgroundContext.parent = PersistenceController.shared.container.viewContext
     self.backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 
     self.searchSettings = TimelineSearchSettings(query: "")
