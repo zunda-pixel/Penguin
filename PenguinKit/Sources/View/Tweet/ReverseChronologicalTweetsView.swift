@@ -12,13 +12,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   @State var loadingTweets = false
 
-  @FetchRequest(
-    sortDescriptors: [
-      .init(keyPath: \Timeline.tweetID, ascending: false)
-    ],
-    animation: .default
-  ) var timelines: FetchedResults<Timeline>
-
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
@@ -41,6 +34,14 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   var body: some View {
     List {
+      @FetchRequest(
+        sortDescriptors: [
+          .init(keyPath: \Timeline.tweetID, ascending: false)
+        ],
+        predicate: .init(format: "ownerID = %@", viewModel.userID),
+        animation: .default
+      ) var timelines: FetchedResults<Timeline>
+
       ForEach(timelines) { timeline in
         let cellViewModel = viewModel.getTweetCellViewModel(timeline.tweetID!)
 
@@ -139,10 +140,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     }
     .task {
       await fetchNewTweet()
-    }
-    .onAppear {
-      // TODO 本当はonAppearではなくinitで行いたいがinitで行うとエラーになってしまう
-      self.timelines.nsPredicate = .init(format: "ownerID = %@", viewModel.userID)
     }
   }
 
