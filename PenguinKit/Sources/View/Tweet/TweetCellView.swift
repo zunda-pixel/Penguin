@@ -11,7 +11,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
   @EnvironmentObject var router: NavigationPathRouter
 
-  @StateObject var viewModel: ViewModel
+  let viewModel: ViewModel
 
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
@@ -168,7 +168,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }
       }
     }
-    .alert(errorHandle: $viewModel.errorHandle)
   }
 }
 

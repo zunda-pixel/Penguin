@@ -9,7 +9,6 @@ import Sweet
 
 @MainActor protocol TweetCellViewProtocol: ObservableObject, Hashable {
   var userID: String { get }
-  var errorHandle: ErrorHandle? { get set }
 
   var author: Sweet.UserModel { get }
   var tweet: Sweet.TweetModel { get }
@@ -33,8 +32,6 @@ import Sweet
   let medias: [Sweet.MediaModel]
   let polls: [Sweet.PollModel]
   let places: [Sweet.PlaceModel]
-
-  @Published var errorHandle: ErrorHandle?
 
   init(
     userID: String,
