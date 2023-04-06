@@ -4,6 +4,7 @@
 
 import Sweet
 import SwiftUI
+import CoreData
 
 struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter
@@ -32,12 +33,16 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     }
   }
 
-  @FetchRequest(
-    sortDescriptors: [
-      .init(keyPath: \Timeline.tweetID, ascending: false)
-    ],
-    animation: .default
-  ) var timelines: FetchedResults<Timeline>
+  @FetchRequest var timelines: FetchedResults<Timeline>
+  
+  init(viewModel: ViewModel) {
+    self._viewModel = .init(wrappedValue: viewModel)
+    let fetchRequest: NSFetchRequest<Timeline> = .init()
+    fetchRequest.entity = Timeline.entity()
+    fetchRequest.predicate = .init(format: "ownerID = %@", viewModel.userID)
+    fetchRequest.sortDescriptors = [.init(keyPath: \Timeline.tweetID, ascending: false)]
+    self._timelines = .init(fetchRequest: fetchRequest)
+  }
 
   var body: some View {
     List {
@@ -138,7 +143,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
     }
     .task {
-      timelines.nsPredicate = .init(format: "ownerID = %@", viewModel.userID)
       await fetchNewTweet()
     }
   }
