@@ -60,29 +60,25 @@ public struct ContentView: View {
       .id(currentUser.id)
     case .bookmark:
       BookmarksNavigationView(
-        viewModel: BookmarksViewModel(userID: currentUser.id),
+        userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
-        settings: $settings,
-        userID: currentUser.id
+        settings: $settings
       )
-      .id(currentUser.id)
     case .like:
       LikeNavigationView(
-        viewModel: LikesViewModel(userID: currentUser.id, ownerID: currentUser.id),
+        userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
-      .id(currentUser.id)
     case .mention:
       MentionNavigationView(
-        viewModel: UserMentionsViewModel(userID: currentUser.id, ownerID: currentUser.id),
+        userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
-      .id(currentUser.id)
     }
   }
 

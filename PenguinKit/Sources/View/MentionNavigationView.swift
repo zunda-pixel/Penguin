@@ -7,15 +7,16 @@ import SwiftUI
 
 struct MentionNavigationView: View {
   @StateObject var router = NavigationPathRouter()
-  @StateObject var viewModel: UserMentionsViewModel
-
+  let userID: String
+  
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
   @Binding var settings: Settings
 
   var body: some View {
     NavigationStack(path: $router.path) {
-      TweetsView(viewModel: viewModel)
+      TweetsView(viewModel: UserMentionsViewModel(userID: userID, ownerID: userID))
+        .id(userID)
         .navigationBarAttribute()
         .navigationTitle("Mention")
         .navigationBarTitleDisplayModeIfAvailable(.inline)

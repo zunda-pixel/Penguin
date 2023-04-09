@@ -7,7 +7,8 @@ import SwiftUI
 
 struct LikeNavigationView: View {
   @StateObject var router = NavigationPathRouter()
-  @StateObject var viewModel: LikesViewModel
+  
+  let userID: String
 
   @Binding var loginUsers: [Sweet.UserModel]
   @Binding var currentUser: Sweet.UserModel?
@@ -15,7 +16,8 @@ struct LikeNavigationView: View {
 
   var body: some View {
     NavigationStack(path: $router.path) {
-      TweetsView(viewModel: viewModel)
+      TweetsView(viewModel: LikesViewModel(userID: userID, ownerID: userID))
+        .id(userID)
         .navigationBarAttribute()
         .navigationTitle("Like")
         .navigationBarTitleDisplayModeIfAvailable(.inline)
