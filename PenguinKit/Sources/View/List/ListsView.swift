@@ -87,8 +87,16 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
         }
         .listContentAttribute()
       }
-      .navigationBarAttribute()
+      .alert(errorHandle: $viewModel.errorHandle)
+      .task {
+        await viewModel.onAppear()
+      }
       .scrollViewAttitude()
+      .sheet(isPresented: $viewModel.isPresentedAddList) {
+        let viewModel = NewListViewModel(userID: viewModel.userID, delegate: viewModel)
+        NewListView(viewModel: viewModel)
+      }
+      .navigationBarAttribute()
       .navigationTitle("List")
       .navigationBarTitleDisplayModeIfAvailable(.large)
       .navigationDestination()
@@ -102,8 +110,11 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
 
           ToolbarItem(placement: placement) {
             LoginMenu(
-              bindingCurrentUser: $currentUser, loginUsers: $loginUsers, settings: $settings,
-              currentUser: currentUser)
+              bindingCurrentUser: $currentUser,
+              loginUsers: $loginUsers,
+              settings: $settings,
+              currentUser: currentUser
+            )
           }
         }
 
@@ -121,14 +132,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
           }
         }
       }
-      .sheet(isPresented: $viewModel.isPresentedAddList) {
-        NewListView(viewModel: NewListViewModel(userID: viewModel.userID, delegate: viewModel))
-      }
-    }
-    .environmentObject(router)
-    .alert(errorHandle: $viewModel.errorHandle)
-    .task {
-      await viewModel.onAppear()
+      .environmentObject(router)
     }
   }
 }
