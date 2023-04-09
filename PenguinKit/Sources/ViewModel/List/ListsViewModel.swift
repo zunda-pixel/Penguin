@@ -23,7 +23,6 @@ protocol ListsViewModelProtocol: ObservableObject, NewListDelegate, PinnableList
 
   var errorHandle: ErrorHandle? { get set }
 
-  var isPresentedAddList: Bool { get set }
   var owners: [Sweet.UserModel] { get set }
   var ownedPaginationToken: String? { get set }
   var followingPaginationToken: String? { get set }
@@ -65,11 +64,9 @@ extension ListsViewModelProtocol {
     self.pinnedListIDs = []
     self.ownedListIDs = []
     self.followingListIDs = []
-    self.isPresentedAddList = false
   }
 
   @Published var errorHandle: ErrorHandle?
-  @Published var isPresentedAddList: Bool
 
   var owners: [Sweet.UserModel]
 

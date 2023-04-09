@@ -37,13 +37,12 @@ public struct ContentView: View {
         userID: currentUser.id
       )
     case .list:
-      ListsView(
-        viewModel: ListsViewModel(userID: currentUser.id),
+      ListsNavigationView(
+        userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
-      .id(currentUser.id)
     case .search:
       SearchView(
         viewModel: .init(userID: currentUser.id, searchSettings: .init(excludeRetweet: true)),
