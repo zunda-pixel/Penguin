@@ -2,13 +2,13 @@
 //  ListsView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct ListsView<ViewModel: ListsViewModelProtocol>: View {
   @StateObject var viewModel: ViewModel
   @Binding var isPresentedAddList: Bool
-  
+
   var body: some View {
     List {
       Group {

@@ -7,7 +7,7 @@ import SwiftUI
 
 struct LikeNavigationView: View {
   @StateObject var router = NavigationPathRouter()
-  
+
   let userID: String
 
   @Binding var loginUsers: [Sweet.UserModel]

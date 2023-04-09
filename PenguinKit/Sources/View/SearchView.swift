@@ -11,11 +11,11 @@ struct SearchView: View {
 
     var id: String { self.rawValue }
   }
-  
+
   @StateObject var viewModel: SearchViewModel
 
   @Environment(\.settings) var settings
-  
+
   var body: some View {
     List {
       TextField(text: $viewModel.query) {

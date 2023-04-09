@@ -28,7 +28,7 @@ struct SearchSpacesView: View {
       SpaceCell(viewModel: viewModel)
     }
   }
-  
+
   var body: some View {
     VStack {
       TextField(text: $viewModel.searchText) {
@@ -85,7 +85,7 @@ struct SearchSpacesView: View {
         .tabViewStyle(.page(indexDisplayMode: .never))
       #endif
     }
-      .scrollContentAttribute()
-      .alert(errorHandle: $viewModel.errorHandle)
+    .scrollContentAttribute()
+    .alert(errorHandle: $viewModel.errorHandle)
   }
 }

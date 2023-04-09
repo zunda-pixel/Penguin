@@ -2,9 +2,9 @@
 //  ReverseChronologicalTweetsView.swift
 //
 
+import CoreData
 import Sweet
 import SwiftUI
-import CoreData
 
 struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter
@@ -34,7 +34,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   }
 
   @FetchRequest var timelines: FetchedResults<Timeline>
-  
+
   init(viewModel: ViewModel) {
     self._viewModel = .init(wrappedValue: viewModel)
     let fetchRequest: NSFetchRequest<Timeline> = .init()
@@ -64,7 +64,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
             ShareLink(item: url) {
               Label("Share", systemImage: "square.and.arrow.up")
             }
-            
+
             LikeButton(
               errorHandle: $viewModel.errorHandle,
               userID: viewModel.userID,
@@ -85,7 +85,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               userID: viewModel.userID,
               tweetID: cellViewModel.tweetText.id
             )
-            
+
             replyButton(viewModel: cellViewModel)
           }
           .swipeActions(edge: .trailing, allowsFullSwipe: true) {
