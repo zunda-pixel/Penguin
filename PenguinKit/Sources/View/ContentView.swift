@@ -44,20 +44,19 @@ public struct ContentView: View {
         settings: $settings
       )
     case .search:
-      SearchNavigationView(
+      SearchSpaceNavigationView(
         userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
     case .space:
-      SearchSpacesView(
-        viewModel: SearchSpacesViewModel(userID: currentUser.id),
+      SearchSpaceNavigationView(
+        userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
-      .id(currentUser.id)
     case .bookmark:
       BookmarksNavigationView(
         userID: currentUser.id,
