@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
-        "branch" : "main",
-        "revision" : "196419baef6c3789b6d5880ff5c565b1a1d4013e"
+        "revision" : "196419baef6c3789b6d5880ff5c565b1a1d4013e",
+        "version" : "2.3.3"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
       "state" : {
-        "revision" : "fee6933f37fde9a5e12a1e4aeaa93fe60116ff2a",
-        "version" : "1.2.2"
+        "revision" : "9f39744e025c7d377987f30b03770805dcb0bcd1",
+        "version" : "1.1.4"
       }
     },
     {
@@ -140,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-format",
       "state" : {
-        "branch" : "main",
-        "revision" : "89a0b6f5f5be53baddb81530d35502c679086994"
+        "revision" : "3330aaa0a97fe07e764a4dc9bb032b23df3a948f",
+        "version" : "508.0.0"
       }
     },
     {
@@ -158,8 +158,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "92178c0b3ecaac0b49292a92dd81042dbff44619"
+        "revision" : "cd793adf5680e138bf2bcbaacc292490175d0dcd",
+        "version" : "508.0.0"
       }
     },
     {
@@ -176,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-tools-support-core.git",
       "state" : {
-        "revision" : "284a41800b7c5565512ec6ae21ee818aac1f84ac",
-        "version" : "0.4.0"
+        "revision" : "93784c59434dbca8e8a9e4b700d0d6d94551da6a",
+        "version" : "0.5.2"
       }
     }
   ],
