@@ -127,7 +127,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
     }
     .environmentObject(router)
     .alert(errorHandle: $viewModel.errorHandle)
-    .task(id: id) {  // TODO viewModel.userIDでもいい気がするがなぜか動かない
+    .task {
       await viewModel.onAppear()
     }
   }
