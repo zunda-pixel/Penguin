@@ -44,13 +44,12 @@ public struct ContentView: View {
         settings: $settings
       )
     case .search:
-      SearchView(
-        viewModel: .init(userID: currentUser.id, searchSettings: .init(excludeRetweet: true)),
+      SearchNavigationView(
+        userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
         settings: $settings
       )
-      .id(currentUser.id)
     case .space:
       SearchSpacesView(
         viewModel: SearchSpacesViewModel(userID: currentUser.id),
