@@ -57,19 +57,19 @@
     {
       "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
+      "location" : "https://github.com/zunda-pixel/KeychainAccess",
       "state" : {
-        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
-        "version" : "4.2.2"
+        "branch" : "remove-unnecessary-check-for-macOS",
+        "revision" : "c63404c0604220d0f82dbc103de07ace0e513c3a"
       }
     },
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/onevcat/Kingfisher",
+      "location" : "https://github.com/zunda-pixel/Kingfisher",
       "state" : {
-        "revision" : "af4be924ad984cf4d16f4ae4df424e79a443d435",
-        "version" : "7.6.2"
+        "branch" : "fix-warnig-swift6",
+        "revision" : "e751ee288b1d02b45463b54b08147ac794d7e142"
       }
     },
     {
