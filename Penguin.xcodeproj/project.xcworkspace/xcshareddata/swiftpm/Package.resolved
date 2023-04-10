@@ -66,10 +66,10 @@
     {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zunda-pixel/Kingfisher",
+      "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
-        "branch" : "fix-warnig-swift6",
-        "revision" : "e751ee288b1d02b45463b54b08147ac794d7e142"
+        "branch" : "master",
+        "revision" : "c68a3541dcad40948a0955e97bf675e046250332"
       }
     },
     {
