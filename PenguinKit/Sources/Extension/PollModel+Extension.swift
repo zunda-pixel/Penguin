@@ -19,4 +19,18 @@ extension Sweet.PollModel {
       options: options ?? []
     )
   }
+
+  func dictionaryValue() -> [String: Any] {
+    let encoder = JSONEncoder.twitter
+
+    let dictionary: [String: Any] = [
+      "id": id,
+      "votingStatus": votingStatus.rawValue,
+      "endDateTime": endDateTime,
+      "durationMinutes": durationMinutes,
+      "options": try! encoder.encode(options),
+    ]
+
+    return dictionary
+  }
 }

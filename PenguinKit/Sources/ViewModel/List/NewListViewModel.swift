@@ -9,7 +9,7 @@ protocol NewListDelegate {
   func didCreateList(list: Sweet.ListModel)
 }
 
-class NewListViewModel: ObservableObject {
+final class NewListViewModel: ObservableObject {
   @Published var name: String
   @Published var description: String
   @Published var isPrivate: Bool

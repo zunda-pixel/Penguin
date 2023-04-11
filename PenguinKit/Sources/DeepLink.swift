@@ -8,7 +8,7 @@ import Sweet
 
 protocol DeepLinkDelegate {
   func setUser(user: Sweet.UserModel)
-  func addUser(user: Sweet.UserModel) throws
+  func addUser(user: Sweet.UserModel) async throws
 }
 
 struct DeepLink {
@@ -20,7 +20,9 @@ struct DeepLink {
 
     guard let queryItems = components.queryItems,
       let savedState = Secure.state
-    else { return }
+    else {
+      return
+    }
 
     if let state = queryItems.first(where: { $0.name == "state" })?.value,
       let code = queryItems.first(where: { $0.name == "code" })?.value,
@@ -52,7 +54,7 @@ struct DeepLink {
 
     Secure.currentUser = user
     Secure.loginUsers.append(user)
-    
+
     let expireDate = Date.now.addingTimeInterval(Double(response.expiredSeconds))
 
     let authorization: AuthorizationModel = .init(
@@ -60,13 +62,13 @@ struct DeepLink {
       refreshToken: response.refreshToken!,
       expiredDate: expireDate
     )
-    
+
     Secure.setAuthorization(userID: user.id, authorization: authorization)
 
     try Secure.removeState()
     try Secure.removeChallenge()
 
-    try delegate.addUser(user: user)
+    try await delegate.addUser(user: user)
     delegate.setUser(user: user)
   }
 }

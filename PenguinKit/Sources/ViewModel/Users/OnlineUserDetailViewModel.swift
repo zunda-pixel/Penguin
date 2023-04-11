@@ -5,7 +5,7 @@
 import Foundation
 import Sweet
 
-@MainActor class OnlineUserDetailViewModel: ObservableObject, Hashable {
+@MainActor final class OnlineUserDetailViewModel: ObservableObject, Hashable {
   let userID: String
   let targetUserID: String?
   let targetScreenID: String?

@@ -5,7 +5,7 @@
 import Foundation
 import Sweet
 
-@MainActor class SearchSpacesViewModel: ObservableObject {
+@MainActor final class SearchSpacesViewModel: ObservableObject {
   let userID: String
 
   @Published var selectedSortType: SortType

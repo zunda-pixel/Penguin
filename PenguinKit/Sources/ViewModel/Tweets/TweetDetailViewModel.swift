@@ -110,9 +110,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
 
       let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
 
-      let quotedQuotedTweetIDs = relatedTweets.lazy.flatMap(\.referencedTweets)
-        .filter { $0.type == .quoted }
-        .map(\.id)
+      let quotedQuotedTweetIDs = relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
       let ids = quotedQuotedTweetIDs + relatedTweets.map(\.id)
 
@@ -122,7 +120,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
         addResponse(response: response)
       }
 
-      let sortedTweets = allTweets.lazy.sorted(by: \.createdAt!)
+      let sortedTweets = allTweets.lazy.sorted(by: \.id, isAscending: false)
 
       let topTweet =
         sortedTweets

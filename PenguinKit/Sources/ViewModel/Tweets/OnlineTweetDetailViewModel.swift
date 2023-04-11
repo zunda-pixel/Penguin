@@ -6,7 +6,7 @@ import Algorithms
 import Foundation
 import Sweet
 
-class OnlineTweetDetailViewModel: TweetsViewProtocol {
+final class OnlineTweetDetailViewModel: TweetsViewProtocol {
   let userID: String
   let tweetID: String
 
@@ -73,9 +73,7 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
 
       let relatedTweets = tweetResponse.relatedTweets + response.relatedTweets
 
-      let quotedQuotedTweetIDs = relatedTweets.lazy.flatMap(\.referencedTweets)
-        .filter { $0.type == .quoted }
-        .map(\.id)
+      let quotedQuotedTweetIDs = relatedTweets.flatMap(\.referencedTweets).map(\.id)
 
       let ids = quotedQuotedTweetIDs + relatedTweets.map(\.id)
 
@@ -84,7 +82,7 @@ class OnlineTweetDetailViewModel: TweetsViewProtocol {
         addResponse(response: response)
       }
 
-      let sortedTweets = allTweets.sorted(by: \.createdAt!)
+      let sortedTweets = allTweets.sorted(by: \.id, isAscending: false)
 
       let topTweet =
         sortedTweets

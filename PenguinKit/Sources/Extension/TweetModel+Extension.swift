@@ -67,4 +67,34 @@ extension Sweet.TweetModel {
 
     fatalError()
   }
+
+  func dictionaryValue() -> [String: Any] {
+    let encoder = JSONEncoder.twitter
+
+    let dictionary: [String: Any?] = [
+      "id": id,
+      "text": text,
+      "authorID": authorID,
+      "lang": lang,
+      "createdAt": createdAt,
+      "replySetting": replySetting?.rawValue,
+      "conversationID": conversationID,
+      "sensitive": sensitive,
+      "replyUserID": replyUserID,
+      "geo": try! encoder.encodeIfExists(geo),
+      "entities": try! encoder.encodeIfExists(entity),
+      "attachments": try! encoder.encodeIfExists(attachments),
+      "contextAnnotations": try! encoder.encodeIfExists(contextAnnotations),
+      "organicMetrics": try! encoder.encodeIfExists(organicMetrics),
+      "privateMetrics": try! encoder.encodeIfExists(privateMetrics),
+      "promotedMetrics": try! encoder.encodeIfExists(promotedMetrics),
+      "publicMetrics": try! encoder.encodeIfExists(publicMetrics),
+      "referencedTweets": try! encoder.encodeIfExists(referencedTweets),
+      "withheld": try! encoder.encodeIfExists(withheld),
+      "editControl": try! encoder.encodeIfExists(editControl),
+      "editHistoryTweetIDs": try! encoder.encodeIfExists(editHistoryTweetIDs),
+    ]
+
+    return dictionary.compactMapValues { $0 }
+  }
 }

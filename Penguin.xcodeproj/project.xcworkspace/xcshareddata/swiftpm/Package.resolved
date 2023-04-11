@@ -1,21 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "abseil-cpp-swiftpm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/abseil-cpp-SwiftPM.git",
-      "state" : {
-        "revision" : "583de9bd60f66b40e78d08599cc92036c2e7e4e1",
-        "version" : "0.20220203.2"
-      }
-    },
-    {
       "identity" : "attributedtext",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/AttributedText",
       "state" : {
-        "revision" : "e2f7f016d859509bc33707414d9f8a1ac550faa0",
-        "version" : "2.0.3"
+        "revision" : "87f02d8bbeff24da9c91323d31e15ab80bf8d89c",
+        "version" : "2.0.4"
       }
     },
     {
@@ -28,75 +19,12 @@
       }
     },
     {
-      "identity" : "boringssl-swiftpm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/boringssl-SwiftPM.git",
-      "state" : {
-        "revision" : "dd3eda2b05a3f459fc3073695ad1b28659066eab",
-        "version" : "0.9.1"
-      }
-    },
-    {
       "identity" : "chatbubble",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/ChatBubble",
       "state" : {
-        "revision" : "5406cadfaf6aefc9d6895bdbc2c44c9db386fab5",
-        "version" : "1.0.0"
-      }
-    },
-    {
-      "identity" : "firebase-ios-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/firebase-ios-sdk",
-      "state" : {
-        "revision" : "0df86ea17d5d281415be74f2290df8431644f156",
-        "version" : "10.4.0"
-      }
-    },
-    {
-      "identity" : "googleappmeasurement",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleAppMeasurement.git",
-      "state" : {
-        "revision" : "9a09ece724128e8d1e14c5133b87c0e236844ac0",
-        "version" : "10.4.0"
-      }
-    },
-    {
-      "identity" : "googledatatransport",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleDataTransport.git",
-      "state" : {
-        "revision" : "f6b558e3f801f2cac336b04f615ce111fa9ddaa0",
-        "version" : "9.2.1"
-      }
-    },
-    {
-      "identity" : "googleutilities",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleUtilities.git",
-      "state" : {
-        "revision" : "0543562f85620b5b7c510c6bcbef75b562a5127b",
-        "version" : "7.11.0"
-      }
-    },
-    {
-      "identity" : "grpc-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/grpc/grpc-ios.git",
-      "state" : {
-        "revision" : "8440b914756e0d26d4f4d054a1c1581daedfc5b6",
-        "version" : "1.44.3-grpc"
-      }
-    },
-    {
-      "identity" : "gtm-session-fetcher",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/gtm-session-fetcher.git",
-      "state" : {
-        "revision" : "96d7cc73a71ce950723aa3c50ce4fb275ae180b8",
-        "version" : "3.1.0"
+        "revision" : "5629065eeb6b5addf2089f2b79fb6f8a4e36bf69",
+        "version" : "1.0.1"
       }
     },
     {
@@ -113,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/HTTPClient",
       "state" : {
-        "revision" : "10b9114bd5d18787a4c9f5709d6dc5c933a99e64",
-        "version" : "1.4.1"
+        "revision" : "843a1416003cf7ad8ff1bdd30219ffafa757c350",
+        "version" : "1.4.2"
       }
     },
     {
@@ -129,10 +57,10 @@
     {
       "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
+      "location" : "https://github.com/zunda-pixel/KeychainAccess",
       "state" : {
-        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
-        "version" : "4.2.2"
+        "branch" : "remove-unnecessary-check-for-macOS",
+        "revision" : "c63404c0604220d0f82dbc103de07ace0e513c3a"
       }
     },
     {
@@ -140,17 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
-        "revision" : "90135885ef506506620c4911cefb55a95ca2a9a2",
-        "version" : "7.5.0"
-      }
-    },
-    {
-      "identity" : "leveldb",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/leveldb.git",
-      "state" : {
-        "revision" : "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
-        "version" : "1.22.2"
+        "branch" : "master",
+        "revision" : "7f6331da4d0fcebec4996e9a64d072f467be932d"
       }
     },
     {
@@ -160,15 +79,6 @@
       "state" : {
         "revision" : "fb886042a9a63ee53c96d3406ea0114275214809",
         "version" : "1.0.2"
-      }
-    },
-    {
-      "identity" : "nanopb",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/firebase/nanopb.git",
-      "state" : {
-        "revision" : "819d0a2173aff699fb8c364b6fb906f7cdb1a692",
-        "version" : "2.30909.0"
       }
     },
     {
@@ -185,17 +95,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/OAuth1",
       "state" : {
-        "revision" : "661ffab29a563649955618b2bdaed1cf63e1a132",
-        "version" : "1.0.5"
-      }
-    },
-    {
-      "identity" : "promises",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/promises.git",
-      "state" : {
-        "revision" : "3e4e743631e86c8c70dbc6efdc7beaa6e90fd3bb",
-        "version" : "2.1.1"
+        "revision" : "f96a150dfdcf2d77cf0e66050485d354e18bc01a",
+        "version" : "1.0.6"
       }
     },
     {
@@ -203,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
-        "branch" : "main",
-        "revision" : "7ea89f97bb773d5cab4cf172dcd64fae6b21b22e"
+        "revision" : "196419baef6c3789b6d5880ff5c565b1a1d4013e",
+        "version" : "2.3.3"
       }
     },
     {
@@ -230,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections",
       "state" : {
-        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
-        "version" : "1.0.4"
+        "branch" : "release/1.1",
+        "revision" : "84f51c2b9982f26f3dc4458c2ae55bf7109ec6b9"
       }
     },
     {
@@ -239,8 +140,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-format",
       "state" : {
-        "branch" : "main",
-        "revision" : "3cd655ff323bd22be523dd33b5e1cd0b14f6bf0a"
+        "revision" : "3330aaa0a97fe07e764a4dc9bb032b23df3a948f",
+        "version" : "508.0.0"
       }
     },
     {
@@ -253,21 +154,12 @@
       }
     },
     {
-      "identity" : "swift-protobuf",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-protobuf.git",
-      "state" : {
-        "revision" : "ab3a58b7209a17d781c0d1dbb3e1ff3da306bae8",
-        "version" : "1.20.3"
-      }
-    },
-    {
       "identity" : "swift-syntax",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "8bc71f0a9e14a1f4b71525f0137501fc3760a447"
+        "revision" : "cd793adf5680e138bf2bcbaacc292490175d0dcd",
+        "version" : "508.0.0"
       }
     },
     {
@@ -284,8 +176,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-tools-support-core.git",
       "state" : {
-        "revision" : "284a41800b7c5565512ec6ae21ee818aac1f84ac",
-        "version" : "0.4.0"
+        "revision" : "93784c59434dbca8e8a9e4b700d0d6d94551da6a",
+        "version" : "0.5.2"
       }
     }
   ],

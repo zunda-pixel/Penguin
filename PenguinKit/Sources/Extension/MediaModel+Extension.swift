@@ -53,4 +53,26 @@ extension Sweet.MediaModel {
       organicMetrics: organicMetrics
     )
   }
+
+  func dictionaryValue() -> [String: Any] {
+    let encoder = JSONEncoder.twitter
+
+    let dictionary: [String: Any?] = [
+      "key": key,
+      "type": type.rawValue,
+      "height": size?.height,
+      "width": size?.width,
+      "previewImageURL": previewImageURL,
+      "url": url,
+      "variants": try! encoder.encodeIfExists(variants),
+      "durationMicroSeconds": durationMicroSeconds,
+      "alternateText": alternateText,
+      "metrics": try! encoder.encodeIfExists(metrics),
+      "privateMetrics": try! encoder.encodeIfExists(privateMetrics),
+      "promotedMetrics": try! encoder.encodeIfExists(promotedMetrics),
+      "organicMetrics": try! encoder.encodeIfExists(organicMetrics),
+    ]
+
+    return dictionary.compactMapValues { $0 }
+  }
 }

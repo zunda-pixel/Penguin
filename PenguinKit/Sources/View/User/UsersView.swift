@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct UsersView<ViewModel: UsersViewProtocol>: View {
-  @ObservedObject var viewModel: ViewModel
+  @StateObject var viewModel: ViewModel
 
   var body: some View {
     List(viewModel.users) { user in

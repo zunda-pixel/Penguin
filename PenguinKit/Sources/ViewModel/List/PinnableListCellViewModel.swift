@@ -13,7 +13,7 @@ protocol PinnableListCellDelegate {
   func togglePin(listID: String) async
 }
 
-class PinnableListCellViewModel: ObservableObject {
+final class PinnableListCellViewModel: ObservableObject {
   let list: Sweet.ListModel
   let owner: Sweet.UserModel
   let userID: String

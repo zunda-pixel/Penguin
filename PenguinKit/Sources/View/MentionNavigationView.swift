@@ -15,9 +15,8 @@ struct MentionNavigationView: View {
 
   var body: some View {
     NavigationStack(path: $router.path) {
-      let viewModel: UserMentionsViewModel = .init(userID: userID, ownerID: userID)
-
-      TweetsView(viewModel: viewModel)
+      TweetsView(viewModel: UserMentionsViewModel(userID: userID, ownerID: userID))
+        .id(userID)
         .navigationBarAttribute()
         .navigationTitle("Mention")
         .navigationBarTitleDisplayModeIfAvailable(.inline)

@@ -5,7 +5,7 @@
 import Foundation
 import Sweet
 
-class DirectMessageCellViewModel: ObservableObject {
+final class DirectMessageCellViewModel: ObservableObject {
   let userID: String
 
   let directMessage: Sweet.DirectMessageModel

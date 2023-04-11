@@ -14,8 +14,6 @@ struct PersistenceController {
     let model = NSManagedObjectModel(contentsOf: modelURL)!
     container = NSPersistentCloudKitContainer(name: "Penguin", managedObjectModel: model)
 
-    //container = NSPersistentCloudKitContainer(name: "Penguin")
-
     if inMemory {
       container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
     }
@@ -25,6 +23,7 @@ struct PersistenceController {
         fatalError("\(error)")
       }
     })
-    container.viewContext.automaticallyMergesChangesFromParent = true
+
+    container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
   }
 }

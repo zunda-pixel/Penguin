@@ -5,7 +5,7 @@
 import Foundation
 import Sweet
 
-@MainActor class DirectMessageDetailViewModel: ObservableObject, Hashable {
+@MainActor final class DirectMessageDetailViewModel: ObservableObject, Hashable {
   let participantID: String
   let userID: String
 
@@ -19,7 +19,7 @@ import Sweet
 
     return timelines.map { id in
       allDirectMessages.first { $0.id == id }!
-    }.sorted(by: \.createdAt!)
+    }.sorted(by: \.id, isAscending: false)
   }
 
   @Published var errorHandle: ErrorHandle?

@@ -124,7 +124,6 @@ extension Sweet.AuthorizationError: LocalizedError {
   }
 }
 
-
 extension LocalAuthorizationError: LocalizedError {
   public var errorDescription: String? {
     "Authorization Error"

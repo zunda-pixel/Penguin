@@ -5,7 +5,7 @@
 import Foundation
 import Sweet
 
-@MainActor class UserListViewModel: ObservableObject, Hashable {
+@MainActor final class UserListViewModel: ObservableObject, Hashable {
   // TODO何度も同じリクエストが送られてしまっている可能性がある
 
   let userID: String

@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct OnlineUserDetailView: View {
-  @ObservedObject var viewModel: OnlineUserDetailViewModel
+  @StateObject var viewModel: OnlineUserDetailViewModel
 
   var body: some View {
     VStack {

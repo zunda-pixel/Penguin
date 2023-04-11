@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct AccountDetailView: View {
-  @ObservedObject var viewModel: AccountDetailViewModel
+  @StateObject var viewModel: AccountDetailViewModel
 
   var body: some View {
     List {
@@ -36,7 +36,9 @@ struct AccountDetailView: View {
 struct AccountDetailView_Preview: PreviewProvider {
   static var previews: some View {
     NavigationStack {
-      AccountDetailView(viewModel: .init(userID: "userID", user: .init(id: "id", name: "name", userName: "userName")))
+      AccountDetailView(
+        viewModel: .init(
+          userID: "userID", user: .init(id: "id", name: "name", userName: "userName")))
     }
   }
 }

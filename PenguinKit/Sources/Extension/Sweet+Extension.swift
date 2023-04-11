@@ -9,8 +9,10 @@ extension Sweet {
   private static func updateUserBearerToken(userID: String, tryCount: Int = 0) async throws {
     guard tryCount < 2 else { return }
 
-    guard let refreshToken = Secure.getAuthorization(userID: userID)?.refreshToken else { throw LocalAuthorizationError.noRefreshToken }
-    
+    guard let refreshToken = Secure.getAuthorization(userID: userID)?.refreshToken else {
+      throw LocalAuthorizationError.noRefreshToken
+    }
+
     let response: Sweet.OAuth2Model
 
     do {
@@ -27,18 +29,22 @@ extension Sweet {
       refreshToken: response.refreshToken!,
       expiredDate: expireDate
     )
-    
+
     Secure.setAuthorization(userID: userID, authorization: authorization)
   }
 
   public init(userID: String) async throws {
-    guard let expireDate = Secure.getAuthorization(userID: userID)?.expiredDate else { throw LocalAuthorizationError.noExpireDate }
+    guard let expireDate = Secure.getAuthorization(userID: userID)?.expiredDate else {
+      throw LocalAuthorizationError.noExpireDate
+    }
 
     if expireDate < Date.now {
       try await Sweet.updateUserBearerToken(userID: userID)
     }
 
-    guard let userBearerToken = Secure.getAuthorization(userID: userID)?.bearerToken else { throw LocalAuthorizationError.noBearerToken }
+    guard let userBearerToken = Secure.getAuthorization(userID: userID)?.bearerToken else {
+      throw LocalAuthorizationError.noBearerToken
+    }
 
     let token: Sweet.AuthorizationType = .oAuth2user(token: userBearerToken)
 
@@ -48,7 +54,7 @@ extension Sweet {
       $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
         && $0 != .contextAnnotations && $0 != .withheld
     }
-    
+
     self.mediaFields = Sweet.MediaField.allCases.filter {
       $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
     }

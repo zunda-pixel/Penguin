@@ -9,18 +9,18 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   @Environment(\.settings) var settings
   @EnvironmentObject var router: NavigationPathRouter
 
-  @ObservedObject var viewModel: ViewModel
+  @StateObject var viewModel: ViewModel
   let listTopContent: ListTopContent
   let hasTopContent: Bool
 
   init(viewModel: ViewModel, @ViewBuilder listTopContent: () -> ListTopContent) {
-    self.viewModel = viewModel
+    self._viewModel = .init(wrappedValue: viewModel)
     self.listTopContent = listTopContent()
     self.hasTopContent = true
   }
 
   init(viewModel: ViewModel) where ListTopContent == EmptyView {
-    self.viewModel = viewModel
+    self._viewModel = .init(wrappedValue: viewModel)
     self.listTopContent = EmptyView()
     self.hasTopContent = false
   }
@@ -85,7 +85,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         NewTweetView(viewModel: viewModel)
       }
       .alert(errorHandle: $viewModel.errorHandle)
-      .task(id: viewModel.userID) {
+      .task {
         guard viewModel.showTweets.isEmpty else { return }
         let firstTweetID = viewModel.showTweets.first?.id
         await viewModel.fetchTweets(first: firstTweetID, last: nil)

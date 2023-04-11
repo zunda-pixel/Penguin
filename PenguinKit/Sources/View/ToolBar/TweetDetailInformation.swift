@@ -41,6 +41,8 @@ struct TweetDetailInformation: View {
 
 struct TweetDetailInformation_Preview: PreviewProvider {
   static var previews: some View {
-    TweetDetailInformation(userID: "userID", tweetID: "tweetID", metrics: .init(retweetCount: 3, replyCount: 324423, likeCount: 34, quoteCount: 32))
+    TweetDetailInformation(
+      userID: "userID", tweetID: "tweetID",
+      metrics: .init(retweetCount: 3, replyCount: 324423, likeCount: 34, quoteCount: 32))
   }
 }

@@ -19,23 +19,19 @@ struct ReverseChronologicalNavigationView: View {
 
   var body: some View {
     NavigationStack(path: $router.path) {
-      ReverseChronologicalTweetsView(
-        viewModel: ReverseChronologicalViewModel(
-          userID: userID,
-          viewContext: viewContext
-        )
-      )
-      .navigationTitle("Timeline")
-      .navigationBarTitleDisplayModeIfAvailable(.inline)
-      .navigationDestination()
-      .toolbar {
-        TopToolBar(
-          currentUser: $currentUser,
-          loginUsers: $loginUsers,
-          settings: $settings
-        )
-      }
-      .navigationBarAttribute()
+      ReverseChronologicalTweetsView(viewModel: ReverseChronologicalViewModel(userID: userID))
+        .id(userID)
+        .navigationTitle("Timeline")
+        .navigationBarTitleDisplayModeIfAvailable(.inline)
+        .navigationDestination()
+        .toolbar {
+          TopToolBar(
+            currentUser: $currentUser,
+            loginUsers: $loginUsers,
+            settings: $settings
+          )
+        }
+        .navigationBarAttribute()
     }
     .environmentObject(router)
   }

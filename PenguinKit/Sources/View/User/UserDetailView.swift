@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct UserDetailView: View {
-  @ObservedObject var viewModel: UserDetailViewModel
+  @StateObject var viewModel: UserDetailViewModel
 
   @EnvironmentObject var router: NavigationPathRouter
 

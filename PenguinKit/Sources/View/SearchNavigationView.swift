@@ -1,11 +1,11 @@
 //
-//  LikeNavigationView.swift
+//  SearchView.swift
 //
 
 import Sweet
 import SwiftUI
 
-struct LikeNavigationView: View {
+struct SearchNavigationView: View {
   @StateObject var router = NavigationPathRouter()
 
   let userID: String
@@ -16,10 +16,16 @@ struct LikeNavigationView: View {
 
   var body: some View {
     NavigationStack(path: $router.path) {
-      TweetsView(viewModel: LikesViewModel(userID: userID, ownerID: userID))
+      let viewModel = SearchViewModel(
+        userID: userID,
+        searchSettings: .init(excludeRetweet: true)
+      )
+      SearchView(viewModel: viewModel)
         .id(userID)
         .navigationBarAttribute()
-        .navigationTitle("Like")
+        .scrollViewAttitude()
+        .scrollDismissesKeyboard(.immediately)
+        .navigationTitle("Search")
         .navigationBarTitleDisplayModeIfAvailable(.inline)
         .navigationDestination()
         .toolbar {
