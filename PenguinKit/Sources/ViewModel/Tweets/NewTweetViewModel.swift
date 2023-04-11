@@ -2,25 +2,21 @@
 //  CreateTweetViewModel.swift
 //
 
-@preconcurrency import CoreLocation
 import Photos
 import PhotosUI
 import Sweet
 import SwiftUI
 
-@MainActor protocol NewTweetViewProtocol: NSObject, ObservableObject, CLLocationManagerDelegate {
+@MainActor protocol NewTweetViewProtocol: ObservableObject {
   var userID: String { get set }
   var text: String { get set }
   var selectedReplySetting: Sweet.ReplySetting { get set }
-  var locationString: String? { get set }
   var poll: Sweet.PostPollModel? { get set }
   var photos: [Photo] { get set }
   var photosPickerItems: [PhotosPickerItem] { get set }
   var errorHandle: ErrorHandle? { get set }
   var disableTweetButton: Bool { get }
-  var locationManager: CLLocationManager { get }
   var leftTweetCount: Int { get }
-  var loadingLocation: Bool { get set }
   var quoted: TweetContentModel? { get }
   var placeHolder: String { get }
   var reply: Reply? { get }
@@ -28,28 +24,22 @@ import SwiftUI
   var isPresentedSelectUserView: Bool { get set }
   var title: String { get }
   func postTweet() async throws
-  func setLocation() async
   func loadPhotos(with pickers: [PhotosPickerItem]) async
   func pollButtonAction()
 }
 
-@MainActor final class NewTweetViewModel: NSObject, NewTweetViewProtocol {
+@MainActor final class NewTweetViewModel: NewTweetViewProtocol {
   let quoted: TweetContentModel?
-
-  var locationManager: CLLocationManager
   let reply: Reply?
-
   let title: String
 
   @Published var selectedUserID: Set<String>
   @Published var isPresentedSelectUserView: Bool
   @Published var text: String
   @Published var selectedReplySetting: Sweet.ReplySetting
-  @Published var locationString: String?
   @Published var poll: Sweet.PostPollModel?
   @Published var photos: [Photo]
   @Published var photosPickerItems: [PhotosPickerItem]
-  @Published var loadingLocation: Bool
   @Published var userID: String
   @Published var errorHandle: ErrorHandle?
 
@@ -78,12 +68,6 @@ import SwiftUI
     self.selectedReplySetting = .everyone
     self.photos = []
     self.photosPickerItems = []
-    self.loadingLocation = false
-    self.locationManager = CLLocationManager()
-
-    super.init()
-
-    locationManager.delegate = self
   }
 
   var placeHolder: String {
@@ -146,38 +130,6 @@ import SwiftUI
 
   var leftTweetCount: Int {
     return 280 - text.count
-  }
-
-  func setLocation() async {
-    loadingLocation = true
-
-    defer {
-      loadingLocation = false
-    }
-
-    guard let location = locationManager.location else {
-      return
-    }
-
-    do {
-      let places = try await CLGeocoder().reverseGeocodeLocation(location)
-
-      guard let place = places.first else {
-        return
-      }
-
-      self.locationString = (place.locality ?? "") + (place.name ?? "")
-    } catch {
-      let errorHandle = ErrorHandle(error: error)
-      errorHandle.log()
-      self.errorHandle = errorHandle
-    }
-  }
-
-  nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    Task {
-      await setLocation()
-    }
   }
 
   @MainActor func loadPhotos(with pickers: [PhotosPickerItem]) async {

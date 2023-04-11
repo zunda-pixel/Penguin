@@ -2,14 +2,9 @@
 //  CreateTweetView.swift
 //
 
-import CoreLocation
 import PhotosUI
 import Sweet
 import SwiftUI
-
-#if !os(macOS)
-  import CoreLocationUI
-#endif
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.dismiss) var dismiss
@@ -115,21 +110,6 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             }
           }
 
-          if let location = viewModel.locationString {
-            Text("Location Upload UnAvailable")
-
-            HStack {
-              Text(location)
-                .foregroundColor(.secondary)
-
-              Button {
-                self.viewModel.locationString = nil
-              } label: {
-                Image(systemName: "multiply.circle")
-              }
-            }
-          }
-
           Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
             ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
               Text(replySetting.description)
@@ -147,22 +127,6 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             ) {
               Image(systemName: "photo")
             }
-
-            #if !os(macOS)
-              LocationButton(.sendCurrentLocation) {
-                Task {
-                  await viewModel.setLocation()
-                }
-              }
-              .labelStyle(.iconOnly)
-              .foregroundColor(settings.colorType.colorSet.tintColor)
-              .tint(
-                colorScheme == .dark
-                  ? settings.colorType.colorSet.darkPrimaryColor
-                  : settings.colorType.colorSet.lightPrimaryColor
-              )
-              .disabled(viewModel.loadingLocation)
-            #endif
 
             Button {
               viewModel.pollButtonAction()
