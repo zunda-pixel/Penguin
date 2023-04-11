@@ -20,7 +20,7 @@ struct NewPollView: View {
 
   var body: some View {
     VStack {
-      ForEach($options.indices, id: \.self) { index in
+      ForEach(options.indices, id: \.self) { index in
         HStack {
           TextField("Answer \(index + 1) \(index < 2 ? "" : "(Optional)")", text: $options[index])
             .textFieldStyle(.roundedBorder)
@@ -29,10 +29,12 @@ struct NewPollView: View {
 
           Button(
             action: {
-              if isLast {
-                options.append("")
-              } else {
-                options.remove(at: index)
+              withAnimation {
+                if isLast {
+                  options.append("")
+                } else {
+                  options.remove(at: index)
+                }
               }
             },
             label: {
