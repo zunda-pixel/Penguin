@@ -129,7 +129,9 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             }
 
             Button {
-              viewModel.pollButtonAction()
+              withAnimation {
+                viewModel.pollButtonAction()
+              }
             } label: {
               Image(systemName: "chart.bar.xaxis")
                 .rotationEffect(.degrees(90))
