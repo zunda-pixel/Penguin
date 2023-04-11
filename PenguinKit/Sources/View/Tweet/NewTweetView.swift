@@ -2,14 +2,9 @@
 //  CreateTweetView.swift
 //
 
-import CoreLocation
 import PhotosUI
 import Sweet
 import SwiftUI
-
-#if !os(macOS)
-  import CoreLocationUI
-#endif
 
 struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.dismiss) var dismiss
@@ -115,21 +110,6 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             }
           }
 
-          if let location = viewModel.locationString {
-            Text("Location Upload UnAvailable")
-
-            HStack {
-              Text(location)
-                .foregroundColor(.secondary)
-
-              Button {
-                self.viewModel.locationString = nil
-              } label: {
-                Image(systemName: "multiply.circle")
-              }
-            }
-          }
-
           Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
             ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
               Text(replySetting.description)
@@ -148,24 +128,10 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
               Image(systemName: "photo")
             }
 
-            #if !os(macOS)
-              LocationButton(.sendCurrentLocation) {
-                Task {
-                  await viewModel.setLocation()
-                }
-              }
-              .labelStyle(.iconOnly)
-              .foregroundColor(settings.colorType.colorSet.tintColor)
-              .tint(
-                colorScheme == .dark
-                  ? settings.colorType.colorSet.darkPrimaryColor
-                  : settings.colorType.colorSet.lightPrimaryColor
-              )
-              .disabled(viewModel.loadingLocation)
-            #endif
-
             Button {
-              viewModel.pollButtonAction()
+              withAnimation {
+                viewModel.pollButtonAction()
+              }
             } label: {
               Image(systemName: "chart.bar.xaxis")
                 .rotationEffect(.degrees(90))
@@ -232,16 +198,29 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 }
 
 struct NewTweetView_Preview: PreviewProvider {
+  struct Preview: View {
+    @State var isPresented = false
+    
+    var body: some View {
+      Button("Show") {
+        isPresented.toggle()
+      }
+      .sheet(isPresented: $isPresented) {
+        NewTweetView(viewModel: NewTweetViewModel(userID: "1234"))
+          .environment(
+            \.loginUsers,
+             [
+              .init(
+                id: "1234", name: "name", userName: "userName",
+                profileImageURL: URL(
+                  string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"
+                ))
+             ])
+      }
+    }
+  }
+  
   static var previews: some View {
-    NewTweetView(viewModel: NewTweetViewModel(userID: "1234"))
-      .environment(
-        \.loginUsers,
-        [
-          .init(
-            id: "1234", name: "name", userName: "userName",
-            profileImageURL: URL(
-              string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"
-            ))
-        ])
+    Preview()
   }
 }
