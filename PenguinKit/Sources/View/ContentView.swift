@@ -44,7 +44,7 @@ public struct ContentView: View {
         settings: $settings
       )
     case .search:
-      SearchSpaceNavigationView(
+      SearchNavigationView(
         userID: currentUser.id,
         loginUsers: $loginUsers,
         currentUser: $currentUser,
