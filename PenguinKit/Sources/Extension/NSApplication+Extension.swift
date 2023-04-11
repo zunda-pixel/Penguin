@@ -6,6 +6,6 @@
   import AppKit
 
   extension NSApplication {
-    var iconName: String { "AppIcon" }
+    var iconName: String { Configuration(bundle: .main).primaryIconName }
   }
 #endif

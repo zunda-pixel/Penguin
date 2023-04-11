@@ -6,7 +6,6 @@
   import UIKit
 
   extension UIApplication {
-    static let primaryIconName = "AppIcon"
-    var iconName: String { alternateIconName ?? UIApplication.primaryIconName }
+    var iconName: String { alternateIconName ?? Configuration(bundle: .main).primaryIconName }
   }
 #endif
