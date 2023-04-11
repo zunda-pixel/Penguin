@@ -69,7 +69,7 @@
       "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
         "branch" : "master",
-        "revision" : "c68a3541dcad40948a0955e97bf675e046250332"
+        "revision" : "7f6331da4d0fcebec4996e9a64d072f467be932d"
       }
     },
     {
@@ -132,7 +132,7 @@
       "location" : "https://github.com/apple/swift-collections",
       "state" : {
         "branch" : "release/1.1",
-        "revision" : "c81f73f05a07e3aabfbb8d8d4802deb7ebf2cae8"
+        "revision" : "84f51c2b9982f26f3dc4458c2ae55bf7109ec6b9"
       }
     },
     {
