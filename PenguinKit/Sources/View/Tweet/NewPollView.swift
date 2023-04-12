@@ -68,7 +68,7 @@ struct NewPollView_Previews: PreviewProvider {
   struct Preview: View {
     @State var options: [String] = ["1", "2"]
     @State var duration: TimeInterval = 10 * 60
-    
+
     var body: some View {
       NewPollView(
         options: $options,

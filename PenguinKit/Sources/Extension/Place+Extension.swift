@@ -15,7 +15,7 @@ extension Place {
 
     let encoder = JSONEncoder.twitter
     self.geo = try! encoder.encodeIfExists(place.geo)
-    self.type = place.type?.rawValue
+    self.type = place.type
     self.containedWithin = try! encoder.encode(place.containedWithin)
   }
 }

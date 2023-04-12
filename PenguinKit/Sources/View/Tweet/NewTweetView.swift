@@ -200,7 +200,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 struct NewTweetView_Preview: PreviewProvider {
   struct Preview: View {
     @State var isPresented = false
-    
+
     var body: some View {
       Button("Show") {
         isPresented.toggle()
@@ -209,17 +209,18 @@ struct NewTweetView_Preview: PreviewProvider {
         NewTweetView(viewModel: NewTweetViewModel(userID: "1234"))
           .environment(
             \.loginUsers,
-             [
+            [
               .init(
                 id: "1234", name: "name", userName: "userName",
                 profileImageURL: URL(
-                  string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"
+                  string:
+                    "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg"
                 ))
-             ])
+            ])
       }
     }
   }
-  
+
   static var previews: some View {
     Preview()
   }
