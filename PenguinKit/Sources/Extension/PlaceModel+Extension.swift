@@ -11,8 +11,6 @@ extension Sweet.PlaceModel {
 
     let geo = try! decoder.decodeIfExists(Sweet.GeoModel.self, from: place.geo)
 
-    let type: Sweet.PlaceType? = place.type.map { Sweet.PlaceType(rawValue: $0)! }
-
     let containedWithin = try! decoder.decodeIfExists(
       [String].self,
       from: place.containedWithin
@@ -25,7 +23,7 @@ extension Sweet.PlaceModel {
       country: place.country,
       countryCode: place.countryCode,
       geo: geo,
-      type: type,
+      type: place.type,
       containedWithin: containedWithin ?? []
     )
   }
@@ -40,7 +38,7 @@ extension Sweet.PlaceModel {
       "country": country,
       "countryCode": countryCode,
       "geo": try! encoder.encodeIfExists(geo),
-      "type": type?.rawValue,
+      "type": type,
       "containedWithin": try! encoder.encode(containedWithin),
     ]
 
