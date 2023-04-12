@@ -6,7 +6,16 @@ import SwiftUI
 
 extension View {
   @ViewBuilder
-  func `if`<T: View>(_ conditional: Bool, transform: (Self) -> T) -> some View {
+  func ifLet<Content: View, Value>(_ optional: Value?, transform: (Self, Value) -> Content) -> some View {
+    if let optional {
+      transform(self, optional)
+    } else {
+      self
+    }
+  }
+  
+  @ViewBuilder
+  func `if`<Content: View>(_ conditional: Bool, transform: (Self) -> Content) -> some View {
     if conditional {
       transform(self)
     } else {
