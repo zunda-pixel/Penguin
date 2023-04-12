@@ -10,7 +10,11 @@ import SwiftUI
 public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
   @Environment(\.requestReview) var requestReview
-
+  
+  #if os(macOS)
+  @State var selectedTab: TabItem = .display
+  #endif
+  
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
@@ -35,10 +39,6 @@ public struct SettingsView: View {
       dimiss()
     }
   }
-  
-  #if os(macOS)
-  @State var selectedTab: TabItem = .display
-  #endif
   
   @ViewBuilder
   func tabContent(tab: TabItem) -> some View {
