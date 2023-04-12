@@ -31,15 +31,14 @@ struct MediasView: View {
         }
         .clipped()
         .aspectRatio(1, contentMode: .fit)
-        .overlay(alignment: .bottomTrailing) {
-          // Gifの場合viewCountが取得できない
-          if let viewCount = media.metrics?.viewCount {
+        .ifLet(media.metrics?.viewCount) { view, viewCount in
+          view.overlay(alignment: .bottomTrailing) {
             Text("\(viewCount) views")
-            .font(.caption2)
-            .padding(.horizontal, 3)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
-            .padding(7)
-          }
+              .font(.caption2)
+              .padding(.horizontal, 3)
+              .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
+              .padding(7)
+            }
         }
       }
     }
