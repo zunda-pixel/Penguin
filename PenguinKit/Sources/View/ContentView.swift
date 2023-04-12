@@ -198,9 +198,11 @@ public struct ContentView: View {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
               .bold()
               .padding()
+            #if !os(macOS)
               .background(
                 RoundedRectangle(cornerRadius: 15).foregroundColor(
                   settings.colorType.colorSet.tintColor.opacity(0.5)))
+            #endif
           }
 
           Button {
@@ -210,10 +212,12 @@ public struct ContentView: View {
           }
           .bold()
           .padding()
+          #if !os(macOS)
           .background(
             RoundedRectangle(cornerRadius: 15).foregroundColor(
               settings.colorType.colorSet.tintColor.opacity(0.5))
           )
+          #endif
           .sheet(isPresented: $isPresentedSettingsView) {
             SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
           }
