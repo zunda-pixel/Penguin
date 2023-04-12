@@ -18,16 +18,6 @@ protocol ReverseChronologicalTweetsViewProtocol: ObservableObject {
 }
 
 extension ReverseChronologicalTweetsViewProtocol {
-  //  var showTweets: [Tweet] {
-  //    let tweets = fetchShowTweetController.fetchedObjects ?? []
-  //
-  //    if searchSettings.query.isEmpty {
-  //      return tweets
-  //    } else {
-  //      return tweets.filter { $0.text!.lowercased().contains(searchSettings.query.lowercased()) }
-  //    }
-  //  }
-
   func addResponse(response: Sweet.TweetsResponse) throws {
     let tweets = response.tweets + response.relatedTweets
 
