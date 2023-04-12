@@ -185,7 +185,8 @@ public struct ContentView: View {
 
           Image(icon!.iconName, bundle: .module)
             .resizable()
-            .scaledToFit()
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: 200)
             .cornerRadius(15)
             .padding(40)
 
