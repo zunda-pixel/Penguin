@@ -18,7 +18,11 @@ struct MediasView: View {
   }
 
   var body: some View {
+    #if os(macOS)
+    let columnCount = medias.count
+    #else
     let columnCount = medias.count < 3 ? medias.count : 2
+    #endif
 
     LazyVGrid(columns: .init(repeating: GridItem(.flexible()), count: columnCount)) {
       ForEach(medias) { media in
