@@ -219,7 +219,11 @@ public struct ContentView: View {
           )
           #endif
           .sheet(isPresented: $isPresentedSettingsView) {
-            SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
+            SettingsView(
+              settings: $settings,
+              currentUser: $currentUser,
+              loginUsers: $loginUsers
+            )
           }
         }
         .tabItem {
