@@ -206,7 +206,11 @@ public struct ContentView: View {
           }
 
           Button {
+            #if os(macOS)
+            NSApp.showSettingsWindows()
+            #else
             isPresentedSettingsView.toggle()
+            #endif
           } label: {
             Label("Settings", systemImage: "gear")
           }
