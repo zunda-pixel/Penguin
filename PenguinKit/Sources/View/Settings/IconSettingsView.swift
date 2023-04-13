@@ -32,7 +32,7 @@ struct Icon: Identifiable, Hashable {
       guard icon.iconName != selectedIcon.iconName else { return }
 
       let iconName: String? =
-        icon.iconName == Configuration(bundle: .main).primaryIconName ? nil : icon.iconName
+        icon.iconName == UIApplication.primaryIconName ? nil : icon.iconName
 
       let previousIcon = selectedIcon
 
