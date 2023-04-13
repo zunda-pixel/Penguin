@@ -58,6 +58,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           let poll = viewModel.polls.first(where: { $0.id == pollID })
         {
           PollView(poll: poll)
+            .frame(maxWidth: 400)
             .padding()
             .overlay {
               RoundedRectangle(cornerRadius: 13)
@@ -154,6 +155,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           viewModel.tweet.attachments?.mediaKeys.isEmpty != false
         {
           OGPCardView(urlModel: urlModel)
+            .frame(maxWidth: 300, maxHeight: 300)
         }
 
         if isRetweeted {
