@@ -17,6 +17,8 @@ struct UserDetailView: View {
 
       UserProfileView(viewModel: .init(user: viewModel.user))
 
+      let buttonWidth: CGFloat = 200
+      
       Button {
         let dmViewModel = DirectMessageDetailViewModel(
           participantID: viewModel.user.id,
@@ -24,7 +26,8 @@ struct UserDetailView: View {
         )
         router.path.append(dmViewModel)
       } label: {
-        Label("DirectMessage", systemImage: "envelope.fill").frame(maxWidth: .infinity)
+        Label("DirectMessage", systemImage: "envelope.fill")
+          .frame(maxWidth: buttonWidth * 2)
       }
 
       HStack {
@@ -35,10 +38,19 @@ struct UserDetailView: View {
           )
           router.path.append(viewModel)
         } label: {
-          VStack {
-            Label("FOLLOWERS", systemImage: "figure.wave")
-            Text("\(viewModel.user.metrics!.followersCount)")
-          }.frame(maxWidth: .infinity)
+          Label {
+            VStack {
+              #if os(macOS)
+              Text("\(viewModel.user.metrics!.followersCount) FOLLOWERS")
+              #else
+              Text("FOLLOWERS")
+              Text("\(viewModel.user.metrics!.followersCount)")
+              #endif
+            }
+          } icon: {
+            Image(systemName: "figure.wave")
+          }
+          .frame(maxWidth: buttonWidth)
         }
 
         Button {
@@ -48,10 +60,19 @@ struct UserDetailView: View {
           )
           router.path.append(viewModel)
         } label: {
-          VStack {
-            Label("FOLLOWING", systemImage: "figure.walk")
-            Text("\(viewModel.user.metrics!.followingCount)")
-          }.frame(maxWidth: .infinity)
+          Label {
+            #if os(macOS)
+            Text("\(viewModel.user.metrics!.followingCount) FOLLOWING")
+            #else
+            VStack {
+              Text("FOLLOWING")
+              Text("\(viewModel.user.metrics!.followingCount)")
+            }
+            #endif
+          } icon: {
+            Image(systemName: "figure.walk")
+          }
+          .frame(maxWidth: buttonWidth)
         }
       }
 
@@ -63,7 +84,8 @@ struct UserDetailView: View {
           )
           router.path.append(viewModel)
         } label: {
-          Label("Like", systemImage: "heart").frame(maxWidth: .infinity)
+          Label("Like", systemImage: "heart")
+            .frame(maxWidth: buttonWidth)
         }
         Button {
           let viewModel = UserListViewModel(
@@ -72,7 +94,8 @@ struct UserDetailView: View {
           )
           router.path.append(viewModel)
         } label: {
-          Label("List", systemImage: "list.dash.header.rectangle").frame(maxWidth: .infinity)
+          Label("List", systemImage: "list.dash.header.rectangle")
+            .frame(maxWidth: buttonWidth)
         }
       }
 
@@ -82,14 +105,16 @@ struct UserDetailView: View {
             userID: viewModel.userID, ownerID: viewModel.user.id)
           router.path.append(viewModel)
         } label: {
-          Label("Mention", systemImage: "ellipsis.message").frame(maxWidth: .infinity)
+          Label("Mention", systemImage: "ellipsis.message")
+            .frame(maxWidth: buttonWidth)
         }
 
         Button {
           let viewModel = UserTweetsViewModel(viewModel: viewModel)
           router.path.append(viewModel)
         } label: {
-          Label("All Tweets", systemImage: "list.dash.header.rectangle").frame(maxWidth: .infinity)
+          Label("All Tweets", systemImage: "list.dash.header.rectangle")
+            .frame(maxWidth: buttonWidth)
         }
       }
     }
