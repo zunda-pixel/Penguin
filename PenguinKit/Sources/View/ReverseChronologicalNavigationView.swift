@@ -7,8 +7,6 @@ import Sweet
 import SwiftUI
 
 struct ReverseChronologicalNavigationView: View {
-  @Environment(\.managedObjectContext) var viewContext
-
   @StateObject var router = NavigationPathRouter()
 
   @Binding var loginUsers: [Sweet.UserModel]
