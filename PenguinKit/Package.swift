@@ -20,7 +20,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-algorithms", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/apple/swift-collections", branch: "release/1.1"),
     .package(url: "https://github.com/apple/swift-format", .upToNextMajor(from: "508.0.0")),
-    .package(url: "https://github.com/zunda-pixel/KeychainAccess", branch: "remove-unnecessary-check-for-macOS"),
+    .package(url: "https://github.com/tonyarnold/KeychainAccess", branch: "fix-macos-10-11-warning"),
     .package(url: "https://github.com/onevcat/Kingfisher", branch: "master"),
     .package(url: "https://github.com/stleamist/BetterSafariView", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/zunda-pixel/AttributedText", .upToNextMajor(from: "2.0.0")),
