@@ -57,10 +57,10 @@
     {
       "identity" : "keychainaccess",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zunda-pixel/KeychainAccess",
+      "location" : "https://github.com/tonyarnold/KeychainAccess",
       "state" : {
-        "branch" : "remove-unnecessary-check-for-macOS",
-        "revision" : "c63404c0604220d0f82dbc103de07ace0e513c3a"
+        "branch" : "fix-macos-10-11-warning",
+        "revision" : "e0bf951dd802598b1ba43c7285321952c63bf14a"
       }
     },
     {
