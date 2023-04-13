@@ -10,11 +10,11 @@ import SwiftUI
 public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
   @Environment(\.requestReview) var requestReview
-  
+
   #if os(macOS)
-  @State var selectedTab: TabItem = .display
+    @State var selectedTab: TabItem = .display
   #endif
-  
+
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
@@ -39,20 +39,20 @@ public struct SettingsView: View {
       dimiss()
     }
   }
-  
+
   @ViewBuilder
   func tabContent(tab: TabItem) -> some View {
     switch tab {
-      #if !os(macOS)
-    case .appIcon: IconSettingsView()
-      #endif
+    #if !os(macOS)
+      case .appIcon: IconSettingsView()
+    #endif
     case .customClient: CustomClientSettingsView(currentUser: $currentUser, loginUsers: $loginUsers)
     case .display: DisplaySettingsView(settings: $settings)
     case .license: LicenseView()
     case .tab: TabSettingsView(settings: $settings)
     }
   }
-  
+
   @ViewBuilder
   var accountSection: some View {
     Section("Account") {
@@ -80,57 +80,57 @@ public struct SettingsView: View {
     }
 
   }
-  
-  #if os(macOS)
-  public var body: some View {
-    NavigationSplitView {
-      List(selection: $selectedTab) {
-        accountSection
-        
-        ForEach(SectionType.allCases) { type in
-          Section(type.rawValue.uppercased()) {
-            ForEach(TabItem.allCases.filter { $0.item.sectionType == type }) { tabItem in
-              Label(tabItem.item.title, systemImage: tabItem.item.icon)
-                .tag(tabItem)
-            }
-          }
-        }
-      }
-    } detail: {
-      NavigationStack {
-        tabContent(tab: selectedTab)
-          .navigationTitle(selectedTab.item.title)
-      }
-    }
-    .frame(minWidth: 500, minHeight: 500)
-  }
-  #else
-  public var body: some View {
-    NavigationStack {
-      List {
-        accountSection
 
-        ForEach(SectionType.allCases) { type in
-          Section(type.rawValue.uppercased()) {
-            ForEach(TabItem.allCases.filter { $0.item.sectionType == type }) { tabItem in
-              NavigationLink {
-                tabContent(tab: tabItem)
-                  .navigationTitle(tabItem.item.title)
-              } label: {
+  #if os(macOS)
+    public var body: some View {
+      NavigationSplitView {
+        List(selection: $selectedTab) {
+          accountSection
+
+          ForEach(SectionType.allCases) { type in
+            Section(type.rawValue.uppercased()) {
+              ForEach(TabItem.allCases.filter { $0.item.sectionType == type }) { tabItem in
                 Label(tabItem.item.title, systemImage: tabItem.item.icon)
+                  .tag(tabItem)
               }
             }
           }
         }
+      } detail: {
+        NavigationStack {
+          tabContent(tab: selectedTab)
+            .navigationTitle(selectedTab.item.title)
+        }
       }
-      .onChange(of: settings) { newValue in
-        Secure.settings = newValue
-      }
-      .navigationTitle("Settings")
-      .navigationBarTitleDisplayModeIfAvailable(.large)
-      .navigationDestination()
+      .frame(minWidth: 500, minHeight: 500)
     }
-  }
+  #else
+    public var body: some View {
+      NavigationStack {
+        List {
+          accountSection
+
+          ForEach(SectionType.allCases) { type in
+            Section(type.rawValue.uppercased()) {
+              ForEach(TabItem.allCases.filter { $0.item.sectionType == type }) { tabItem in
+                NavigationLink {
+                  tabContent(tab: tabItem)
+                    .navigationTitle(tabItem.item.title)
+                } label: {
+                  Label(tabItem.item.title, systemImage: tabItem.item.icon)
+                }
+              }
+            }
+          }
+        }
+        .onChange(of: settings) { newValue in
+          Secure.settings = newValue
+        }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayModeIfAvailable(.large)
+        .navigationDestination()
+      }
+    }
   #endif
 }
 
@@ -154,37 +154,39 @@ extension SettingsView {
   enum SectionType: String, CaseIterable, Identifiable {
     case general
     case about
-    
+
     var id: String { rawValue }
   }
-  
+
   enum TabItem: String, Identifiable, CaseIterable {
     case display
     case tab
     #if !os(macOS)
-    case appIcon
+      case appIcon
     #endif
-    
+
     case license
     case customClient
-    
+
     var id: String { rawValue }
-    
+
     struct Item {
       let title: String
       let icon: String
       let sectionType: SectionType
     }
-    
+
     var item: Item {
       switch self {
-        #if !os(macOS)
-      case .appIcon: return Item(title: "App Icon", icon: "rectangle.grid.2x2", sectionType: .general)
-        #endif
+      #if !os(macOS)
+        case .appIcon:
+          return Item(title: "App Icon", icon: "rectangle.grid.2x2", sectionType: .general)
+      #endif
       case .display: return Item(title: "Display", icon: "iphone", sectionType: .general)
       case .tab: return Item(title: "Tab", icon: "dock.rectangle", sectionType: .general)
       case .license: return Item(title: "License", icon: "lock.shield", sectionType: .about)
-      case .customClient: return Item(title: "Custom Client", icon: "key.horizontal", sectionType: .about)
+      case .customClient:
+        return Item(title: "Custom Client", icon: "key.horizontal", sectionType: .about)
       }
     }
   }

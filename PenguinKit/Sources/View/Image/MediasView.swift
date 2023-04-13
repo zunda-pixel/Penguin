@@ -19,9 +19,9 @@ struct MediasView: View {
 
   var body: some View {
     #if os(macOS)
-    let columnCount = medias.count
+      let columnCount = medias.count
     #else
-    let columnCount = medias.count < 3 ? medias.count : 2
+      let columnCount = medias.count < 3 ? medias.count : 2
     #endif
 
     LazyVGrid(columns: .init(repeating: GridItem(.flexible()), count: columnCount)) {
@@ -38,11 +38,11 @@ struct MediasView: View {
         .ifLet(media.metrics?.viewCount) { view, viewCount in
           view.overlay(alignment: .bottomTrailing) {
             Text("\(viewCount) views")
-              .font(.caption2)
-              .padding(.horizontal, 3)
-              .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
-              .padding(7)
-            }
+            .font(.caption2)
+            .padding(.horizontal, 3)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
+            .padding(7)
+          }
         }
       }
     }

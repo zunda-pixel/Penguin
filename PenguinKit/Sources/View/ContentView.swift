@@ -196,8 +196,8 @@ public struct ContentView: View {
 
           LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
-              .bold()
-              .padding()
+            .bold()
+            .padding()
             #if !os(macOS)
               .background(
                 RoundedRectangle(cornerRadius: 15).foregroundColor(
@@ -207,9 +207,9 @@ public struct ContentView: View {
 
           Button {
             #if os(macOS)
-            NSApp.showSettingsWindows()
+              NSApp.showSettingsWindows()
             #else
-            isPresentedSettingsView.toggle()
+              isPresentedSettingsView.toggle()
             #endif
           } label: {
             Label("Settings", systemImage: "gear")
@@ -217,10 +217,10 @@ public struct ContentView: View {
           .bold()
           .padding()
           #if !os(macOS)
-          .background(
-            RoundedRectangle(cornerRadius: 15).foregroundColor(
-              settings.colorType.colorSet.tintColor.opacity(0.5))
-          )
+            .background(
+              RoundedRectangle(cornerRadius: 15).foregroundColor(
+                settings.colorType.colorSet.tintColor.opacity(0.5))
+            )
           #endif
           .sheet(isPresented: $isPresentedSettingsView) {
             SettingsView(
