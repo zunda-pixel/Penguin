@@ -128,7 +128,6 @@ public struct SettingsView: View {
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayModeIfAvailable(.large)
-        .navigationDestination()
       }
     }
   #endif
