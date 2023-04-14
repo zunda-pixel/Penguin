@@ -150,9 +150,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
         }.first
 
-        // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
         if let urlModel = urlModel,
-          viewModel.tweet.attachments?.mediaKeys.isEmpty != false
+           viewModel.tweet.attachments?.mediaKeys.isEmpty != false
         {
           OGPCardView(urlModel: urlModel)
             .frame(maxWidth: 300, maxHeight: 300)
