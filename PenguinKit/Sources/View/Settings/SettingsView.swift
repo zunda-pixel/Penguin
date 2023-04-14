@@ -11,14 +11,17 @@ public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
   @Environment(\.requestReview) var requestReview
 
-  @StateObject var router = NavigationPathRouter()
+  #if os(macOS)
+    @State var selectedTab: TabItem = .display
+  #endif
 
   @Binding var settings: Settings
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
 
   public init(
-    settings: Binding<Settings>, currentUser: Binding<Sweet.UserModel?>,
+    settings: Binding<Settings>,
+    currentUser: Binding<Sweet.UserModel?>,
     loginUsers: Binding<[Sweet.UserModel]>
   ) {
     self._settings = settings
@@ -37,139 +40,97 @@ public struct SettingsView: View {
     }
   }
 
-  public var body: some View {
-    NavigationStack(path: $router.path) {
-      List {
-        Group {
-          Section("Account") {
-            ForEach(loginUsers) { user in
-              let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
+  @ViewBuilder
+  func tabContent(tab: TabItem) -> some View {
+    switch tab {
+    #if !os(macOS)
+      case .appIcon: IconSettingsView()
+    #endif
+    case .customClient: CustomClientSettingsView(currentUser: $currentUser, loginUsers: $loginUsers)
+    case .display: DisplaySettingsView(settings: $settings)
+    case .license: LicenseView()
+    case .tab: TabSettingsView(settings: $settings)
+    }
+  }
 
-              NavigationLink(value: viewModel) {
-                Label {
-                  Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
-                } icon: {
-                  ProfileImageView(url: user.profileImageURL!)
-                    .frame(width: 30, height: 30)
-                }
-              }
-              .swipeActions(edge: .trailing) {
-                Button("Logout", role: .destructive) {
-                  logout(user: user)
-                }
-              }
-            }
+  @ViewBuilder
+  var accountSection: some View {
+    Section("Account") {
+      ForEach(loginUsers) { user in
+        let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
 
-            LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
-              Label("Add Account", systemImage: "plus.app")
-            }
+        NavigationLink(value: viewModel) {
+          Label {
+            Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
+          } icon: {
+            ProfileImageView(url: user.profileImageURL!)
+              .frame(width: 30, height: 30)
           }
-
-          Section("General") {
-            NavigationLink {
-              DisplaySettingsView(settings: $settings)
-            } label: {
-              Label("Display", systemImage: "iphone")
-            }
-
-            NavigationLink {
-              TabSettingsView(settings: $settings)
-            } label: {
-              Label("Tab", systemImage: "dock.rectangle")
-            }
-
-            #if DEBUG
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                Label("Sound", systemImage: "speaker")
-                  .symbolVariant(.circle)
-              }
-
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                Label("Browser", systemImage: "safari")
-              }
-            #endif
-
-            #if !os(macOS)
-              NavigationLink {
-                IconSettingsView()
-                  .navigationTitle("App Icon")
-              } label: {
-                Label("App Icon", systemImage: "rectangle.grid.2x2")
-              }
-            #endif
-          }
-
-          Section("ABOUT") {
-            #if DEBUG
-
-              NavigationLink {
-                VStack {
-                  if let userID = currentUser?.id,
-                    let bearerToken = Secure.getAuthorization(userID: userID)?.bearerToken
-                  {
-                    Text(bearerToken)
-                      .textSelection(.enabled)
-                  }
-                  Text("Manage Subscription")
-                }
-              } label: {
-                Label("Manage Subscription", systemImage: "person")
-              }
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                Label("Sync Status", systemImage: "person")
-              }
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                Label("Support", systemImage: "person")
-              }
-              NavigationLink {
-                Text("Hello")
-              } label: {
-                Label("@zunda", systemImage: "person")
-              }
-            #endif
-
-            NavigationLink {
-              LicenseView()
-                .navigationTitle("License")
-            } label: {
-              Label("License", systemImage: "lock.shield")
-            }
-
-            NavigationLink {
-              CustomClientSettingsView(
-                currentUser: $currentUser,
-                loginUsers: $loginUsers
-              )
-              .navigationTitle("Custom Client")
-            } label: {
-              Label("Custom Client", systemImage: "key.horizontal")
-            }
-
-            Button {
-              requestReview()
-            } label: {
-              Label("Review in App Store", systemImage: "star")
-            }
+        }
+        .swipeActions(edge: .trailing) {
+          Button("Logout", role: .destructive) {
+            logout(user: user)
           }
         }
       }
-      .onChange(of: settings) { newValue in
-        Secure.settings = newValue
+
+      LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
+        Label("Add Account", systemImage: "plus.app")
       }
-      .navigationTitle("Settings")
-      .navigationBarTitleDisplayModeIfAvailable(.large)
-      .navigationDestination()
     }
-    .environmentObject(router)
+
   }
+
+  #if os(macOS)
+    public var body: some View {
+      NavigationSplitView {
+        List(selection: $selectedTab) {
+          accountSection
+
+          ForEach(SectionType.allCases) { type in
+            Section(type.rawValue.uppercased()) {
+              ForEach(TabItem.allCases.filter { $0.item.sectionType == type }) { tabItem in
+                Label(tabItem.item.title, systemImage: tabItem.item.icon)
+                  .tag(tabItem)
+              }
+            }
+          }
+        }
+      } detail: {
+        NavigationStack {
+          tabContent(tab: selectedTab)
+            .navigationTitle(selectedTab.item.title)
+        }
+      }
+      .frame(minWidth: 500, minHeight: 500)
+    }
+  #else
+    public var body: some View {
+      NavigationStack {
+        List {
+          accountSection
+
+          ForEach(SectionType.allCases) { type in
+            Section(type.rawValue.uppercased()) {
+              ForEach(TabItem.allCases.filter { $0.item.sectionType == type }) { tabItem in
+                NavigationLink {
+                  tabContent(tab: tabItem)
+                    .navigationTitle(tabItem.item.title)
+                } label: {
+                  Label(tabItem.item.title, systemImage: tabItem.item.icon)
+                }
+              }
+            }
+          }
+        }
+        .onChange(of: settings) { newValue in
+          Secure.settings = newValue
+        }
+        .navigationTitle("Settings")
+        .navigationBarTitleDisplayModeIfAvailable(.large)
+      }
+    }
+  #endif
 }
 
 struct SettingsView_Preview: PreviewProvider {
@@ -185,5 +146,47 @@ struct SettingsView_Preview: PreviewProvider {
 
   static var previews: some View {
     Preview()
+  }
+}
+
+extension SettingsView {
+  enum SectionType: String, CaseIterable, Identifiable {
+    case general
+    case about
+
+    var id: String { rawValue }
+  }
+
+  enum TabItem: String, Identifiable, CaseIterable {
+    case display
+    case tab
+    #if !os(macOS)
+      case appIcon
+    #endif
+
+    case license
+    case customClient
+
+    var id: String { rawValue }
+
+    struct Item {
+      let title: String
+      let icon: String
+      let sectionType: SectionType
+    }
+
+    var item: Item {
+      switch self {
+      #if !os(macOS)
+        case .appIcon:
+          return Item(title: "App Icon", icon: "rectangle.grid.2x2", sectionType: .general)
+      #endif
+      case .display: return Item(title: "Display", icon: "iphone", sectionType: .general)
+      case .tab: return Item(title: "Tab", icon: "dock.rectangle", sectionType: .general)
+      case .license: return Item(title: "License", icon: "lock.shield", sectionType: .about)
+      case .customClient:
+        return Item(title: "Custom Client", icon: "key.horizontal", sectionType: .about)
+      }
+    }
   }
 }

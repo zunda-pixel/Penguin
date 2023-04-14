@@ -16,6 +16,7 @@ struct PenguinApp: App {
 #if os(macOS)
     SwiftUI.Settings {
       SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
+        .frame(minWidth: 500, minHeight: 500)
     }
 #endif
   }

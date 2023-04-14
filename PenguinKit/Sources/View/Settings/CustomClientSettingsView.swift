@@ -11,7 +11,7 @@ struct CustomClientSettingsView: View {
   @Binding var loginUsers: [Sweet.UserModel]
 
   var body: some View {
-    Form {
+    List {
       Section {
         Text("If you set Client, all accounts will be reset.")
       }

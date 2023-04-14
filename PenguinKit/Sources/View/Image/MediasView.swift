@@ -18,7 +18,11 @@ struct MediasView: View {
   }
 
   var body: some View {
-    let columnCount = medias.count < 3 ? medias.count : 2
+    #if os(macOS)
+      let columnCount = medias.count
+    #else
+      let columnCount = medias.count < 3 ? medias.count : 2
+    #endif
 
     LazyVGrid(columns: .init(repeating: GridItem(.flexible()), count: columnCount)) {
       ForEach(medias) { media in
@@ -31,9 +35,8 @@ struct MediasView: View {
         }
         .clipped()
         .aspectRatio(1, contentMode: .fit)
-        .overlay(alignment: .bottomTrailing) {
-          // Gifの場合viewCountが取得できない
-          if let viewCount = media.metrics?.viewCount {
+        .ifLet(media.metrics?.viewCount) { view, viewCount in
+          view.overlay(alignment: .bottomTrailing) {
             Text("\(viewCount) views")
             .font(.caption2)
             .padding(.horizontal, 3)

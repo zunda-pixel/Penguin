@@ -58,6 +58,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           let poll = viewModel.polls.first(where: { $0.id == pollID })
         {
           PollView(poll: poll)
+            .frame(maxWidth: 400)
             .padding()
             .overlay {
               RoundedRectangle(cornerRadius: 13)
@@ -92,7 +93,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             tweet: quoted.tweetContent.tweet,
             user: quoted.tweetContent.author
           )
-          .frame(maxWidth: .infinity, alignment: .leading)
+          .frame(maxWidth: 400, alignment: .leading)
           .contentShape(Rectangle())
           .onTapGesture {
             let quotedTweetModel: QuotedTweetModel?
@@ -149,11 +150,11 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
         }.first
 
-        // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
         if let urlModel = urlModel,
-          viewModel.tweet.attachments?.mediaKeys.isEmpty != false
+           viewModel.tweet.attachments?.mediaKeys.isEmpty != false
         {
           OGPCardView(urlModel: urlModel)
+            .frame(maxWidth: 400, maxHeight: 400)
         }
 
         if isRetweeted {

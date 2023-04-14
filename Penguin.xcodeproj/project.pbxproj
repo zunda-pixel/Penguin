@@ -26,7 +26,6 @@
 		2E5613502989FAC8006CB14F /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E56134F2989FAC8006CB14F /* ActionViewController.swift */; };
 		2E5613572989FAC8006CB14F /* OpenInPenguin.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2E5613492989FAC8006CB14F /* OpenInPenguin.appex */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2E56135C2989FB07006CB14F /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E56135B2989FB07006CB14F /* MainInterface.storyboard */; };
-		2EEEF8D1298E37070020F66B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EEEF8D0298E37070020F66B /* GoogleService-Info.plist */; };
 		E0C37BC92823189D007B925B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0C37BC82823189D007B925B /* Assets.xcassets */; };
 		E0C37BDF28232B8B007B925B /* PenguinKit in Frameworks */ = {isa = PBXBuildFile; productRef = E0C37BDE28232B8B007B925B /* PenguinKit */; };
 		E0C37C2D2823375B007B925B /* PenguinApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C37C2C2823375B007B925B /* PenguinApp.swift */; };
@@ -92,7 +91,6 @@
 		2E56134F2989FAC8006CB14F /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
 		2E5613542989FAC8006CB14F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E56135B2989FB07006CB14F /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		2EEEF8D0298E37070020F66B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E08260FE28CAA86100071BA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0BCD66B2823850F000FDF0D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E0C37BC12823189A007B925B /* Penguin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Penguin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,7 +186,6 @@
 		2EB1FB892972EAFC0088CCA6 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				2EEEF8D0298E37070020F66B /* GoogleService-Info.plist */,
 				E0C37BC82823189D007B925B /* Assets.xcassets */,
 				E0C37BCA2823189D007B925B /* Penguin.entitlements */,
 				E08260FE28CAA86100071BA9 /* Info.plist */,
@@ -395,7 +392,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E0C37BC92823189D007B925B /* Assets.xcassets in Resources */,
-				2EEEF8D1298E37070020F66B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

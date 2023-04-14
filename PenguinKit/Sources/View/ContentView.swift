@@ -185,7 +185,8 @@ public struct ContentView: View {
 
           Image(icon!.iconName, bundle: .module)
             .resizable()
-            .scaledToFit()
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: 200)
             .cornerRadius(15)
             .padding(40)
 
@@ -195,26 +196,38 @@ public struct ContentView: View {
 
           LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
             Text("\(Image(systemName: "lock.circle")) Login with Twitter")
-              .bold()
-              .padding()
+            .bold()
+            .padding()
+            #if !os(macOS)
               .background(
                 RoundedRectangle(cornerRadius: 15).foregroundColor(
                   settings.colorType.colorSet.tintColor.opacity(0.5)))
+            #endif
           }
 
           Button {
-            isPresentedSettingsView.toggle()
+            #if os(macOS)
+              NSApp.showSettingsWindows()
+            #else
+              isPresentedSettingsView.toggle()
+            #endif
           } label: {
             Label("Settings", systemImage: "gear")
           }
           .bold()
           .padding()
-          .background(
-            RoundedRectangle(cornerRadius: 15).foregroundColor(
-              settings.colorType.colorSet.tintColor.opacity(0.5))
-          )
+          #if !os(macOS)
+            .background(
+              RoundedRectangle(cornerRadius: 15).foregroundColor(
+                settings.colorType.colorSet.tintColor.opacity(0.5))
+            )
+          #endif
           .sheet(isPresented: $isPresentedSettingsView) {
-            SettingsView(settings: $settings, currentUser: $currentUser, loginUsers: $loginUsers)
+            SettingsView(
+              settings: $settings,
+              currentUser: $currentUser,
+              loginUsers: $loginUsers
+            )
           }
         }
         .tabItem {
