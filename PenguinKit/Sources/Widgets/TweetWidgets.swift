@@ -54,12 +54,8 @@ public struct TweetStatusView: View {
         case .systemExtraLarge: ExtraLargeTweetStatusView(model: model)
         case .accessoryRectangular: RectangularTweetStatusView(model: model)
         case .accessoryInline: AccessoryInlineTweetStatusView(model: model)
-        case .accessoryCircular:
-          // TODO accessoryCircularは用意していない
-          AccessoryInlineTweetStatusView(model: model)
-        @unknown default:
-          // TODO accessoryCircularは用意していない
-          AccessoryInlineTweetStatusView(model: model)
+        case .accessoryCircular: fatalError("Not implemented for accessoryCircular")
+        @unknown default: fatalError("Not implemented for default")
         }
       }
       .padding(10)
