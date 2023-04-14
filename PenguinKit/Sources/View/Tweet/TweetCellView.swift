@@ -93,7 +93,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             tweet: quoted.tweetContent.tweet,
             user: quoted.tweetContent.author
           )
-          .frame(maxWidth: .infinity, alignment: .leading)
+          .frame(maxWidth: 400, alignment: .leading)
           .contentShape(Rectangle())
           .onTapGesture {
             let quotedTweetModel: QuotedTweetModel?
@@ -154,7 +154,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
            viewModel.tweet.attachments?.mediaKeys.isEmpty != false
         {
           OGPCardView(urlModel: urlModel)
-            .frame(maxWidth: 300, maxHeight: 300)
+            .frame(maxWidth: 400, maxHeight: 400)
         }
 
         if isRetweeted {
