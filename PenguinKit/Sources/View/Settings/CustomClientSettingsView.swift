@@ -19,7 +19,7 @@ struct CustomClientSettingsView: View {
       Section {
         TextField("Client ID", text: $viewModel.clientID)
         SecureField("Client Secret Key", text: $viewModel.clientSecretKey)
-        
+
         NavigationLink("Set up API Settings") {
           SetUpAPIView()
         }

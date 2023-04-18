@@ -62,27 +62,27 @@ struct TabSettingsView: View {
       }
     }
     #if os(macOS)
-    .onChange(of: tabs) { newTabs in
-      tabs = newTabs
-      settings.tabs = newTabs
-      Secure.settings = settings
-    }
+      .onChange(of: tabs) { newTabs in
+        tabs = newTabs
+        settings.tabs = newTabs
+        Secure.settings = settings
+      }
     #endif
     .onChange(of: tabStyle) { newTabStyle in
       tabs = Array(tabs.prefix(maxTabCount(newTabStyle)))
       #if os(macOS)
-      settings.tabStyle = newTabStyle
-      settings.tabs = tabs
-      Secure.settings = settings
+        settings.tabStyle = newTabStyle
+        settings.tabs = tabs
+        Secure.settings = settings
       #endif
     }
     #if !os(macOS)
-    // onDisappear doesn't work on macOS Settings
-    .onDisappear {
-      settings.tabs = tabs
-      settings.tabStyle = tabStyle
-      Secure.settings = settings
-    }
+      // onDisappear doesn't work on macOS Settings
+      .onDisappear {
+        settings.tabs = tabs
+        settings.tabStyle = tabStyle
+        Secure.settings = settings
+      }
     #endif
     #if !os(macOS)
       .environment(\.editMode, .constant(.active))

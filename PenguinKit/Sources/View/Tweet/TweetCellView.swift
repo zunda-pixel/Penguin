@@ -151,7 +151,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
         }.first
 
         if let urlModel = urlModel,
-           viewModel.tweet.attachments?.mediaKeys.isEmpty != false
+          viewModel.tweet.attachments?.mediaKeys.isEmpty != false
         {
           OGPCardView(urlModel: urlModel)
             .frame(maxWidth: 400, maxHeight: 400)
