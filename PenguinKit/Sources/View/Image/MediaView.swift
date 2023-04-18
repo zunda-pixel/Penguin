@@ -29,10 +29,7 @@ struct MediaView: View {
 
         let player = AVPlayer(url: url)
         MoviePlayer(player: player)
-        .ignoresSafeArea()
-        .onAppear {
-          player.play()
-        }
+          .ignoresSafeArea()
       }
     #else
       .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
@@ -40,10 +37,7 @@ struct MediaView: View {
 
         let player = AVPlayer(url: url)
         MoviePlayer(player: player)
-        .ignoresSafeArea()
-        .onAppear {
-          player.play()
-        }
+          .ignoresSafeArea()
       }
     #endif
 
