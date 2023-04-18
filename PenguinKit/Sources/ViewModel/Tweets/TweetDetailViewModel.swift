@@ -120,7 +120,7 @@ final class TweetDetailViewModel: TweetsViewProtocol {
         addResponse(response: response)
       }
 
-      let sortedTweets = allTweets.lazy.sorted(by: \.id, isAscending: false)
+      let sortedTweets = allTweets.lazy.sorted(by: \.id, isAscending: true)
 
       let topTweet =
         sortedTweets
