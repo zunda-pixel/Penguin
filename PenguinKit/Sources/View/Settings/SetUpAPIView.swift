@@ -4,9 +4,15 @@
 
 import SwiftUI
 
-struct APIDescriptionView: View {  
+struct SetUpAPIView: View {
   var body: some View {
     List {
+      Text("Set up the Twitter API as follows.")
+      
+      Link(destination: URL(string: "https://developer.twitter.com/en/portal/projects/")!) {
+        Text("Twitter Developer Portal")
+      }
+      
       Picker("App Permission", selection: .constant(AppPermissions.readAndWriteAndDirectMessage)) {
         ForEach(AppPermissions.allCases) { permission in
           Text(permission.rawValue)
@@ -42,7 +48,7 @@ struct APIDescriptionView: View {
   }
 }
 
-extension APIDescriptionView {
+extension SetUpAPIView {
   enum AppPermissions: String, CaseIterable, Identifiable {
     case read = "Read"
     case readAndWrite = "Read and write"
@@ -61,6 +67,6 @@ extension APIDescriptionView {
 
 struct APIDescriptionView_Previews: PreviewProvider {
   static var previews: some View {
-    APIDescriptionView()
+    SetUpAPIView()
   }
 }
