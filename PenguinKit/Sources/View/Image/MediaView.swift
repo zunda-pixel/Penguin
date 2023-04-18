@@ -25,25 +25,19 @@ struct MediaView: View {
     }
     #if os(macOS)
       .sheet(isPresented: $isPresentedVideoPlayer) {
-        let url = media.variants.first { $0.contentType == .mp4 }!.url
+        let url = media.variants.last { $0.contentType == .mp4 }!.url
 
         let player = AVPlayer(url: url)
         MoviePlayer(player: player)
-        .ignoresSafeArea()
-        .onAppear {
-          player.play()
-        }
+          .ignoresSafeArea()
       }
     #else
       .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
-        let url = media.variants.first { $0.contentType == .mp4 }!.url
+        let url = media.variants.last { $0.contentType == .mp4 }!.url
 
         let player = AVPlayer(url: url)
         MoviePlayer(player: player)
-        .ignoresSafeArea()
-        .onAppear {
-          player.play()
-        }
+          .ignoresSafeArea()
       }
     #endif
 

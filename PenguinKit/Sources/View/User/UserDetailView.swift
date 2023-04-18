@@ -18,7 +18,7 @@ struct UserDetailView: View {
       UserProfileView(viewModel: .init(user: viewModel.user))
 
       let buttonWidth: CGFloat = 200
-      
+
       Button {
         let dmViewModel = DirectMessageDetailViewModel(
           participantID: viewModel.user.id,
@@ -41,10 +41,10 @@ struct UserDetailView: View {
           Label {
             VStack {
               #if os(macOS)
-              Text("\(viewModel.user.metrics!.followersCount) FOLLOWERS")
+                Text("\(viewModel.user.metrics!.followersCount) FOLLOWERS")
               #else
-              Text("FOLLOWERS")
-              Text("\(viewModel.user.metrics!.followersCount)")
+                Text("FOLLOWERS")
+                Text("\(viewModel.user.metrics!.followersCount)")
               #endif
             }
           } icon: {
@@ -62,12 +62,12 @@ struct UserDetailView: View {
         } label: {
           Label {
             #if os(macOS)
-            Text("\(viewModel.user.metrics!.followingCount) FOLLOWING")
+              Text("\(viewModel.user.metrics!.followingCount) FOLLOWING")
             #else
-            VStack {
-              Text("FOLLOWING")
-              Text("\(viewModel.user.metrics!.followingCount)")
-            }
+              VStack {
+                Text("FOLLOWING")
+                Text("\(viewModel.user.metrics!.followingCount)")
+              }
             #endif
           } icon: {
             Image(systemName: "figure.walk")
