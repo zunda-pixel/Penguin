@@ -19,7 +19,10 @@ struct CustomClientSettingsView: View {
       Section {
         TextField("Client ID", text: $viewModel.clientID)
         SecureField("Client Secret Key", text: $viewModel.clientSecretKey)
-        Text("Set Callback URL: [penguin://](https://developer.twitter.com/)")
+        
+        NavigationLink("Set up API Settings") {
+          SetUpAPIView()
+        }
       }
 
       Section {
