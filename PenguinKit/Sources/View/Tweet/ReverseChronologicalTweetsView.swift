@@ -18,8 +18,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] = userNames.map { userID in
-        self.viewModel.getUser(userID)!
+      
+      // TODO 何故か取得できないユーザーがいる
+      let users: [Sweet.UserModel] = userNames.compactMap { userID in
+        self.viewModel.getUser(userID)
       }
       let userModels: [Sweet.UserModel] = users + [viewModel.author]
 

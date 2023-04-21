@@ -28,5 +28,7 @@
 	<array>
 		<string>TweetConfigurationIntent</string>
 	</array>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
 </dict>
 </plist>
