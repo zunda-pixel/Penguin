@@ -8,32 +8,11 @@ import Sweet
 
 extension Sweet.TweetModel {
   public var tweetText: String {
-    let tweetText = removeTwitterURL(from: self.text)
-    return tweetText.removingHTMLEntities()
+    return self.text.removingHTMLEntities()
   }
 
   var isEdited: Bool {
     editHistoryTweetIDs.count >= 2
-  }
-
-  func removeTwitterURL(from tweet: String) -> String {
-    var tweetText = tweet
-
-    let twitterURLRegex: String = "https://twitter.com"
-
-    let urls = self.entity?.urls ?? []
-
-    for url in urls {
-      let urlString = "\(url.url)"
-
-      if tweetText.contains(urlString) {
-        if (url.expandedURL ?? urlString).contains(twitterURLRegex) {
-          tweetText = tweetText.replacingOccurrences(of: urlString, with: "")
-        }
-      }
-    }
-
-    return tweetText
   }
 
   enum ReferencedType {
