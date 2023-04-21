@@ -55,6 +55,10 @@ extension Sweet {
         && $0 != .contextAnnotations && $0 != .withheld
     }
 
+    self.userFields = Sweet.UserField.allCases.filter {
+      $0 != .withheld && $0 != .entities
+    }
+
     self.mediaFields = Sweet.MediaField.allCases.filter {
       $0 != .organicMetrics && $0 != .promotedMetrics && $0 != .privateMetrics
     }
