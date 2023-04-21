@@ -37,8 +37,14 @@ struct LinkableText: View {
     var text = text
 
     for url in (tweet.entity?.urls ?? []) {
-      for range in text.ranges(of: url.url.description) {
-        text[range].link = url.url
+      for range in text.ranges(of: url.url.absoluteString) {
+        if let displayURL = url.displayURL {
+          var displayURL = AttributedString(displayURL)
+          displayURL.link = url.expandedURL.map { URL(string: $0) ?? url.url } ?? url.url
+          text.replaceSubrange(range, with: displayURL)
+        } else {
+          text[range].link = url.url
+        }
       }
     }
 
