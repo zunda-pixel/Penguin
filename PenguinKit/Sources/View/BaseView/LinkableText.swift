@@ -33,12 +33,33 @@ struct LinkableText: View {
     return url
   }
 
+  @MainActor func removeUnnecessaryURLs(text: AttributedString) -> AttributedString {
+    var text = text
+
+    for url in (tweet.entity?.urls ?? []) {
+      let displayURL = url.displayURL.map { URL(string: "https://" + $0) }
+      guard displayURL??.host() == "pic.twitter.com" else { continue }
+
+      for range in text.ranges(of: url.url.absoluteString) {
+        text.removeSubrange(range)
+      }
+    }
+
+    return text
+  }
+
   @MainActor func addURLs(text: AttributedString) -> AttributedString {
     var text = text
 
     for url in (tweet.entity?.urls ?? []) {
-      for range in text.ranges(of: url.url.description) {
-        text[range].link = url.url
+      for range in text.ranges(of: url.url.absoluteString) {
+        if let displayURL = url.displayURL {
+          var displayURL = AttributedString(displayURL)
+          displayURL.link = url.expandedURL.map { URL(string: $0) ?? url.url } ?? url.url
+          text.replaceSubrange(range, with: displayURL)
+        } else {
+          text[range].link = url.url
+        }
       }
     }
 
@@ -90,7 +111,8 @@ struct LinkableText: View {
   @MainActor var attributedString: AttributedString {
     let tweetText = tweet.tweetText
     let attributedString = AttributedString(tweetText)
-    let textWithURL = addURLs(text: attributedString)
+    let textWithoutUnnecessaryURL = removeUnnecessaryURLs(text: attributedString)
+    let textWithURL = addURLs(text: textWithoutUnnecessaryURL)
     let textWithHashtag = addHashtags(text: textWithURL)
     let textWithMention = addMentions(text: textWithHashtag)
     let textWithCashtag = addCashtags(text: textWithMention)
