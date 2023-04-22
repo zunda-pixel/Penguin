@@ -27,16 +27,14 @@ struct MediaView: View {
       .sheet(isPresented: $isPresentedVideoPlayer) {
         let url = media.variants.last { $0.contentType == .mp4 }!.url
 
-        let player = AVPlayer(url: url)
-        MoviePlayer(player: player)
+        MoviePlayer(url: url)
         .ignoresSafeArea()
       }
     #else
       .fullScreenCover(isPresented: $isPresentedVideoPlayer) {
         let url = media.variants.last { $0.contentType == .mp4 }!.url
 
-        let player = AVPlayer(url: url)
-        MoviePlayer(player: player)
+        MoviePlayer(url: url)
         .ignoresSafeArea()
       }
     #endif
