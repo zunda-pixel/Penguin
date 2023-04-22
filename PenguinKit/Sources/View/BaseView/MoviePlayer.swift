@@ -3,67 +3,32 @@
 //
 
 import AVKit
-import Combine
 import SwiftUI
 
-#if os(macOS)
-  private typealias Representable = NSViewRepresentable
-#else
-  private typealias Representable = UIViewControllerRepresentable
-#endif
-
-struct MoviePlayer: Representable {
-  let player: AVPlayer
-
-  func makeCoordinator() -> Coordinator {
-    Coordinator(parent: self)
-  }
-
-  #if os(macOS)
-    func makeNSView(context: Context) -> some NSView {
-      player
-        .publisher(for: \.status)
-        .sink { context.coordinator.playMovie(status: $0) }
-        .store(in: &context.coordinator.cancellable)
-
-      let view = AVPlayerView()
-      view.player = player
-      return view
-    }
-
-    func updateNSView(_ nsView: NSViewType, context: Context) {
-    }
-
-  #else
-    func makeUIViewController(context: Context) -> some UIViewController {
-      player
-        .publisher(for: \.status)
-        .sink { context.coordinator.playMovie(status: $0) }
-        .store(in: &context.coordinator.cancellable)
-
-      let view = AVPlayerViewController()
-      view.player = player
-
-      return view
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-    }
-  #endif
-
-  class Coordinator {
-    let parent: MoviePlayer
-
-    var cancellable = Set<AnyCancellable>()
-
-    init(parent: MoviePlayer) {
-      self.parent = parent
-    }
-
-    func playMovie(status: AVPlayer.Status) {
-      guard status == .readyToPlay else { return }
-
-      parent.player.play()
-    }
+struct MoviePlayer: View {
+  @Environment(\.dismiss) var dismiss
+  
+  let url: URL
+  
+  var body: some View {
+    let player = AVPlayer(url: url)
+    VideoPlayer(player: player)
+      .overlay(alignment: .topLeading) {
+        Button {
+          dismiss()
+        } label: {
+          Label("Close", systemImage: "xmark")
+            .labelStyle(.iconOnly)
+        }
+        .tint(.white)
+        .bold()
+        .padding(.top, 75)
+        .padding(.leading, 30)
+      }
+      .onReceive(player.publisher(for: \.status)) { status in
+        if status == .readyToPlay {
+          player.play()
+        }
+      }
   }
 }
