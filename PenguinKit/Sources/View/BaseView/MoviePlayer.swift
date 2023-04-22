@@ -7,9 +7,9 @@ import SwiftUI
 
 struct MoviePlayer: View {
   @Environment(\.dismiss) var dismiss
-  
+
   let url: URL
-  
+
   var body: some View {
     let player = AVPlayer(url: url)
     VideoPlayer(player: player)
