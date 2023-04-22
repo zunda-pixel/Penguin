@@ -33,7 +33,7 @@ struct LinkableText: View {
     return url
   }
 
-  @MainActor func removeUnnecessaryURLs(text: AttributedString) -> AttributedString {
+  func removeUnnecessaryURLs(text: String) -> String {
     var text = text
 
     for url in (tweet.entity?.urls ?? []) {
@@ -110,9 +110,9 @@ struct LinkableText: View {
 
   @MainActor var attributedString: AttributedString {
     let tweetText = tweet.tweetText
-    let attributedString = AttributedString(tweetText)
-    let textWithoutUnnecessaryURL = removeUnnecessaryURLs(text: attributedString)
-    let textWithURL = addURLs(text: textWithoutUnnecessaryURL)
+    let textWithoutUnnecessaryURL = removeUnnecessaryURLs(text: tweetText)
+    let attributedString = AttributedString(textWithoutUnnecessaryURL)
+    let textWithURL = addURLs(text: attributedString)
     let textWithHashtag = addHashtags(text: textWithURL)
     let textWithMention = addMentions(text: textWithHashtag)
     let textWithCashtag = addCashtags(text: textWithMention)
