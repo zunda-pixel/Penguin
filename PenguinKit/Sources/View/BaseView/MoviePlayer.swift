@@ -19,11 +19,12 @@ struct MoviePlayer: View {
         } label: {
           Label("Close", systemImage: "xmark")
             .labelStyle(.iconOnly)
+            .padding()
         }
         .tint(.white)
         .bold()
-        .padding(.top, 75)
-        .padding(.leading, 30)
+        .padding(.top, 60)
+        .padding(.leading, 10)
       }
       .onReceive(player.publisher(for: \.status)) { status in
         if status == .readyToPlay {
