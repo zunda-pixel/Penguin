@@ -13,6 +13,17 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
   let viewModel: ViewModel
 
+  var ogpURL: Sweet.URLModel? {
+    let mediaKeys = viewModel.tweet.attachments?.mediaKeys
+    guard mediaKeys?.isEmpty != false else { return nil }
+    
+    return viewModel.tweet.entity?.urls.filter {
+      // TODO statusがnilの場合がある
+      // 対処しなくてもいい
+      !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
+    }.first
+  }
+  
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
@@ -144,16 +155,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
         }
 
-        let urlModel = viewModel.tweet.entity?.urls.filter {
-          // TODO statusがnilの場合がある
-          // 対処しなくてもいい
-          !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
-        }.first
-
-        if let urlModel = urlModel,
-          viewModel.tweet.attachments?.mediaKeys.isEmpty != false
-        {
-          OGPCardView(urlModel: urlModel)
+        if let ogpURL = ogpURL {
+          OGPCardView(urlModel: ogpURL)
             .frame(maxWidth: 400, maxHeight: 400)
         }
 
