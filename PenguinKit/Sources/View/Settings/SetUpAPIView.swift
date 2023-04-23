@@ -7,7 +7,7 @@ import SwiftUI
 struct SetUpAPIView: View {
   var body: some View {
     List {
-      Text("Set up the Twitter API as follows.")
+      Text("Set up User authentication settings as follows.")
 
       Link(destination: URL(string: "https://developer.twitter.com/en/portal/projects/")!) {
         Text("Twitter Developer Portal")
