@@ -30,19 +30,8 @@ struct SetUpAPIView: View {
       .pickerStyle(.inline)
 
       Section("App info") {
-        Grid(alignment: .leading) {
-          GridRow {
-            Text("Callback URI / Redirect URL")
-              .font(.caption)
-            TextField("Callback URI / Redirect URL", text: .constant("penguin://"))
-          }
-
-          GridRow {
-            Text("Website URL:")
-              .font(.caption)
-            TextField("Website URL", text: .constant("https://example.com"))
-          }
-        }
+        LabeledContent("Callback URL", value: "penguin://")
+        LabeledContent("Website URL", value: "https://example.com")
       }
     }
   }
