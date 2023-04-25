@@ -12,27 +12,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter
 
   let viewModel: ViewModel
-
-  var ogpURL: Sweet.URLModel? {
-    let mediaKeys = viewModel.tweet.attachments?.mediaKeys
-    guard mediaKeys?.isEmpty != false else { return nil }
-    
-    return viewModel.tweet.entity?.urls.filter {
-      // TODO statusがnilの場合がある
-      // 対処しなくてもいい
-      !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
-    }.first
-  }
-  
-  var poll: Sweet.PollModel? {
-    guard let pollID = viewModel.tweetText.attachments?.pollID else { return nil }
-    return viewModel.polls.first { $0.id == pollID }
-  }
-  
-  var place: Sweet.PlaceModel? {
-    guard let placeID = viewModel.tweetText.geo?.placeID else { return nil}
-    return viewModel.places.first { $0.id == placeID }
-  }
   
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
@@ -71,11 +50,16 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           }
         }
 
-        LinkableText(tweet: viewModel.tweetText, userID: viewModel.userID)
+        
+        LinkableText(
+          tweet: viewModel.tweetText,
+          userID: viewModel.userID,
+          excludeURLs: viewModel.excludeURLs
+        )
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
 
-        if let poll {
+        if let poll = viewModel.poll {
           PollView(poll: poll)
             .frame(maxWidth: 400)
             .padding()
@@ -84,18 +68,13 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
                 .stroke(.secondary, lineWidth: 1)
             }
         }
-
-        // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
-        let medias =
-          viewModel.tweetText.attachments?.mediaKeys.compactMap { id in
-            viewModel.medias.first { $0.id == id }
-          } ?? []
-        if !medias.isEmpty {
-          MediasView(medias: medias)
+        
+        if !viewModel.medias.isEmpty {
+          MediasView(medias: viewModel.medias)
             .cornerRadius(15)
         }
 
-        if let place {
+        if let place = viewModel.place {
           Text(place.fullName)
             .onTapGesture {
               var components: URLComponents = .init(string: "https://maps.apple.com/")!
@@ -161,7 +140,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
         }
 
-        if let ogpURL = ogpURL {
+        if let ogpURL = viewModel.ogpURL {
           OGPCardView(urlModel: ogpURL)
             .frame(maxWidth: 400, maxHeight: 400)
         }

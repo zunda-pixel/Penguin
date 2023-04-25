@@ -81,9 +81,9 @@ extension Sweet.TweetModel {
     entity: .init(
       urls: [
         .init(
+          url: .init(string: "https://twitter.com")!,
           start: 0,
           end: 0,
-          url: .init(string: "https://twitter.com")!,
           expandedURL: "",
           displayURL: ""
         )

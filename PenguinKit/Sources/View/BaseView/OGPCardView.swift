@@ -60,7 +60,9 @@ struct OGPCardView_Previews: PreviewProvider {
   static var previews: some View {
 
     let urlModel: Sweet.URLModel = .init(
-      start: 0, end: 0, url: .init(string: "https://cssnite.doorkeeper.jp/events/141697")!,
+      url: .init(string: "https://cssnite.doorkeeper.jp/events/141697")!,
+      start: 0,
+      end: 0,
       expandedURL: "", displayURL: "displayURL",
       images: [
         .init(

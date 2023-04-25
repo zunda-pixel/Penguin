@@ -122,12 +122,11 @@ struct DirectMessageCell_Preview: PreviewProvider {
             type: .video,
             variants: [
               .init(
-                bitRate: 1,
-                contentType: .mp4,
                 url: URL(
                   string:
                     "https://video.twimg.com/dm_video/1591388494718717953/vid/1280x720/Emjm-m0iDYwfwVTwEtXgYOA-iRq08QpyzU8oxRC1eg4.mp4?tag=1"
-                )!
+                )!,
+                contentType: .mp4
               )
             ],
             durationMicroSeconds: 10

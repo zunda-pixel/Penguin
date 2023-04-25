@@ -23,6 +23,54 @@ protocol TweetCellViewProtocol: Hashable {
   var showDate: Date { get }
 }
 
+extension TweetCellViewProtocol {
+  var ogpURL: Sweet.URLModel? {
+    let mediaKeys = tweet.attachments?.mediaKeys
+    guard mediaKeys?.isEmpty != false else { return nil }
+    
+    return tweet.entity?.urls.filter {
+      // TODO statusがnilの場合がある
+      // 対処しなくてもいい
+      !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
+    }.first
+  }
+  
+  var poll: Sweet.PollModel? {
+    guard let pollID = tweetText.attachments?.pollID else { return nil }
+    return polls.first { $0.id == pollID }
+  }
+  
+  var place: Sweet.PlaceModel? {
+    guard let placeID = tweetText.geo?.placeID else { return nil}
+    return places.first { $0.id == placeID }
+  }
+  
+  var medias: [Sweet.MediaModel] {
+    let mediaKeys = tweetText.attachments?.mediaKeys
+    return mediaKeys?.compactMap { id in
+      medias.first { $0.id == id }
+    } ?? []
+  }
+  
+  var excludeURLs: some Sequence<Sweet.URLModel> {
+    let quotedURL = quoted.map { "https://twitter.com/\($0.tweetContent.author.userName)/status/\($0.tweetContent.tweet.id)"
+    }
+    
+    let quotedURLModel = tweet.entity?.urls.first {
+      guard let quotedURL,
+            let expandedURL = $0.expandedURL else {
+            return false
+      }
+      
+      return quotedURL == expandedURL
+    }
+    
+    let urls = [ogpURL, quotedURLModel].compacted()
+
+    return urls
+  }
+}
+
 struct TweetCellViewModel: TweetCellViewProtocol {
   let userID: String
   let author: Sweet.UserModel
