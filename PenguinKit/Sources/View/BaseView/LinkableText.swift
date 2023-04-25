@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 import RegexBuilder
 
-struct LinkableText: View {
+struct LinkableText<Value: Sequence<Sweet.URLModel>>: View {
   struct LinkableModel {
     let mode: PrefixMode
     let query: String
@@ -20,14 +20,14 @@ struct LinkableText: View {
 
   let tweet: Sweet.TweetModel
   let userID: String
-  let excludeURLs: [Sweet.URLModel]
+  let excludeURLs: Value
 
   @EnvironmentObject var router: NavigationPathRouter
 
-  static let baseURL = URL(string: "urlForLinkableText://")!
+  let baseURL = URL(string: "urlForLinkableText://")!
 
   func attributedURL(mode: PrefixMode, query: String) -> URL {
-    var url = LinkableText.baseURL
+    var url = baseURL
     url.append(queryItems: [
       .init(name: "mode", value: mode.rawValue),
       .init(name: "query", value: query),
@@ -164,7 +164,7 @@ struct LinkableText: View {
       .environment(
         \.openURL,
         OpenURLAction { url in
-          guard url.scheme == LinkableText.baseURL.scheme else { return .systemAction(url) }
+          guard url.scheme == baseURL.scheme else { return .systemAction(url) }
 
           let modeRawValue = url.queryItems.first { $0.name == "mode" }?.value
           let query = url.queryItems.first { $0.name == "query" }?.value
@@ -211,9 +211,9 @@ struct LinkableText_Previews: PreviewProvider {
         entity: .init(
           urls: [
             .init(
+              url: .init(string: "https://swift.org")!,
               start: 0,
               end: 0,
-              url: .init(string: "https://swift.org")!,
               expandedURL: "fsdf",
               displayURL: "fdsaf"
             )
