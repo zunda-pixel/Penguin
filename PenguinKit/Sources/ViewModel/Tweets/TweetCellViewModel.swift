@@ -41,7 +41,7 @@ extension TweetCellViewProtocol {
   }
   
   var place: Sweet.PlaceModel? {
-    guard let placeID = tweetText.geo?.placeID else { return nil}
+    guard let placeID = tweetText.geo?.placeID else { return nil }
     return places.first { $0.id == placeID }
   }
   
