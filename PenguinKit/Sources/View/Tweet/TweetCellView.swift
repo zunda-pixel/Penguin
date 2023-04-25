@@ -13,6 +13,27 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
   let viewModel: ViewModel
 
+  var ogpURL: Sweet.URLModel? {
+    let mediaKeys = viewModel.tweet.attachments?.mediaKeys
+    guard mediaKeys?.isEmpty != false else { return nil }
+    
+    return viewModel.tweet.entity?.urls.filter {
+      // TODO statusがnilの場合がある
+      // 対処しなくてもいい
+      !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
+    }.first
+  }
+  
+  var poll: Sweet.PollModel? {
+    guard let pollID = viewModel.tweetText.attachments?.pollID else { return nil }
+    return viewModel.polls.first { $0.id == pollID }
+  }
+  
+  var place: Sweet.PlaceModel? {
+    guard let placeID = viewModel.tweetText.geo?.placeID else { return nil}
+    return viewModel.places.first { $0.id == placeID }
+  }
+  
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
@@ -54,9 +75,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
 
-        if let pollID = viewModel.tweetText.attachments?.pollID,
-          let poll = viewModel.polls.first(where: { $0.id == pollID })
-        {
+        if let poll {
           PollView(poll: poll)
             .frame(maxWidth: 400)
             .padding()
@@ -76,9 +95,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             .cornerRadius(15)
         }
 
-        if let placeID = viewModel.tweetText.geo?.placeID,
-          let place = viewModel.places.first(where: { $0.id == placeID })
-        {
+        if let place {
           Text(place.fullName)
             .onTapGesture {
               var components: URLComponents = .init(string: "https://maps.apple.com/")!
@@ -144,16 +161,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
         }
 
-        let urlModel = viewModel.tweet.entity?.urls.filter {
-          // TODO statusがnilの場合がある
-          // 対処しなくてもいい
-          !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
-        }.first
-
-        if let urlModel = urlModel,
-          viewModel.tweet.attachments?.mediaKeys.isEmpty != false
-        {
-          OGPCardView(urlModel: urlModel)
+        if let ogpURL = ogpURL {
+          OGPCardView(urlModel: ogpURL)
             .frame(maxWidth: 400, maxHeight: 400)
         }
 
