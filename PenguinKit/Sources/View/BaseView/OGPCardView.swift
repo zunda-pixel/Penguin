@@ -50,7 +50,8 @@ struct OGPCardView: View {
           .stroke(.secondary)
       }
       .onTapGesture {
-        openURL(urlModel.url)
+        let url: URL = urlModel.expandedURL.map { URL(string: $0) ?? urlModel.url } ?? urlModel.url
+        openURL(url)
       }
     }
   }
