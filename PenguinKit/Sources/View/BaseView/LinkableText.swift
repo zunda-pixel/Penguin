@@ -187,3 +187,9 @@ struct LinkableText_Previews: PreviewProvider {
     )
   }
 }
+
+private extension BidirectionalCollection where Self.SubSequence == Substring {
+  func isMatchWhole(of regex: some RegexComponent) -> Bool {
+    self.wholeMatch(of: regex) != nil
+  }
+}
