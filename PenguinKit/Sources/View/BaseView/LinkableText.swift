@@ -4,6 +4,7 @@
 
 import Sweet
 import SwiftUI
+import RegexBuilder
 
 struct LinkableText: View {
   struct LinkableModel {
@@ -35,12 +36,37 @@ struct LinkableText: View {
 
   func removeUnnecessaryURLs(text: String) -> String {
     var text = text
+    
+    // https://twitter.com/userName/status/tweetID/photo/1
+    let twitterPictureURLRegex = Regex {
+      Anchor.startOfLine
+      "http"
+      Optionally("s")
+      "://twitter.com/"
+      OneOrMore(.whitespace.inverted)
+      "/status/"
+      OneOrMore(.whitespace.inverted)
+      "/photo/1"
+      Anchor.endOfLine
+    }
 
     for url in (tweet.entity?.urls ?? []) {
-      let displayURL = url.displayURL.map { URL(string: "https://" + $0) }
-      guard displayURL??.host() == "pic.twitter.com" else { continue }
+      let isMatch = url.expandedURL?.isMatchWhole(of: twitterPictureURLRegex)
 
-      for range in text.ranges(of: url.url.absoluteString) {
+      guard isMatch == true else { continue }
+      
+      let regex = Regex {
+        Anchor.startOfLine
+        url.url.absoluteString
+        Anchor.endOfLine
+      }
+      
+      if let range = text.firstRange(of: regex) {
+        let range = text.lineRange(for: range)
+        text.removeSubrange(range)
+      }
+      
+      if let range = text.firstRange(of: url.url.absoluteString) {
         text.removeSubrange(range)
       }
     }
