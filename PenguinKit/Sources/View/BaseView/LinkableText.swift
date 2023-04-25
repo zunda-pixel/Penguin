@@ -52,15 +52,15 @@ struct LinkableText: View {
     var text = text
 
     for url in (tweet.entity?.urls ?? []) {
-      for range in text.ranges(of: url.url.absoluteString) {
-        if let displayURL = url.displayURL ?? url.expandedURL {
-          var displayURL = AttributedString(displayURL)
-          displayURL.link = url.expandedURL.map { URL(string: $0) ?? url.url } ?? url.url
-          text.replaceSubrange(range, with: displayURL)
-        } else {
-          text[range].link = url.url
-        }
+      guard let range = text.range(of: url.url.absoluteString) else { continue }
+      guard let displayURL = url.displayURL ?? url.expandedURL else {
+        text[range].link = url.url
+        continue
       }
+      
+      var attributedDisplayURL = AttributedString(displayURL)
+      attributedDisplayURL.link = url.expandedURL.map { URL(string: $0) ?? url.url } ?? url.url
+      text.replaceSubrange(range, with: attributedDisplayURL)
     }
 
     return text
