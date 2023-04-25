@@ -20,6 +20,7 @@ struct LinkableText: View {
 
   let tweet: Sweet.TweetModel
   let userID: String
+  let excludeURLs: [Sweet.URLModel]
 
   @EnvironmentObject var router: NavigationPathRouter
 
@@ -34,6 +35,18 @@ struct LinkableText: View {
     return url
   }
 
+  func removeExcludeURLs(text: String) -> String {
+    var text = text
+    
+    for url in excludeURLs {
+      for range in text.ranges(of: url.url.absoluteString) {
+        text.removeSubrange(range)
+      }
+    }
+    
+    return text
+  }
+  
   func removeUnnecessaryURLs(text: String) -> String {
     var text = text
     
@@ -136,7 +149,8 @@ struct LinkableText: View {
 
   @MainActor var attributedString: AttributedString {
     let tweetText = tweet.tweetText
-    let textWithoutUnnecessaryURL = removeUnnecessaryURLs(text: tweetText)
+    let textWithoutExcludeURL = removeExcludeURLs(text: tweetText)
+    let textWithoutUnnecessaryURL = removeUnnecessaryURLs(text: textWithoutExcludeURL)
     let attributedString = AttributedString(textWithoutUnnecessaryURL)
     let textWithURL = addURLs(text: attributedString)
     let textWithHashtag = addHashtags(text: textWithURL)
@@ -209,7 +223,8 @@ struct LinkableText_Previews: PreviewProvider {
           cashtags: [.init(start: 0, end: 0, tag: "cash")]
         )
       ),
-      userID: ""
+      userID: "",
+      excludeURLs: []
     )
   }
 }
