@@ -34,6 +34,13 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     return viewModel.places.first { $0.id == placeID }
   }
   
+  var medias: [Sweet.MediaModel] {
+    let mediaKeys = viewModel.tweetText.attachments?.mediaKeys
+    return mediaKeys?.compactMap { id in
+      viewModel.medias.first { $0.id == id }
+    } ?? []
+  }
+  
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
@@ -84,12 +91,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
                 .stroke(.secondary, lineWidth: 1)
             }
         }
-
-        // TODO Viewのサイズを固定しないとスクロール時に描画が崩れる
-        let medias =
-          viewModel.tweetText.attachments?.mediaKeys.compactMap { id in
-            viewModel.medias.first { $0.id == id }
-          } ?? []
+        
         if !medias.isEmpty {
           MediasView(medias: medias)
             .cornerRadius(15)
