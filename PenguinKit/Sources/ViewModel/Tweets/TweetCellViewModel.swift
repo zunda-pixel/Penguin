@@ -45,11 +45,11 @@ extension TweetCellViewProtocol {
     return places.first { $0.id == placeID }
   }
   
-  var medias: [Sweet.MediaModel] {
-    let mediaKeys = tweetText.attachments?.mediaKeys
-    return mediaKeys?.compactMap { id in
-      medias.first { $0.id == id }
-    } ?? []
+  var showMedias: [Sweet.MediaModel] {
+    guard let mediaKeys = tweetText.attachments?.mediaKeys else { return [] }
+    return mediaKeys.compactMap { id in
+      self.medias.first { $0.id == id }
+    }
   }
   
   var excludeURLs: some Sequence<Sweet.URLModel> {
