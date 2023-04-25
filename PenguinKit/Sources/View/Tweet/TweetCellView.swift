@@ -24,6 +24,16 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
     }.first
   }
   
+  var poll: Sweet.PollModel? {
+    guard let pollID = viewModel.tweetText.attachments?.pollID else { return nil }
+    return viewModel.polls.first { $0.id == pollID }
+  }
+  
+  var place: Sweet.PlaceModel? {
+    guard let placeID = viewModel.tweetText.geo?.placeID else { return nil}
+    return viewModel.places.first { $0.id == placeID }
+  }
+  
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
@@ -65,9 +75,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
 
-        if let pollID = viewModel.tweetText.attachments?.pollID,
-          let poll = viewModel.polls.first(where: { $0.id == pollID })
-        {
+        if let poll {
           PollView(poll: poll)
             .frame(maxWidth: 400)
             .padding()
@@ -87,9 +95,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
             .cornerRadius(15)
         }
 
-        if let placeID = viewModel.tweetText.geo?.placeID,
-          let place = viewModel.places.first(where: { $0.id == placeID })
-        {
+        if let place {
           Text(place.fullName)
             .onTapGesture {
               var components: URLComponents = .init(string: "https://maps.apple.com/")!
