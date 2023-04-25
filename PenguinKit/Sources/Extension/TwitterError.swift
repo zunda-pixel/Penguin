@@ -57,7 +57,7 @@ extension Sweet.UnknownError: LocalizedError {
       UnknownError
       \(request)
       \(String(data: data, encoding: .utf8)!)
-      \(response)
+      \(response?.debugDescription ?? "") 
       """
   }
 }
