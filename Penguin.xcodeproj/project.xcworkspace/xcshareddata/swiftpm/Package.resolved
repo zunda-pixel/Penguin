@@ -104,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
-        "revision" : "04a220042252a220e5fe0a14e4ad63282dac7c1a",
-        "version" : "2.3.4"
+        "revision" : "a3f3b98d42f13135cd4dcc2373c199ef12f9a7fc",
+        "version" : "2.3.7"
       }
     },
     {
@@ -132,7 +132,7 @@
       "location" : "https://github.com/apple/swift-collections",
       "state" : {
         "branch" : "release/1.1",
-        "revision" : "84f51c2b9982f26f3dc4458c2ae55bf7109ec6b9"
+        "revision" : "992e0f3446b4f608f5ead9dd6edc92f6bbc0b0a0"
       }
     },
     {
