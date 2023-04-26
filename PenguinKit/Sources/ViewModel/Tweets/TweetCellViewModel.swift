@@ -25,7 +25,7 @@ protocol TweetCellViewProtocol: Hashable {
 
 extension TweetCellViewProtocol {
   var ogpURL: Sweet.URLModel? {
-    guard let mediaKeys = tweetText.attachments?.mediaKeys else { return nil }
+    let mediaKeys = tweetText.attachments?.mediaKeys ?? []
     guard mediaKeys.isEmpty else { return nil }
     
     return tweet.entity?.urls.filter {
