@@ -102,6 +102,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           VStack(alignment: .leading) {
             if let quoted = viewModel.quoted {
               QuotedTweetCellView(
+                userID: viewModel.userID,
                 tweet: quoted.tweet,
                 user: quoted.author
               )
