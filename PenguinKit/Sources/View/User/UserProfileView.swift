@@ -25,7 +25,7 @@ struct UserProfileView: View {
       if let url = viewModel.user.url {
         HStack {
           Image(systemName: "link")
-          
+
           if let urlModel = viewModel.user.entity?.urls.first(where: { $0.url == url }) {
             let displayURL = urlModel.displayURL ?? urlModel.expandedURL ?? url.absoluteString
             let destinationURL: URL = urlModel.expandedURL.map { URL(string: $0) ?? url } ?? url

@@ -12,7 +12,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   @EnvironmentObject var router: NavigationPathRouter
 
   let viewModel: ViewModel
-  
+
   var body: some View {
     let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
 
@@ -50,14 +50,13 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           }
         }
 
-        
         LinkableText(
           tweet: viewModel.tweetText,
           userID: viewModel.userID,
           excludeURLs: viewModel.excludeURLs
         )
-          .lineLimit(nil)
-          .fixedSize(horizontal: false, vertical: true)
+        .lineLimit(nil)
+        .fixedSize(horizontal: false, vertical: true)
 
         if let poll = viewModel.poll {
           PollView(poll: poll)
@@ -68,7 +67,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
                 .stroke(.secondary, lineWidth: 1)
             }
         }
-        
+
         if !viewModel.showMedias.isEmpty {
           MediasView(medias: viewModel.showMedias)
             .cornerRadius(15)

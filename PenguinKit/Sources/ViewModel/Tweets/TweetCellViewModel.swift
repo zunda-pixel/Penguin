@@ -27,46 +27,47 @@ extension TweetCellViewProtocol {
   var ogpURL: Sweet.URLModel? {
     let mediaKeys = tweetText.attachments?.mediaKeys ?? []
     guard mediaKeys.isEmpty else { return nil }
-    
+
     return tweet.entity?.urls.filter {
       // TODO statusがnilの場合がある
       // 対処しなくてもいい
       !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
     }.first
   }
-  
+
   var poll: Sweet.PollModel? {
     guard let pollID = tweetText.attachments?.pollID else { return nil }
     return polls.first { $0.id == pollID }
   }
-  
+
   var place: Sweet.PlaceModel? {
     guard let placeID = tweetText.geo?.placeID else { return nil }
     return places.first { $0.id == placeID }
   }
-  
+
   var showMedias: [Sweet.MediaModel] {
     guard let mediaKeys = tweetText.attachments?.mediaKeys else { return [] }
     return mediaKeys.compactMap { id in
       self.medias.first { $0.id == id }
     }
   }
-  
+
   var excludeURLs: some Sequence<Sweet.URLModel> {
     var excludeURLs = [ogpURL].compactMap { $0 }
-    
-    let quotedURL = quoted.map { "https://twitter.com/\($0.tweetContent.author.userName.lowercased())/status/\($0.tweetContent.tweet.id)"
+
+    let quotedURL = quoted.map {
+      "https://twitter.com/\($0.tweetContent.author.userName.lowercased())/status/\($0.tweetContent.tweet.id)"
     }
-    
+
     guard let quotedURL else { return excludeURLs }
-        
+
     if let entity = tweet.entity {
       let urls = entity.urls.filter {
         return $0.expandedURL == quotedURL
       }
       excludeURLs.append(contentsOf: urls)
     }
-    
+
     return excludeURLs
   }
 }
