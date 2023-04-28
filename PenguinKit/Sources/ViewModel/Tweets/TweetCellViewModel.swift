@@ -19,8 +19,6 @@ protocol TweetCellViewProtocol: Hashable {
   var medias: [Sweet.MediaModel] { get }
   var polls: [Sweet.PollModel] { get }
   var places: [Sweet.PlaceModel] { get }
-  var tweetText: Sweet.TweetModel { get }
-  var showDate: Date { get }
 }
 
 extension TweetCellViewProtocol {
@@ -70,53 +68,7 @@ extension TweetCellViewProtocol {
 
     return excludeURLs
   }
-}
-
-struct TweetCellViewModel: TweetCellViewProtocol {
-  let userID: String
-  let author: Sweet.UserModel
-  let tweet: Sweet.TweetModel
-  let retweet: TweetContentModel?
-  let quoted: QuotedTweetModel?
-  let medias: [Sweet.MediaModel]
-  let polls: [Sweet.PollModel]
-  let places: [Sweet.PlaceModel]
-
-  init(
-    userID: String,
-    tweet: Sweet.TweetModel,
-    author: Sweet.UserModel,
-    retweet: TweetContentModel?,
-    quoted: QuotedTweetModel?,
-    medias: [Sweet.MediaModel],
-    polls: [Sweet.PollModel],
-    places: [Sweet.PlaceModel]
-  ) {
-    self.userID = userID
-    self.tweet = tweet
-    self.author = author
-    self.retweet = retweet
-    self.quoted = quoted
-    self.medias = medias
-    self.polls = polls
-    self.places = places
-  }
-
-  nonisolated func hash(into hasher: inout Hasher) {
-    hasher.combine(userID)
-    hasher.combine(author)
-    hasher.combine(tweet)
-    hasher.combine(retweet)
-    hasher.combine(quoted)
-    hasher.combine(medias)
-    hasher.combine(polls)
-    hasher.combine(places)
-  }
-
-  nonisolated static func == (lhs: TweetCellViewModel, rhs: TweetCellViewModel) -> Bool {
-    lhs.userID == rhs.userID && lhs.tweet.id == rhs.tweet.id
-  }
-
+  
   var tweetText: Sweet.TweetModel {
     let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
 
@@ -164,6 +116,52 @@ struct TweetCellViewModel: TweetCellViewProtocol {
     .map { $0.lowercased() }
 
     return words.contains { $0.contains(lowercasedQuery) }
+  }
+}
+
+struct TweetCellViewModel: TweetCellViewProtocol {
+  let userID: String
+  let author: Sweet.UserModel
+  let tweet: Sweet.TweetModel
+  let retweet: TweetContentModel?
+  let quoted: QuotedTweetModel?
+  let medias: [Sweet.MediaModel]
+  let polls: [Sweet.PollModel]
+  let places: [Sweet.PlaceModel]
+
+  init(
+    userID: String,
+    tweet: Sweet.TweetModel,
+    author: Sweet.UserModel,
+    retweet: TweetContentModel?,
+    quoted: QuotedTweetModel?,
+    medias: [Sweet.MediaModel],
+    polls: [Sweet.PollModel],
+    places: [Sweet.PlaceModel]
+  ) {
+    self.userID = userID
+    self.tweet = tweet
+    self.author = author
+    self.retweet = retweet
+    self.quoted = quoted
+    self.medias = medias
+    self.polls = polls
+    self.places = places
+  }
+
+  nonisolated func hash(into hasher: inout Hasher) {
+    hasher.combine(userID)
+    hasher.combine(author)
+    hasher.combine(tweet)
+    hasher.combine(retweet)
+    hasher.combine(quoted)
+    hasher.combine(medias)
+    hasher.combine(polls)
+    hasher.combine(places)
+  }
+
+  nonisolated static func == (lhs: TweetCellViewModel, rhs: TweetCellViewModel) -> Bool {
+    lhs.userID == rhs.userID && lhs.tweet.id == rhs.tweet.id
   }
 }
 
