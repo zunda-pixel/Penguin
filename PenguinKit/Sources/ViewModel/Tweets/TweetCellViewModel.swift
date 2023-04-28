@@ -60,9 +60,7 @@ extension TweetCellViewProtocol {
     guard let quotedURL else { return excludeURLs }
 
     if let entity = tweet.entity {
-      let urls = entity.urls.filter {
-        return $0.expandedURL == quotedURL
-      }
+      let urls = entity.urls.filter { $0.expandedURL == quotedURL }
       excludeURLs.append(contentsOf: urls)
     }
 
