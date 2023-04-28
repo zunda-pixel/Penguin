@@ -2,9 +2,9 @@
 // LinkableText.swift
 //
 
+import RegexBuilder
 import Sweet
 import SwiftUI
-import RegexBuilder
 
 struct LinkableText<Value: Sequence<Sweet.URLModel>>: View {
   struct LinkableModel {
@@ -37,50 +37,51 @@ struct LinkableText<Value: Sequence<Sweet.URLModel>>: View {
 
   func removeExcludeURLs(text: String) -> String {
     var text = text
-    
+
     for url in excludeURLs {
       for range in text.ranges(of: url.url.absoluteString) {
         text.removeSubrange(range)
       }
     }
-    
+
     return text
   }
-  
+
   func removeUnnecessaryURLs(text: String) -> String {
     var text = text
-    
+
     // https://twitter.com/userName/status/tweetID/photo/1
     let twitterPictureURLRegex = Regex {
       Anchor.startOfLine
-      "http"
-      Optionally("s")
-      "://twitter.com/"
-      OneOrMore(.whitespace.inverted)
-      "/status/"
-      OneOrMore(.whitespace.inverted)
-      "/photo/1"
+      "pic.twitter.com/"
+      Repeat(count: 10) {
+        .whitespace.inverted
+      }
       Anchor.endOfLine
     }
 
     for url in (tweet.entity?.urls ?? []) {
-      let isMatch = url.expandedURL?.isMatchWhole(of: twitterPictureURLRegex)
+      let isMatch = url.displayURL?.isMatchWhole(of: twitterPictureURLRegex)
 
       guard isMatch == true else { continue }
-      
+
       let regex = Regex {
         Anchor.startOfLine
         url.url.absoluteString
         Anchor.endOfLine
       }
-      
+
+      // remove line
       if let range = text.firstRange(of: regex) {
         let range = text.lineRange(for: range)
         text.removeSubrange(range)
+        continue
       }
-      
+
+      // remove word
       if let range = text.firstRange(of: url.url.absoluteString) {
         text.removeSubrange(range)
+        continue
       }
     }
 
@@ -96,7 +97,7 @@ struct LinkableText<Value: Sequence<Sweet.URLModel>>: View {
         text[range].link = url.url
         continue
       }
-      
+
       var attributedDisplayURL = AttributedString(displayURL)
       attributedDisplayURL.link = url.expandedURL.map { URL(string: $0) ?? url.url } ?? url.url
       text.replaceSubrange(range, with: attributedDisplayURL)
@@ -229,8 +230,8 @@ struct LinkableText_Previews: PreviewProvider {
   }
 }
 
-private extension BidirectionalCollection where Self.SubSequence == Substring {
-  func isMatchWhole(of regex: some RegexComponent) -> Bool {
+extension BidirectionalCollection where Self.SubSequence == Substring {
+  fileprivate func isMatchWhole(of regex: some RegexComponent) -> Bool {
     self.wholeMatch(of: regex) != nil
   }
 }

@@ -6,6 +6,7 @@ import Sweet
 import SwiftUI
 
 struct QuotedTweetCellView: View {
+  let userID: String
   let tweet: Sweet.TweetModel
   let user: Sweet.UserModel
 
@@ -18,7 +19,7 @@ struct QuotedTweetCellView: View {
         (Text(user.name) + Text(" @\(user.userName)").foregroundColor(.secondary))
           .lineLimit(1)
 
-        Text(tweet.tweetText)
+        LinkableText(tweet: tweet, userID: userID, excludeURLs: [])
           .lineLimit(nil)
           .fixedSize(horizontal: false, vertical: true)
       }
@@ -29,6 +30,7 @@ struct QuotedTweetCellView: View {
 struct QuotedTweetCellView_Previews: PreviewProvider {
   static var previews: some View {
     QuotedTweetCellView(
+      userID: "",
       tweet: .init(id: "id", text: "text"),
       user: .init(
         id: "id", name: "name", userName: "userName",
