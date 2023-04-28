@@ -53,21 +53,21 @@ extension TweetCellViewProtocol {
   }
   
   var excludeURLs: some Sequence<Sweet.URLModel> {
-    let quotedURL = quoted.map { "https://twitter.com/\($0.tweetContent.author.userName)/status/\($0.tweetContent.tweet.id)"
+    var excludeURLs = [ogpURL].compactMap { $0 }
+    
+    let quotedURL = quoted.map { "https://twitter.com/\($0.tweetContent.author.userName.lowercased())/status/\($0.tweetContent.tweet.id)"
     }
     
-    let quotedURLModel = tweet.entity?.urls.first {
-      guard let quotedURL,
-            let expandedURL = $0.expandedURL else {
-            return false
+    guard let quotedURL else { return excludeURLs }
+        
+    if let entity = tweet.entity {
+      let urls = entity.urls.filter {
+        return $0.expandedURL == quotedURL
       }
-      
-      return quotedURL == expandedURL
+      excludeURLs.append(contentsOf: urls)
     }
     
-    let urls = [ogpURL, quotedURLModel].compacted()
-
-    return urls
+    return excludeURLs
   }
 }
 
