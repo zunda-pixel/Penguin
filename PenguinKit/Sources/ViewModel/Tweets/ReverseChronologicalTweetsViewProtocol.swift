@@ -11,7 +11,6 @@ protocol ReverseChronologicalTweetsViewProtocol: ObservableObject {
   var userID: String { get }
   var errorHandle: ErrorHandle? { get set }
   var backgroundContext: NSManagedObjectContext { get }
-  var searchSettings: TimelineSearchSettings { get set }
   var reply: Reply? { get set }
   var timelines: [Timeline] { get set }
 

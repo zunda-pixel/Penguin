@@ -12,7 +12,6 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
   let backgroundContext: NSManagedObjectContext
 
-  @Published var searchSettings: TimelineSearchSettings
   @Published var errorHandle: ErrorHandle?
   @Published var reply: Reply?
   @Published var timelines: [Timeline]
@@ -22,7 +21,6 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
     self.backgroundContext = PersistenceController.shared.container.newBackgroundContext()
     self.backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 
-    self.searchSettings = TimelineSearchSettings(query: "")
     self.timelines = []
   }
 

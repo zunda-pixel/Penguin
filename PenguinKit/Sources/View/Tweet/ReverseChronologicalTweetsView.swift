@@ -40,7 +40,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       ForEach(viewModel.timelines) { timeline in
         let cellViewModel = viewModel.getTweetCellViewModel(timeline.tweetID!)
 
-        if cellViewModel.isValidateTweet(settings: viewModel.searchSettings) {
           VStack {
             TweetCellView(viewModel: cellViewModel)
               .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
@@ -116,7 +115,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
             }
           }
-        }
       }
       .listRowSeparator(.hidden)
       .listContentAttribute()
@@ -128,7 +126,6 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       )
       NewTweetView(viewModel: viewModel)
     }
-    .searchable(text: $viewModel.searchSettings.query)
     .scrollViewAttitude()
     .listStyle(.inset)
     .alert(errorHandle: $viewModel.errorHandle)
