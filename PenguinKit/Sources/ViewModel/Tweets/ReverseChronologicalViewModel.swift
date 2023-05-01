@@ -15,14 +15,15 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
   @Published var searchSettings: TimelineSearchSettings
   @Published var errorHandle: ErrorHandle?
   @Published var reply: Reply?
+  @Published var timelines: [Timeline]
 
   init(userID: String) {
     self.userID = userID
-    self.backgroundContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-    self.backgroundContext.parent = PersistenceController.shared.container.viewContext
+    self.backgroundContext = PersistenceController.shared.container.newBackgroundContext()
     self.backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 
     self.searchSettings = TimelineSearchSettings(query: "")
+    self.timelines = []
   }
 
   @MainActor
@@ -53,8 +54,10 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
         return try self.containsTimelineDataBase(tweetID: lastTweetID)
       }
-
-      try await self.addTimelines(response.tweets.map(\.id))
+      
+      try await backgroundContext.perform {
+        try self.addTimelines(response.tweets.map(\.id))
+      }
 
       if let paginationToken = response.meta?.nextToken, !containsTweet {
         await fetchTweets(last: nil, paginationToken: paginationToken)

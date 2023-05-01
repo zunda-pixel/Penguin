@@ -35,20 +35,9 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     }
   }
 
-  @FetchRequest var timelines: FetchedResults<Timeline>
-
-  init(viewModel: ViewModel) {
-    self._viewModel = .init(wrappedValue: viewModel)
-    let fetchRequest: NSFetchRequest<Timeline> = .init()
-    fetchRequest.entity = Timeline.entity()
-    fetchRequest.predicate = .init(format: "ownerID = %@", viewModel.userID)
-    fetchRequest.sortDescriptors = [.init(keyPath: \Timeline.tweetID, ascending: false)]
-    self._timelines = .init(fetchRequest: fetchRequest)
-  }
-
   var body: some View {
     List {
-      ForEach(timelines) { timeline in
+      ForEach(viewModel.timelines) { timeline in
         let cellViewModel = viewModel.getTweetCellViewModel(timeline.tweetID!)
 
         if cellViewModel.isValidateTweet(settings: viewModel.searchSettings) {
@@ -123,7 +112,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
             .labelStyle(.iconOnly)
           }
           .task {
-            if timeline.tweetID == timelines.last?.tweetID {
+            if timeline.tweetID == viewModel.timelines.last?.tweetID {
               await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
             }
           }
@@ -147,6 +136,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
     }
     .task {
+      self.viewModel.timelines =  try! await viewModel.getTimelines()
       await fetchNewTweet()
     }
   }

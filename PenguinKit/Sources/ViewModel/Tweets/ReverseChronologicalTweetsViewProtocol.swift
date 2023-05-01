@@ -13,6 +13,7 @@ protocol ReverseChronologicalTweetsViewProtocol: ObservableObject {
   var backgroundContext: NSManagedObjectContext { get }
   var searchSettings: TimelineSearchSettings { get set }
   var reply: Reply? { get set }
+  var timelines: [Timeline] { get set }
 
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
 }
@@ -52,17 +53,13 @@ extension ReverseChronologicalTweetsViewProtocol {
     }
   }
 
-  func addTimelines(_ ids: [String]) async throws {
-    let context = PersistenceController.shared.container.viewContext
-    try await context.perform {
-      for id in ids {
-        let timeline = Timeline(context: context)
-        timeline.tweetID = id
-        timeline.ownerID = self.userID
-
-        try context.save()
-      }
-    }
+  func addTimelines(_ ids: [String]) throws {
+    let request = NSBatchInsertRequest(
+      entity: Timeline.entity(),
+      objects: ids.map { ["tweetID": $0, "ownerID": userID ]}
+    )
+    
+    try backgroundContext.execute(request)
   }
 
   func containsTimelineDataBase(tweetID: String) throws -> Bool {
@@ -72,6 +69,16 @@ extension ReverseChronologicalTweetsViewProtocol {
     let tweetCount = try self.backgroundContext.count(for: request)
 
     return tweetCount > 0
+  }
+  
+  func getTimelines() async throws -> [Timeline] {
+    let request = Timeline.fetchRequest()
+    request.fetchLimit = 1000
+    request.predicate = .init(format: "ownerID = %@", userID)
+    request.sortDescriptors = [.init(keyPath: \Timeline.tweetID, ascending: false)]
+    return try await backgroundContext.perform {
+      try self.backgroundContext.fetch(request)
+    }
   }
 
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
