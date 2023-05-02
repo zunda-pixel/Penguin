@@ -55,9 +55,9 @@ extension ReverseChronologicalTweetsViewProtocol {
   func addTimelines(_ ids: [String]) throws {
     let request = NSBatchInsertRequest(
       entity: Timeline.entity(),
-      objects: ids.map { ["tweetID": $0, "ownerID": userID ]}
+      objects: ids.map { ["tweetID": $0, "ownerID": userID] }
     )
-    
+
     try backgroundContext.execute(request)
   }
 
@@ -69,7 +69,7 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     return tweetCount > 0
   }
-  
+
   func getTimelines() async throws -> [Timeline] {
     let request = Timeline.fetchRequest()
     request.predicate = .init(format: "ownerID = %@", userID)

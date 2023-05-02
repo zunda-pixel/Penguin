@@ -10,9 +10,9 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @EnvironmentObject var router: NavigationPathRouter
   @StateObject var viewModel: ViewModel
   @Environment(\.settings) var settings
-  
+
   @State var loadingTweets = false
-  
+
   var body: some View {
     List {
       ForEach(viewModel.timelines) { timeline in
@@ -50,20 +50,20 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
     }
     .task {
-      self.viewModel.timelines =  try! await viewModel.getTimelines()
+      self.viewModel.timelines = try! await viewModel.getTimelines()
       await fetchNewTweet()
     }
   }
-  
+
   func fetchNewTweet() async {
     guard !loadingTweets else { return }
-    
+
     loadingTweets.toggle()
-    
+
     defer {
       loadingTweets.toggle()
     }
-    
+
     await viewModel.fetchTweets(last: nil, paginationToken: nil)
   }
 }

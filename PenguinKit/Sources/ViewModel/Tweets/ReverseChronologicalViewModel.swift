@@ -52,7 +52,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
         return try self.containsTimelineDataBase(tweetID: lastTweetID)
       }
-      
+
       try await backgroundContext.perform {
         try self.addTimelines(response.tweets.map(\.id))
       }

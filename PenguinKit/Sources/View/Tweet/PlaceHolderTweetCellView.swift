@@ -2,24 +2,23 @@
 //  PlaceHolderTweetCellView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct PlaceHolderTweetCellView: View {
   let userID: String
   let tweetID: String
   let provider: TweetCellViewProvider = TweetCellViewProvider()
-  
+
   @State var viewModel: TweetCellViewModel?
   @EnvironmentObject var router: NavigationPathRouter
   @Binding var errorHandle: ErrorHandle?
   @Binding var reply: Reply?
-  
+
   var body: some View {
     if let viewModel {
       cellView(viewModel: viewModel)
-    }
-    else {
+    } else {
       TweetCellView(viewModel: TweetCellViewModel.placeHolder)
         .redacted(reason: .placeholder)
         .task {
@@ -27,7 +26,7 @@ struct PlaceHolderTweetCellView: View {
         }
     }
   }
-  
+
   @ViewBuilder
   func cellView(viewModel: TweetCellViewModel) -> some View {
     TweetCellView(viewModel: viewModel)
@@ -39,7 +38,7 @@ struct PlaceHolderTweetCellView: View {
         ShareLink(item: url) {
           Label("Share", systemImage: "square.and.arrow.up")
         }
-        
+
         LikeButton(
           errorHandle: $errorHandle,
           userID: viewModel.userID,
@@ -60,7 +59,7 @@ struct PlaceHolderTweetCellView: View {
           userID: viewModel.userID,
           tweetID: viewModel.tweetText.id
         )
-        
+
         replyButton(viewModel: viewModel)
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -96,19 +95,19 @@ struct PlaceHolderTweetCellView: View {
         .labelStyle(.iconOnly)
       }
   }
-  
+
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      
+
       // TODO 何故か取得できないユーザーがいる
       let users: [Sweet.UserModel] = userNames.compactMap { userID in
         provider.getUser(userID)
       }
       let userModels: [Sweet.UserModel] = users + [viewModel.author]
-      
+
       self.reply = Reply(
         replyID: viewModel.tweetText.id,
         ownerID: viewModel.tweetText.authorID!,
