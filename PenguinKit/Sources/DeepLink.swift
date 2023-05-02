@@ -2,7 +2,6 @@
 //  DeepLink.swift
 //
 
-import CoreData
 import Foundation
 import Sweet
 
@@ -13,7 +12,6 @@ protocol DeepLinkDelegate {
 
 struct DeepLink {
   let delegate: DeepLinkDelegate
-  let context: NSManagedObjectContext
 
   func doSomething(_ url: URL) async throws {
     let components = URLComponents(url: url, resolvingAgainstBaseURL: true)!

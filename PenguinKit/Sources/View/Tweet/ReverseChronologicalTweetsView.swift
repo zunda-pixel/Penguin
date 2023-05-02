@@ -2,7 +2,6 @@
 //  ReverseChronologicalTweetsView.swift
 //
 
-import CoreData
 import Sweet
 import SwiftUI
 
