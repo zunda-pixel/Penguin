@@ -49,18 +49,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
     }
     .task {
-      await fetchTimeline()
+      await viewModel.setTimelines()
       await fetchNewTweet()
-    }
-  }
-
-  func fetchTimeline() async {
-    do {
-      self.viewModel.timelines = try await viewModel.getTimelines()
-    } catch {
-      let errorHandle = ErrorHandle(error: error)
-      errorHandle.log()
-      viewModel.errorHandle = errorHandle
     }
   }
 

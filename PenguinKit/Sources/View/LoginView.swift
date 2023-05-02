@@ -103,7 +103,7 @@ extension LoginView: DeepLinkDelegate {
 
     let context = PersistenceController.shared.container.newBackgroundContext()
     context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
-    
+
     try await context.perform {
       let newUser = User(context: context)
       try newUser.setUserModel(user)

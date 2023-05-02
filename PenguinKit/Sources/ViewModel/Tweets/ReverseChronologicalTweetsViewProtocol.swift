@@ -80,12 +80,19 @@ extension ReverseChronologicalTweetsViewProtocol {
     return tweetCount > 0
   }
 
-  func getTimelines() async throws -> [Timeline] {
+  @MainActor
+  func setTimelines() async {
     let request = Timeline.fetchRequest()
     request.predicate = .init(format: "ownerID = %@", userID)
     request.sortDescriptors = [.init(keyPath: \Timeline.tweetID, ascending: false)]
-    return try await backgroundContext.perform {
-      try self.backgroundContext.fetch(request)
+    do {
+      timelines = try await backgroundContext.perform {
+        try self.backgroundContext.fetch(request)
+      }
+    } catch {
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }
