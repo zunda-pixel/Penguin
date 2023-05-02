@@ -17,23 +17,36 @@ struct TweetDetailInformation: View {
     HStack {
       Label("\(metrics.replyCount)", systemImage: "arrow.turn.up.left")
 
-      Label("\(metrics.retweetCount)", systemImage: "arrow.2.squarepath")
-        .onTapGesture {
-          let retweetUsersViewModel: RetweetUsersViewModel = .init(userID: userID, tweetID: tweetID)
-          router.path.append(retweetUsersViewModel)
-        }
+      Button {
+        let retweetUsersViewModel = RetweetUsersViewModel(
+          userID: userID,
+          tweetID: tweetID
+        )
+        router.path.append(retweetUsersViewModel)
 
-      Label("\(metrics.quoteCount)", systemImage: "quote.bubble")
-        .onTapGesture {
-          let quoteTweetViewModel: QuoteTweetsViewModel = .init(userID: userID, source: tweetID)
-          router.path.append(quoteTweetViewModel)
-        }
+      } label: {
+        Label("\(metrics.retweetCount)", systemImage: "arrow.2.squarepath")
+      }
 
-      Label("\(metrics.likeCount)", systemImage: "heart")
-        .onTapGesture {
-          let likeUsersViewModel: LikeUsersViewModel = .init(userID: userID, tweetID: tweetID)
-          router.path.append(likeUsersViewModel)
-        }
+      Button {
+        let quoteTweetViewModel = QuoteTweetsViewModel(
+          userID: userID,
+          source: tweetID
+        )
+        router.path.append(quoteTweetViewModel)
+      } label: {
+        Label("\(metrics.quoteCount)", systemImage: "quote.bubble")
+      }
+
+      Button {
+        let likeUsersViewModel = LikeUsersViewModel(
+          userID: userID,
+          tweetID: tweetID
+        )
+        router.path.append(likeUsersViewModel)
+      } label: {
+        Label("\(metrics.likeCount)", systemImage: "heart")
+      }
     }
     .frame(alignment: .leadingFirstTextBaseline)
   }
