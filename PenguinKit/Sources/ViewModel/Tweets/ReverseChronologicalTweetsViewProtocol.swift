@@ -22,33 +22,43 @@ extension ReverseChronologicalTweetsViewProtocol {
     let tweets = response.tweets + response.relatedTweets
 
     if !tweets.isEmpty {
-      let tweetsRequest = NSBatchInsertRequest(
-        entity: Tweet.entity(), objects: tweets.map { $0.dictionaryValue() })
-      try backgroundContext.execute(tweetsRequest)
+      let request = NSBatchInsertRequest(
+        entity: Tweet.entity(),
+        objects: tweets.map { $0.dictionaryValue() }
+      )
+      try backgroundContext.execute(request)
     }
 
     if !response.users.isEmpty {
-      let usersRequest = NSBatchInsertRequest(
-        entity: User.entity(), objects: response.users.map { $0.dictionaryValue() })
-      try backgroundContext.execute(usersRequest)
+      let request = NSBatchInsertRequest(
+        entity: User.entity(),
+        objects: response.users.map { $0.dictionaryValue() }
+      )
+      try backgroundContext.execute(request)
     }
 
     if !response.medias.isEmpty {
-      let mediasRequest = NSBatchInsertRequest(
-        entity: Media.entity(), objects: response.medias.map { $0.dictionaryValue() })
-      try backgroundContext.execute(mediasRequest)
+      let request = NSBatchInsertRequest(
+        entity: Media.entity(),
+        objects: response.medias.map { $0.dictionaryValue() }
+      )
+      try backgroundContext.execute(request)
     }
 
     if !response.polls.isEmpty {
-      let pollsRequest = NSBatchInsertRequest(
-        entity: Poll.entity(), objects: response.polls.map { $0.dictionaryValue() })
-      try backgroundContext.execute(pollsRequest)
+      let request = NSBatchInsertRequest(
+        entity: Poll.entity(),
+        objects: response.polls.map { $0.dictionaryValue() }
+      )
+      try backgroundContext.execute(request)
     }
 
     if !response.places.isEmpty {
-      let placesRequest = NSBatchInsertRequest(
-        entity: Place.entity(), objects: response.places.map { $0.dictionaryValue() })
-      try backgroundContext.execute(placesRequest)
+      let request = NSBatchInsertRequest(
+        entity: Place.entity(),
+        objects: response.places.map { $0.dictionaryValue() }
+      )
+      try backgroundContext.execute(request)
     }
   }
 

@@ -60,7 +60,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
       if let paginationToken = response.meta?.nextToken, !containsTweet {
         await fetchTweets(last: nil, paginationToken: paginationToken)
       }
-      
+
       self.timelines = try await getTimelines()
     } catch {
       let errorHandle = ErrorHandle(error: error)
