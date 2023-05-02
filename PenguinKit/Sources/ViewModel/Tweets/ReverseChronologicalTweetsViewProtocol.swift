@@ -72,7 +72,6 @@ extension ReverseChronologicalTweetsViewProtocol {
   
   func getTimelines() async throws -> [Timeline] {
     let request = Timeline.fetchRequest()
-    request.fetchLimit = 1000
     request.predicate = .init(format: "ownerID = %@", userID)
     request.sortDescriptors = [.init(keyPath: \Timeline.tweetID, ascending: false)]
     return try await backgroundContext.perform {
