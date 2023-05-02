@@ -24,6 +24,21 @@ final class TweetDetailViewModel: TweetsViewProtocol {
   @Published var reply: Reply?
 
   init(cellViewModel: TweetCellViewModel) {
+    let isRetweeted = cellViewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
+
+    let user = isRetweeted ? cellViewModel.retweet!.author : cellViewModel.author
+    
+    let cellViewModel = TweetCellViewModel(
+      userID: cellViewModel.userID,
+      tweet: cellViewModel.tweetText,
+      author: user,
+      retweet: nil,
+      quoted: cellViewModel.quoted,
+      medias: cellViewModel.medias,
+      polls: cellViewModel.polls,
+      places: cellViewModel.places
+    )
+    
     self.cellViewModel = cellViewModel
     self.userID = cellViewModel.userID
 
