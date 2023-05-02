@@ -8,7 +8,8 @@ import SwiftUI
 struct OnlineTweetDetailView: View {
   @StateObject var viewModel: OnlineTweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
-
+  @Environment(\.settings) var settings
+  
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
@@ -41,7 +42,10 @@ struct OnlineTweetDetailView: View {
               user: viewModel.author
             )
           )
+          //TODO tintでいいはず
+          .foregroundColor(settings.colorType.colorSet.tintColor)
           .labelStyle(.iconOnly)
+          .padding(5)
 
           Divider()
 
@@ -58,6 +62,8 @@ struct OnlineTweetDetailView: View {
             tweetID: viewModel.tweet.id,
             metrics: viewModel.tweet.publicMetrics!
           )
+          .buttonStyle(.plain)
+          .tint(.primary)
         }
       }
       .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
