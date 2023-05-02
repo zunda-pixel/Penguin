@@ -66,7 +66,7 @@ extension TweetCellViewProtocol {
 
     return excludeURLs
   }
-  
+
   var tweetText: Sweet.TweetModel {
     let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
 
@@ -83,37 +83,6 @@ extension TweetCellViewProtocol {
     } else {
       return tweet.createdAt!
     }
-  }
-
-  func isValidateTweet(settings: TimelineSearchSettings) -> Bool {
-    let lowercasedQuery = settings.query.lowercased()
-
-    if lowercasedQuery.isEmpty { return true }
-
-    let words = [
-      tweet.text,
-
-      retweet?.tweet.text,
-
-      quoted?.tweetContent.tweet.text,
-      quoted?.quoted?.tweet.text,
-
-      author.name,
-      author.userName,
-
-      retweet?.author.name,
-      retweet?.author.userName,
-
-      quoted?.tweetContent.author.name,
-      quoted?.tweetContent.author.userName,
-
-      quoted?.quoted?.author.name,
-      quoted?.quoted?.author.userName,
-    ]
-    .compacted()
-    .map { $0.lowercased() }
-
-    return words.contains { $0.contains(lowercasedQuery) }
   }
 }
 

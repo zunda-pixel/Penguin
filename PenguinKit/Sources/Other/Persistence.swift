@@ -23,7 +23,5 @@ struct PersistenceController {
         fatalError("\(error)")
       }
     })
-
-    container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
   }
 }

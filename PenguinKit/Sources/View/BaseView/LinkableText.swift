@@ -39,7 +39,7 @@ struct LinkableText<Value: Sequence<Sweet.URLModel>>: View {
     var text = text
 
     for url in excludeURLs {
-      for range in text.ranges(of: url.url.absoluteString) {
+      if let range = text.ranges(of: url.url.absoluteString).last {
         text.removeSubrange(range)
       }
     }
