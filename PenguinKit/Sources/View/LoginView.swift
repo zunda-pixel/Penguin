@@ -13,7 +13,6 @@ struct LoginView<Label: View>: View {
   @State var errorHandle: ErrorHandle?
   @State var authorizeURL: URL?
 
-  @Environment(\.managedObjectContext) var context
   @Environment(\.dismiss) var dismiss
 
   #if os(macOS)
@@ -56,7 +55,7 @@ struct LoginView<Label: View>: View {
   }
 
   func doSomething(url: URL) async {
-    let deepLink = DeepLink(delegate: self, context: context)
+    let deepLink = DeepLink(delegate: self)
 
     do {
       try await deepLink.doSomething(url)
@@ -102,15 +101,12 @@ extension LoginView: DeepLinkDelegate {
     fetchRequest.entity = User.entity()
     fetchRequest.sortDescriptors = []
 
+    let context = PersistenceController.shared.container.newBackgroundContext()
+    context.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+    
     try await context.perform {
-      let users = try context.fetch(fetchRequest)
-
-      if let foundUser = users.first(where: { $0.id == user.id }) {
-        try foundUser.setUserModel(user)
-      } else {
-        let newUser = User(context: context)
-        try newUser.setUserModel(user)
-      }
+      let newUser = User(context: context)
+      try newUser.setUserModel(user)
 
       try context.save()
     }
