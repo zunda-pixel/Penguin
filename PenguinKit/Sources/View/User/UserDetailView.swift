@@ -196,6 +196,16 @@ struct UserDetailView: View {
           )
 
           replyButton(viewModel: viewModel)
+          
+          if viewModel.userID == viewModel.tweetText.authorID {
+            Button {
+              Task {
+                await self.viewModel.deleteTweet(viewModel.tweetText.id)
+              }
+            } label: {
+              Label("Delete Tweet", systemImage: "trash")
+            }
+          }
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
           Button {

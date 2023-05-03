@@ -26,6 +26,16 @@ import Sweet
 }
 
 extension TweetsViewProtocol {
+  func deleteTweet(_ tweetID: String) async {
+    do {
+      try await Sweet(userID: userID).deleteTweet(of: tweetID)
+    } catch {
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
+    }
+  }
+  
   func addResponse(response: Sweet.TweetsResponse) {
     response.tweets.forEach {
       allTweets.insertOrUpdate($0, by: \.id)

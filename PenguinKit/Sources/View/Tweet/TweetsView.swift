@@ -141,6 +141,16 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         )
 
         replyButton(viewModel: cellViewModel)
+        
+        if cellViewModel.userID == cellViewModel.tweetText.authorID {
+          Button {
+            Task {
+              await viewModel.deleteTweet(cellViewModel.tweetText.id)
+            }
+          } label: {
+            Label("Delete Tweet", systemImage: "trash")
+          }
+        }
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
         Button {
