@@ -61,6 +61,22 @@ struct PlaceHolderTweetCellView: View {
         )
 
         replyButton(viewModel: viewModel)
+        
+        if viewModel.userID == viewModel.tweetText.authorID {
+          Button {
+            Task {
+              do {
+                try await Sweet(userID: viewModel.userID).deleteTweet(of: viewModel.tweetText.id)
+              } catch {
+                let errorHandle = ErrorHandle(error: error)
+                errorHandle.log()
+                self.errorHandle = errorHandle
+              }
+            }
+          } label: {
+            Label("Delete Tweet", systemImage: "trash")
+          }
+        }
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
         Button {
