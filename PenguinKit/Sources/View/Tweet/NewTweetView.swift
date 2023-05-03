@@ -32,6 +32,21 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 
             VStack {
               if let reply = viewModel.reply {
+                HStack(alignment: .top) {
+                  ProfileImageView(url: reply.tweetContent.author.profileImageURL!)
+                    .frame(width: 30, height: 30)
+
+                  LinkableText(
+                    tweet: reply.tweetContent.tweet,
+                    userID: viewModel.userID,
+                    excludeURLs: []
+                  )
+                  .lineLimit(3)
+                }
+                .frame(maxWidth: 400, alignment: .leading)
+                .padding(5)
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+                
                 ScrollView(.horizontal) {
                   HStack {
                     ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) {
