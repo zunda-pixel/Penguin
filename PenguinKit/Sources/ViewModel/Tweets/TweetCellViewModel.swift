@@ -76,7 +76,7 @@ extension TweetCellViewProtocol {
   }
   
   var tweetText: Sweet.TweetModel {
-    let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
+    let isRetweeted = tweet.referencedType == .retweet
 
     let tweet = isRetweeted ? retweet!.tweet : tweet
 
@@ -84,7 +84,7 @@ extension TweetCellViewProtocol {
   }
 
   var showDate: Date {
-    let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
+    let isRetweeted = tweet.referencedType == .retweet
 
     if isRetweeted {
       return retweet!.tweet.createdAt!
