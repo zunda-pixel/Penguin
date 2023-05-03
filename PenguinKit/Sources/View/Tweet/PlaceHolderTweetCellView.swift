@@ -77,6 +77,23 @@ struct PlaceHolderTweetCellView: View {
             Label("Delete Tweet", systemImage: "trash")
           }
         }
+        
+        if viewModel.tweet.referencedType == .retweet,
+           viewModel.author.id == viewModel.userID {
+          Button(role: .destructive) {
+            Task {
+              do {
+                try await Sweet(userID: viewModel.userID).deleteTweet(of: viewModel.tweetText.id)
+              } catch {
+                let errorHandle = ErrorHandle(error: error)
+                errorHandle.log()
+                self.errorHandle = errorHandle
+              }
+            }
+          } label: {
+            Label("Delete Retweet", systemImage: "trash")
+          }
+        }
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
         Button {
