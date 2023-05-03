@@ -49,7 +49,7 @@ struct UnBookmarkButton: View {
   }
 
   var body: some View {
-    Button {
+    Button(role: .destructive) {
       Task {
         await action()
       }
