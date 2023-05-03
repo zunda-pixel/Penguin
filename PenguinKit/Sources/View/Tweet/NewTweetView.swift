@@ -51,7 +51,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 }
                 .sheet(isPresented: $viewModel.isPresentedSelectUserView) {
                   SelectReplyUsersView(
-                    tweetOwnerID: reply.ownerID,
+                    tweetOwnerID: reply.tweetContent.author.id,
                     allUsers: reply.replyUsers,
                     selection: $viewModel.selectedUserID
                   )

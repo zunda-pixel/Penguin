@@ -19,9 +19,10 @@ struct TweetDetailView: View {
           self.viewModel.allUsers.first { $0.userName == userID }!
       } + [viewModel.author]
 
+      let tweetContent = TweetContentModel(tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+      
       self.viewModel.reply = Reply(
-        replyID: viewModel.tweetText.id,
-        ownerID: viewModel.tweetText.authorID!,
+        tweetContent: tweetContent,
         replyUsers: users.uniqued(by: \.id)
       )
     } label: {

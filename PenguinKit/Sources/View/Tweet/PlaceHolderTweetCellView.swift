@@ -141,9 +141,10 @@ struct PlaceHolderTweetCellView: View {
       }
       let userModels: [Sweet.UserModel] = users + [viewModel.author]
 
+      let tweetContent = TweetContentModel(tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+      
       self.reply = Reply(
-        replyID: viewModel.tweetText.id,
-        ownerID: viewModel.tweetText.authorID!,
+        tweetContent: tweetContent,
         replyUsers: userModels.uniqued(by: \.id)
       )
     } label: {
