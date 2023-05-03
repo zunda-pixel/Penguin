@@ -151,6 +151,17 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             Label("Delete Tweet", systemImage: "trash")
           }
         }
+        
+        if cellViewModel.tweet.referencedType == .retweet,
+           cellViewModel.author.id == cellViewModel.userID {
+          Button(role: .destructive) {
+            Task {
+              await self.viewModel.deleteReTweet(cellViewModel.tweetText.id)
+            }
+          } label: {
+            Label("Delete Retweet", systemImage: "trash")
+          }
+        }
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
         Button {

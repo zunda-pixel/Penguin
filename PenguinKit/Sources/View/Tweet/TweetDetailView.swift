@@ -112,6 +112,17 @@ struct TweetDetailView: View {
           Label("Delete Tweet", systemImage: "trash")
         }
       }
+      
+      if viewModel.tweet.referencedType == .retweet,
+         viewModel.author.id == viewModel.userID {
+        Button(role: .destructive) {
+          Task {
+            await self.viewModel.deleteReTweet(viewModel.tweetText.id)
+          }
+        } label: {
+          Label("Delete Retweet", systemImage: "trash")
+        }
+      }
     }
     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
       Button {
