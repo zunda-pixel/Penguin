@@ -107,6 +107,8 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             )
             .padding()
             .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+            // TODO foregroundColorは必要ないはず
+            .foregroundColor(.primary)
           }
 
           Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
