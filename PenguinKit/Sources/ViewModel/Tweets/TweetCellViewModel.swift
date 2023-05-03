@@ -67,6 +67,14 @@ extension TweetCellViewProtocol {
     return excludeURLs
   }
 
+  var tweetAuthor: Sweet.UserModel {
+    let isRetweeted = tweet.referencedType == .retweet
+    
+    let tweet = isRetweeted ? retweet!.author : author
+
+    return tweet
+  }
+  
   var tweetText: Sweet.TweetModel {
     let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
 
