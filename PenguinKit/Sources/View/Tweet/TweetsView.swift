@@ -143,7 +143,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         replyButton(viewModel: cellViewModel)
         
         if cellViewModel.userID == cellViewModel.tweetText.authorID {
-          Button {
+          Button(role: .destructive) {
             Task {
               await viewModel.deleteTweet(cellViewModel.tweetText.id)
             }

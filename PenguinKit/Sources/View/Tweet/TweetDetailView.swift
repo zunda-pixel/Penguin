@@ -15,10 +15,9 @@ struct TweetDetailView: View {
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] =
-        userNames.map { userID in self.viewModel.allUsers.first { $0.userName == userID }! } + [
-          viewModel.author
-        ]
+      let users: [Sweet.UserModel] = userNames.map { userID in
+          self.viewModel.allUsers.first { $0.userName == userID }!
+      } + [viewModel.author]
 
       self.viewModel.reply = Reply(
         replyID: viewModel.tweetText.id,
@@ -105,7 +104,7 @@ struct TweetDetailView: View {
       replyButton(viewModel: viewModel)
       
       if viewModel.userID == viewModel.tweetText.authorID {
-        Button {
+        Button(role: .destructive) {
           Task {
             await self.viewModel.deleteTweet(viewModel.tweetText.id)
           }
