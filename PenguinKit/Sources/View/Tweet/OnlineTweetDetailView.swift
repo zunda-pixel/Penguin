@@ -105,7 +105,7 @@ struct OnlineTweetDetailView: View {
       replyButton(viewModel: viewModel)
       
       if viewModel.userID == viewModel.tweetText.authorID {
-        Button {
+        Button(role: .destructive) {
           Task {
             await self.viewModel.deleteTweet(viewModel.tweetText.id)
           }

@@ -63,7 +63,7 @@ struct PlaceHolderTweetCellView: View {
         replyButton(viewModel: viewModel)
         
         if viewModel.userID == viewModel.tweetText.authorID {
-          Button {
+          Button(role: .destructive) {
             Task {
               do {
                 try await Sweet(userID: viewModel.userID).deleteTweet(of: viewModel.tweetText.id)

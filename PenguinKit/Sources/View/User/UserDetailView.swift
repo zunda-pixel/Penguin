@@ -208,7 +208,7 @@ struct UserDetailView: View {
           }
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-          Button {
+          Button(role: .destructive) {
             let tweetDetailViewModel = TweetDetailViewModel(cellViewModel: viewModel)
             router.path.append(tweetDetailViewModel)
           } label: {
