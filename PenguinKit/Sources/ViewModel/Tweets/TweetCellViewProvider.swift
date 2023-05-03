@@ -54,6 +54,16 @@ struct TweetCellViewProvider {
     return medias.map { .init(media: $0) }
   }
 
+  func getUsers(screenIDs: [String]) -> [Sweet.UserModel] {
+    let request = User.fetchRequest()
+    request.predicate = .init(format: "userName IN %@", screenIDs)
+    request.fetchLimit = screenIDs.count
+
+    let users = try! backgroundContext.fetch(request)
+
+    return users.map { .init(user: $0) }
+  }
+  
   func getUser(_ userID: String) -> Sweet.UserModel? {
     let request = User.fetchRequest()
     request.predicate = .init(format: "id = %@", userID)
