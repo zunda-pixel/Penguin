@@ -114,7 +114,7 @@ struct TweetToolBar: View {
   }
 
   var deleteRetweetButton: some View {
-    Button("Delete Retweet") {
+    Button("Delete Retweet", role: .destructive) {
       Task {
         await viewModel.deleteRetweet()
       }
@@ -139,7 +139,7 @@ struct TweetToolBar: View {
   }
 
   var unLikeButton: some View {
-    Button("UnLike") {
+    Button("UnLike", role: .destructive) {
       Task {
         await viewModel.unlike()
       }
@@ -164,7 +164,7 @@ struct TweetToolBar: View {
   }
 
   var deleteBookmarkButton: some View {
-    Button("Delete Bookmark") {
+    Button("Delete Bookmark", role: .destructive) {
       Task {
         await viewModel.deleteBookmark()
       }

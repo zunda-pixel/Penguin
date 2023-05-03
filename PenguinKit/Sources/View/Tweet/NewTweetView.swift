@@ -99,16 +99,16 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             }
           }
 
-          VStack(alignment: .leading) {
-            if let quoted = viewModel.quoted {
-              QuotedTweetCellView(
-                userID: viewModel.userID,
-                tweet: quoted.tweet,
-                user: quoted.author
-              )
-              .padding()
-              .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
-            }
+          if let quoted = viewModel.quoted {
+            QuotedTweetCellView(
+              userID: viewModel.userID,
+              tweet: quoted.tweet,
+              user: quoted.author
+            )
+            .padding()
+            .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+            // TODO foregroundColorは必要ないはず
+            .foregroundColor(.primary)
           }
 
           Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
