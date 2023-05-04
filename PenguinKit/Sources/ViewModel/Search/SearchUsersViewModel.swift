@@ -10,7 +10,6 @@ import Sweet
   let query: String
 
   var paginationToken: String?
-  var loadingUser: Bool
 
   @Published var errorHandle: ErrorHandle?
   @Published var users: [Sweet.UserModel]
@@ -18,9 +17,6 @@ import Sweet
   init(userID: String, query: String) {
     self.userID = userID
     self.query = query
-
-    self.loadingUser = false
-
     self.users = []
   }
 
@@ -33,11 +29,6 @@ import Sweet
   }
 
   func fetchUsers(reset resetData: Bool) async {
-    guard !loadingUser else { return }
-
-    loadingUser.toggle()
-    defer { loadingUser.toggle() }
-
     var newUsers: [Sweet.UserModel] = []
 
     let removedWhiteSpaceQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)

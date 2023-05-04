@@ -10,6 +10,5 @@ import Sweet
   var users: [Sweet.UserModel] { get set }
   var errorHandle: ErrorHandle? { get set }
   var paginationToken: String? { get set }
-  var loadingUser: Bool { get set }
   func fetchUsers(reset resetData: Bool) async
 }
