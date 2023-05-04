@@ -6,6 +6,7 @@ import Combine
 import Foundation
 import MapKit
 import Sweet
+import RegexBuilder
 
 protocol TweetCellViewProtocol: Hashable {
   var userID: String { get }
@@ -54,17 +55,33 @@ extension TweetCellViewProtocol {
 
   var excludeURLs: some Sequence<Sweet.URLModel> {
     var excludeURLs = [ogpURL].compactMap { $0 }
-
-    let quotedURL = quoted.map {
-      "https://twitter.com/\($0.tweetContent.author.userName.lowercased())/status/\($0.tweetContent.tweet.id)"
+    
+    guard let urls = tweetText.entity?.urls else { return excludeURLs }
+    
+    let regex = Regex {
+      Anchor.startOfLine
+      "http"
+      ZeroOrMore("s")
+      "://twitter.com/"
+      OneOrMore(.whitespace.inverted)
+      "/status/"
+      tweetText.id
+      Anchor.endOfLine
     }
-
-    guard let quotedURL else { return excludeURLs }
-
-    if let entity = tweet.entity {
-      let urls = entity.urls.filter { $0.expandedURL == quotedURL }
-      excludeURLs.append(contentsOf: urls)
+    
+    for url in urls {
+      guard let expandedURL = url.expandedURL else { continue }
+      if expandedURL.isMatchWhole(of: regex) {
+        excludeURLs.append(url)
+      }
     }
+    
+    guard let quoted else { return excludeURLs }
+    
+    let quotedURL = "https://twitter.com/\(quoted.tweetContent.author.userName)/status/\(quoted.tweetContent.tweet.id)"
+
+    let matchedURLs = urls.filter { $0.expandedURL?.lowercased() == quotedURL.lowercased() }
+    excludeURLs.append(contentsOf: matchedURLs)
 
     return excludeURLs
   }
