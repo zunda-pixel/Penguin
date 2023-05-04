@@ -71,6 +71,30 @@ extension TweetsViewProtocol {
       allPlaces.insertOrUpdate($0, by: \.id)
     }
   }
+  
+  func addResponse(response: Sweet.TweetResponse) {
+    allTweets.insertOrUpdate(response.tweet, by: \.id)
+    
+    response.relatedTweets.forEach {
+      allTweets.insertOrUpdate($0, by: \.id)
+    }
+
+    response.users.forEach {
+      allUsers.insertOrUpdate($0, by: \.id)
+    }
+
+    response.medias.forEach {
+      allMedias.insertOrUpdate($0, by: \.id)
+    }
+
+    response.polls.forEach {
+      allPolls.insertOrUpdate($0, by: \.id)
+    }
+
+    response.places.forEach {
+      allPlaces.insertOrUpdate($0, by: \.id)
+    }
+  }
 
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     guard let tweet = allTweets.first(where: { $0.id == tweetID }) else { return nil }
