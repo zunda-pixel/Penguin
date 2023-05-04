@@ -145,20 +145,8 @@ struct TweetCellViewModel: TweetCellViewProtocol {
 extension TweetCellViewModel {
   static let placeHolder = TweetCellViewModel(
     userID: "userID",
-    tweet: .init(
-      id: "id",
-      text: "This is Placeholder Text.\n This  tweets is loading...",
-      createdAt: .now.addingTimeInterval(-1000),
-      attachments: .init(pollID: "pollID")
-    ),
-    author: .init(
-      id: "id",
-      name: "name",
-      userName: "userName",
-      verified: true,
-      profileImageURL: URL(
-        string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!
-    ),
+    tweet: .placeHolder,
+    author: .placeHolder,
     retweet: nil,
     quoted: nil,
     medias: [],

@@ -6,6 +6,17 @@ import Foundation
 import Sweet
 
 extension Sweet.UserModel {
+  static let placeHolder: Self = .init(
+    id: "id",
+    name: "name",
+    userName: "userName",
+    verified: true,
+    profileImageURL: URL(
+      string: "https://pbs.twimg.com/profile_images/974322170309390336/tY8HZIhk_400x400.jpg")!,
+    description: "description",
+    createdAt: .now
+  )
+
   init(user: User) {
     let decoder = JSONDecoder.twitter
 

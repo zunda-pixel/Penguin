@@ -7,6 +7,13 @@ import HTMLString
 import Sweet
 
 extension Sweet.TweetModel {
+  static let placeHolder: Self = .init(
+    id: "id",
+    text: "This is Placeholder Text.\n This  tweets is loading...",
+    createdAt: .now.addingTimeInterval(-1000),
+    attachments: .init(pollID: "pollID")
+  )
+
   public var tweetText: String {
     return self.text.removingHTMLEntities()
   }
