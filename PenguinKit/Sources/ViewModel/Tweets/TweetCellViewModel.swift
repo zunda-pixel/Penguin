@@ -23,6 +23,8 @@ protocol TweetCellViewProtocol: Hashable {
 
 extension TweetCellViewProtocol {
   var ogpURL: Sweet.URLModel? {
+    if quoted != nil { return nil }
+    
     let mediaKeys = tweetText.attachments?.mediaKeys ?? []
     guard mediaKeys.isEmpty else { return nil }
 
@@ -67,8 +69,16 @@ extension TweetCellViewProtocol {
     return excludeURLs
   }
 
+  var tweetAuthor: Sweet.UserModel {
+    let isRetweeted = tweet.referencedType == .retweet
+    
+    let tweet = isRetweeted ? retweet!.author : author
+
+    return tweet
+  }
+  
   var tweetText: Sweet.TweetModel {
-    let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
+    let isRetweeted = tweet.referencedType == .retweet
 
     let tweet = isRetweeted ? retweet!.tweet : tweet
 
@@ -76,7 +86,7 @@ extension TweetCellViewProtocol {
   }
 
   var showDate: Date {
-    let isRetweeted = tweet.referencedTweets.contains { $0.type == .retweeted }
+    let isRetweeted = tweet.referencedType == .retweet
 
     if isRetweeted {
       return retweet!.tweet.createdAt!

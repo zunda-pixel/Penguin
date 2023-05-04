@@ -14,8 +14,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
   let viewModel: ViewModel
 
   var body: some View {
-    let isRetweeted = viewModel.tweet.referencedTweets.contains(where: { $0.type == .retweeted })
-
+    let isRetweeted = viewModel.tweet.referencedType == .retweet
+    
     let user = isRetweeted ? viewModel.retweet!.author : viewModel.author
 
     HStack(alignment: .top) {
@@ -38,7 +38,8 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
           Spacer()
 
-          let isReply = viewModel.tweet.referencedTweets.contains(where: { $0.type == .repliedTo })
+          let isReply = viewModel.tweet.referencedType == .reply || viewModel.tweet.referencedType == .replyAndQuote
+          
           if isReply {
             Image(systemName: "bubble.left.and.bubble.right")
           }

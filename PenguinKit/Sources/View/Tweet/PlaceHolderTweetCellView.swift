@@ -135,17 +135,20 @@ struct PlaceHolderTweetCellView: View {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
 
-      // TODO 何故か取得できないユーザーがいる
-      let users: [Sweet.UserModel] = userNames.compactMap { userID in
-        provider.getUser(userID)
+      Task {
+        let users: [Sweet.UserModel] = await provider.backgroundContext.perform {
+          provider.getUsers(screenIDs: userNames)
+        }
+        
+        let userModels: [Sweet.UserModel] = users + [viewModel.author]
+        
+        let tweetContent = TweetContentModel(tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+        
+        self.reply = Reply(
+          tweetContent: tweetContent,
+          replyUsers: userModels.uniqued(by: \.id)
+        )
       }
-      let userModels: [Sweet.UserModel] = users + [viewModel.author]
-
-      self.reply = Reply(
-        replyID: viewModel.tweetText.id,
-        ownerID: viewModel.tweetText.authorID!,
-        replyUsers: userModels.uniqued(by: \.id)
-      )
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
