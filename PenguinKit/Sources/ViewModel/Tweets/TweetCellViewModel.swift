@@ -30,9 +30,9 @@ extension TweetCellViewProtocol {
 
     return tweet.entity?.urls.filter {
       // TODO statusがnilの場合がある
-      // 対処しなくてもいい
-      !$0.images.isEmpty && (200..<300).contains($0.status ?? 401)
-    }.first
+      let status =  $0.status ?? 401
+      return !$0.images.isEmpty && (200..<300).contains(status)
+    }.last
   }
 
   var poll: Sweet.PollModel? {
