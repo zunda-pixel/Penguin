@@ -171,7 +171,15 @@ struct OnlineTweetDetailView: View {
         .listContentAttribute()
 
       } else {
-        ProgressView()
+        ForEach(0..<100) { _ in
+          VStack {
+            TweetCellView(viewModel: TweetCellViewModel.placeHolder)
+              .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+            Divider()
+          }
+            .listRowInsets(EdgeInsets())
+        }
+          .redacted(reason: .placeholder)
           .listRowSeparator(.hidden)
           .listContentAttribute()
       }
