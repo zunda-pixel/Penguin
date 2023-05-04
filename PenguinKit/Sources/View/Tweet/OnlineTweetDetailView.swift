@@ -171,6 +171,14 @@ struct OnlineTweetDetailView: View {
         .listContentAttribute()
 
       } else {
+        if viewModel.loadingTweet {
+          ProgressView()
+            .controlSize(.large)
+            .tint(.secondary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .listRowSeparator(.hidden)
+        }
+        
         ForEach(0..<100) { _ in
           VStack {
             TweetCellView(viewModel: TweetCellViewModel.placeHolder)
