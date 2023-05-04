@@ -19,13 +19,23 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
   }
 
   var body: some View {
-    List(viewModel.users) { user in
-      UserCellView(ownerID: viewModel.userID, user: user)
-        .task {
-          if viewModel.users.last?.id == user.id {
-            await viewModel.fetchUsers(reset: false)
-          }
+    List {
+      if viewModel.users.isEmpty && loadingUsers {
+        ForEach(0..<100) { _ in
+          UserCellView(ownerID: "", user: .placeHolder)
         }
+        .redacted(reason: .placeholder)
+      }
+      else {
+        ForEach(viewModel.users) { user in
+          UserCellView(ownerID: viewModel.userID, user: user)
+            .task {
+              if viewModel.users.last?.id == user.id {
+                await viewModel.fetchUsers(reset: false)
+              }
+            }
+        }
+      }
     }
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
