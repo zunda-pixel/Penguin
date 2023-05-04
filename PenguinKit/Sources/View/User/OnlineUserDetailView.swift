@@ -6,6 +6,16 @@ import SwiftUI
 
 struct OnlineUserDetailView: View {
   @StateObject var viewModel: OnlineUserDetailViewModel
+  @State var loadingUser = false
+  
+  func fetchUser() async {
+    guard !loadingUser else { return }
+
+    loadingUser.toggle()
+    defer { loadingUser.toggle() }
+    
+    await viewModel.fetchUser()
+  }
 
   var body: some View {
     VStack {
@@ -18,7 +28,7 @@ struct OnlineUserDetailView: View {
       }
     }
     .task {
-      await viewModel.fetchUser()
+      await fetchUser()
     }
   }
 }

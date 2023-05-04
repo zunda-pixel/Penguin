@@ -7,6 +7,16 @@ import SwiftUI
 
 struct UsersView<ViewModel: UsersViewProtocol>: View {
   @StateObject var viewModel: ViewModel
+  @State var loadingUsers = false
+  
+  func fetchUsers(reset: Bool) async {
+    guard !loadingUsers else { return }
+
+    loadingUsers.toggle()
+    defer { loadingUsers.toggle() }
+    
+    await viewModel.fetchUsers(reset: reset)
+  }
 
   var body: some View {
     List(viewModel.users) { user in
@@ -19,10 +29,10 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
     }
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
-      await viewModel.fetchUsers(reset: true)
+      await fetchUsers(reset: true)
     }
     .task {
-      await viewModel.fetchUsers(reset: false)
+      await fetchUsers(reset: false)
     }
   }
 }
