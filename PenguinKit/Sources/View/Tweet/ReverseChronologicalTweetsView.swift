@@ -14,26 +14,38 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   var body: some View {
     List {
-      ForEach(viewModel.timelines) { timeline in
-        VStack {
-          PlaceHolderTweetCellView(
-            userID: viewModel.userID,
-            tweetID: timeline.tweetID!,
-            errorHandle: $viewModel.errorHandle,
-            reply: $viewModel.reply
-          )
-          .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
-          Divider()
+      if viewModel.timelines.isEmpty && loadingTweets {
+        ForEach(0..<100) { _ in
+          VStack {
+            TweetCellView(viewModel: TweetCellViewModel.placeHolder)
+              .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+            Divider()
+          }
+            .listRowInsets(EdgeInsets())
+            .redacted(reason: .placeholder)
         }
-        .listRowInsets(EdgeInsets())
-        .task {
-          if timeline.tweetID == viewModel.timelines.last?.tweetID {
-            await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
+      } else {
+        ForEach(viewModel.timelines) { timeline in
+          VStack {
+            PlaceHolderTweetCellView(
+              userID: viewModel.userID,
+              tweetID: timeline.tweetID!,
+              errorHandle: $viewModel.errorHandle,
+              reply: $viewModel.reply
+            )
+              .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+            Divider()
+          }
+          .listRowInsets(EdgeInsets())
+          .task {
+            if timeline.tweetID == viewModel.timelines.last?.tweetID {
+              await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
+            }
           }
         }
+        .listRowSeparator(.hidden)
+        .listContentAttribute()
       }
-      .listRowSeparator(.hidden)
-      .listContentAttribute()
     }
     .sheet(item: $viewModel.reply) { reply in
       let viewModel = NewTweetViewModel(
