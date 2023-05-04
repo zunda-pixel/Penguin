@@ -141,8 +141,12 @@ struct UserDetailView: View {
 
   var body: some View {
     TweetsView(viewModel: viewModel) {
-      userProfile
-        .padding()
+      VStack(spacing: 0) {
+        userProfile
+          .padding()
+
+        Divider()
+      }
         .buttonStyle(.bordered)
         .buttonBorderShape(.roundedRectangle)
         .listRowInsets(EdgeInsets())
@@ -150,7 +154,6 @@ struct UserDetailView: View {
       if let pinnedTweetID = viewModel.pinnedTweetID {
         let viewModel = viewModel.getTweetCellViewModel(pinnedTweetID)
         VStack(spacing: 0) {
-          Divider()
           VStack(alignment: .leading, spacing: 0) {
             Text("\(Image(systemName: "pin.fill")) Pinned Tweet")
               .font(.caption)

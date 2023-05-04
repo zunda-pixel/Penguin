@@ -54,11 +54,11 @@ final class OnlineTweetDetailViewModel: TweetsViewProtocol {
     defer { loadingTweet.toggle() }
 
     do {
-      let tweetResponse = try await Sweet(userID: userID).tweets(by: [tweetID])
+      let tweetResponse = try await Sweet(userID: userID).tweet(by: tweetID)
 
       addResponse(response: tweetResponse)
 
-      let conversationID = tweetResponse.tweets.first!.conversationID!
+      let conversationID = tweetResponse.tweet.conversationID!
 
       let query = "conversation_id:\(conversationID)"
 

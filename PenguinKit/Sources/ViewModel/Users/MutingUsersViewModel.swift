@@ -10,7 +10,6 @@ import Sweet
   let ownerID: String
 
   var paginationToken: String?
-  var loadingUser: Bool
 
   @Published var errorHandle: ErrorHandle?
   @Published var users: [Sweet.UserModel]
@@ -18,7 +17,6 @@ import Sweet
   init(userID: String, ownerID: String) {
     self.userID = userID
     self.ownerID = ownerID
-    self.loadingUser = false
     self.users = []
   }
 
@@ -32,11 +30,6 @@ import Sweet
   }
 
   func fetchUsers(reset resetData: Bool) async {
-    guard !loadingUser else { return }
-
-    loadingUser.toggle()
-    defer { loadingUser.toggle() }
-
     do {
       let response = try await Sweet(userID: userID).mutingUsers(
         userID: userID,
