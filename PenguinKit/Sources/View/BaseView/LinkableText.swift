@@ -165,7 +165,9 @@ struct LinkableText<Value: Sequence<Sweet.URLModel>>: View {
       .environment(
         \.openURL,
         OpenURLAction { url in
-          guard url.scheme == baseURL.scheme else { return .systemAction(url) }
+          guard url.scheme == baseURL.scheme else {
+            return .systemAction(url)
+          }
 
           let modeRawValue = url.queryItems.first { $0.name == "mode" }?.value
           let query = url.queryItems.first { $0.name == "query" }?.value
@@ -231,7 +233,7 @@ struct LinkableText_Previews: PreviewProvider {
 }
 
 extension BidirectionalCollection where Self.SubSequence == Substring {
-  fileprivate func isMatchWhole(of regex: some RegexComponent) -> Bool {
+  func isMatchWhole(of regex: some RegexComponent) -> Bool {
     self.wholeMatch(of: regex) != nil
   }
 }
