@@ -86,6 +86,10 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 
             pollButton
             
+            atButton
+
+            hashButton
+
             Spacer()
             
             Text("\(viewModel.leftTweetCount)")
@@ -116,6 +120,24 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       .toolbar {
         toolBarContent
       }
+    }
+  }
+  
+  var atButton: some View {
+    Button {
+      viewModel.text.append("@")
+    } label: {
+      Label("Add @", systemImage: "at")
+        .labelStyle(.iconOnly)
+    }
+  }
+  
+  var hashButton: some View {
+    Button {
+      viewModel.text.append("#")
+    } label: {
+      Label("Add #", systemImage: "number")
+        .labelStyle(.iconOnly)
     }
   }
   
