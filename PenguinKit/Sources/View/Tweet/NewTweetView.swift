@@ -184,6 +184,18 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         .padding()
         .alert(errorHandle: $viewModel.errorHandle)
       }
+      .alert(
+        "This Tweet is posted to twitter.com",
+        isPresented: $showWarningAlert
+      ) {
+        Button("Post") {
+          Task {
+            firstPostTweet = false
+            await postTweet()
+          }
+        }
+        Button("Cancel", role: .cancel) { }
+      }
       .navigationTitle(viewModel.title)
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
