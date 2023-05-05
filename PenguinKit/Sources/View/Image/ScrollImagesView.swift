@@ -8,7 +8,7 @@ import SwiftUI
 struct ScrollImagesView: View {
   let medias: [Sweet.MediaModel]
 
-  @Binding var selectedMedia: Sweet.MediaModel
+  @State var selectedMedia: Sweet.MediaModel
   @Environment(\.dismiss) var dismiss
 
   var body: some View {

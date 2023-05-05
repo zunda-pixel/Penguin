@@ -11,8 +11,7 @@ struct MediaView: View {
   let media: Sweet.MediaModel
 
   @State var isPresentedVideoPlayer: Bool = false
-  @Binding var selectedMedia: Sweet.MediaModel
-  @Binding var isPresentedImageView: Bool
+  @Binding var selectedMedia: Sweet.MediaModel?
 
   func videoImage(url: URL) -> some View {
     KFImage(url)
@@ -49,7 +48,6 @@ struct MediaView: View {
       .resizable()
       .onTapGesture {
         selectedMedia = media
-        isPresentedImageView.toggle()
       }
   }
 
@@ -66,8 +64,7 @@ struct MediaView: View {
 struct MediaView_Previews: PreviewProvider {
   struct Preview: View {
     let media: Sweet.MediaModel
-    @State var selectedMedia: Sweet.MediaModel
-    @State var isPresentedImageView = false
+    @State var selectedMedia: Sweet.MediaModel?
 
     init() {
       let media = Sweet.MediaModel(
@@ -75,12 +72,11 @@ struct MediaView_Previews: PreviewProvider {
         url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
 
       self.media = media
-      self._selectedMedia = .init(initialValue: media)
     }
 
     var body: some View {
       MediaView(
-        media: media, selectedMedia: $selectedMedia, isPresentedImageView: $isPresentedImageView)
+        media: media, selectedMedia: $selectedMedia)
     }
   }
 
