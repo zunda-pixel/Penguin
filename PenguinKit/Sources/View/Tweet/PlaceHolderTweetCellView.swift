@@ -95,6 +95,8 @@ struct PlaceHolderTweetCellView: View {
             Label("Delete Retweet", systemImage: "trash")
           }
         }
+        
+        ReportButton(userName: viewModel.tweetAuthor.userName, tweetID: viewModel.tweetText.id)
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
         Button {
