@@ -23,7 +23,7 @@ import SwiftUI
   var selectedUserID: Set<String> { get set }
   var isPresentedSelectUserView: Bool { get set }
   var title: String { get }
-  func postTweet() async throws
+  func postTweet() async
   func loadPhotos(with pickers: [PhotosPickerItem]) async
   func pollButtonAction()
 }
@@ -102,7 +102,7 @@ import SwiftUI
     return false
   }
 
-  func postTweet() async throws {
+  func postTweet() async {
     let replySetting: Sweet.ReplyModel?
 
     if let reply {
@@ -125,7 +125,13 @@ import SwiftUI
       replySettings: selectedReplySetting
     )
 
-    _ = try await Sweet(userID: userID).createTweet(tweet)
+    do {
+      _ = try await Sweet(userID: userID).createTweet(tweet)
+    } catch {
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
+    }
   }
 
   var leftTweetCount: Int {
