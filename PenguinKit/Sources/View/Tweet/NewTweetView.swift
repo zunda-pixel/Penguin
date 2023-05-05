@@ -41,16 +41,12 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 replyView(reply: reply)
               }
 
-              HStack(alignment: .top) {
-                TextField(
-                  viewModel.placeHolder,
-                  text: $viewModel.text,
-                  axis: .vertical
-                )
-                  .focused($showKeyboard, equals: true)
-
-                Text("\(viewModel.leftTweetCount)")
-              }
+              TextField(
+                viewModel.placeHolder,
+                text: $viewModel.text,
+                axis: .vertical
+              )
+                .focused($showKeyboard, equals: true)
 
               if let poll = viewModel.poll, poll.options.count > 1 {
                 pollView(poll: poll)
@@ -67,22 +63,36 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           if let quoted = viewModel.quoted {
             quotedView(quoted: quoted)
           }
-
-          Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
+        }
+        .scrollContentAttribute()
+        .padding()
+      }
+      .safeAreaInset(edge: .bottom) {
+        VStack(alignment: .leading) {
+          Divider()
+          
+          Picker("Reply Setting", selection: $viewModel.selectedReplySetting) {
             ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
-              Text(replySetting.description)
+              Label(replySetting.description, systemImage: replySetting.imageName)
                 .tag(replySetting)
             }
           }
-
+          .pickerStyle(.menu)
+          
+          Divider()
+          
           HStack {
             photosPicker
 
             pollButton
+            
+            Spacer()
+            
+            Text("\(viewModel.leftTweetCount)")
           }
+          .padding(.horizontal, 10)
         }
-        .scrollContentAttribute()
-        .padding()
+        .frame(maxWidth: .infinity)
       }
       .alert(errorHandle: $viewModel.errorHandle)
       .onAppear {
