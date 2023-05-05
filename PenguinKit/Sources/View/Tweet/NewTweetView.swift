@@ -189,14 +189,11 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
     ) {
       Image(systemName: "photo")
     }
-    .onChange(
-      of: viewModel.photosPickerItems,
-      perform: { newResults in
-        Task {
-          await viewModel.loadPhotos(with: newResults)
-        }
+    .onChange(of: viewModel.photosPickerItems) { newResults in
+      Task {
+        await viewModel.loadPhotos(with: newResults)
       }
-    )
+    }
   }
   
   func quotedView(quoted: TweetContentModel) -> some View {
