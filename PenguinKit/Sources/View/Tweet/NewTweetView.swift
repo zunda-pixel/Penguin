@@ -117,20 +117,20 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 
           if !viewModel.photos.isEmpty {
             Text("Photo Upload UnAvailable")
-          }
-
-          let count = viewModel.photos.count < 3 ? viewModel.photos.count : 2
-          
-          GeometryReader { proxy in
-            let width = proxy.size.width / CGFloat(count)
-            LazyVGrid(columns: .init(repeating: .init(), count: count)) {
-              ForEach(viewModel.photos) { photo in
-                  PhotoView(photo: photo)
-                    .scaledToFill()
-                    .frame(width: width, height: width)
-                    .clipped()
+            
+            let count = viewModel.photos.count < 3 ? viewModel.photos.count : 2
+            
+            GeometryReader { proxy in
+              let width = proxy.size.width / CGFloat(count)
+              LazyVGrid(columns: .init(repeating: .init(), count: count)) {
+                ForEach(viewModel.photos) { photo in
+                    PhotoView(photo: photo)
+                      .scaledToFill()
+                      .frame(width: width, height: width)
+                      .clipped()
+                  }
                 }
-              }
+            }
           }
 
           if let quoted = viewModel.quoted {
