@@ -189,6 +189,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
     ) {
       Image(systemName: "photo")
     }
+    .disabled(viewModel.poll != nil)
     .onChange(of: viewModel.photosPickerItems) { newResults in
       Task {
         await viewModel.loadPhotos(with: newResults)
