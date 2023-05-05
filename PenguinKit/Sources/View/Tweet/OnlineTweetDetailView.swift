@@ -9,18 +9,20 @@ struct OnlineTweetDetailView: View {
   @StateObject var viewModel: OnlineTweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
   @Environment(\.settings) var settings
-  
+
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] = userNames.map { userName in
-        self.viewModel.allUsers.first { $0.userName == userName }!
-      } + [ viewModel.author ]
+      let users: [Sweet.UserModel] =
+        userNames.map { userName in
+          self.viewModel.allUsers.first { $0.userName == userName }!
+        } + [viewModel.author]
 
-      let tweetContent = TweetContentModel(tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
-      
+      let tweetContent = TweetContentModel(
+        tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+
       self.viewModel.reply = Reply(
         tweetContent: tweetContent,
         replyUsers: users.uniqued(by: \.id)
@@ -105,7 +107,7 @@ struct OnlineTweetDetailView: View {
       )
 
       replyButton(viewModel: viewModel)
-      
+
       if viewModel.userID == viewModel.tweetText.authorID {
         Button(role: .destructive) {
           Task {
@@ -115,9 +117,10 @@ struct OnlineTweetDetailView: View {
           Label("Delete Tweet", systemImage: "trash")
         }
       }
-      
+
       if viewModel.tweet.referencedType == .retweet,
-         viewModel.author.id == viewModel.userID {
+        viewModel.author.id == viewModel.userID
+      {
         Button(role: .destructive) {
           Task {
             await self.viewModel.deleteReTweet(viewModel.tweetText.id)
@@ -178,18 +181,18 @@ struct OnlineTweetDetailView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .listRowSeparator(.hidden)
         }
-        
+
         ForEach(0..<100) { _ in
           VStack {
             TweetCellView(viewModel: TweetCellViewModel.placeHolder)
               .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
             Divider()
           }
-            .listRowInsets(EdgeInsets())
+          .listRowInsets(EdgeInsets())
         }
-          .redacted(reason: .placeholder)
-          .listRowSeparator(.hidden)
-          .listContentAttribute()
+        .redacted(reason: .placeholder)
+        .listRowSeparator(.hidden)
+        .listContentAttribute()
       }
     }
     .listStyle(.inset)

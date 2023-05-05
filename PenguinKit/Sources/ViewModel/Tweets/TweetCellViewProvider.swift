@@ -63,7 +63,7 @@ struct TweetCellViewProvider {
 
     return users.map { .init(user: $0) }
   }
-  
+
   func getUser(_ userID: String) -> Sweet.UserModel? {
     let request = User.fetchRequest()
     request.predicate = .init(format: "id = %@", userID)

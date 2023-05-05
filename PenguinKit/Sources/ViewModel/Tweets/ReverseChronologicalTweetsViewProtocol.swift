@@ -93,7 +93,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       self.errorHandle = errorHandle
     }
   }
-  
+
   @MainActor
   func fetchTweets(last lastTweetID: String?, paginationToken: String?) async {
     do {
@@ -130,7 +130,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       if let paginationToken = response.meta?.nextToken, !containsTweet {
         await fetchTweets(last: nil, paginationToken: paginationToken)
       }
-      
+
       await setTimelines()
     } catch {
       let errorHandle = ErrorHandle(error: error)

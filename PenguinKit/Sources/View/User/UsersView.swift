@@ -8,13 +8,13 @@ import SwiftUI
 struct UsersView<ViewModel: UsersViewProtocol>: View {
   @StateObject var viewModel: ViewModel
   @State var loadingUsers = false
-  
+
   func fetchUsers(reset: Bool) async {
     guard !loadingUsers else { return }
 
     loadingUsers.toggle()
     defer { loadingUsers.toggle() }
-    
+
     await viewModel.fetchUsers(reset: reset)
   }
 
@@ -25,8 +25,7 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
           UserCellView(ownerID: "", user: .placeHolder)
         }
         .redacted(reason: .placeholder)
-      }
-      else {
+      } else {
         ForEach(viewModel.users) { user in
           UserCellView(ownerID: viewModel.userID, user: user)
             .task {

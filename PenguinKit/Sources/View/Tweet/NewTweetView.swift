@@ -12,9 +12,22 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.settings) var settings
   @Environment(\.colorScheme) var colorScheme
 
+  @AppStorage("firstPostTweet") var firstPostTweet = true
+
+  @State var showWarningAlert = false
+
   @StateObject var viewModel: ViewModel
 
   @FocusState private var showKeyboard: Bool
+
+  func postTweet() async {
+    if firstPostTweet {
+      showWarningAlert.toggle()
+    } else {
+      await viewModel.postTweet()
+      dismiss()
+    }
+  }
 
   var body: some View {
     NavigationStack {
@@ -46,7 +59,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 .frame(maxWidth: 400, alignment: .leading)
                 .padding(5)
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
-                
+
                 ScrollView(.horizontal) {
                   HStack {
                     ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) {
@@ -171,6 +184,18 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         .padding()
         .alert(errorHandle: $viewModel.errorHandle)
       }
+      .alert(
+        "This Tweet is posted to twitter.com",
+        isPresented: $showWarningAlert
+      ) {
+        Button("Post") {
+          Task {
+            firstPostTweet = false
+            await postTweet()
+          }
+        }
+        Button("Cancel", role: .cancel) {}
+      }
       .navigationTitle(viewModel.title)
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
@@ -183,14 +208,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         ToolbarItem(placement: tweetPlacement) {
           Button("Tweet") {
             Task {
-              do {
-                try await viewModel.postTweet()
-                dismiss()
-              } catch {
-                let errorHandle = ErrorHandle(error: error)
-                errorHandle.log()
-                viewModel.errorHandle = errorHandle
-              }
+              await postTweet()
             }
           }
           .disabled(viewModel.disableTweetButton)

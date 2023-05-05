@@ -61,7 +61,7 @@ struct PlaceHolderTweetCellView: View {
         )
 
         replyButton(viewModel: viewModel)
-        
+
         if viewModel.userID == viewModel.tweetText.authorID {
           Button(role: .destructive) {
             Task {
@@ -77,9 +77,10 @@ struct PlaceHolderTweetCellView: View {
             Label("Delete Tweet", systemImage: "trash")
           }
         }
-        
+
         if viewModel.tweet.referencedType == .retweet,
-           viewModel.author.id == viewModel.userID {
+          viewModel.author.id == viewModel.userID
+        {
           Button(role: .destructive) {
             Task {
               do {
@@ -139,11 +140,12 @@ struct PlaceHolderTweetCellView: View {
         let users: [Sweet.UserModel] = await provider.backgroundContext.perform {
           provider.getUsers(screenIDs: userNames)
         }
-        
+
         let userModels: [Sweet.UserModel] = users + [viewModel.author]
-        
-        let tweetContent = TweetContentModel(tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
-        
+
+        let tweetContent = TweetContentModel(
+          tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+
         self.reply = Reply(
           tweetContent: tweetContent,
           replyUsers: userModels.uniqued(by: \.id)

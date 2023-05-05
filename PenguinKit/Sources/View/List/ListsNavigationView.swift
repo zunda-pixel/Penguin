@@ -60,6 +60,6 @@ struct ListsNavigationView: View {
         }
       }
     }
-      .environmentObject(router)
+    .environmentObject(router)
   }
 }

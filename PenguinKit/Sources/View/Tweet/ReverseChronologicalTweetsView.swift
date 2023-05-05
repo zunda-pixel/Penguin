@@ -21,8 +21,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
             Divider()
           }
-            .listRowInsets(EdgeInsets())
-            .redacted(reason: .placeholder)
+          .listRowInsets(EdgeInsets())
+          .redacted(reason: .placeholder)
         }
       } else {
         ForEach(viewModel.timelines) { timeline in
@@ -33,7 +33,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               errorHandle: $viewModel.errorHandle,
               reply: $viewModel.reply
             )
-              .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+            .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
             Divider()
           }
           .listRowInsets(EdgeInsets())
