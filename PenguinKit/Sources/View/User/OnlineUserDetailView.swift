@@ -2,19 +2,19 @@
 // OnlineUserDetailView.swift
 //
 
-import SwiftUI
 import Sweet
+import SwiftUI
 
 struct OnlineUserDetailView: View {
   @StateObject var viewModel: OnlineUserDetailViewModel
   @State var loadingUser = false
-  
+
   func fetchUser() async {
     guard !loadingUser else { return }
 
     loadingUser.toggle()
     defer { loadingUser.toggle() }
-    
+
     await viewModel.fetchUser()
   }
 
@@ -22,7 +22,7 @@ struct OnlineUserDetailView: View {
     VStack {
       if let user = viewModel.targetUser {
         let viewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: user)
-        
+
         UserDetailView(viewModel: viewModel)
       } else {
         placeHolderView
@@ -32,7 +32,7 @@ struct OnlineUserDetailView: View {
       await fetchUser()
     }
   }
-  
+
   var placeHolderView: some View {
     List {
       VStack {
@@ -40,45 +40,50 @@ struct OnlineUserDetailView: View {
         ProfileImageView(url: user.profileImageURL!)
           .frame(width: 100, height: 100)
         UserProfileView(viewModel: .init(user: user))
-        
+
         VStack {
           let buttonWidth: CGFloat = 200
-          
-          Button { } label: {
+
+          Button {
+          } label: {
             Label("DirectMessage", systemImage: "envelope.fill")
               .frame(maxWidth: buttonWidth * 2)
           }
 
           HStack {
-            Button { } label: {
+            Button {
+            } label: {
               Label("FOLLOWERS", systemImage: "figure.wave")
                 .frame(maxWidth: buttonWidth)
             }
-            Button { } label: {
+            Button {
+            } label: {
               Label("FOLLOWING", systemImage: "figure.walk")
                 .frame(maxWidth: buttonWidth)
             }
           }
           HStack {
-            Button { } label: {
+            Button {
+            } label: {
               Label("Like", systemImage: "heart")
                 .frame(maxWidth: buttonWidth)
             }
-            Button { } label: {
+            Button {
+            } label: {
               Label("List", systemImage: "list.dash.header.rectangle")
                 .frame(maxWidth: buttonWidth)
             }
           }
         }
-        
+
         Divider()
       }
-        .padding()
-        .listRowInsets(EdgeInsets())
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.roundedRectangle)
-        .listRowSeparator(.hidden)
-      
+      .padding()
+      .listRowInsets(EdgeInsets())
+      .buttonStyle(.bordered)
+      .buttonBorderShape(.roundedRectangle)
+      .listRowSeparator(.hidden)
+
       ForEach(0..<100) { _ in
         VStack {
           TweetCellView(viewModel: TweetCellViewModel.placeHolder)

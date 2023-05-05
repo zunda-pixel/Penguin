@@ -108,7 +108,9 @@ import SwiftUI
     if let reply {
       let excludeReplyUserIDs = Set(reply.replyUsers.map(\.id)).subtracting(selectedUserID)
       replySetting = Sweet.ReplyModel(
-        replyToTweetID: reply.tweetContent.tweet.id, excludeReplyUserIDs: Array(excludeReplyUserIDs))
+        replyToTweetID: reply.tweetContent.tweet.id,
+        excludeReplyUserIDs: Array(excludeReplyUserIDs)
+      )
     } else {
       replySetting = nil
     }

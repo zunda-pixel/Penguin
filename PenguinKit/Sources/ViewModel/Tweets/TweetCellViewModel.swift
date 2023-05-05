@@ -5,8 +5,8 @@
 import Combine
 import Foundation
 import MapKit
-import Sweet
 import RegexBuilder
+import Sweet
 
 protocol TweetCellViewProtocol: Hashable {
   var userID: String { get }
@@ -25,13 +25,13 @@ protocol TweetCellViewProtocol: Hashable {
 extension TweetCellViewProtocol {
   var ogpURL: Sweet.URLModel? {
     if quoted != nil { return nil }
-    
+
     let mediaKeys = tweetText.attachments?.mediaKeys ?? []
     guard mediaKeys.isEmpty else { return nil }
 
     return tweet.entity?.urls.filter {
       // TODO statusがnilの場合がある
-      let status =  $0.status ?? 401
+      let status = $0.status ?? 401
       return !$0.images.isEmpty && (200..<300).contains(status)
     }.last
   }
@@ -55,9 +55,9 @@ extension TweetCellViewProtocol {
 
   var excludeURLs: some Sequence<Sweet.URLModel> {
     var excludeURLs = [ogpURL].compactMap { $0 }
-    
+
     guard let urls = tweetText.entity?.urls else { return excludeURLs }
-    
+
     let regex = Regex {
       Anchor.startOfLine
       "http"
@@ -68,17 +68,18 @@ extension TweetCellViewProtocol {
       tweetText.id
       Anchor.endOfLine
     }
-    
+
     for url in urls {
       guard let expandedURL = url.expandedURL else { continue }
       if expandedURL.isMatchWhole(of: regex) {
         excludeURLs.append(url)
       }
     }
-    
+
     guard let quoted else { return excludeURLs }
-    
-    let quotedURL = "https://twitter.com/\(quoted.tweetContent.author.userName)/status/\(quoted.tweetContent.tweet.id)"
+
+    let quotedURL =
+      "https://twitter.com/\(quoted.tweetContent.author.userName)/status/\(quoted.tweetContent.tweet.id)"
 
     let matchedURLs = urls.filter { $0.expandedURL?.lowercased() == quotedURL.lowercased() }
     excludeURLs.append(contentsOf: matchedURLs)
@@ -88,12 +89,12 @@ extension TweetCellViewProtocol {
 
   var tweetAuthor: Sweet.UserModel {
     let isRetweeted = tweet.referencedType == .retweet
-    
+
     let tweet = isRetweeted ? retweet!.author : author
 
     return tweet
   }
-  
+
   var tweetText: Sweet.TweetModel {
     let isRetweeted = tweet.referencedType == .retweet
 

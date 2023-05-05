@@ -13,9 +13,9 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.colorScheme) var colorScheme
 
   @AppStorage("firstPostTweet") var firstPostTweet = true
-  
+
   @State var showWarningAlert = false
-  
+
   @StateObject var viewModel: ViewModel
 
   @FocusState private var showKeyboard: Bool
@@ -28,7 +28,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       dismiss()
     }
   }
-  
+
   var body: some View {
     NavigationStack {
       ScrollView {
@@ -59,7 +59,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 .frame(maxWidth: 400, alignment: .leading)
                 .padding(5)
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
-                
+
                 ScrollView(.horizontal) {
                   HStack {
                     ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) {
@@ -194,7 +194,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             await postTweet()
           }
         }
-        Button("Cancel", role: .cancel) { }
+        Button("Cancel", role: .cancel) {}
       }
       .navigationTitle(viewModel.title)
       .navigationBarTitleDisplayModeIfAvailable(.inline)

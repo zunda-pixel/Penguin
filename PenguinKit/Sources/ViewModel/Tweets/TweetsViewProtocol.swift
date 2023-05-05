@@ -35,7 +35,7 @@ extension TweetsViewProtocol {
       self.errorHandle = errorHandle
     }
   }
-  
+
   func deleteTweet(_ tweetID: String) async {
     do {
       try await Sweet(userID: userID).deleteTweet(of: tweetID)
@@ -45,7 +45,7 @@ extension TweetsViewProtocol {
       self.errorHandle = errorHandle
     }
   }
-  
+
   func addResponse(response: Sweet.TweetsResponse) {
     response.tweets.forEach {
       allTweets.insertOrUpdate($0, by: \.id)
@@ -71,10 +71,10 @@ extension TweetsViewProtocol {
       allPlaces.insertOrUpdate($0, by: \.id)
     }
   }
-  
+
   func addResponse(response: Sweet.TweetResponse) {
     allTweets.insertOrUpdate(response.tweet, by: \.id)
-    
+
     response.relatedTweets.forEach {
       allTweets.insertOrUpdate($0, by: \.id)
     }

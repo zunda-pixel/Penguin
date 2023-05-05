@@ -30,12 +30,14 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     Button {
       let mentions = viewModel.tweet.entity?.mentions ?? []
       let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] = userNames.map { userName in
-        self.viewModel.allUsers.first { $0.userName == userName }!
-      } + [ viewModel.author ]
-      
-      let tweetContent = TweetContentModel(tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
-      
+      let users: [Sweet.UserModel] =
+        userNames.map { userName in
+          self.viewModel.allUsers.first { $0.userName == userName }!
+        } + [viewModel.author]
+
+      let tweetContent = TweetContentModel(
+        tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+
       self.viewModel.reply = Reply(
         tweetContent: tweetContent,
         replyUsers: users.uniqued(by: \.id)
@@ -76,11 +78,11 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
               .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
             Divider()
           }
-            .listRowInsets(EdgeInsets())
-            .redacted(reason: .placeholder)
+          .listRowInsets(EdgeInsets())
+          .redacted(reason: .placeholder)
         }
-          .listContentAttribute()
-          .listRowSeparator(.hidden)
+        .listContentAttribute()
+        .listRowSeparator(.hidden)
       } else {
         tweetsView
           .listContentAttribute()
@@ -157,7 +159,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
         )
 
         replyButton(viewModel: cellViewModel)
-        
+
         if cellViewModel.userID == cellViewModel.tweetText.authorID {
           Button(role: .destructive) {
             Task {
@@ -167,9 +169,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             Label("Delete Tweet", systemImage: "trash")
           }
         }
-        
+
         if cellViewModel.tweet.referencedType == .retweet,
-           cellViewModel.author.id == cellViewModel.userID {
+          cellViewModel.author.id == cellViewModel.userID
+        {
           Button(role: .destructive) {
             Task {
               await self.viewModel.deleteReTweet(cellViewModel.tweetText.id)

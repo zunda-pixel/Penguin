@@ -12,7 +12,7 @@ struct Reply: Identifiable {
 
   init(tweetContent: TweetContentModel, replyUsers: [Sweet.UserModel]) {
     self.id = UUID()
-    
+
     self.tweetContent = tweetContent
     // ownerが先頭に来るようにする
     self.replyUsers = replyUsers.sorted { user1, user2 in
