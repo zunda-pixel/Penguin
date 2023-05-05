@@ -34,109 +34,38 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       ScrollView {
         VStack {
           HStack(alignment: .top) {
-            let user = loginUsers.first { $0.id == viewModel.userID }!
-
-            Menu {
-              SelectUserView(currentUser: .init(get: { user }, set: { viewModel.userID = $0.id }))
-            } label: {
-              ProfileImageView(url: user.profileImageURL!)
-                .frame(width: 40, height: 40)
-            }
+            userProfile
 
             VStack {
               if let reply = viewModel.reply {
-                HStack(alignment: .top) {
-                  ProfileImageView(url: reply.tweetContent.author.profileImageURL!)
-                    .frame(width: 30, height: 30)
-
-                  LinkableText(
-                    tweet: reply.tweetContent.tweet,
-                    userID: viewModel.userID,
-                    excludeURLs: []
-                  )
-                  .lineLimit(3)
-                }
-                .frame(maxWidth: 400, alignment: .leading)
-                .padding(5)
-                .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
-
-                ScrollView(.horizontal) {
-                  HStack {
-                    ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) {
-                      user in
-                      Label {
-                        Text(user.userName)
-                      } icon: {
-                        ProfileImageView(url: user.profileImageURL!)
-                          .frame(width: 25, height: 25)
-                      }
-                    }
-                  }
-                }
-                .scrollIndicators(.hidden)
-                .onTapGesture {
-                  viewModel.isPresentedSelectUserView.toggle()
-                }
-                .sheet(isPresented: $viewModel.isPresentedSelectUserView) {
-                  SelectReplyUsersView(
-                    tweetOwnerID: reply.tweetContent.author.id,
-                    allUsers: reply.replyUsers,
-                    selection: $viewModel.selectedUserID
-                  )
-                  .presentationDetents([.medium])
-                }
+                replyView(reply: reply)
               }
 
               HStack(alignment: .top) {
-                TextField(viewModel.placeHolder, text: $viewModel.text, axis: .vertical)
+                TextField(
+                  viewModel.placeHolder,
+                  text: $viewModel.text,
+                  axis: .vertical
+                )
                   .focused($showKeyboard, equals: true)
 
                 Text("\(viewModel.leftTweetCount)")
               }
 
               if let poll = viewModel.poll, poll.options.count > 1 {
-                NewPollView(
-                  options: .init(
-                    get: { viewModel.poll!.options },
-                    set: { viewModel.poll?.options = $0 }
-                  ),
-                  duration: .init(
-                    get: { TimeInterval(poll.durationMinutes * 60) },
-                    set: { viewModel.poll?.durationMinutes = Int($0 / 60) }
-                  )
-                )
-                .padding()
-                .overlay(
-                  RoundedRectangle(cornerRadius: 20)
-                    .stroke(.secondary, lineWidth: 2)
-                )
-                .padding(.horizontal, 2)
+                pollView(poll: poll)
               }
             }
           }
 
           if !viewModel.photos.isEmpty {
             Text("Photo Upload UnAvailable")
-          }
-
-          LazyVGrid(columns: .init(repeating: .init(), count: 2)) {
-            ForEach(viewModel.photos) { photo in
-              PhotoView(photo: photo)
-                .frame(width: 100, height: 100)
-                .scaledToFit()
-            }
+            
+            mediasView
           }
 
           if let quoted = viewModel.quoted {
-            QuotedTweetCellView(
-              userID: viewModel.userID,
-              tweet: quoted.tweet,
-              user: quoted.author
-            )
-            .padding()
-            .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
-            // TODO foregroundColorは必要ないはず
-            .foregroundColor(.primary)
+            quotedView(quoted: quoted)
           }
 
           Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
@@ -147,42 +76,17 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           }
 
           HStack {
-            PhotosPicker(
-              selection: $viewModel.photosPickerItems,
-              maxSelectionCount: 4,
-              selectionBehavior: .ordered,
-              preferredItemEncoding: .current,
-              photoLibrary: .shared()
-            ) {
-              Image(systemName: "photo")
-            }
+            photosPicker
 
-            Button {
-              withAnimation {
-                viewModel.pollButtonAction()
-              }
-            } label: {
-              Image(systemName: "chart.bar.xaxis")
-                .rotationEffect(.degrees(90))
-            }
-            .disabled(viewModel.photos.count != 0)
+            pollButton
           }
-          .onChange(
-            of: viewModel.photosPickerItems,
-            perform: { newResults in
-              Task {
-                await viewModel.loadPhotos(with: newResults)
-              }
-            }
-          )
-          .alert(errorHandle: $viewModel.errorHandle)
         }
         .scrollContentAttribute()
-        .onAppear {
-          showKeyboard = true
-        }
         .padding()
-        .alert(errorHandle: $viewModel.errorHandle)
+      }
+      .alert(errorHandle: $viewModel.errorHandle)
+      .onAppear {
+        showKeyboard = true
       }
       .alert(
         "This Tweet is posted to twitter.com",
@@ -199,35 +103,176 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       .navigationTitle(viewModel.title)
       .navigationBarTitleDisplayModeIfAvailable(.inline)
       .toolbar {
-        #if os(macOS)
-          let tweetPlacement: ToolbarItemPlacement = .navigation
-        #else
-          let tweetPlacement: ToolbarItemPlacement = .navigationBarTrailing
-        #endif
-
-        ToolbarItem(placement: tweetPlacement) {
-          Button("Tweet") {
-            Task {
-              await postTweet()
-            }
+        toolBarContent
+      }
+    }
+  }
+  
+  @ViewBuilder
+  var mediasView: some View {
+    let count = viewModel.photos.count < 3 ? viewModel.photos.count : 2
+    
+    GeometryReader { proxy in
+      let width = proxy.size.width / CGFloat(count)
+      LazyVGrid(columns: .init(repeating: .init(), count: count)) {
+        ForEach(viewModel.photos) { photo in
+            PhotoView(photo: photo)
+              .scaledToFill()
+              .frame(width: width, height: width)
+              .clipped()
           }
-          .disabled(viewModel.disableTweetButton)
-          .buttonStyle(.bordered)
         }
+    }
+  }
+  
+  @ViewBuilder
+  var userProfile: some View {
+    let user = loginUsers.first { $0.id == viewModel.userID }!
 
-        #if os(macOS)
-          let closePlacement: ToolbarItemPlacement = .navigation
-        #else
-          let closePlacement: ToolbarItemPlacement = .navigationBarLeading
-        #endif
+    Menu {
+      SelectUserView(currentUser: .init(get: { user }, set: { viewModel.userID = $0.id }))
+    } label: {
+      ProfileImageView(url: user.profileImageURL!)
+        .frame(width: 40, height: 40)
+    }
+  }
+  
+  @ToolbarContentBuilder
+  var toolBarContent: some ToolbarContent {
+    #if os(macOS)
+      let tweetPlacement: ToolbarItemPlacement = .navigation
+    #else
+      let tweetPlacement: ToolbarItemPlacement = .navigationBarTrailing
+    #endif
 
-        ToolbarItem(placement: closePlacement) {
-          Button("Close") {
-            dismiss()
+    ToolbarItem(placement: tweetPlacement) {
+      Button("Tweet") {
+        Task {
+          await postTweet()
+        }
+      }
+      .disabled(viewModel.disableTweetButton)
+      .buttonStyle(.bordered)
+    }
+
+    #if os(macOS)
+      let closePlacement: ToolbarItemPlacement = .navigation
+    #else
+      let closePlacement: ToolbarItemPlacement = .navigationBarLeading
+    #endif
+
+    ToolbarItem(placement: closePlacement) {
+      Button("Close") {
+        dismiss()
+      }
+    }
+  }
+  
+  var photosPicker: some View {
+    PhotosPicker(
+      selection: $viewModel.photosPickerItems,
+      maxSelectionCount: 4,
+      selectionBehavior: .ordered,
+      preferredItemEncoding: .current,
+      photoLibrary: .shared()
+    ) {
+      Image(systemName: "photo")
+    }
+    .onChange(
+      of: viewModel.photosPickerItems,
+      perform: { newResults in
+        Task {
+          await viewModel.loadPhotos(with: newResults)
+        }
+      }
+    )
+  }
+  
+  func quotedView(quoted: TweetContentModel) -> some View {
+    QuotedTweetCellView(
+      userID: viewModel.userID,
+      tweet: quoted.tweet,
+      user: quoted.author
+    )
+    .padding()
+    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+    // TODO foregroundColorは必要ないはず
+    .foregroundColor(.primary)
+  }
+  
+  var pollButton: some View {
+    Button {
+      withAnimation {
+        viewModel.pollButtonAction()
+      }
+    } label: {
+      Image(systemName: "chart.bar.xaxis")
+        .rotationEffect(.degrees(90))
+    }
+    .disabled(viewModel.photos.count != 0)
+  }
+  
+  @ViewBuilder
+  func replyView(reply: Reply) -> some View {
+    HStack(alignment: .top) {
+      ProfileImageView(url: reply.tweetContent.author.profileImageURL!)
+        .frame(width: 30, height: 30)
+
+      LinkableText(
+        tweet: reply.tweetContent.tweet,
+        userID: viewModel.userID,
+        excludeURLs: []
+      )
+      .lineLimit(3)
+    }
+    .frame(maxWidth: 400, alignment: .leading)
+    .padding(5)
+    .overlay(RoundedRectangle(cornerRadius: 20).stroke(.secondary, lineWidth: 2))
+
+    ScrollView(.horizontal) {
+      HStack {
+        ForEach(reply.replyUsers.filter { viewModel.selectedUserID.contains($0.id) }) {
+          user in
+          Label {
+            Text(user.userName)
+          } icon: {
+            ProfileImageView(url: user.profileImageURL!)
+              .frame(width: 25, height: 25)
           }
         }
       }
     }
+    .scrollIndicators(.hidden)
+    .onTapGesture {
+      viewModel.isPresentedSelectUserView.toggle()
+    }
+    .sheet(isPresented: $viewModel.isPresentedSelectUserView) {
+      SelectReplyUsersView(
+        tweetOwnerID: reply.tweetContent.author.id,
+        allUsers: reply.replyUsers,
+        selection: $viewModel.selectedUserID
+      )
+      .presentationDetents([.medium])
+    }
+  }
+  
+  func pollView(poll: Sweet.PostPollModel) -> some View {
+    NewPollView(
+      options: .init(
+        get: { viewModel.poll!.options },
+        set: { viewModel.poll?.options = $0 }
+      ),
+      duration: .init(
+        get: { TimeInterval(poll.durationMinutes * 60) },
+        set: { viewModel.poll?.durationMinutes = Int($0 / 60) }
+      )
+    )
+    .padding()
+    .overlay(
+      RoundedRectangle(cornerRadius: 20)
+        .stroke(.secondary, lineWidth: 2)
+    )
+    .padding(.horizontal, 2)
   }
 }
 

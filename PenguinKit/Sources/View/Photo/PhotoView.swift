@@ -15,6 +15,7 @@ struct PhotoView: View {
       Text(movie.url.absoluteString)
     case .photo(let photo):
       Image(image: photo)
+        .resizable()
     }
   }
 }

@@ -8,13 +8,10 @@ import SwiftUI
 struct MediasView: View {
   let medias: [Sweet.MediaModel]
 
-  @State var selectedMedia: Sweet.MediaModel
-  @State var isPresentedImageView = false
+  @State var selectedMedia: Sweet.MediaModel?
 
   init(medias: [Sweet.MediaModel]) {
     self.medias = medias
-    let media = medias.first!
-    self._selectedMedia = .init(wrappedValue: media)
   }
 
   var body: some View {
@@ -28,7 +25,8 @@ struct MediasView: View {
       ForEach(medias) { media in
         GeometryReader { reader in
           MediaView(
-            media: media, selectedMedia: $selectedMedia, isPresentedImageView: $isPresentedImageView
+            media: media,
+            selectedMedia: $selectedMedia
           )
           .scaledToFill()
           .frame(height: reader.size.width)
@@ -47,12 +45,18 @@ struct MediasView: View {
       }
     }
     #if os(macOS)
-      .sheet(isPresented: $isPresentedImageView) {
-        ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
+      .sheet(item: $selectedMedia) { media in
+        ScrollImagesView(
+          medias: medias,
+          selectedMedia: media
+        )
       }
     #else
-      .fullScreenCover(isPresented: $isPresentedImageView) {
-        ScrollImagesView(medias: medias, selectedMedia: $selectedMedia)
+      .fullScreenCover(item: $selectedMedia) { media in
+        ScrollImagesView(
+          medias: medias,
+          selectedMedia: media
+        )
       }
     #endif
   }
