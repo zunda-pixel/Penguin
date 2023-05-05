@@ -122,8 +122,9 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           LazyVGrid(columns: .init(repeating: .init(), count: 2)) {
             ForEach(viewModel.photos) { photo in
               PhotoView(photo: photo)
-                .frame(width: 100, height: 100)
-                .scaledToFit()
+                .scaledToFill()
+                .frame(width: 200, height: 200)
+                .clipped()
             }
           }
 
