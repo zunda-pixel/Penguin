@@ -41,16 +41,12 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
                 replyView(reply: reply)
               }
 
-              HStack(alignment: .top) {
-                TextField(
-                  viewModel.placeHolder,
-                  text: $viewModel.text,
-                  axis: .vertical
-                )
-                  .focused($showKeyboard, equals: true)
-
-                Text("\(viewModel.leftTweetCount)")
-              }
+              TextField(
+                viewModel.placeHolder,
+                text: $viewModel.text,
+                axis: .vertical
+              )
+              .focused($showKeyboard, equals: true)
 
               if let poll = viewModel.poll, poll.options.count > 1 {
                 pollView(poll: poll)
@@ -60,29 +56,48 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
 
           if !viewModel.photos.isEmpty {
             Text("Photo Upload UnAvailable")
-            
+
             mediasView
           }
 
           if let quoted = viewModel.quoted {
             quotedView(quoted: quoted)
           }
+        }
+        .scrollContentAttribute()
+        .padding()
+      }
+      .safeAreaInset(edge: .bottom) {
+        VStack(alignment: .leading, spacing: 0) {
+          Divider()
 
-          Picker("ReplySetting", selection: $viewModel.selectedReplySetting) {
+          Picker("Reply Setting", selection: $viewModel.selectedReplySetting) {
             ForEach(Sweet.ReplySetting.allCases, id: \.rawValue) { replySetting in
-              Text(replySetting.description)
+              Label(replySetting.description, systemImage: replySetting.imageName)
                 .tag(replySetting)
             }
           }
+          .pickerStyle(.menu)
+
+          Divider()
 
           HStack {
             photosPicker
 
             pollButton
+
+            atButton
+
+            hashButton
+
+            Spacer()
+
+            Text("\(viewModel.leftTweetCount)")
           }
+          .padding(.vertical, 7)
+          .padding(.horizontal, 13)
         }
-        .scrollContentAttribute()
-        .padding()
+        .frame(maxWidth: .infinity)
       }
       .alert(errorHandle: $viewModel.errorHandle)
       .onAppear {
@@ -107,24 +122,42 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       }
     }
   }
-  
+
+  var atButton: some View {
+    Button {
+      viewModel.text.append("@")
+    } label: {
+      Label("Add @", systemImage: "at")
+        .labelStyle(.iconOnly)
+    }
+  }
+
+  var hashButton: some View {
+    Button {
+      viewModel.text.append("#")
+    } label: {
+      Label("Add #", systemImage: "number")
+        .labelStyle(.iconOnly)
+    }
+  }
+
   @ViewBuilder
   var mediasView: some View {
     let count = viewModel.photos.count < 3 ? viewModel.photos.count : 2
-    
+
     GeometryReader { proxy in
       let width = proxy.size.width / CGFloat(count)
       LazyVGrid(columns: .init(repeating: .init(), count: count)) {
         ForEach(viewModel.photos) { photo in
-            PhotoView(photo: photo)
-              .scaledToFill()
-              .frame(width: width, height: width)
-              .clipped()
-          }
+          PhotoView(photo: photo)
+            .scaledToFill()
+            .frame(width: width, height: width)
+            .clipped()
         }
+      }
     }
   }
-  
+
   @ViewBuilder
   var userProfile: some View {
     let user = loginUsers.first { $0.id == viewModel.userID }!
@@ -136,7 +169,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         .frame(width: 40, height: 40)
     }
   }
-  
+
   @ToolbarContentBuilder
   var toolBarContent: some ToolbarContent {
     #if os(macOS)
@@ -167,7 +200,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       }
     }
   }
-  
+
   var photosPicker: some View {
     PhotosPicker(
       selection: $viewModel.photosPickerItems,
@@ -178,16 +211,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
     ) {
       Image(systemName: "photo")
     }
-    .onChange(
-      of: viewModel.photosPickerItems,
-      perform: { newResults in
-        Task {
-          await viewModel.loadPhotos(with: newResults)
-        }
+    .disabled(viewModel.poll != nil)
+    .onChange(of: viewModel.photosPickerItems) { newResults in
+      Task {
+        await viewModel.loadPhotos(with: newResults)
       }
-    )
+    }
   }
-  
+
   func quotedView(quoted: TweetContentModel) -> some View {
     QuotedTweetCellView(
       userID: viewModel.userID,
@@ -199,7 +230,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
     // TODO foregroundColorは必要ないはず
     .foregroundColor(.primary)
   }
-  
+
   var pollButton: some View {
     Button {
       withAnimation {
@@ -211,7 +242,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
     }
     .disabled(viewModel.photos.count != 0)
   }
-  
+
   @ViewBuilder
   func replyView(reply: Reply) -> some View {
     HStack(alignment: .top) {
@@ -255,7 +286,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
       .presentationDetents([.medium])
     }
   }
-  
+
   func pollView(poll: Sweet.PostPollModel) -> some View {
     NewPollView(
       options: .init(
