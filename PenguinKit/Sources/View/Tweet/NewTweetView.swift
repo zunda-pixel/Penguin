@@ -12,10 +12,23 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
   @Environment(\.settings) var settings
   @Environment(\.colorScheme) var colorScheme
 
+  @AppStorage("firstPostTweet") var firstPostTweet = true
+  
+  @State var showWarningAlert = false
+  
   @StateObject var viewModel: ViewModel
 
   @FocusState private var showKeyboard: Bool
 
+  func postTweet() async {
+    if firstPostTweet {
+      showWarningAlert.toggle()
+    } else {
+      await viewModel.postTweet()
+      dismiss()
+    }
+  }
+  
   var body: some View {
     NavigationStack {
       ScrollView {
@@ -183,14 +196,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         ToolbarItem(placement: tweetPlacement) {
           Button("Tweet") {
             Task {
-              do {
-                try await viewModel.postTweet()
-                dismiss()
-              } catch {
-                let errorHandle = ErrorHandle(error: error)
-                errorHandle.log()
-                viewModel.errorHandle = errorHandle
-              }
+              await postTweet()
             }
           }
           .disabled(viewModel.disableTweetButton)
