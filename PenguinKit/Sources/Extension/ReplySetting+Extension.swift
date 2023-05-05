@@ -12,4 +12,12 @@ extension Sweet.ReplySetting {
     case .everyone: return "Everyone"
     }
   }
+  
+  var imageName: String {
+    switch self {
+    case .mentionedUsers: return "at"
+    case .following: return "person.fill.checkmark"
+    case .everyone: return "globe"
+    }
+  }
 }
