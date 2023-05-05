@@ -181,6 +181,8 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
             Label("Delete Retweet", systemImage: "trash")
           }
         }
+        
+        ReportButton(userName: cellViewModel.tweetAuthor.userName, tweetID: cellViewModel.tweetText.id)
       }
       .swipeActions(edge: .trailing, allowsFullSwipe: true) {
         Button {
