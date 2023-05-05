@@ -68,7 +68,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         .padding()
       }
       .safeAreaInset(edge: .bottom) {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
           Divider()
           
           Picker("Reply Setting", selection: $viewModel.selectedReplySetting) {
@@ -90,7 +90,8 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             
             Text("\(viewModel.leftTweetCount)")
           }
-          .padding(.horizontal, 10)
+          .padding(.vertical, 7)
+          .padding(.horizontal, 13)
         }
         .frame(maxWidth: .infinity)
       }
