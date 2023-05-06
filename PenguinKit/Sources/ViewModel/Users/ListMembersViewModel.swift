@@ -67,7 +67,9 @@ import Sweet
         for id in ids {
           group.addTask {
             try await Sweet(userID: self.userID).deleteListMember(
-              listID: self.listID, userID: self.userID)
+              listID: self.listID,
+              userID: id
+            )
             return id
           }
         }
