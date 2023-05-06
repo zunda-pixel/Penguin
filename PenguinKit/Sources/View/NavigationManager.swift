@@ -109,12 +109,6 @@ struct NavigationManager: ViewModifier {
           .navigationBarTitleDisplayModeIfAvailable(.inline)
           .navigationBarAttribute()
       }
-      .navigationDestination(for: AccountDetailViewModel.self) { viewModel in
-        AccountDetailView(viewModel: viewModel)
-          .navigationTitle("@\(viewModel.user.userName)")
-          .navigationBarTitleDisplayModeIfAvailable(.inline)
-          .navigationBarAttribute()
-      }
       .navigationDestination(for: MutingUsersViewModel.self) { viewModel in
         UsersView(viewModel: viewModel)
           .navigationTitle("Mute")
