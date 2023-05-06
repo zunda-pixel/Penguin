@@ -57,9 +57,9 @@ public struct SettingsView: View {
   var accountSection: some View {
     Section("Account") {
       ForEach(loginUsers) { user in
-        let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
-
-        NavigationLink(value: viewModel) {
+        NavigationLink {
+          AccountDetailView(userID: currentUser!.id, user: user)
+        } label: {
           Label {
             Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
           } icon: {
