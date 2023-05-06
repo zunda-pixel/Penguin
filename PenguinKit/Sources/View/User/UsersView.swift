@@ -30,7 +30,7 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
     List(selection: $selectedUserIDs) {
       if viewModel.users.isEmpty && loadingUsers {
         ForEach(0..<100) { _ in
-          UserCellView(ownerID: "", user: .placeHolder)
+          UserCellView(viewModel: .init(ownerID: "", user: .placeHolder))
         }
         .redacted(reason: .placeholder)
       } else {
@@ -73,11 +73,12 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
         }
 
         ForEach(viewModel.users) { user in
-          UserCellView(ownerID: viewModel.userID, user: user)
+          let viewModel = UserCellViewModel(ownerID: viewModel.userID, user: user)
+          UserCellView(viewModel: viewModel)
             .id(user.id)
             .task {
-              if viewModel.users.last?.id == user.id {
-                await viewModel.fetchUsers(reset: false)
+              if self.viewModel.users.last?.id == user.id {
+                await self.viewModel.fetchUsers(reset: false)
               }
             }
         }
