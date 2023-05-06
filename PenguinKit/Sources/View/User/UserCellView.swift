@@ -19,13 +19,13 @@ struct UserCellView: View {
         HStack(alignment: .center) {
           VStack(alignment: .leading) {
             HStack {
-              Text(user.userName)
+              Text(user.name)
               if user.verified! {
                 Image.verifiedMark
               }
             }
 
-            Text("@\(user.name)")
+            Text("@\(user.userName)")
               .foregroundColor(.secondary)
           }
           Spacer()
