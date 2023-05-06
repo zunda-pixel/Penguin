@@ -10,11 +10,11 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
   @State var loadingUsers = false
   @State var selectedUserIDs: Set<String> = []
   #if !os(macOS)
-  @Environment(\.editMode) var editMode
+    @Environment(\.editMode) var editMode
 
-  var isEditing: Bool {
-    editMode?.wrappedValue == .active
-  }
+    var isEditing: Bool {
+      editMode?.wrappedValue == .active
+    }
   #endif
 
   func fetchUsers(reset: Bool) async {
@@ -35,12 +35,12 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
         .redacted(reason: .placeholder)
       } else {
         #if os(macOS)
-        let editable = !viewModel.users.isEmpty
+          let editable = !viewModel.users.isEmpty
         #else
-        let editable = editMode?.wrappedValue.isEditing == true && !viewModel.users.isEmpty
+          let editable = editMode?.wrappedValue.isEditing == true && !viewModel.users.isEmpty
         #endif
 
-        if editable{
+        if editable {
           Section {
             if selectedUserIDs.count != viewModel.users.count {
               Button {
@@ -94,7 +94,7 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
     .toolbar {
       if viewModel.enableDelete {
         #if !os(macOS)
-        EditButton()
+          EditButton()
         #endif
       }
     }
