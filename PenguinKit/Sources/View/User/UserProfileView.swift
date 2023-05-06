@@ -79,6 +79,7 @@ struct UserProfileView: View {
         }
       }
     }
+    .alert(errorHandle: $viewModel.errorHandle)
   }
 }
 
