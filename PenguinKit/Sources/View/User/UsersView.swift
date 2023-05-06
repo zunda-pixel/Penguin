@@ -43,20 +43,29 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
         if editable{
           Section {
             if selectedUserIDs.count != viewModel.users.count {
-              Button("Select All") {
+              Button {
                 selectedUserIDs = Set(viewModel.users.map(\.id))
+              } label: {
+                Text("Select All")
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
             }
 
             if !selectedUserIDs.isEmpty {
-              Button("DeSelect All") {
+              Button {
                 selectedUserIDs = Set()
+              } label: {
+                Text("DeSelect All")
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
 
-              Button("Delete Selected User", role: .destructive) {
+              Button(role: .destructive) {
                 Task {
                   await viewModel.deleteUsers(ids: selectedUserIDs)
                 }
+              } label: {
+                Text("Delete Selected User")
+                  .frame(maxWidth: .infinity, alignment: .leading)
               }
             }
           }
