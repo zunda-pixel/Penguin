@@ -10,7 +10,8 @@ import Sweet
 final class UserProfileViewModel: ObservableObject {
   let user: Sweet.UserModel
   @Published var region: MKLocalSearch.Response?
-
+  @Published var errorHandle: ErrorHandle?
+  
   init(user: Sweet.UserModel) {
     self.user = user
   }
@@ -24,7 +25,9 @@ final class UserProfileViewModel: ObservableObject {
       let response = try await search.start()
       self.region = response
     } catch {
-      print(error)
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
     }
   }
 }

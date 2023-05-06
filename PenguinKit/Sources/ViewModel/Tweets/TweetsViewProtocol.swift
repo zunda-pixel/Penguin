@@ -23,6 +23,16 @@ import Sweet
 
   func fetchTweets(first firstTweetID: String?, last lastTweetID: String?) async
   func addResponse(response: Sweet.TweetsResponse)
+  func addResponse(response: Sweet.TweetResponse)
+  func deleteReTweet(_ tweetID: String) async
+  func deleteTweet(_ tweetID: String) async
+  func getTweet(_ tweetID: String) -> Sweet.TweetModel?
+  func getPlaces(_ placeIDs: [String]) -> [Sweet.PlaceModel]
+  func getPolls(_ pollIDs: [String]) -> [Sweet.PollModel]
+  func getMedias(_ mediaIDs: [String]) -> [Sweet.MediaModel]
+  func getUser(_ userID: String) -> Sweet.UserModel?
+  func retweetContent(tweet: Sweet.TweetModel) -> TweetContentModel?
+  func quotedContent(tweet: Sweet.TweetModel, retweet: Sweet.TweetModel?) -> QuotedTweetModel?
 }
 
 extension TweetsViewProtocol {

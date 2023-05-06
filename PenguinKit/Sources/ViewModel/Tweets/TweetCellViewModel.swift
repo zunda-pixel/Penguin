@@ -9,6 +9,8 @@ import RegexBuilder
 import Sweet
 
 protocol TweetCellViewProtocol: Hashable {
+  associatedtype ExcludeURL: Sequence<Sweet.URLModel>
+  
   var userID: String { get }
 
   var author: Sweet.UserModel { get }
@@ -20,6 +22,15 @@ protocol TweetCellViewProtocol: Hashable {
   var medias: [Sweet.MediaModel] { get }
   var polls: [Sweet.PollModel] { get }
   var places: [Sweet.PlaceModel] { get }
+  
+  var ogpURL: Sweet.URLModel? { get }
+  var poll: Sweet.PollModel? { get }
+  var place: Sweet.PlaceModel? { get }
+  var showMedias: [Sweet.MediaModel] { get }
+  var excludeURLs: ExcludeURL { get }
+  var tweetAuthor: Sweet.UserModel { get }
+  var tweetText: Sweet.TweetModel { get }
+  var showDate: Date { get }
 }
 
 extension TweetCellViewProtocol {

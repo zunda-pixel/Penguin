@@ -13,6 +13,12 @@ extension View {
 struct NavigationManager: ViewModifier {
   func body(content: Content) -> some View {
     content
+      .navigationDestination(for: AccountDetailViewModel.self) { viewModel in
+        AccountDetailView(viewModel: viewModel)
+          .navigationTitle("Account")
+          .navigationBarTitleDisplayModeIfAvailable(.inline)
+          .navigationBarAttribute()
+      }
       .navigationDestination(for: DirectMessageDetailViewModel.self) { viewModel in
         DirectMessageDetailView(viewModel: viewModel)
           .navigationTitle("DirectMessage")
@@ -106,12 +112,6 @@ struct NavigationManager: ViewModifier {
       .navigationDestination(for: OnlineUserDetailViewModel.self) { viewModel in
         OnlineUserDetailView(viewModel: viewModel)
           .navigationTitle("Detail")
-          .navigationBarTitleDisplayModeIfAvailable(.inline)
-          .navigationBarAttribute()
-      }
-      .navigationDestination(for: AccountDetailViewModel.self) { viewModel in
-        AccountDetailView(viewModel: viewModel)
-          .navigationTitle("@\(viewModel.user.userName)")
           .navigationBarTitleDisplayModeIfAvailable(.inline)
           .navigationBarAttribute()
       }

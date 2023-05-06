@@ -8,6 +8,7 @@ import Sweet
 @MainActor final class SearchUsersViewModel: UsersViewProtocol, Hashable {
   let userID: String
   let query: String
+  let enableDelete: Bool = false
 
   var paginationToken: String?
 

@@ -8,6 +8,7 @@ import Sweet
 @MainActor final class ListMembersViewModel: UsersViewProtocol, Hashable {
   let userID: String
   let listID: String
+  let enableDelete: Bool = true
 
   var paginationToken: String?
 
@@ -54,5 +55,36 @@ import Sweet
       errorHandle.log()
       self.errorHandle = errorHandle
     }
+  }
+
+  func deleteUsers(ids: some Sequence<String>) async {
+    let willDeleteUsers = users.filter { ids.contains($0.id) }
+    users.removeAll { ids.contains($0.id) }
+    var deletedIDs: [String] = []
+
+    do {
+      try await withThrowingTaskGroup(of: String.self) { group in
+        for id in ids {
+          group.addTask {
+            try await Sweet(userID: self.userID).deleteListMember(
+              listID: self.listID,
+              userID: id
+            )
+            return id
+          }
+        }
+
+        for try await id in group {
+          deletedIDs.append(id)
+        }
+      }
+    } catch {
+      let errorHandle = ErrorHandle(error: error)
+      errorHandle.log()
+      self.errorHandle = errorHandle
+    }
+
+    let notDeletedUser = willDeleteUsers.filter { !deletedIDs.contains($0.id) }
+    users.append(contentsOf: notDeletedUser)
   }
 }

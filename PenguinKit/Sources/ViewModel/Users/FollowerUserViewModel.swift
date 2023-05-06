@@ -8,6 +8,7 @@ import Sweet
 @MainActor final class FollowerUserViewModel: UsersViewProtocol, Hashable {
   let userID: String
   let ownerID: String
+  let enableDelete: Bool = false
 
   var paginationToken: String?
 

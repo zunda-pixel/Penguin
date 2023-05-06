@@ -6,7 +6,7 @@ import Sweet
 import SwiftUI
 
 struct AccountDetailView: View {
-  @StateObject var viewModel: AccountDetailViewModel
+  let viewModel: AccountDetailViewModel
 
   var body: some View {
     List {
@@ -27,7 +27,6 @@ struct AccountDetailView: View {
           Label("Block", systemImage: "person.crop.circle.badge.xmark")
         }
       }
-      .listContentAttribute()
     }
     .scrollViewAttitude()
   }
@@ -38,7 +37,9 @@ struct AccountDetailView_Preview: PreviewProvider {
     NavigationStack {
       AccountDetailView(
         viewModel: .init(
-          userID: "userID", user: .init(id: "id", name: "name", userName: "userName")))
+          userID: "userID",
+          user: .init(id: "id", name: "name", userName: "userName")
+        ))
     }
   }
 }

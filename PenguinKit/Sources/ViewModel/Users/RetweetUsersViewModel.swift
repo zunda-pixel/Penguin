@@ -8,6 +8,7 @@ import Sweet
 @MainActor final class RetweetUsersViewModel: UsersViewProtocol, Hashable {
   let userID: String
   let tweetID: String
+  let enableDelete: Bool = false
 
   var paginationToken: String?
 
