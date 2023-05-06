@@ -19,6 +19,8 @@ public struct SettingsView: View {
   @Binding var currentUser: Sweet.UserModel?
   @Binding var loginUsers: [Sweet.UserModel]
 
+  @StateObject var router = NavigationPathRouter()
+  
   public init(
     settings: Binding<Settings>,
     currentUser: Binding<Sweet.UserModel?>,
@@ -57,9 +59,8 @@ public struct SettingsView: View {
   var accountSection: some View {
     Section("Account") {
       ForEach(loginUsers) { user in
-        NavigationLink {
-          AccountDetailView(userID: currentUser!.id, user: user)
-        } label: {
+        let viewModel = AccountDetailViewModel(userID: currentUser!.id, user: user)
+        NavigationLink(value: viewModel) {
           Label {
             Text(user.name) + Text("@\(user.userName)").foregroundColor(.secondary)
           } icon: {
@@ -106,7 +107,7 @@ public struct SettingsView: View {
     }
   #else
     public var body: some View {
-      NavigationStack {
+      NavigationStack(path: $router.path) {
         List {
           accountSection
 
@@ -128,7 +129,9 @@ public struct SettingsView: View {
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayModeIfAvailable(.large)
+        .navigationDestination()
       }
+        .environmentObject(router)
     }
   #endif
 }
