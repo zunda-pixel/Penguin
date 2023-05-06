@@ -13,6 +13,11 @@ protocol ReverseChronologicalTweetsViewProtocol: ObservableObject {
   var backgroundContext: NSManagedObjectContext { get }
   var reply: Reply? { get set }
   var timelines: [Timeline] { get set }
+  func addResponse(response: Sweet.TweetsResponse) throws
+  func addTimelines(_ ids: [String]) throws
+  func containsTimelineDataBase(tweetID: String) throws -> Bool
+  func setTimelines() async
+  func fetchTweets(last lastTweetID: String?, paginationToken: String?) async
 }
 
 extension ReverseChronologicalTweetsViewProtocol {

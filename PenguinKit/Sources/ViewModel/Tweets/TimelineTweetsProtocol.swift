@@ -10,6 +10,7 @@ import Sweet
   var timelines: Set<String>? { get set }
   var paginationToken: String? { get }
   var searchSettings: TimelineSearchSettings { get set }
+  func addTimelines(_ tweetIDs: [String])
 }
 
 extension TimelineTweetsProtocol {
