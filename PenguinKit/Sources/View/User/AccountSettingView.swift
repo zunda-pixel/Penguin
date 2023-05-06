@@ -6,22 +6,23 @@ import Sweet
 import SwiftUI
 
 struct AccountDetailView: View {
-  @StateObject var viewModel: AccountDetailViewModel
+  let userID: String
+  let user: Sweet.UserModel
 
   var body: some View {
     List {
       Group {
         let mutingUsersViewModel = MutingUsersViewModel(
-          userID: viewModel.userID,
-          ownerID: viewModel.user.id
+          userID: userID,
+          ownerID: user.id
         )
         NavigationLink(value: mutingUsersViewModel) {
           Label("Mute", systemImage: "speaker.slash")
         }
 
         let blockingUsersViewModel = BlockingUsersViewModel(
-          userID: viewModel.userID,
-          ownerID: viewModel.user.id
+          userID: userID,
+          ownerID: user.id
         )
         NavigationLink(value: blockingUsersViewModel) {
           Label("Block", systemImage: "person.crop.circle.badge.xmark")
@@ -37,8 +38,9 @@ struct AccountDetailView_Preview: PreviewProvider {
   static var previews: some View {
     NavigationStack {
       AccountDetailView(
-        viewModel: .init(
-          userID: "userID", user: .init(id: "id", name: "name", userName: "userName")))
+        userID: "userID",
+        user: .init(id: "id", name: "name", userName: "userName")
+      )
     }
   }
 }
