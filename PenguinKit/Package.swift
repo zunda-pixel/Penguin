@@ -28,6 +28,7 @@ let package = Package(
     .package(url: "https://github.com/zunda-pixel/LicenseView", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/Node", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/Sweet", .upToNextMajor(from: "2.3.3")),
+    .package(url: "https://github.com/zunda-pixel/GenEnvCode", branch: "main"),
   ],
   targets: [
     .target(
@@ -40,12 +41,14 @@ let package = Package(
         .product(name: "HTMLString", package: "HTMLString"),
         .product(name: "KeychainAccess", package: "KeychainAccess"),
         .product(name: "Kingfisher", package: "Kingfisher"),
-        .product(name: "LicenseView", package: "LicenseView"),
         .product(name: "Node", package: "Node"),
         .product(name: "OrderedCollections", package: "swift-collections"),
         .product(name: "Sweet", package: "Sweet"),
       ],
-      path: "Sources"
+      path: "Sources",
+      plugins: [
+        .plugin(name: "LicenseViewPlugin", package: "LicenseView"),
+      ]
     )
   ]
 )

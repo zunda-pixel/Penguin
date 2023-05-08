@@ -2,12 +2,20 @@
 
 # ci_post_clone.sh
 
-env_file_path="../PenguinKit/Sources/Env.swift"
-
-cat <<EOT | sed -i -E -f- "${env_file_path}"
-s/<#CLIENT_KEY#>/"${CLIENT_KEY}"/g
-s/<#CLIENT_SECRET_KEY#>/"${CLIENT_SECRET_KEY}"/g
-s/<#TEAM_ID#>/"${TEAM_ID}"/g
-EOT
-
 defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+
+cd ..
+
+env_file=".env"
+touch $env_file
+
+cat > $env_file <<EOL
+clientKey=${CLIENT_KEY}
+clientSecretKey=${CLIENT_SECRET_KEY}
+EOL
+
+projectPath=$(pwd)
+
+cd PenguinKit
+
+swift package plugin --allow-writing-to-directory Sources generate-env ../${env_file} Sources/Env.swift

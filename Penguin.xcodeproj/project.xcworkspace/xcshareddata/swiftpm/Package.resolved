@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "genenvcode",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zunda-pixel/GenEnvCode",
+      "state" : {
+        "branch" : "main",
+        "revision" : "49a92f8202a91e0cf9a96d99de9e1c4dd02cd880"
+      }
+    },
+    {
       "identity" : "htmlstring",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/alexisakers/HTMLString",
@@ -77,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/LicenseView",
       "state" : {
-        "revision" : "fb886042a9a63ee53c96d3406ea0114275214809",
-        "version" : "1.0.2"
+        "revision" : "4dde1ce6ffe896b65092805b6afe624079cee632",
+        "version" : "1.0.4"
       }
     },
     {
@@ -113,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-algorithms",
       "state" : {
-        "revision" : "b14b7f4c528c942f121c8b860b9410b2bf57825e",
-        "version" : "1.0.0"
+        "branch" : "main",
+        "revision" : "288d8b00f2d7d746dce8997124f4a7d902100af7"
       }
     },
     {

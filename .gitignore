@@ -23,5 +23,5 @@ xcuserdata/
 .build
 
 .DS_Store
-PenguinKit/Sources/Extension/Env+Extension.swift
+PenguinKit/Sources/Extension/Env+LocalExtension.swift
 PenguinKit/Package.resolved
