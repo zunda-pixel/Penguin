@@ -28,7 +28,7 @@ let package = Package(
     .package(url: "https://github.com/zunda-pixel/LicenseView", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/Node", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/Sweet", .upToNextMajor(from: "2.3.3")),
-    .package(url: "https://github.com/zunda-pixel/GenEnvCode", branch: "remove-private"),
+    .package(url: "https://github.com/zunda-pixel/GenEnvCode", branch: "main"),
   ],
   targets: [
     .target(

@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/GenEnvCode",
       "state" : {
-        "branch" : "remove-private",
-        "revision" : "d977941608730cbff3b5fe30e86a1f716d83325b"
+        "branch" : "main",
+        "revision" : "49a92f8202a91e0cf9a96d99de9e1c4dd02cd880"
       }
     },
     {
