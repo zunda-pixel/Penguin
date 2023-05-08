@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/LicenseView",
       "state" : {
-        "revision" : "fb886042a9a63ee53c96d3406ea0114275214809",
-        "version" : "1.0.2"
+        "revision" : "4dde1ce6ffe896b65092805b6afe624079cee632",
+        "version" : "1.0.4"
       }
     },
     {

@@ -2,7 +2,6 @@
 //  SettingsView.swift
 //
 
-import LicenseView
 import StoreKit
 import Sweet
 import SwiftUI
