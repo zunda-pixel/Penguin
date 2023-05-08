@@ -4,6 +4,7 @@
 
 import SwiftUI
 import AttributedText
+import Algorithms
 
 struct LicenseView: View {
   @Environment(\.openURL) var openURL
@@ -25,8 +26,28 @@ struct LicenseView: View {
     }
   }
   
+  func string(data: [UInt8]) -> String {
+    let chunkCipher = data.chunks(ofCount: 8)
+    
+    let lines = chunkCipher.map { chunk in
+      let values = chunk.map { String(format: "0x%x", $0) }
+      return values.joined(separator: ", ")
+    }
+    
+    return lines.joined(separator: ",\n")
+  }
+    
   var body: some View {
     List {
+      Text(string(data: Env.cipher))
+        .textSelection(.enabled)
+      
+      Text(string(data: Env._clientKey))
+        .textSelection(.enabled)
+      
+      Text(string(data: Env._clientSecretKey))
+        .textSelection(.enabled)
+      
       ForEach(LicenseList.packages) { package in
         NavigationLink(package.name) {
           cell(package: package)
