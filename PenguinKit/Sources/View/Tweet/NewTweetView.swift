@@ -98,6 +98,14 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
           .padding(.horizontal, 13)
         }
         .frame(maxWidth: .infinity)
+        .background {
+          if colorScheme == .dark {
+            settings.colorType.colorSet.darkPrimaryColor
+          } else {
+            settings.colorType.colorSet.lightPrimaryColor
+          }
+        }
+        
       }
       .alert(errorHandle: $viewModel.errorHandle)
       .onAppear {
