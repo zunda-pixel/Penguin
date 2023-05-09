@@ -9,7 +9,8 @@ struct TweetDetailView: View {
   @StateObject var viewModel: TweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
   @Environment(\.settings) var settings
-
+  @State var scrollContent: ScrollContent<String>?
+  
   @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
@@ -177,6 +178,7 @@ struct TweetDetailView: View {
             
             cellView(viewModel: viewModel)
               .listRowInsets(EdgeInsets())
+              .id(child.id)
           }
           .listRowSeparator(.hidden)
           .listContentAttribute()
@@ -187,9 +189,17 @@ struct TweetDetailView: View {
             .listRowInsets(EdgeInsets())
             .task {
               await viewModel.fetchTweets(first: nil, last: nil)
+              scrollContent = ScrollContent(
+                contentID: viewModel.cellViewModel.tweet.id,
+                anchor: .top
+              )
             }
             .alert(errorHandle: $viewModel.errorHandle)
         }
+      }
+      .onChange(of: scrollContent) { scrollContent in
+        guard let scrollContent else { return }
+        proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
       }
     }
     .scrollViewAttitude()
