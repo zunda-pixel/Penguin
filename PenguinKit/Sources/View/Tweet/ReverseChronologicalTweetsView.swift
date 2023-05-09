@@ -75,8 +75,19 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     }
     .task {
       await viewModel.setTimelines()
+      
+      if let contentID = Secure.getScrollContentID(userID: viewModel.userID) {
+        scrollContent = ScrollContent(
+          contentID: contentID,
+          anchor: .top
+        )
+      }
       await fetchNewTweet()
       setScrollPosition()
+    }
+    .onDisappear {
+      guard let contentID = displayIDs.max() else { return }
+      Secure.setScrollContentID(userID: viewModel.userID, contentID: contentID)
     }
   }
   
