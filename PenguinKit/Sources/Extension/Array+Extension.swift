@@ -10,6 +10,21 @@ extension Array {
   }
 }
 
+extension Collection where Self.Index == Int {
+  var middle: Element? {
+    guard count != 0 else { return nil }
+    guard count != 1 else { return self[0] }
+    return self[count / 2]
+  }
+}
+
+extension Array where Element: Comparable {
+  func center() -> Element? {
+    let sorted = self.sorted()
+    return sorted.middle
+  }
+}
+
 extension RangeReplaceableCollection where Element: Equatable {
   mutating func appendIfNotContains(_ element: Element) {
     if !contains(element) {
