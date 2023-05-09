@@ -22,7 +22,7 @@ struct MuteButton: View {
   }
 
   var body: some View {
-    Button {
+    Button(role: .destructive) {
       Task {
         await mute()
       }
