@@ -100,9 +100,9 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
         .frame(maxWidth: .infinity)
         .background {
           if colorScheme == .dark {
-            settings.colorType.colorSet.darkSecondaryColor
+            settings.colorType.colorSet.darkPrimaryColor
           } else {
-            settings.colorType.colorSet.lightSecondaryColor
+            settings.colorType.colorSet.lightPrimaryColor
           }
         }
         
