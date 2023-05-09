@@ -12,6 +12,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   @State var loadingTweets = false
 
+  @State var scrollContent: ScrollContent<String>?
+  
   var body: some View {
     ScrollViewReader { proxy in
       List {
@@ -47,6 +49,10 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
           .listRowSeparator(.hidden)
           .listContentAttribute()
         }
+      }
+      .onChange(of: scrollContent) { scrollContent in
+        guard let scrollContent else { return }
+        proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
       }
       .scrollViewAttitude()
       .listStyle(.inset)
