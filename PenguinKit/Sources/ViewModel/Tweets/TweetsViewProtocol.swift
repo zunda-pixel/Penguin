@@ -33,9 +33,27 @@ import Sweet
   func getUser(_ userID: String) -> Sweet.UserModel?
   func retweetContent(tweet: Sweet.TweetModel) -> TweetContentModel?
   func quotedContent(tweet: Sweet.TweetModel, retweet: Sweet.TweetModel?) -> QuotedTweetModel?
+  func reply(viewModel: TweetCellViewModel)
 }
 
 extension TweetsViewProtocol {
+  func reply(viewModel: TweetCellViewModel) {
+    let mentions = viewModel.tweet.entity?.mentions ?? []
+    let userNames = mentions.map(\.userName)
+    let users: [Sweet.UserModel] =
+      userNames.map { userName in
+        allUsers.first { $0.userName == userName }!
+      } + [viewModel.author]
+
+    let tweetContent = TweetContentModel(
+      tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+
+    reply = Reply(
+      tweetContent: tweetContent,
+      replyUsers: users.uniqued(by: \.id)
+    )
+  }
+  
   func deleteReTweet(_ tweetID: String) async {
     do {
       try await Sweet(userID: userID).deleteRetweet(userID: userID, tweetID: tweetID)

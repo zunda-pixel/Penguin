@@ -13,6 +13,25 @@ struct TweetCellViewProvider {
     backgroundContext = PersistenceController.shared.container.newBackgroundContext()
     backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
   }
+  
+  func reply(viewModel: TweetCellViewModel) async -> Reply {
+    let mentions = viewModel.tweet.entity?.mentions ?? []
+    let userNames = mentions.map(\.userName)
+
+    let users: [Sweet.UserModel] = await backgroundContext.perform {
+      getUsers(screenIDs: userNames)
+    }
+
+    let userModels: [Sweet.UserModel] = users + [viewModel.author]
+
+    let tweetContent = TweetContentModel(
+      tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
+
+    return Reply(
+      tweetContent: tweetContent,
+      replyUsers: userModels.uniqued(by: \.id)
+    )
+  }
 
   func getTweet(_ tweetID: String) -> Sweet.TweetModel? {
     let request = Tweet.fetchRequest()

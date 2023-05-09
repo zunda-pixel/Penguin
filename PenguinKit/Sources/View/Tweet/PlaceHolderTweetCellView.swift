@@ -132,26 +132,10 @@ struct PlaceHolderTweetCellView: View {
       }
   }
 
-  @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
-      let mentions = viewModel.tweet.entity?.mentions ?? []
-      let userNames = mentions.map(\.userName)
-
       Task {
-        let users: [Sweet.UserModel] = await provider.backgroundContext.perform {
-          provider.getUsers(screenIDs: userNames)
-        }
-
-        let userModels: [Sweet.UserModel] = users + [viewModel.author]
-
-        let tweetContent = TweetContentModel(
-          tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
-
-        self.reply = Reply(
-          tweetContent: tweetContent,
-          replyUsers: userModels.uniqued(by: \.id)
-        )
+        self.reply = await provider.reply(viewModel: viewModel)
       }
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
