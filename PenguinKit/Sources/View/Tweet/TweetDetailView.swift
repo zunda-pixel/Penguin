@@ -169,25 +169,27 @@ struct TweetDetailView: View {
   }
 
   var body: some View {
-    List {
-      if let tweetNode = viewModel.tweetNode {
-        NodeView([tweetNode], children: \.children) { child in
-          let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-
-          cellView(viewModel: viewModel)
-            .listRowInsets(EdgeInsets())
-        }
-        .listRowSeparator(.hidden)
-        .listContentAttribute()
-      } else {
-        cellView(viewModel: viewModel.cellViewModel)
+    ScrollViewReader { proxy in
+      List {
+        if let tweetNode = viewModel.tweetNode {
+          NodeView([tweetNode], children: \.children) { child in
+            let viewModel = self.viewModel.getTweetCellViewModel(child.id)
+            
+            cellView(viewModel: viewModel)
+              .listRowInsets(EdgeInsets())
+          }
           .listRowSeparator(.hidden)
           .listContentAttribute()
-          .listRowInsets(EdgeInsets())
-          .task {
-            await viewModel.fetchTweets(first: nil, last: nil)
-          }
-          .alert(errorHandle: $viewModel.errorHandle)
+        } else {
+          cellView(viewModel: viewModel.cellViewModel)
+            .listRowSeparator(.hidden)
+            .listContentAttribute()
+            .listRowInsets(EdgeInsets())
+            .task {
+              await viewModel.fetchTweets(first: nil, last: nil)
+            }
+            .alert(errorHandle: $viewModel.errorHandle)
+        }
       }
     }
     .scrollViewAttitude()
