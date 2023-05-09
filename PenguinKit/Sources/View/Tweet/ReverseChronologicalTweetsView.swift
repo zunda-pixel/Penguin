@@ -13,6 +13,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @State var loadingTweets = false
 
   @State var scrollContent: ScrollContent<String>?
+  @State var displayIDs: Set<String> = []
   
   var body: some View {
     ScrollViewReader { proxy in
@@ -39,6 +40,9 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
               .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
               Divider()
             }
+            .id(timeline.tweetID!)
+            .onAppear { displayIDs.insert(timeline.tweetID!) }
+            .onDisappear { displayIDs.remove(timeline.tweetID!) }
             .listRowInsets(EdgeInsets())
             .task {
               if timeline.tweetID == viewModel.timelines.last?.tweetID {
@@ -67,11 +71,21 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
       await fetchNewTweet()
+      setScrollPosition()
     }
     .task {
       await viewModel.setTimelines()
       await fetchNewTweet()
+      setScrollPosition()
     }
+  }
+  
+  func setScrollPosition() {
+    guard let id = Array(displayIDs).center() else { return }
+    scrollContent = ScrollContent(
+      contentID: id,
+      anchor: .center
+    )
   }
 
   func fetchNewTweet() async {
