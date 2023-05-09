@@ -25,23 +25,9 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
     self.hasTopContent = false
   }
 
-  @ViewBuilder
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
-      let mentions = viewModel.tweet.entity?.mentions ?? []
-      let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] =
-        userNames.map { userName in
-          self.viewModel.allUsers.first { $0.userName == userName }!
-        } + [viewModel.author]
-
-      let tweetContent = TweetContentModel(
-        tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
-
-      self.viewModel.reply = Reply(
-        tweetContent: tweetContent,
-        replyUsers: users.uniqued(by: \.id)
-      )
+      self.viewModel.reply(viewModel: viewModel)
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }

@@ -10,23 +10,50 @@ struct TweetDetailView: View {
   @EnvironmentObject var router: NavigationPathRouter
   @Environment(\.settings) var settings
 
-  @ViewBuilder
+  func adjustDepth(depth: Int) -> Int {
+    if depth < 3 {
+      return depth
+    } else {
+      return 3
+    }
+  }
+
+  var body: some View {
+    List {
+      if let tweetNode = viewModel.tweetNode {
+        NodeView([tweetNode], children: \.children) { child in
+          let viewModel = self.viewModel.getTweetCellViewModel(child.id)
+
+          cellView(viewModel: viewModel)
+            .listRowInsets(EdgeInsets())
+        }
+        .listRowSeparator(.hidden)
+        .listContentAttribute()
+      } else {
+        cellView(viewModel: viewModel.cellViewModel)
+          .listRowSeparator(.hidden)
+          .listContentAttribute()
+          .listRowInsets(EdgeInsets())
+          .task {
+            await viewModel.fetchTweets(first: nil, last: nil)
+          }
+          .alert(errorHandle: $viewModel.errorHandle)
+      }
+    }
+    .scrollViewAttitude()
+    .listStyle(.inset)
+    .sheet(item: $viewModel.reply) { reply in
+      let viewModel: NewTweetViewModel = .init(
+        userID: viewModel.userID,
+        reply: reply
+      )
+      NewTweetView(viewModel: viewModel)
+    }
+  }
+  
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
-      let mentions = viewModel.tweet.entity?.mentions ?? []
-      let userNames = mentions.map(\.userName)
-      let users: [Sweet.UserModel] =
-        userNames.map { userName in
-          self.viewModel.allUsers.first { $0.userName == userName }!
-        } + [viewModel.author]
-
-      let tweetContent = TweetContentModel(
-        tweet: viewModel.tweetText, author: viewModel.tweetAuthor)
-
-      self.viewModel.reply = Reply(
-        tweetContent: tweetContent,
-        replyUsers: users.uniqued(by: \.id)
-      )
+      self.viewModel.reply(viewModel: viewModel)
     } label: {
       Label("Reply", systemImage: "arrowshape.turn.up.right")
     }
@@ -157,47 +184,6 @@ struct TweetDetailView: View {
         tweetID: viewModel.tweetText.id
       )
       .tint(.secondary)
-    }
-  }
-
-  func adjustDepth(depth: Int) -> Int {
-    if depth < 3 {
-      return depth
-    } else {
-      return 3
-    }
-  }
-
-  var body: some View {
-    List {
-      if let tweetNode = viewModel.tweetNode {
-        NodeView([tweetNode], children: \.children) { child in
-          let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-
-          cellView(viewModel: viewModel)
-            .listRowInsets(EdgeInsets())
-        }
-        .listRowSeparator(.hidden)
-        .listContentAttribute()
-      } else {
-        cellView(viewModel: viewModel.cellViewModel)
-          .listRowSeparator(.hidden)
-          .listContentAttribute()
-          .listRowInsets(EdgeInsets())
-          .task {
-            await viewModel.fetchTweets(first: nil, last: nil)
-          }
-          .alert(errorHandle: $viewModel.errorHandle)
-      }
-    }
-    .scrollViewAttitude()
-    .listStyle(.inset)
-    .sheet(item: $viewModel.reply) { reply in
-      let viewModel: NewTweetViewModel = .init(
-        userID: viewModel.userID,
-        reply: reply
-      )
-      NewTweetView(viewModel: viewModel)
     }
   }
 }
