@@ -12,40 +12,54 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   @State var loadingTweets = false
 
+  @State var scrollContent: ScrollContent<String>?
+  @State var displayIDs: Set<String> = []
+  
   var body: some View {
-    List {
-      if viewModel.timelines.isEmpty && loadingTweets {
-        ForEach(0..<100) { _ in
-          VStack {
-            TweetCellView(viewModel: TweetCellViewModel.placeHolder)
+    ScrollViewReader { proxy in
+      List {
+        if viewModel.timelines.isEmpty && loadingTweets {
+          ForEach(0..<100) { _ in
+            VStack {
+              TweetCellView(viewModel: TweetCellViewModel.placeHolder)
+                .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
+              Divider()
+            }
+            .listRowInsets(EdgeInsets())
+            .redacted(reason: .placeholder)
+          }
+        } else {
+          ForEach(viewModel.timelines) { timeline in
+            VStack {
+              PlaceHolderTweetCellView(
+                userID: viewModel.userID,
+                tweetID: timeline.tweetID!,
+                errorHandle: $viewModel.errorHandle,
+                reply: $viewModel.reply
+              )
               .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
-            Divider()
-          }
-          .listRowInsets(EdgeInsets())
-          .redacted(reason: .placeholder)
-        }
-      } else {
-        ForEach(viewModel.timelines) { timeline in
-          VStack {
-            PlaceHolderTweetCellView(
-              userID: viewModel.userID,
-              tweetID: timeline.tweetID!,
-              errorHandle: $viewModel.errorHandle,
-              reply: $viewModel.reply
-            )
-            .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
-            Divider()
-          }
-          .listRowInsets(EdgeInsets())
-          .task {
-            if timeline.tweetID == viewModel.timelines.last?.tweetID {
-              await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
+              Divider()
+            }
+            .id(timeline.tweetID!)
+            .onAppear { displayIDs.insert(timeline.tweetID!) }
+            .onDisappear { displayIDs.remove(timeline.tweetID!) }
+            .listRowInsets(EdgeInsets())
+            .task {
+              if timeline.tweetID == viewModel.timelines.last?.tweetID {
+                await viewModel.fetchTweets(last: timeline.tweetID!, paginationToken: nil)
+              }
             }
           }
+          .listRowSeparator(.hidden)
+          .listContentAttribute()
         }
-        .listRowSeparator(.hidden)
-        .listContentAttribute()
       }
+      .onChange(of: scrollContent) { scrollContent in
+        guard let scrollContent else { return }
+        proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
+      }
+      .scrollViewAttitude()
+      .listStyle(.inset)
     }
     .sheet(item: $viewModel.reply) { reply in
       let viewModel = NewTweetViewModel(
@@ -54,16 +68,35 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       )
       NewTweetView(viewModel: viewModel)
     }
-    .scrollViewAttitude()
-    .listStyle(.inset)
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
       await fetchNewTweet()
+      setScrollPosition()
     }
     .task {
       await viewModel.setTimelines()
+      
+      if let contentID = Secure.getScrollContentID(userID: viewModel.userID) {
+        scrollContent = ScrollContent(
+          contentID: contentID,
+          anchor: .top
+        )
+      }
       await fetchNewTweet()
+      setScrollPosition()
     }
+    .onDisappear {
+      guard let contentID = displayIDs.max() else { return }
+      Secure.setScrollContentID(userID: viewModel.userID, contentID: contentID)
+    }
+  }
+  
+  func setScrollPosition() {
+    guard let id = Array(displayIDs).center() else { return }
+    scrollContent = ScrollContent(
+      contentID: id,
+      anchor: .center
+    )
   }
 
   func fetchNewTweet() async {
