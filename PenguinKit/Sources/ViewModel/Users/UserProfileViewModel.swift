@@ -11,7 +11,7 @@ final class UserProfileViewModel: ObservableObject {
   let user: Sweet.UserModel
   @Published var region: MKLocalSearch.Response?
   @Published var errorHandle: ErrorHandle?
-  
+
   init(user: Sweet.UserModel) {
     self.user = user
   }

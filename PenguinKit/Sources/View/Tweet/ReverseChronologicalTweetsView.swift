@@ -14,7 +14,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   @State var scrollContent: ScrollContent<String>?
   @State var displayIDs: Set<String> = []
-  
+
   var body: some View {
     ScrollViewReader { proxy in
       List {
@@ -75,7 +75,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     }
     .task {
       await viewModel.setTimelines()
-      
+
       if let contentID = Secure.getScrollContentID(userID: viewModel.userID) {
         scrollContent = ScrollContent(
           contentID: contentID,
@@ -90,7 +90,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       Secure.setScrollContentID(userID: viewModel.userID, contentID: contentID)
     }
   }
-  
+
   func setScrollPosition() {
     guard let id = Array(displayIDs).center() else { return }
     scrollContent = ScrollContent(

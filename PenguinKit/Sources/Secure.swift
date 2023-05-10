@@ -15,7 +15,7 @@ public struct Secure {
   private static let customClientKey = "customClientKey"
   private static let authorizationKey = "authorizationKey"
   private static let scrollContentIDKey = "scrollContentIDKey"
-  
+
   private static let dateFormatter = Sweet.TwitterDateFormatter()
   private static let userDefaults = UserDefaults(suiteName: Env.appGroups)!
   private static let keychain = Keychain(
@@ -48,7 +48,7 @@ public struct Secure {
     let data = try! JSONEncoder().encode(authorization)
     try! keychain.set(data, key: userID + authorizationKey)
   }
-  
+
   static func getScrollContentID(userID: String) -> String? {
     return userDefaults.string(forKey: userID + scrollContentIDKey)
   }

@@ -49,7 +49,10 @@ struct UserCellView: View {
     .alert(errorHandle: $viewModel.errorHandle)
     .contentShape(Rectangle())
     .onTapGesture {
-      let userViewModel: UserDetailViewModel = .init(userID: viewModel.ownerID, user: viewModel.user)
+      let userViewModel: UserDetailViewModel = .init(
+        userID: viewModel.ownerID,
+        user: viewModel.user
+      )
       router.path.append(userViewModel)
     }
   }
@@ -57,7 +60,10 @@ struct UserCellView: View {
 
 struct UserCellView_Preview: PreviewProvider {
   static var previews: some View {
-    let viewModel: UserCellViewModel = UserCellViewModel(ownerID: "ownerID", user: .placeHolder)
+    let viewModel: UserCellViewModel = UserCellViewModel(
+      ownerID: "ownerID",
+      user: .placeHolder
+    )
     UserCellView(viewModel: viewModel)
   }
 }
