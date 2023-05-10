@@ -56,7 +56,7 @@ extension Sweet {
     }
 
     self.userFields = Sweet.UserField.allCases.filter {
-      $0 != .withheld && $0 != .entities
+      $0 != .withheld
     }
 
     self.mediaFields = Sweet.MediaField.allCases.filter {
