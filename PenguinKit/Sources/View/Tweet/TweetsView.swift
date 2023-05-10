@@ -8,8 +8,11 @@ import SwiftUI
 struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View {
   @Environment(\.settings) var settings
   @EnvironmentObject var router: NavigationPathRouter
-
   @StateObject var viewModel: ViewModel
+  
+  @State var displayIDs: Set<String> = []
+  @State var scrollContent: ScrollContent<String>?
+  
   let listTopContent: ListTopContent
   let hasTopContent: Bool
 
@@ -83,7 +86,13 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   }
 
   var body: some View {
-    listView
+    ScrollViewReader { proxy in
+      listView
+        .onChange(of: scrollContent) { scrollContent in
+          guard let scrollContent else { return }
+          proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
+        }
+    }
       .sheet(item: $viewModel.reply) { reply in
         let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
         NewTweetView(viewModel: viewModel)
@@ -97,6 +106,12 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       .refreshable {
         let firstTweetID = viewModel.showTweets.first?.id
         await viewModel.fetchTweets(first: firstTweetID, last: nil)
+        if let contentID = displayIDs.max() {
+          scrollContent = ScrollContent(
+            contentID: contentID,
+            anchor: .top
+          )
+        }
       }
   }
 
@@ -110,6 +125,9 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           .padding(EdgeInsets(top: 3, leading: 10, bottom: 0, trailing: 10))
         Divider()
       }
+      .id(tweet.id)
+      .onAppear { displayIDs.insert(tweet.id) }
+      .onDisappear { displayIDs.remove(tweet.id) }
       .listRowInsets(EdgeInsets())
       .contextMenu {
         let url: URL = URL(

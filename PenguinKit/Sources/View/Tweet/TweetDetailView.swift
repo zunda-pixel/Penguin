@@ -9,6 +9,7 @@ struct TweetDetailView: View {
   @StateObject var viewModel: TweetDetailViewModel
   @EnvironmentObject var router: NavigationPathRouter
   @Environment(\.settings) var settings
+  @State var scrollContent: ScrollContent<String>?
 
   func adjustDepth(depth: Int) -> Int {
     if depth < 3 {

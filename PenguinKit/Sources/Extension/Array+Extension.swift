@@ -10,6 +10,21 @@ extension Array {
   }
 }
 
+extension Collection where Self.Index == Int {
+  var middle: Element? {
+    guard count != 0 else { return nil }
+    guard count != 1 else { return self[0] }
+    return self[count / 2]
+  }
+}
+
+extension Array where Element: Comparable {
+  func center() -> Element? {
+    let sorted = self.sorted()
+    return sorted.middle
+  }
+}
+
 extension RangeReplaceableCollection where Element: Equatable {
   mutating func appendIfNotContains(_ element: Element) {
     if !contains(element) {
@@ -63,14 +78,6 @@ extension Sequence {
 }
 
 extension Set {
-  mutating func inserOrUpdate(_ newMember: Element) {
-    if let index = self.firstIndex(where: { $0 == newMember }) {
-      self.remove(at: index)
-    }
-
-    self.insert(newMember)
-  }
-
   mutating func insertOrUpdate<T: Equatable>(_ newMember: Element, by keyPath: KeyPath<Element, T>)
   {
     if let index = self.firstIndex(where: { $0[keyPath: keyPath] == newMember[keyPath: keyPath] }) {
