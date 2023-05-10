@@ -13,7 +13,7 @@ struct TweetCellViewProvider {
     backgroundContext = PersistenceController.shared.container.newBackgroundContext()
     backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
   }
-  
+
   func reply(viewModel: TweetCellViewModel) async -> Reply {
     let mentions = viewModel.tweet.entity?.mentions ?? []
     let userNames = mentions.map(\.userName)

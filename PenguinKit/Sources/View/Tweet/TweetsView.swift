@@ -9,10 +9,10 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
   @Environment(\.settings) var settings
   @EnvironmentObject var router: NavigationPathRouter
   @StateObject var viewModel: ViewModel
-  
+
   @State var displayIDs: Set<String> = []
   @State var scrollContent: ScrollContent<String>?
-  
+
   let listTopContent: ListTopContent
   let hasTopContent: Bool
 
@@ -93,26 +93,26 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
           proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
         }
     }
-      .sheet(item: $viewModel.reply) { reply in
-        let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
-        NewTweetView(viewModel: viewModel)
+    .sheet(item: $viewModel.reply) { reply in
+      let viewModel = NewTweetViewModel(userID: viewModel.userID, reply: reply)
+      NewTweetView(viewModel: viewModel)
+    }
+    .alert(errorHandle: $viewModel.errorHandle)
+    .task {
+      guard viewModel.showTweets.isEmpty else { return }
+      let firstTweetID = viewModel.showTweets.first?.id
+      await viewModel.fetchTweets(first: firstTweetID, last: nil)
+    }
+    .refreshable {
+      let firstTweetID = viewModel.showTweets.first?.id
+      await viewModel.fetchTweets(first: firstTweetID, last: nil)
+      if let contentID = displayIDs.max() {
+        scrollContent = ScrollContent(
+          contentID: contentID,
+          anchor: .top
+        )
       }
-      .alert(errorHandle: $viewModel.errorHandle)
-      .task {
-        guard viewModel.showTweets.isEmpty else { return }
-        let firstTweetID = viewModel.showTweets.first?.id
-        await viewModel.fetchTweets(first: firstTweetID, last: nil)
-      }
-      .refreshable {
-        let firstTweetID = viewModel.showTweets.first?.id
-        await viewModel.fetchTweets(first: firstTweetID, last: nil)
-        if let contentID = displayIDs.max() {
-          scrollContent = ScrollContent(
-            contentID: contentID,
-            anchor: .top
-          )
-        }
-      }
+    }
   }
 
   @ViewBuilder

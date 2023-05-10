@@ -53,7 +53,7 @@ extension TweetsViewProtocol {
       replyUsers: users.uniqued(by: \.id)
     )
   }
-  
+
   func deleteReTweet(_ tweetID: String) async {
     do {
       try await Sweet(userID: userID).deleteRetweet(userID: userID, tweetID: tweetID)

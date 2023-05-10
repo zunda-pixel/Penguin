@@ -2,12 +2,12 @@
 //  LicenseView.swift
 //
 
-import SwiftUI
 import AttributedText
+import SwiftUI
 
 struct LicenseView: View {
   @Environment(\.openURL) var openURL
-  
+
   func cell(package: Package) -> some View {
     ScrollView {
       AttributedText(text: package.license)
@@ -24,7 +24,7 @@ struct LicenseView: View {
       }
     }
   }
-  
+
   var body: some View {
     List {
       ForEach(LicenseList.packages) { package in
@@ -36,7 +36,6 @@ struct LicenseView: View {
     }
   }
 }
-
 
 struct LicenseView_Previews: PreviewProvider {
   static var previews: some View {

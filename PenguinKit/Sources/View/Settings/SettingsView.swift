@@ -73,7 +73,7 @@ public struct SettingsView: View {
           }
         }
       }
-      
+
       LoginView(currentUser: $currentUser, loginUsers: $loginUsers) {
         Label("Add Account", systemImage: "plus.app")
       }

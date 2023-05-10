@@ -51,7 +51,7 @@ struct TweetDetailView: View {
       NewTweetView(viewModel: viewModel)
     }
   }
-  
+
   func replyButton(viewModel: TweetCellViewModel) -> some View {
     Button {
       self.viewModel.reply(viewModel: viewModel)

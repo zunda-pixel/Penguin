@@ -105,7 +105,7 @@ struct NewTweetView<ViewModel: NewTweetViewProtocol>: View {
             settings.colorType.colorSet.lightPrimaryColor
           }
         }
-        
+
       }
       .alert(errorHandle: $viewModel.errorHandle)
       .onAppear {
