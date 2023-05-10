@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/zunda-pixel/Sweet",
       "state" : {
-        "revision" : "c20e53b37299166b3af00d51641f6ddffba88615",
-        "version" : "2.3.8"
+        "revision" : "47742d5ff64317c9107ee9766187ab84b3285adf",
+        "version" : "2.3.9"
       }
     },
     {
