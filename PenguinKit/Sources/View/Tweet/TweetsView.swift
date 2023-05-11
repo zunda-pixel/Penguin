@@ -90,7 +90,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       listView
         .onChange(of: scrollContent) { scrollContent in
           guard let scrollContent else { return }
-          proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
+          proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor.unitPoint)
         }
     }
     .sheet(item: $viewModel.reply) { reply in

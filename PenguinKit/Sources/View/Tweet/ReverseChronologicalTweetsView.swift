@@ -59,7 +59,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       }
       .onChange(of: scrollContent) { scrollContent in
         guard let scrollContent else { return }
-        proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor)
+        proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor.unitPoint)
       }
       .scrollViewAttitude()
       .listStyle(.inset)
@@ -74,28 +74,26 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
     .alert(errorHandle: $viewModel.errorHandle)
     .refreshable {
       await fetchNewTweet()
-      setScrollPosition(anchor: .center)
+      setScrollPosition(anchor: .top)
     }
     .task {
       await viewModel.setTimelines()
-
-      if let contentID = Secure.getScrollContentID(userID: viewModel.userID) {
-        scrollContent = ScrollContent(
-          contentID: contentID,
-          anchor: .top
-        )
-      }
       await fetchNewTweet()
       setScrollPosition(anchor: .top)
     }
-    .onDisappear {
-      guard let contentID = displayIDs.max() else { return }
-      Secure.setScrollContentID(userID: viewModel.userID, contentID: contentID)
-    }
   }
 
-  func setScrollPosition(anchor: UnitPoint) {
-    guard let id = Array(displayIDs).center() else { return }
+  func setScrollPosition(anchor: ScrollPoint) {
+    let id: String?
+    
+    switch anchor {
+    case .top: id = Array(displayIDs).max()
+    case .center: id = Array(displayIDs).center()
+    case .bottom: id = Array(displayIDs).min()
+    }
+    
+    guard let id else { return }
+    
     scrollContent = ScrollContent(
       contentID: id,
       anchor: anchor
