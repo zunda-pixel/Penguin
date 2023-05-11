@@ -7,12 +7,12 @@ import CoreData
 struct PersistenceController {
   static let shared = PersistenceController()
 
-  let container: NSPersistentCloudKitContainer
+  let container: NSPersistentContainer
 
   init(inMemory: Bool = false) {
     let modelURL = Bundle.module.url(forResource: "Penguin", withExtension: "momd")!
     let model = NSManagedObjectModel(contentsOf: modelURL)!
-    container = NSPersistentCloudKitContainer(name: "Penguin", managedObjectModel: model)
+    container = NSPersistentContainer(name: "Penguin", managedObjectModel: model)
 
     if inMemory {
       container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
