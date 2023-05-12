@@ -1,5 +1,5 @@
 //
-//  OnlineUserDetailNavigationView.swift
+//  OnlineNavigationView.swift
 //
 
 import SwiftUI
