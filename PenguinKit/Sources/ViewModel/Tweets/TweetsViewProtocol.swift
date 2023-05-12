@@ -175,7 +175,8 @@ extension TweetsViewProtocol {
 
     guard let quotedTweetID else { return nil }
 
-    let tweet = getTweet(quotedTweetID)!
+    // Cant get when tweet is too old
+    guard let tweet = getTweet(quotedTweetID) else { return nil }
 
     let user = getUser(tweet.authorID!)!
 
