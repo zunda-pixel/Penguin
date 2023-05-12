@@ -10,10 +10,6 @@ struct MediasView: View {
 
   @State var selectedMedia: Sweet.MediaModel?
 
-  init(medias: [Sweet.MediaModel]) {
-    self.medias = medias
-  }
-
   var body: some View {
     #if os(macOS)
       let columnCount = medias.count
