@@ -12,11 +12,8 @@ struct Movie: Transferable {
       SentTransferredFile(movie.url)
     } importing: { receivedData in
       let fileManager = FileManager.default
-      let fileName = receivedData.file.lastPathComponent
-      let copy: URL = fileManager.temporaryDirectory.appendingPathComponent(fileName)
-      if fileManager.fileExists(atPath: copy.path()) {
-        try fileManager.removeItem(at: copy)
-      }
+      let fileName = "\(UUID().uuidString).\(receivedData.file.pathExtension)"
+      let copy: URL = fileManager.temporaryDirectory.appending(path: fileName, directoryHint: .notDirectory)
       try fileManager.copyItem(at: receivedData.file, to: copy)
       return .init(url: copy)
     }
