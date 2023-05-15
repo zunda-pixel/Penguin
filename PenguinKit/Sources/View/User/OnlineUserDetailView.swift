@@ -93,7 +93,7 @@ struct OnlineUserDetailView: View {
       .listContentAttribute()
       .listRowSeparator(.hidden)
     }
-    .listStyle(.inset)
+    .listStyle(.plain)
     .redacted(reason: .placeholder)
   }
 }

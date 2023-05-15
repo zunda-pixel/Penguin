@@ -42,7 +42,7 @@ struct TweetDetailView: View {
       }
     }
     .scrollViewAttitude()
-    .listStyle(.inset)
+    .listStyle(.plain)
     .sheet(item: $viewModel.reply) { reply in
       let viewModel: NewTweetViewModel = .init(
         userID: viewModel.userID,

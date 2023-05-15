@@ -62,7 +62,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         proxy.scrollTo(scrollContent.contentID, anchor: scrollContent.anchor.unitPoint)
       }
       .scrollViewAttitude()
-      .listStyle(.inset)
+      .listStyle(.plain)
     }
     .sheet(item: $viewModel.reply) { reply in
       let viewModel = NewTweetViewModel(

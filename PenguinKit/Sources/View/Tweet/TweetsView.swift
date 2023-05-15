@@ -82,7 +82,7 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       $0.searchable(text: $viewModel.searchSettings.query)
     }
     .scrollViewAttitude()
-    .listStyle(.inset)
+    .listStyle(.plain)
   }
 
   var body: some View {
