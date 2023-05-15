@@ -14,7 +14,11 @@ struct MovieView: View {
     let generator = AVAssetImageGenerator(asset: asset)
     let duration = try! await asset.load(.duration)
     let (image, _) = try! await generator.image(at: duration)
+    #if os(macOS)
+    return ImageData(cgImage: image, size: .zero)
+    #else
     return ImageData(cgImage: image)
+    #endif
   }
   
   var body: some View {
