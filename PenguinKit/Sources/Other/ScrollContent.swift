@@ -21,7 +21,7 @@ struct ScrollContent<Content: Hashable>: Equatable {
 
 enum ScrollPoint {
   case top, bottom, center
-  
+
   var unitPoint: UnitPoint {
     switch self {
     case .top: return .top

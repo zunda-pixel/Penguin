@@ -12,7 +12,7 @@ struct PhotoView: View {
     case .livePhoto(let livePhoto):
       LivePhotoView(livePhoto: livePhoto)
     case .movie(let movie):
-      Text(movie.url.absoluteString)
+      MovieView(movie: movie)
     case .photo(let photo):
       Image(image: photo)
         .resizable()
