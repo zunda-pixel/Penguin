@@ -13,7 +13,6 @@ struct MovieView: View {
   @State var thumbnail: UIImage?
 #endif
   
-  
   func generateThumbnail() async -> ImageData {
     let asset = AVAsset(url: movie.url)
     let generator = AVAssetImageGenerator(asset: asset)
