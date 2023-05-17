@@ -11,14 +11,6 @@ struct TweetDetailView: View {
   @Environment(\.settings) var settings
   @State var scrollContent: ScrollContent<String>?
 
-  func adjustDepth(depth: Int) -> Int {
-    if depth < 3 {
-      return depth
-    } else {
-      return 3
-    }
-  }
-
   var body: some View {
     ScrollViewReader { proxy in
       List {
