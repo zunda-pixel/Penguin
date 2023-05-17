@@ -13,7 +13,10 @@ struct Movie: Transferable {
     } importing: { receivedData in
       let fileManager = FileManager.default
       let fileName = "\(UUID().uuidString).\(receivedData.file.pathExtension)"
-      let copy: URL = fileManager.temporaryDirectory.appending(path: fileName, directoryHint: .notDirectory)
+      let copy: URL = fileManager.temporaryDirectory.appending(
+        path: fileName,
+        directoryHint: .notDirectory
+      )
       try fileManager.copyItem(at: receivedData.file, to: copy)
       return .init(url: copy)
     }

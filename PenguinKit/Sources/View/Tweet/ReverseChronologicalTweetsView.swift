@@ -85,15 +85,15 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
 
   func setScrollPosition(anchor: ScrollPoint) {
     let id: String?
-    
+
     switch anchor {
     case .top: id = Array(displayIDs).max()
     case .center: id = Array(displayIDs).center()
     case .bottom: id = Array(displayIDs).min()
     }
-    
+
     guard let id else { return }
-    
+
     scrollContent = ScrollContent(
       contentID: id,
       anchor: anchor

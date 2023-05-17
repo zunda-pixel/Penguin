@@ -17,7 +17,7 @@ struct TweetDetailView: View {
         if let tweetNode = viewModel.tweetNode {
           NodeView([tweetNode], children: \.children) { child in
             let viewModel = self.viewModel.getTweetCellViewModel(child.id)
-            
+
             cellView(viewModel: viewModel)
               .listRowInsets(EdgeInsets())
               .id(child.id)
