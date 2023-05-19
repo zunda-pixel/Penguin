@@ -24,8 +24,9 @@ struct MediasView: View {
             media: media,
             selectedMedia: $selectedMedia
           )
-          .scaledToFill()
-          .frame(height: reader.size.width)
+          .aspectRatio(contentMode: .fill)
+          .frame(width: reader.size.width, height: reader.size.width)
+          .clipped()
         }
         .clipped()
         .aspectRatio(1, contentMode: .fit)
