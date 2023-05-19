@@ -13,46 +13,44 @@ struct OGPCardView: View {
   @Environment(\.settings) var settings
 
   var body: some View {
-    VStack {
-      let padding: CGFloat = 20
+    let padding: CGFloat = 20
+
+    VStack(alignment: .leading) {
+      let imageURL = urlModel.images.max {
+        $0.size.height * $0.size.width < $1.size.height * $1.size.width
+      }
+
+      KFImage(imageURL!.url)
+        .resizable()
+        .scaledToFit()
 
       VStack(alignment: .leading) {
-        let imageURL = urlModel.images.max {
-          $0.size.height * $0.size.width < $1.size.height * $1.size.width
+        Text(urlModel.displayURL!)
+          .foregroundStyle(settings.colorType.colorSet.tintColor)
+
+        if let title = urlModel.title {
+          Text(title)
+            .lineLimit(2)
         }
 
-        KFImage(imageURL!.url)
-          .resizable()
-          .scaledToFit()
-
-        VStack(alignment: .leading) {
-          Text(urlModel.displayURL!)
-            .foregroundStyle(settings.colorType.colorSet.tintColor)
-
-          if let title = urlModel.title {
-            Text(title)
-              .lineLimit(2)
-          }
-
-          if let description = urlModel.description {
-            Text(description)
-              .foregroundStyle(.secondary)
-              .font(.caption)
-              .lineLimit(2)
-          }
+        if let description = urlModel.description {
+          Text(description)
+            .foregroundStyle(.secondary)
+            .font(.caption)
+            .lineLimit(2)
         }
-        .padding(.horizontal, padding)
       }
-      .clipShape(RoundedRectangle(cornerSize: .init(width: padding, height: padding)))
-      .contentShape(RoundedRectangle(cornerSize: .init(width: padding, height: padding)))
-      .overlay {
-        RoundedRectangle(cornerSize: .init(width: padding, height: padding))
-          .stroke(.secondary)
-      }
-      .onTapGesture {
-        let url: URL = urlModel.expandedURL.map { URL(string: $0) ?? urlModel.url } ?? urlModel.url
-        openURL(url)
-      }
+      .padding(.horizontal, padding)
+    }
+    .clipShape(RoundedRectangle(cornerSize: .init(width: padding, height: padding)))
+    .contentShape(RoundedRectangle(cornerSize: .init(width: padding, height: padding)))
+    .overlay {
+      RoundedRectangle(cornerSize: .init(width: padding, height: padding))
+        .stroke(.secondary)
+    }
+    .onTapGesture {
+      let url: URL = urlModel.expandedURL.map { URL(string: $0) ?? urlModel.url } ?? urlModel.url
+      openURL(url)
     }
   }
 }
