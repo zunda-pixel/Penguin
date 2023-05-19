@@ -24,7 +24,7 @@ struct OGPCardView: View {
         .resizable()
         .scaledToFit()
 
-      VStack(alignment: .leading) {
+      VStack {
         Text(urlModel.displayURL!)
           .foregroundStyle(settings.colorType.colorSet.tintColor)
 
@@ -73,5 +73,6 @@ struct OGPCardView_Previews: PreviewProvider {
       ], title: "Title", description: "Description")
 
     OGPCardView(urlModel: urlModel)
+      .padding()
   }
 }
