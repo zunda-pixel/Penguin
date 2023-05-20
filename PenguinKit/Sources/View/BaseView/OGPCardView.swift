@@ -24,7 +24,7 @@ struct OGPCardView: View {
         .resizable()
         .scaledToFit()
 
-      VStack {
+      Group {
         Text(urlModel.displayURL!)
           .foregroundStyle(settings.colorType.colorSet.tintColor)
 
