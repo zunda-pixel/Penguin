@@ -58,6 +58,7 @@
     <entity name="Timeline" representedClassName="Timeline" syncable="YES" codeGenerationType="class">
         <attribute name="ownerID" optional="YES" attributeType="String"/>
         <attribute name="tweetID" optional="YES" attributeType="String"/>
+        <relationship name="tweetCell" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TweetCell" inverseName="timeline" inverseEntity="TweetCell"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="ownerID"/>
@@ -100,6 +101,7 @@
         <relationship name="polls" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Poll" inverseName="tweetCell" inverseEntity="Poll"/>
         <relationship name="quoted" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuotedTweetContent" inverseName="tweetCell" inverseEntity="QuotedTweetContent"/>
         <relationship name="retweet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TweetContent" inverseName="retweet" inverseEntity="TweetContent"/>
+        <relationship name="timeline" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Timeline" inverseName="tweetCell" inverseEntity="Timeline"/>
         <relationship name="tweetContent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TweetContent" inverseName="tweetCell" inverseEntity="TweetContent"/>
     </entity>
     <entity name="TweetContent" representedClassName="TweetContent" syncable="YES" codeGenerationType="class">
