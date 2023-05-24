@@ -106,11 +106,11 @@
     </entity>
     <entity name="TweetContent" representedClassName="TweetContent" syncable="YES" codeGenerationType="class">
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="tweetContent" inverseEntity="User"/>
-        <relationship name="quoted" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuotedTweetContent" inverseName="quoted" inverseEntity="QuotedTweetContent"/>
-        <relationship name="retweet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TweetCell" inverseName="retweet" inverseEntity="TweetCell"/>
+        <relationship name="quoted" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuotedTweetContent" inverseName="quoted" inverseEntity="QuotedTweetContent"/>
+        <relationship name="retweet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetCell" inverseName="retweet" inverseEntity="TweetCell"/>
         <relationship name="tweet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tweet" inverseName="tweetContent" inverseEntity="Tweet"/>
         <relationship name="tweetCell" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TweetCell" inverseName="tweetContent" inverseEntity="TweetCell"/>
-        <relationship name="tweetContent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="QuotedTweetContent" inverseName="tweetContent" inverseEntity="QuotedTweetContent"/>
+        <relationship name="tweetContent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="QuotedTweetContent" inverseName="tweetContent" inverseEntity="QuotedTweetContent"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
