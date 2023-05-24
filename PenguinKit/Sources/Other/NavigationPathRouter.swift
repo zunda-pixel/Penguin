@@ -4,6 +4,6 @@
 
 import SwiftUI
 
-final class NavigationPathRouter: ObservableObject {
-  @Published var path = NavigationPath()
+final actor NavigationPathRouter: ObservableObject {
+  @MainActor @Published var path = NavigationPath()
 }
