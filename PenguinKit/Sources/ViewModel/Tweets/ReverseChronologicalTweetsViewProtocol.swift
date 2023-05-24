@@ -270,9 +270,9 @@ extension ReverseChronologicalTweetsViewProtocol {
       timeline.ownerID = userID
       timeline.tweetID = id
       timeline.tweetCell = tweetCells.first(where: { $0.tweetContent!.tweet!.id! == id })!
+      
+      try backgroundContext.save()
     }
-
-    try backgroundContext.save()
   }
 
   func containsTimelineDataBase(tweetID: String) throws -> Bool {
