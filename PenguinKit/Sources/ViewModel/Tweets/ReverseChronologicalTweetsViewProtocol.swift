@@ -325,6 +325,8 @@ extension ReverseChronologicalTweetsViewProtocol {
       }
 
       let shouldLoadMore: Bool = try await backgroundContext.perform {
+        guard lastTweetID == nil else { return false }
+        
         guard !self.timelines.isEmpty else { return false }
         
         guard let lastTweetID = response.tweets.last?.id else { return false }
