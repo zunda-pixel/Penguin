@@ -27,7 +27,7 @@ struct LicenseView: View {
 
   var body: some View {
     List {
-      ForEach(LicenseList.packages) { package in
+      ForEach(LicenseProvider.packages) { package in
         NavigationLink(package.name) {
           cell(package: package)
             .navigationTitle(package.name)

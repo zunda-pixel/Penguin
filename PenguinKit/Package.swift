@@ -25,7 +25,7 @@ let package = Package(
     .package(url: "https://github.com/stleamist/BetterSafariView", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/zunda-pixel/AttributedText", .upToNextMajor(from: "2.0.0")),
     .package(url: "https://github.com/zunda-pixel/ChatBubble", .upToNextMajor(from: "1.0.0")),
-    .package(url: "https://github.com/zunda-pixel/LicenseView", .upToNextMajor(from: "1.0.0")),
+    .package(url: "https://github.com/zunda-pixel/LicenseProvider", .upToNextMajor(from: "1.1.0")),
     .package(url: "https://github.com/zunda-pixel/Node", .upToNextMajor(from: "1.0.0")),
     .package(url: "https://github.com/zunda-pixel/Sweet", .upToNextMajor(from: "2.3.3")),
     .package(url: "https://github.com/zunda-pixel/GenEnvCode", branch: "main"),
@@ -47,7 +47,7 @@ let package = Package(
       ],
       path: "Sources",
       plugins: [
-        .plugin(name: "LicenseViewPlugin", package: "LicenseView"),
+        .plugin(name: "LicenseProviderPlugin", package: "LicenseProvider"),
       ]
     )
   ]
