@@ -80,7 +80,7 @@ struct ListsView<ViewModel: ListsViewModelProtocol>: View {
       .listContentAttribute()
     }
     .alert(errorHandle: $viewModel.errorHandle)
-    .task {
+    .sceneTask {
       await viewModel.onAppear()
     }
     .scrollViewAttitude()

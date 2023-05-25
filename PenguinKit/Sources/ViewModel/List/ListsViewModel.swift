@@ -86,8 +86,6 @@ extension ListsViewModelProtocol {
   }
 
   func onAppear() async {
-    guard allLists.isEmpty else { return }
-
     await withTaskGroup(of: Void.self) { group in
       group.addTask { await self.fetchOwnedLists() }
       group.addTask { await self.fetchFollowingLists() }

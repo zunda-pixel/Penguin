@@ -9,10 +9,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
   @EnvironmentObject var router: NavigationPathRouter
   @StateObject var viewModel: ViewModel
   @Environment(\.settings) var settings
-  @Environment(\.scenePhase) var scenePhase
-  @State var launchBackground = true
-  @State var loadingTweets = false
 
+  @State var loadingTweets = false
   @State var scrollContent: ScrollContent<String>?
   @State var displayIDs: Set<String> = []
 
@@ -76,14 +74,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
       await fetchNewTweet()
       setScrollPosition(anchor: .top)
     }
-    .onChange(of: scenePhase) { scenePhase in
-      if scenePhase == .background {
-        launchBackground = true
-      }
-    }
-    .task(id: scenePhase) {
-      guard launchBackground, scenePhase == .active else { return }
-      launchBackground = false
+    .sceneTask {
       await viewModel.setTimelines()
       await fetchNewTweet()
       setScrollPosition(anchor: .top)
@@ -130,8 +121,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         } label: {
           Label("Reply", systemImage: "arrowshape.turn.up.right")
         }
-          .labelStyle(.iconOnly)
-          .tint(.secondary)
+        .labelStyle(.iconOnly)
+        .tint(.secondary)
 
         if viewModel.userID == viewModel.tweetText.authorID {
           Button(role: .destructive) {
@@ -186,8 +177,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         } label: {
           Label("Reply", systemImage: "arrowshape.turn.up.right")
         }
-          .labelStyle(.iconOnly)
-          .tint(.secondary)
+        .labelStyle(.iconOnly)
+        .tint(.secondary)
       }
       .swipeActions(edge: .leading, allowsFullSwipe: true) {
         LikeButton(
@@ -208,7 +199,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         .labelStyle(.iconOnly)
       }
   }
-  
+
   func setScrollPosition(anchor: ScrollPoint) {
     let id: String?
 
