@@ -50,7 +50,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       replyUsers: userModels.uniqued(by: \.id)
     )
   }
-  
+
   func getUsers(screenIDs: [String]) -> [Sweet.UserModel] {
     let request = User.fetchRequest()
     request.predicate = .init(format: "userName IN %@", screenIDs)
@@ -60,7 +60,7 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     return users.map { .init(user: $0) }
   }
-  
+
   func tweetCellViewModel(tweetCell: TweetCell) -> TweetCellViewModel {
     return TweetCellViewModel(
       userID: userID,
@@ -91,7 +91,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       places: tweetCell.places!.map { Sweet.PlaceModel(place: $0 as! Place) }
     )
   }
-  
+
   func getTweet(_ tweetID: String) -> Tweet? {
     let request = Tweet.fetchRequest()
     request.predicate = .init(format: "id = %@", tweetID)
@@ -125,7 +125,7 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     return try! backgroundContext.fetch(request)
   }
-  
+
   func getUser(_ userID: String) -> User? {
     let request = User.fetchRequest()
     request.predicate = .init(format: "id = %@", userID)
@@ -135,7 +135,7 @@ extension ReverseChronologicalTweetsViewProtocol {
 
     return users.first
   }
-  
+
   func addResponse(response: Sweet.TweetsResponse) throws {
     let tweets = response.tweets + response.relatedTweets
 
@@ -178,30 +178,30 @@ extension ReverseChronologicalTweetsViewProtocol {
       )
       try backgroundContext.execute(request)
     }
-    
+
     let decoder = JSONDecoder.twitter
-    
+
     for tweet in response.tweets {
       let tweetCell = TweetCell(context: backgroundContext)
-      
+
       let tweetContent = TweetContent(context: backgroundContext)
       tweetContent.tweet = getTweet(tweet.id)!
       tweetContent.author = getUser(tweet.authorID!)!
       tweetCell.tweetContent = tweetContent
-      
+
       let retweetID = tweet.referencedTweets.first { $0.type == .retweeted }?.id
       let retweet = retweetID.map { getTweet($0)! }
       let retweetAuthor = retweet.map { getUser($0.authorID!)! }
-      
+
       if let retweet, let retweetAuthor {
         let retweetContent = TweetContent(context: backgroundContext)
         retweetContent.tweet = retweet
         retweetContent.author = retweetAuthor
         tweetCell.retweet = retweetContent
       }
-      
+
       let quotedID: String?
-      
+
       if let quoted = tweet.referencedTweets.first(where: { $0.type == .quoted }) {
         quotedID = quoted.id
       } else {
@@ -210,12 +210,12 @@ extension ReverseChronologicalTweetsViewProtocol {
         }
         quotedID = retweetReferenced?.first { $0.type == .quoted }?.id
       }
-      
+
       if let quotedID, let quotedTweet = getTweet(quotedID) {
         let quotedTweetContent = TweetContent(context: backgroundContext)
         quotedTweetContent.tweet = quotedTweet
         quotedTweetContent.author = getUser(quotedTweet.authorID!)!
-        
+
         let quoted = QuotedTweetContent(context: backgroundContext)
         quoted.tweetContent = quotedTweetContent
 
@@ -223,54 +223,55 @@ extension ReverseChronologicalTweetsViewProtocol {
           [Sweet.ReferencedTweetModel].self,
           from: quotedTweet.referencedTweets!
         )
-        
+
         if let quotedID = quotedReferenced.first(where: { $0.type == .quoted })?.id,
-           let tweet = getTweet(quotedID) {
+          let tweet = getTweet(quotedID)
+        {
           let quotedContent = TweetContent(context: backgroundContext)
           quotedContent.tweet = tweet
           quotedContent.author = getUser(tweet.authorID!)!
           quoted.quoted = quotedContent
         }
-        
+
         tweetCell.quoted = quoted
       }
-      
+
       let tweets = [
         tweetCell.tweetContent?.tweet,
         tweetCell.retweet?.tweet,
         tweetCell.quoted?.tweetContent?.tweet,
-        tweetCell.quoted?.quoted?.tweet
+        tweetCell.quoted?.quoted?.tweet,
       ].compacted()
-      
+
       let attachments = tweets.compactMap(\.attachments).compactMap {
         return try! decoder.decode(Sweet.AttachmentsModel.self, from: $0)
       }
-      
+
       let mediaKeys = attachments.flatMap { $0.mediaKeys }
       tweetCell.medias = Set(getMedias(Array(mediaKeys.uniqued()))) as NSSet
       let pollIDs = attachments.compactMap { $0.pollID }
       tweetCell.polls = Set(getPolls(Array(pollIDs.uniqued()))) as NSSet
-      
+
       let placeIDs = tweets.compactMap(\.geo).compactMap {
         let geo = try! decoder.decode(Sweet.SimpleGeoModel.self, from: $0)
         return geo.placeID
       }
-      
+
       tweetCell.places = Set(getPlaces(Array(placeIDs.uniqued()))) as NSSet
-      
+
       try backgroundContext.save()
     }
   }
 
   func addTimelines(_ ids: [String]) throws {
     let tweetCells = try backgroundContext.fetch(TweetCell.fetchRequest())
-    
+
     for id in ids {
       let timeline = Timeline(context: backgroundContext)
       timeline.ownerID = userID
       timeline.tweetID = id
       timeline.tweetCell = tweetCells.first(where: { $0.tweetContent!.tweet!.id! == id })!
-      
+
       try backgroundContext.save()
     }
   }
@@ -326,9 +327,9 @@ extension ReverseChronologicalTweetsViewProtocol {
 
       let shouldLoadMore: Bool = try await backgroundContext.perform {
         guard lastTweetID == nil else { return false }
-        
+
         guard !self.timelines.isEmpty else { return false }
-        
+
         guard let lastTweetID = response.tweets.last?.id else { return false }
 
         return try self.containsTimelineDataBase(tweetID: lastTweetID) == false
@@ -337,7 +338,7 @@ extension ReverseChronologicalTweetsViewProtocol {
       try await backgroundContext.perform {
         try self.addTimelines(response.tweets.map(\.id))
       }
-      
+
       if let paginationToken = response.meta?.nextToken, shouldLoadMore {
         await fetchTweets(last: nil, paginationToken: paginationToken)
       }

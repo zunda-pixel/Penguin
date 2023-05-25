@@ -17,10 +17,10 @@ struct MediaView: View {
     KFImage(url)
     .placeholder { p in
       Rectangle()
-        .fill(.secondary)
-        .overlay {
-          ProgressView(p)
-        }
+      .fill(.secondary)
+      .overlay {
+        ProgressView(p)
+      }
     }
     .resizable()
     .onTapGesture {

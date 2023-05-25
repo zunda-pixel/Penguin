@@ -130,8 +130,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         } label: {
           Label("Reply", systemImage: "arrowshape.turn.up.right")
         }
-          .labelStyle(.iconOnly)
-          .tint(.secondary)
+        .labelStyle(.iconOnly)
+        .tint(.secondary)
 
         if viewModel.userID == viewModel.tweetText.authorID {
           Button(role: .destructive) {
@@ -186,8 +186,8 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         } label: {
           Label("Reply", systemImage: "arrowshape.turn.up.right")
         }
-          .labelStyle(.iconOnly)
-          .tint(.secondary)
+        .labelStyle(.iconOnly)
+        .tint(.secondary)
       }
       .swipeActions(edge: .leading, allowsFullSwipe: true) {
         LikeButton(
@@ -208,7 +208,7 @@ struct ReverseChronologicalTweetsView<ViewModel: ReverseChronologicalTweetsViewP
         .labelStyle(.iconOnly)
       }
   }
-  
+
   func setScrollPosition(anchor: ScrollPoint) {
     let id: String?
 

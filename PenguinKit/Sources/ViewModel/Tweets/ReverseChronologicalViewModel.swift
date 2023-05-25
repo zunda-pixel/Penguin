@@ -19,7 +19,7 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
   init(userID: String) {
     self.userID = userID
-    
+
     let container = PersistenceController.shared.container
     self.viewContext = container.viewContext
     self.backgroundContext = container.newBackgroundContext()

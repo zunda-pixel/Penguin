@@ -2,10 +2,10 @@
 //  SettingsView.swift
 //
 
+import CoreData
 import StoreKit
 import Sweet
 import SwiftUI
-import CoreData
 
 public struct SettingsView: View {
   @Environment(\.dismiss) var dimiss
@@ -32,23 +32,23 @@ public struct SettingsView: View {
   }
 
   func deleteAllTimeline(userID: String) async {
-    let fetchRequest = Timeline.fetchRequest() as!  NSFetchRequest<NSFetchRequestResult>
+    let fetchRequest = Timeline.fetchRequest() as! NSFetchRequest<NSFetchRequestResult>
     fetchRequest.predicate = .init(format: "ownerID = %@", userID)
     let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
     deleteRequest.resultType = .resultTypeStatusOnly
-    
+
     let context = PersistenceController.shared.container.newBackgroundContext()
-    
+
     await context.perform {
       _ = try! context.execute(deleteRequest)
     }
   }
-  
+
   func logout(user: Sweet.UserModel) async {
     Secure.removeUserData(userID: user.id)
-    
+
     await deleteAllTimeline(userID: user.id)
-      
+
     self.loginUsers = Secure.loginUsers
     self.currentUser = Secure.currentUser
 
