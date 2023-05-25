@@ -8,7 +8,7 @@ private struct SceneTask: ViewModifier {
   @Environment(\.scenePhase) var scenePhase
   @State var launchBackground = true
   let action: () async -> Void
-  
+
   func body(content: Content) -> some View {
     content
       .task(id: scenePhase) {
