@@ -10,6 +10,7 @@ import Sweet
 final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtocol {
   let userID: String
 
+  let viewContext: NSManagedObjectContext
   let backgroundContext: NSManagedObjectContext
 
   @Published var errorHandle: ErrorHandle?
@@ -18,7 +19,10 @@ final class ReverseChronologicalViewModel: ReverseChronologicalTweetsViewProtoco
 
   init(userID: String) {
     self.userID = userID
-    self.backgroundContext = PersistenceController.shared.container.newBackgroundContext()
+
+    let container = PersistenceController.shared.container
+    self.viewContext = container.viewContext
+    self.backgroundContext = container.newBackgroundContext()
     self.backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
 
     self.timelines = []

@@ -19,17 +19,15 @@ struct OnlineUserDetailView: View {
   }
 
   var body: some View {
-    VStack {
-      if let user = viewModel.targetUser {
-        let viewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: user)
+    if let user = viewModel.targetUser {
+      let viewModel: UserDetailViewModel = .init(userID: viewModel.userID, user: user)
 
-        UserDetailView(viewModel: viewModel)
-      } else {
-        placeHolderView
-      }
-    }
-    .task {
-      await fetchUser()
+      UserDetailView(viewModel: viewModel)
+    } else {
+      placeHolderView
+        .task {
+          await fetchUser()
+        }
     }
   }
 
@@ -95,7 +93,7 @@ struct OnlineUserDetailView: View {
       .listContentAttribute()
       .listRowSeparator(.hidden)
     }
-    .listStyle(.inset)
+    .listStyle(.plain)
     .redacted(reason: .placeholder)
   }
 }

@@ -16,7 +16,11 @@ struct MediaView: View {
   func videoImage(url: URL) -> some View {
     KFImage(url)
     .placeholder { p in
-      ProgressView(p)
+      Rectangle()
+      .fill(.secondary)
+      .overlay {
+        ProgressView(p)
+      }
     }
     .resizable()
     .onTapGesture {
@@ -43,7 +47,11 @@ struct MediaView: View {
   func image(url: URL) -> some View {
     KFImage(url)
       .placeholder { p in
-        ProgressView(p)
+        Rectangle()
+          .fill(.secondary)
+          .overlay {
+            ProgressView(p)
+          }
       }
       .resizable()
       .onTapGesture {

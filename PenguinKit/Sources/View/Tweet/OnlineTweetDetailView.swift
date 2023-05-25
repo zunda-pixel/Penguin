@@ -183,7 +183,7 @@ struct OnlineTweetDetailView: View {
         .listContentAttribute()
       }
     }
-    .listStyle(.inset)
+    .listStyle(.plain)
     .scrollViewAttitude()
     .alert(errorHandle: $viewModel.errorHandle)
     .task {

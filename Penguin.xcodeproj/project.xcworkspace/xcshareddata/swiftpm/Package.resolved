@@ -77,17 +77,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher",
       "state" : {
-        "branch" : "master",
-        "revision" : "c99f00cd21bfc70d4659a463d883a0510718984f"
+        "revision" : "e8625b80c413457b13ea9be75d07f6e9f5830c19",
+        "version" : "7.7.0"
       }
     },
     {
-      "identity" : "licenseview",
+      "identity" : "licenseprovider",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zunda-pixel/LicenseView",
+      "location" : "https://github.com/zunda-pixel/LicenseProvider",
       "state" : {
-        "revision" : "4dde1ce6ffe896b65092805b6afe624079cee632",
-        "version" : "1.0.4"
+        "revision" : "52b913e8cce8ad8ef798b94bc05f8ffb0fe277d6",
+        "version" : "1.1.0"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-argument-parser.git",
       "state" : {
-        "revision" : "9f39744e025c7d377987f30b03770805dcb0bcd1",
-        "version" : "1.1.4"
+        "revision" : "fee6933f37fde9a5e12a1e4aeaa93fe60116ff2a",
+        "version" : "1.2.2"
       }
     },
     {
@@ -141,7 +141,7 @@
       "location" : "https://github.com/apple/swift-collections",
       "state" : {
         "branch" : "release/1.1",
-        "revision" : "992e0f3446b4f608f5ead9dd6edc92f6bbc0b0a0"
+        "revision" : "d93d1dccc1fcfb30e51d59e1865d9f3617df78ac"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-format",
       "state" : {
-        "revision" : "3330aaa0a97fe07e764a4dc9bb032b23df3a948f",
-        "version" : "508.0.0"
+        "revision" : "fbfe1869527923dd9f9b2edac148baccfce0dce7",
+        "version" : "508.0.1"
       }
     },
     {
@@ -167,8 +167,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-syntax.git",
       "state" : {
-        "revision" : "cd793adf5680e138bf2bcbaacc292490175d0dcd",
-        "version" : "508.0.0"
+        "revision" : "2c49d66d34dfd6f8130afdba889de77504b58ec0",
+        "version" : "508.0.1"
       }
     },
     {

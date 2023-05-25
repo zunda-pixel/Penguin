@@ -11,9 +11,13 @@ struct Movie: Transferable {
     FileRepresentation(contentType: .movie) { movie in
       SentTransferredFile(movie.url)
     } importing: { receivedData in
-      let fileName = receivedData.file.lastPathComponent
-      let copy: URL = FileManager.default.temporaryDirectory.appendingPathComponent(fileName)
-      try FileManager.default.copyItem(at: receivedData.file, to: copy)
+      let fileManager = FileManager.default
+      let fileName = "\(UUID().uuidString).\(receivedData.file.pathExtension)"
+      let copy: URL = fileManager.temporaryDirectory.appending(
+        path: fileName,
+        directoryHint: .notDirectory
+      )
+      try fileManager.copyItem(at: receivedData.file, to: copy)
       return .init(url: copy)
     }
   }
