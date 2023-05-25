@@ -98,7 +98,6 @@ struct TweetsView<ViewModel: TimelineTweetsProtocol, ListTopContent: View>: View
       NewTweetView(viewModel: viewModel)
     }
     .alert(errorHandle: $viewModel.errorHandle)
-      guard viewModel.showTweets.isEmpty else { return }
     .sceneTask {
       let firstTweetID = viewModel.showTweets.first?.id
       await viewModel.fetchTweets(first: firstTweetID, last: nil)
