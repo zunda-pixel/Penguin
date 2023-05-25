@@ -103,7 +103,7 @@ struct UsersView<ViewModel: UsersViewProtocol>: View {
     .refreshable {
       await fetchUsers(reset: true)
     }
-    .task {
+    .sceneTask {
       await fetchUsers(reset: false)
     }
   }

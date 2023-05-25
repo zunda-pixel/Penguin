@@ -51,7 +51,7 @@ struct ListDetailView: View {
     .refreshable {
       await viewModel.fetchTweets(first: viewModel.showTweets.first?.id, last: nil)
     }
-    .task {
+    .sceneTask {
       await viewModel.fetchTweets(first: viewModel.showTweets.first?.id, last: nil)
     }
     .toolbar {
