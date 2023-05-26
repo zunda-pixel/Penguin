@@ -1,14 +1,15 @@
 //
-//  LicenseView.swift
+//  LicenseCell.swift
 //
 
-import AttributedText
 import SwiftUI
+import AttributedText
 
-struct LicenseView: View {
+struct LicenseCell: View {
   @Environment(\.openURL) var openURL
-
-  func cell(package: Package) -> some View {
+  let package: Package
+  
+  var body: some View {
     ScrollView {
       AttributedText(text: package.license)
         .font(.caption)
@@ -24,28 +25,15 @@ struct LicenseView: View {
       }
     }
   }
-
-  var body: some View {
-    List {
-      ForEach(LicenseProvider.packages) { package in
-        NavigationLink(package.name) {
-          cell(package: package)
-            .navigationTitle(package.name)
-        }
-      }
-    }
-  }
 }
 
-struct LicenseView_Previews: PreviewProvider {
+struct LicenseCell_Previews: PreviewProvider {
   static var previews: some View {
-    NavigationStack {
-      LicenseView()
-    }
+    LicenseCell(package: .init(name: "Package Name", location: .init(string: "https://google.com")!, license: "License Content"))
   }
 }
 
-extension AttributedText {
+private extension AttributedText {
   init(text: String) {
     self.init(text: text, prefixes: [], urlContainer: .init()) { _, _ in }
   }
