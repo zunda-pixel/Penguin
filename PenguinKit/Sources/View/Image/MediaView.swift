@@ -15,6 +15,7 @@ struct MediaView: View {
 
   func videoImage(url: URL) -> some View {
     KFImage(url)
+    .resizable()
     .placeholder { p in
       Rectangle()
       .fill(.secondary)
@@ -22,7 +23,6 @@ struct MediaView: View {
         ProgressView(p)
       }
     }
-    .resizable()
     .onTapGesture {
       isPresentedVideoPlayer.toggle()
     }
