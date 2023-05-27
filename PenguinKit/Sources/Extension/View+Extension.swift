@@ -25,6 +25,19 @@ extension View {
     }
   }
 
+  @ViewBuilder
+  func ifElse<IfContent: View, ElseContent: View>(
+    _ conditional: Bool,
+    ifTransform: (Self) -> IfContent,
+    elseTransform: (Self) -> ElseContent
+  ) -> some View {
+    if conditional {
+      ifTransform(self)
+    } else {
+      elseTransform(self)
+    }
+  }
+
   func sheet<Value, Content>(
     unwrapping optionalValue: Binding<Value?>,
     @ViewBuilder content: @escaping (Binding<Value>) -> Content
