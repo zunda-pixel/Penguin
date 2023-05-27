@@ -73,7 +73,6 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if !viewModel.showMedias.isEmpty {
           MediasView(medias: viewModel.showMedias)
-            .cornerRadius(15)
         }
 
         if let place = viewModel.place {
