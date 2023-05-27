@@ -10,35 +10,62 @@ struct MediasView: View {
 
   @State var selectedMedia: Sweet.MediaModel?
 
-  var body: some View {
-    #if os(macOS)
-      let columnCount = medias.count
-    #else
-      let columnCount = medias.count < 3 ? medias.count : 2
-    #endif
+  func singleMediaView(media: Sweet.MediaModel) -> some View {
+    MediaView(media: media, selectedMedia: $selectedMedia)
+      .cornerRadius(15)
+      .scaledToFit()
+      .ifElse(media.size!.width > media.size!.height) {
+        $0.frame(maxWidth: 400)
+      } elseTransform: {
+        $0.frame(maxHeight: 400)
+      }
+  }
+  
+  @ViewBuilder
+  func mediaView(media: Sweet.MediaModel) -> some View {
+    GeometryReader { reader in
+      MediaView(
+        media: media,
+        selectedMedia: $selectedMedia
+      )
+      .aspectRatio(contentMode: .fill)
+      .frame(maxWidth: reader.size.width, maxHeight: reader.size.width)
+      .clipped()
+    }
+    .aspectRatio(1, contentMode: .fit)
+    .cornerRadius(15)
+  }
+  
+  @ViewBuilder
+  var multipleMediaView: some View {
+    let columnCount = medias.count < 3 ? medias.count : 2
 
-    LazyVGrid(columns: .init(repeating: GridItem(.flexible()), count: columnCount)) {
+    LazyVGrid(
+      columns: .init(repeating: GridItem(.flexible(maximum: 400)), count: columnCount),
+      alignment: .leading
+    ) {
       ForEach(medias) { media in
-        GeometryReader { reader in
-          MediaView(
-            media: media,
-            selectedMedia: $selectedMedia
-          )
-          .aspectRatio(contentMode: .fill)
-          .frame(width: reader.size.width, height: reader.size.width)
-          .clipped()
-        }
-        .clipped()
-        .aspectRatio(1, contentMode: .fit)
+        mediaView(media: media)
         .ifLet(media.metrics?.viewCount) { view, viewCount in
           view.overlay(alignment: .bottomTrailing) {
             Text("\(viewCount) views")
-            .font(.caption2)
-            .padding(.horizontal, 3)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
-            .padding(7)
+              .font(.caption2)
+              .padding(.horizontal, 3)
+              .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 3))
+              .padding(7)
           }
         }
+      }
+    }
+  }
+  
+  var body: some View {
+    Group {
+      if medias.count == 1 {
+        singleMediaView(media: medias.first!)
+      }
+      else {
+        multipleMediaView
       }
     }
     #if os(macOS)
