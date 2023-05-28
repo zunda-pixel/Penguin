@@ -16,7 +16,7 @@ struct MediasView: View {
       .scaledToFit()
       .ifElse(media.size!.width > media.size!.height) {
         $0.frame(maxWidth: 400)
-      } elseTransform: {
+      } else: {
         $0.frame(maxHeight: 400)
       }
   }
