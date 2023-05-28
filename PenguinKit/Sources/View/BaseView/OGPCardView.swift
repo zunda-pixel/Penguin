@@ -12,18 +12,54 @@ struct OGPCardView: View {
   @Environment(\.openURL) var openURL
   @Environment(\.settings) var settings
 
+  var imageURL: Sweet.ImageModel {
+    urlModel.images.max {
+      $0.size.height * $0.size.width < $1.size.height * $1.size.width
+    }!
+  }
+  
+  var image: some View {
+    KFImage(imageURL.url)
+      .resizable()
+      .placeholder { p in
+        Rectangle()
+          .fill(.secondary)
+          .overlay {
+            ProgressView(p)
+          }
+      }
+  }
+  
+  var landscapeImage: some View {
+    image
+      .aspectRatio(imageURL.size.width / imageURL.size.height, contentMode: .fit)
+      .frame(maxWidth: 400)
+  }
+  
+  var portraitImage: some View {
+    // TODO Mot need to use LazyVGrid
+    // Delete LazyVGrid
+    LazyVGrid(columns: [.init()]) {
+      GeometryReader { reader in
+        image
+          .aspectRatio(contentMode: .fill)
+          .frame(maxHeight: reader.size.width)
+          .clipped()
+      }
+      .aspectRatio(1, contentMode: .fit)
+    }
+  }
+  
   var body: some View {
-    let padding: CGFloat = 20
+    let padding: CGFloat = 10
 
     VStack(alignment: .leading) {
-      let imageURL = urlModel.images.max {
-        $0.size.height * $0.size.width < $1.size.height * $1.size.width
+      if imageURL.size.height > imageURL.size.width {
+        portraitImage
+      } else {
+        landscapeImage
       }
-
-      KFImage(imageURL!.url)
-        .resizable()
-        .scaledToFit()
-
+      
       Group {
         Text(urlModel.displayURL!)
           .foregroundStyle(settings.colorType.colorSet.tintColor)
@@ -62,17 +98,21 @@ struct OGPCardView_Previews: PreviewProvider {
       url: .init(string: "https://cssnite.doorkeeper.jp/events/141697")!,
       start: 0,
       end: 0,
-      expandedURL: "", displayURL: "displayURL",
+      expandedURL: "",
+      displayURL: "displayURL",
       images: [
         .init(
           url: .init(
             string:
-              "https://doorkeeper.jp/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBd2txQlE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--8f7f15635de87fd0b7b3b249dd872d9e75eb883d/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJY0c1bkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVFMb0F6QT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--91839951a073aea8822f6907dc8d81559a890706/cssnite-20221125-CodersHigh.png"
-          )!, size: .zero)
+              "https://pbs.twimg.com/media/FxJWlFmacAE_Q-2?format=png&name=small"
+          )!,
+          size: .init(width: 150, height: 300)
+        )
 
       ], title: "Title", description: "Description")
 
-    OGPCardView(urlModel: urlModel)
-      .padding()
+    List {
+      OGPCardView(urlModel: urlModel)
+    }
   }
 }
