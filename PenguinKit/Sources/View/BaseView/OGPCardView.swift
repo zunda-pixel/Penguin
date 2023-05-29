@@ -12,6 +12,10 @@ struct OGPCardView: View {
   @Environment(\.openURL) var openURL
   @Environment(\.settings) var settings
 
+  var aspectRatio: CGFloat {
+    imageURL.size.width / imageURL.size.height
+  }
+  
   var imageURL: Sweet.ImageModel {
     urlModel.images.max {
       $0.size.height * $0.size.width < $1.size.height * $1.size.width
@@ -31,9 +35,15 @@ struct OGPCardView: View {
   }
   
   var landscapeImage: some View {
-    image
-      .aspectRatio(imageURL.size.width / imageURL.size.height, contentMode: .fit)
-      .frame(maxWidth: 400)
+    GeometryReader { reader in
+      image
+        .frame(
+          width: reader.size.width,
+          height: reader.size.width / aspectRatio
+        )
+    }
+    .aspectRatio(aspectRatio, contentMode: .fit)
+    .frame(maxWidth: 400, maxHeight: 400)
   }
   
   var portraitImage: some View {
@@ -43,10 +53,13 @@ struct OGPCardView: View {
       GeometryReader { reader in
         image
           .aspectRatio(contentMode: .fill)
-          .frame(maxHeight: reader.size.width)
+          .frame(
+            width: reader.size.width,
+            height: reader.size.width
+          )
           .clipped()
       }
-      .aspectRatio(1, contentMode: .fit)
+      .scaledToFit()
     }
   }
   
@@ -92,27 +105,48 @@ struct OGPCardView: View {
 }
 
 struct OGPCardView_Previews: PreviewProvider {
-  static var previews: some View {
-
-    let urlModel: Sweet.URLModel = .init(
-      url: .init(string: "https://cssnite.doorkeeper.jp/events/141697")!,
+  static func urlModel(url: URL, size: CGSize) -> Sweet.URLModel {
+    Sweet.URLModel(
+      url: url,
       start: 0,
       end: 0,
       expandedURL: "",
       displayURL: "displayURL",
       images: [
         .init(
-          url: .init(
-            string:
-              "https://pbs.twimg.com/media/FxJWlFmacAE_Q-2?format=png&name=small"
-          )!,
-          size: .init(width: 150, height: 300)
-        )
-
-      ], title: "Title", description: "Description")
-
+          url: url,
+          size: size
+        ),
+      ],
+      title: "Title",
+      description: "Description"
+    )
+  }
+  
+  static var previews: some View {
     List {
-      OGPCardView(urlModel: urlModel)
+      HStack {
+        Image(systemName: "person")
+          .frame(width: 30, height: 30)
+        
+        OGPCardView(urlModel: urlModel(
+          url: .init(string: "https://pbs.twimg.com/media/FxJWlFmacAE_Q-2?format=png&name=small")!,
+          size: .init(width: 150, height: 300))
+        )
+      }
+      OGPCardView(urlModel: urlModel(
+        url: .init(string: "https://pbs.twimg.com/media/FxJWlFmacAE_Q-2?format=png&name=small1")!,
+        size: .init(width: 150, height: 300))
+      )
+      
+      OGPCardView(urlModel: urlModel(
+        url: .init(string: "https://pbs.twimg.com/media/FxJWlFmacAE_Q-2?format=png&name=small")!,
+        size: .init(width: 300, height: 150))
+      )
+      OGPCardView(urlModel: urlModel(
+        url: .init(string: "https://pbs.twimg.com/media/FxJWlFmacAE_Q-2?format=png&name=small1")!,
+        size: .init(width: 300, height: 150))
+      )
     }
   }
 }
