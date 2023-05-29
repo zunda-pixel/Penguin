@@ -43,24 +43,19 @@ struct OGPCardView: View {
         )
     }
     .aspectRatio(aspectRatio, contentMode: .fit)
-    .frame(maxWidth: 400, maxHeight: 400)
   }
   
   var portraitImage: some View {
-    // TODO Mot need to use LazyVGrid
-    // Delete LazyVGrid
-    LazyVGrid(columns: [.init()]) {
-      GeometryReader { reader in
-        image
-          .aspectRatio(contentMode: .fill)
-          .frame(
-            width: reader.size.width,
-            height: reader.size.width
-          )
-          .clipped()
-      }
-      .scaledToFit()
+    GeometryReader { reader in
+      image
+        .aspectRatio(contentMode: .fill)
+        .frame(
+          width: reader.size.width,
+          height: reader.size.width
+        )
+        .clipped()
     }
+    .aspectRatio(1, contentMode: .fit)
   }
   
   var body: some View {
