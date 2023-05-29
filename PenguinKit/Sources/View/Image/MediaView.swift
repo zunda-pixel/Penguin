@@ -46,6 +46,7 @@ struct MediaView: View {
 
   func image(url: URL) -> some View {
     KFImage(url)
+      .resizable()
       .placeholder { p in
         Rectangle()
           .fill(.secondary)
@@ -53,7 +54,6 @@ struct MediaView: View {
             ProgressView(p)
           }
       }
-      .resizable()
       .onTapGesture {
         selectedMedia = media
       }
@@ -76,15 +76,20 @@ struct MediaView_Previews: PreviewProvider {
 
     init() {
       let media = Sweet.MediaModel(
-        key: "key1", type: .photo, size: .init(width: 100, height: 100),
-        url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!)
+        key: "key1",
+        type: .photo,
+        size: .init(width: 100, height: 100),
+        url: .init(string: "https://pbs.twimg.com/media/Fh9TFoFWIAATrnU?format=jpg&name=large")!
+      )
 
       self.media = media
     }
 
     var body: some View {
       MediaView(
-        media: media, selectedMedia: $selectedMedia)
+        media: media,
+        selectedMedia: $selectedMedia
+      )
     }
   }
 
