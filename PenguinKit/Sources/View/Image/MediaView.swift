@@ -23,6 +23,10 @@ struct MediaView: View {
         ProgressView(p)
       }
     }
+    .overlay {
+      Image(systemName: "play.circle")
+        .imageScale(.large)
+    }
     .onTapGesture {
       isPresentedVideoPlayer.toggle()
     }
