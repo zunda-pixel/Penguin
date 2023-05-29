@@ -73,6 +73,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if !viewModel.showMedias.isEmpty {
           MediasView(medias: viewModel.showMedias)
+            .frame(maxWidth: 400, maxHeight: 400)
         }
 
         if let place = viewModel.place {
