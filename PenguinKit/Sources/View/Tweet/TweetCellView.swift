@@ -73,7 +73,7 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
 
         if !viewModel.showMedias.isEmpty {
           MediasView(medias: viewModel.showMedias)
-            .cornerRadius(15)
+            .frame(maxWidth: 400, maxHeight: 400)
         }
 
         if let place = viewModel.place {
@@ -95,48 +95,9 @@ struct TweetCellView<ViewModel: TweetCellViewProtocol>: View {
           .frame(maxWidth: 400, alignment: .leading)
           .contentShape(Rectangle())
           .onTapGesture {
-            let quotedTweetModel: QuotedTweetModel?
-
-            if let quotedTweet = quoted.quoted {
-              quotedTweetModel = QuotedTweetModel(
-                tweetContent: .init(tweet: quotedTweet.tweet, author: quotedTweet.author),
-                quoted: nil)
-            } else {
-              quotedTweetModel = nil
-            }
-
-            let tweets = [
-              quoted.tweetContent.tweet,
-              quotedTweetModel?.tweetContent.tweet,
-              quotedTweetModel?.quoted?.tweet,
-            ].compacted()
-
-            // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
-            let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).compactMap { id in
-              viewModel.medias.first { $0.id == id }
-            }
-            // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
-            let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).compactMap { id in
-              viewModel.polls.first { $0.id == id }!
-            }
-            // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
-            let places = tweets.compactMap(\.geo).compactMap(\.placeID).compactMap { id in
-              viewModel.places.first { $0.id == id }!
-            }
-
-            let tweetDetailView: TweetDetailViewModel = .init(
-              cellViewModel: TweetCellViewModel(
-                userID: viewModel.userID,
-                tweet: quoted.tweetContent.tweet,
-                author: quoted.tweetContent.author,
-                retweet: nil,
-                quoted: quotedTweetModel,
-                medias: medias,
-                polls: polls,
-                places: places
-              )
-            )
-            router.path.append(tweetDetailView)
+            let tweetCellViewModel = viewModel.quotedTweetCellViewModel(quoted: quoted)
+            let tweetDetailViewModel = TweetDetailViewModel(cellViewModel: tweetCellViewModel)
+            router.path.append(tweetDetailViewModel)
           }
           .padding(.horizontal, 10)
           .padding(.vertical, 5)

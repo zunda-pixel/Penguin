@@ -31,9 +31,53 @@ protocol TweetCellViewProtocol: Hashable {
   var tweetAuthor: Sweet.UserModel { get }
   var tweetText: Sweet.TweetModel { get }
   var showDate: Date { get }
+
+  func quotedTweetCellViewModel(quoted: QuotedTweetModel) -> TweetCellViewModel
 }
 
 extension TweetCellViewProtocol {
+  func quotedTweetCellViewModel(quoted: QuotedTweetModel) -> TweetCellViewModel {
+    let quotedTweetModel: QuotedTweetModel?
+
+    if let quotedTweet = quoted.quoted {
+      quotedTweetModel = QuotedTweetModel(
+        tweetContent: .init(tweet: quotedTweet.tweet, author: quotedTweet.author),
+        quoted: nil)
+    } else {
+      quotedTweetModel = nil
+    }
+
+    let tweets = [
+      quoted.tweetContent.tweet,
+      quotedTweetModel?.tweetContent.tweet,
+      quotedTweetModel?.quoted?.tweet,
+    ].compacted()
+
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    let medias = tweets.compactMap(\.attachments).flatMap(\.mediaKeys).compactMap { id in
+      self.medias.first { $0.id == id }
+    }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    let polls = tweets.compactMap(\.attachments).compactMap(\.pollID).compactMap { id in
+      self.polls.first { $0.id == id }!
+    }
+    // TODO できればcompactMapではなく、map(強制的アンラップ)で行いたい
+    let places = tweets.compactMap(\.geo).compactMap(\.placeID).compactMap { id in
+      self.places.first { $0.id == id }!
+    }
+
+    return TweetCellViewModel(
+      userID: userID,
+      tweet: quoted.tweetContent.tweet,
+      author: quoted.tweetContent.author,
+      retweet: nil,
+      quoted: quotedTweetModel,
+      medias: medias,
+      polls: polls,
+      places: places
+    )
+  }
+  
   var ogpURL: Sweet.URLModel? {
     if quoted != nil { return nil }
 
