@@ -65,7 +65,7 @@ public struct SettingsView: View {
     #endif
     case .customClient: CustomClientSettingsView(currentUser: $currentUser, loginUsers: $loginUsers)
     case .display: DisplaySettingsView(settings: $settings)
-    case .license: LicenseView()
+    case .aboutApp: AboutAppView()
     case .tab: TabSettingsView(settings: $settings)
     }
   }
@@ -183,7 +183,7 @@ extension SettingsView {
       case appIcon
     #endif
 
-    case license
+    case aboutApp
     case customClient
 
     var id: String { rawValue }
@@ -202,7 +202,7 @@ extension SettingsView {
       #endif
       case .display: return Item(title: "Display", icon: "iphone", sectionType: .general)
       case .tab: return Item(title: "Tab", icon: "dock.rectangle", sectionType: .general)
-      case .license: return Item(title: "License", icon: "lock.shield", sectionType: .about)
+      case .aboutApp: return Item(title: "About App", icon: "lock.shield", sectionType: .about)
       case .customClient:
         return Item(title: "Custom Client", icon: "key.horizontal", sectionType: .about)
       }
