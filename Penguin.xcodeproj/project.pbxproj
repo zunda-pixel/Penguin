@@ -91,7 +91,6 @@
 		2E56134F2989FAC8006CB14F /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
 		2E5613542989FAC8006CB14F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E56135B2989FB07006CB14F /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		2ED51F812A35777A0025C85A /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
 		E08260FE28CAA86100071BA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0BCD66B2823850F000FDF0D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E0C37BC12823189A007B925B /* Penguin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Penguin.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,7 +144,6 @@
 		2E23C33E29753CCE00A63991 /* ci_scripts */ = {
 			isa = PBXGroup;
 			children = (
-				2ED51F812A35777A0025C85A /* ci_post_xcodebuild.sh */,
 				2E23C33F29753CE600A63991 /* ci_post_clone.sh */,
 			);
 			path = ci_scripts;
